@@ -1,0 +1,30 @@
+{
+  "name": "read",
+  "version": "1.0.0",
+  "description": "认认真真读书，踏踏实实做人。",
+  "main": "Vue.js",
+  "dependencies": {
+    "eslint": "^4.16.0"
+  },
+  "devDependencies": {
+    "eslint-config-standard": "^11.0.0-beta.0",
+    "eslint-plugin-import": "^2.8.0",
+    "eslint-plugin-node": "^5.2.1",
+    "eslint-plugin-promise": "^3.6.0",
+    "eslint-plugin-standard": "^3.0.1"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/forwardNow/read.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/forwardNow/read/issues"
+  },
+  "homepage": "https://github.com/forwardNow/read#readme"
+}
