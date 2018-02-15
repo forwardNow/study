@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title> v-html </title>
+    <script src="../../dep/vue/2.5.13/vue.js"></script>
+</head>
+
+<body>
+
+    <div id="example">
+        <p>Using mustaches: {{ rawHtml }}</p>
+        <p>Using v-html directive: <span v-html="rawHtml"></span></p>
+    </div>
+
+<script>
+
+    var data = { rawHtml: "<span style=\"color:red;\">Hello</span>" }
+    var vm = new Vue({
+        el: '#example',
+        data: data
+    })
+</script>
+
+</body>
+
+</html>
