@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title> 绑定 HTML Class - 对象语法 </title>
+    <script src="../../dep/vue/2.5.13/vue.js"></script>
+</head>
+
+<body>
+
+    <div id="example">
+        <div v-bind:class="{ active: isActive }"></div>
+        <div class="static"
+             v-bind:class="{ active: isActive, 'text-danger': hasError }">
+        </div>
+        <div v-bind:class="classObject"></div>
+        <div v-bind:class="computedClassObject"></div>
+    </div>
+
+<script>
+    var vm = new Vue({
+        el: '#example',
+        data: {
+            isActive: true,
+            hasError: false,
+            classObject: {
+                active: true,
+                'text-danger': false
+            },
+            error: {
+                type: "fatal"
+            }
+        },
+        
+        computed: {
+            computedClassObject: function () {
+                return {
+                    active: this.isActive && !this.error,
+                    'text-danger': this.error && this.error.type === 'fatal'
+                }
+            }
+        }
+    })
+</script>
+</body>
+
+</html>

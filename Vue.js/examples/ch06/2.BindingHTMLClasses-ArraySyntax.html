@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title> 绑定 HTML Class - 数组语法 </title>
+    <script src="../../dep/vue/2.5.13/vue.js"></script>
+</head>
+
+<body>
+
+    <div id="example">
+        <div v-bind:class="[activeClass, errorClass]"></div>
+        <div v-bind:class="[isActive ? activeClass : '', errorClass]"></div>
+        <div v-bind:class="[{ active: isActive }, errorClass]"></div>
+    </div>
+
+<script>
+    var vm = new Vue({
+        el: '#example',
+        data: {
+            isActive: false,
+            activeClass: 'active',
+            errorClass: 'text-danger'
+        }
+    })
+</script>
+</body>
+
+</html>
