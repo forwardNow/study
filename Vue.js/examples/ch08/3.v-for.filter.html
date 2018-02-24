@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title> v-for 过滤 </title>
+    <script src="../../dep/vue/2.5.13/vue.js"></script>
+</head>
+
+<body>
+
+<ul id="example">
+    <li v-for="n in evenNumbers">{{ n }}</li>
+</ul>
+
+<script>
+    new Vue({
+        el: '#example',
+        data: {
+            numbers: [ 1, 2, 3, 4, 5 ]
+        },
+        computed: {
+            evenNumbers: function () {
+                return this.numbers.filter(function (number) {
+                    return number % 2 === 0
+                })
+            }
+        }
+    })
+</script>
+
+
+<ul id="example2">
+    <li v-for="n in even(numbers)">{{ n }}</li>
+</ul>
+
+<script>
+    new Vue({
+        el: '#example2',
+        data: {
+            numbers: [ 1, 2, 3, 4, 5 ]
+        },
+        methods: {
+            even: function (numbers) {
+                return numbers.filter(function (number) {
+                    return number % 2 === 0
+                })
+            }
+        }
+    })
+</script>
+
+</body>
+</html>
