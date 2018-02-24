@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title> v-on </title>
+    <script src="../../dep/vue/2.5.13/vue.js"></script>
+</head>
+
+<body>
+
+<div id="example-1">
+    <button v-on:click="counter += 1">Add 1</button>
+    <p>The button above has been clicked {{ counter }} times.</p>
+</div>
+
+<script>
+    var example1 = new Vue({
+        el: '#example-1',
+        data: {
+            counter: 0
+        }
+    })
+</script>
+
+</body>
+</html>
