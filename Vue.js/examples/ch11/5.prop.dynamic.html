@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>动态 prop</title>
+    <script src="../../dep/vue/2.5.13/vue.js"></script>
+</head>
+
+<body>
+
+
+<div id="example">
+    <input v-model="parentMsg">
+    <br>
+    <child v-bind:my-message="parentMsg"></child>
+</div>
+<script>
+    Vue.component('child', {
+        // 声明 props
+        props: ['myMessage'],
+        template: '<span>{{ myMessage }}</span>'
+    })
+
+    new Vue( { 
+        el: "#example",
+        data: {
+            "parentMsg": ""
+        }
+    } );
+</script>
+
+
+<div id="example2">
+    <todo-item v-bind:items="todo"></todo-item>
+</div>
+<script>
+    Vue.component('todo-item', {
+        // 声明 props
+        props: ['items'],
+        template: 
+         '<ul>' 
+        +   '<li v-for="item in items"' 
+        +      ' v-if="!item.isComplete">{{ item.text }}</li>'
+        + '</ul>'
+    })
+
+    new Vue( { 
+        el: "#example2",
+        data: {
+            todo: [
+                { text: 'Learn Vue', isComplete: false },
+                { text: 'Learn Java', isComplete: true },
+                { text: 'Learn JS', isComplete: false },
+            ]
+        }
+    } );
+</script>
+    
+
+
+</body>
+</html>
