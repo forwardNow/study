@@ -3,6 +3,8 @@
 ## 1. 介绍
 
  * 文档：[https://mp.weixin.qq.com/debug/wxadoc/dev/](https://mp.weixin.qq.com/debug/wxadoc/dev/)
+ * demo: [体验小程序](https://mp.weixin.qq.com/debug/wxadoc/dev/demo/demo.zip)
+
 
 ## 2. 编撰
 
