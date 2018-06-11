@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>插值</title>
+    <script src="https://unpkg.com/vue@2.5.16/dist/vue.js"></script>
+</head>
+<body>
+    <div id="app">
+        {{ name }}
+    </div>
+    <script>
+        var app = new Vue( {
+            el: "#app",
+            data: {
+                name: "吴钦飞"
+            }
+        } );
+    </script>
+
+    <div id="app2">
+        <span v-html="link"></span>
+        <!-- 
+        <span><a href="#">链接</a></span>
+         -->
+    </div>
+    <script>
+        var app = new Vue( {
+            el: "#app2",
+            data: {
+                link: "<a href='#'>链接</a>"
+            }
+        } );
+    </script>
+
+    <div id="app3">
+        <span v-pre>{{ name }}</span>
+    </div>
+    <script>
+        var app = new Vue( {
+            el: "#app3",
+            data: {
+                name: "吴钦飞"
+            }
+        } );
+    </script>
+
+    <div id="app4">
+        {{ number / 10 }}
+        {{ isOk ? "好" : "不好" }}
+        {{ text.split( "," ).reverse().join( "-" ) }}
+    </div>
+    <script>
+        var app = new Vue( {
+            el: "#app4",
+            data: {
+                number: 100,
+                isOk: false,
+                text: "123,456"
+            }
+        } );
+    </script>
+</body>
+</html>
