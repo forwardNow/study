@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>指令</title>
+    <script src="https://unpkg.com/vue@2.5.16/dist/vue.js"></script>
+</head>
+<body>
+    <div id="app">
+        <p v-if="show">一段文本。</p>
+    </div>
+    <script>
+        var app = new Vue( {
+            el: "#app",
+            data: {
+                show: true
+            }
+        } );
+        // app.show = false
+    </script>
+
+    <div id="app2">
+        <a v-bind:href="url">链接</a>
+        <img v-bind:src="src">
+    </div>
+    <script>
+        var app2 = new Vue( {
+            el: "#app2",
+            data: {
+                url: "https://www.baidu.com",
+                src: "https://www.baidu.com/1.png"
+            }
+        } );
+    </script>
+    
+    <div id="app3">
+        <p v-if="show">一段文本</p>
+        <button v-on:click="handleToggle">显示/隐藏</button>
+    </div>
+    <script>
+        var app3 = new Vue( {
+            el: "#app3",
+            data: {
+                show: true
+            },
+            methods: {
+                handleToggle: function() {
+                    this.toggle();
+                },
+                toggle: function() {
+                    // this 指向 Vue实例
+                    this.show = !this.show;
+                }
+
+            }
+        } );
+    </script>
+
+</body>
+</html>

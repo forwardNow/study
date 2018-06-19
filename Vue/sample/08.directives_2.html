@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>内置指令</title>
+    <script src="https://unpkg.com/vue@2.5.16/dist/vue.js"></script>
+</head>
+<body>
+    <div id="app">
+        <span v-once>{{message}}</span>
+    </div>
+    <script>
+        var app = new Vue( {
+            el: "#app",
+            data: {
+                message: "你好，再见！"
+            }
+        } );
+        app.message = "哇哈哈";
+    </script>
+</body>
+</html>

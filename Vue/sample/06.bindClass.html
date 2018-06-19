@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>绑定class</title>
+    <script src="https://unpkg.com/vue@2.5.16/dist/vue.js"></script>
+</head>
+<body>
+    <div id="app">
+        <!-- 单个class -->
+        <p v-bind:class='{ "active": isActive }'></p>
+
+        <!-- 多个class：使用计算属性  -->
+        <p v-bind:class='classes'></p>
+
+        <!-- 多个class：使用方法  -->
+        <p v-bind:class='getClasses()'></p>
+    </div>
+    <script>
+        var app = new Vue( {
+            el: "#app",
+            data: {
+                isActive: true,
+                isError: true
+            },
+            computed: {
+                classes: function() {
+                    return {
+                        active: this.isActive,
+                        error: this.isError
+                    }
+                }
+            },
+            methods: {
+                getClasses: function() {
+                    return {
+                        active: this.isActive,
+                        error: this.isError
+                    }
+                }
+            }
+        } );
+    </script>
+
+
+    <div id="app2">
+        <!-- 单个class -->
+        <p v-bind:class='[ activeCls, errorCls ]'></p>
+    </div>
+    <script>
+        var app2 = new Vue( {
+            el: "#app2",
+            data: {
+                activeCls: "active",
+                errorCls: "error"
+            }
+        } );
+    </script>
+
+
+</body>
+</html>

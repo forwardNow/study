@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>绑定style</title>
+    <script src="https://unpkg.com/vue@2.5.16/dist/vue.js"></script>
+</head>
+<body>
+    <div id="app">
+        <p v-bind:style='{ "font-size": fontSize + "px", "text-align": align }'>111</p>
+        <p v-bind:style="styles">222</p>
+        <p v-bind:style='[styles,computedStyles]'>333</p>
+    </div>
+    <script>
+        var app = new Vue( {
+            el: "#app",
+            data: {
+                fontSize: 20,
+                align: "center",
+                styles: {
+                    "color": "red",
+                    "text-align": "center"
+                }
+            },
+            computed: {
+                computedStyles: function() {
+                    return {
+                        "font-size": "30px"
+                    }
+                }
+            }
+        } );
+    </script>
+</body>
+</html>
