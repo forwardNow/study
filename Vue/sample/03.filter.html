@@ -7,13 +7,33 @@
 </head>
 <body>
     <div id="app">
-        {{ name }}
+        {{ price | formatPrice }}
     </div>
     <script>
         var app = new Vue( {
             el: "#app",
             data: {
-                name: "吴钦飞"
+                price: 1234567
+            },
+            filters: {
+                formatPrice: function( value ) {
+                    var
+                        numList = ( value + "" ).split( "" ),
+                        fmtValue = "",
+                        i, count, len
+                    ;
+
+                    for( len = numList.length, i = len - 1, count = 1; i >= 0; i--, count++ ) {
+                        fmtValue = numList[ i ] + fmtValue;
+                        if ( count % 3 === 0 ) {
+                            fmtValue = "," + fmtValue;
+                        }
+                    }
+
+                    fmtValue = fmtValue.replace( /^,/, "" );
+                    
+                    return fmtValue;
+                }
             }
         } );
     </script>
