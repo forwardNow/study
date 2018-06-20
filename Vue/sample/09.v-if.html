@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>条件渲染</title>
+    <script src="https://unpkg.com/vue@2.5.16/dist/vue.js"></script>
+</head>
+<body>
+    <div id="app">
+        <p v-if="status === 1">111</p>
+        <p v-else-if="status === 2">222</p>
+        <p v-else>333</p>
+    </div>
+    <script>
+        var app = new Vue( {
+            el: "#app",
+            data: {
+                status: 0
+            }
+        } );
+        // app.status = 0
+    </script>
+
+    <div id="app2">
+        <template v-if="status === 1">
+            <p>111</p>
+        </template>
+        <template v-else-if="status === 2">
+            <p>222</p>
+        </template>
+        <template v-else>
+            <p>333</p>
+        </template>
+    </div>
+    <script>
+        var app2 = new Vue( {
+            el: "#app2",
+            data: {
+                status: 0
+            }
+        } );
+        // app2.status = 0
+    </script>
+
+    <div id="app3">
+        <input v-if="status === 1" placeholder="用户名">
+        <input v-else-if="status === 2" placeholder="邮箱">
+    </div>
+    <script>
+        var app3 = new Vue( {
+            el: "#app3",
+            data: {
+                status: 1
+            }
+        } );
+        // app3.status = 1
+    </script>
+
+    <div id="app4">
+        <input v-if="status === 1" key="1" placeholder="用户名">
+        <input v-else-if="status === 2" key="2" placeholder="邮箱">
+    </div>
+    <script>
+        var app4 = new Vue( {
+            el: "#app4",
+            data: {
+                status: 1
+            }
+        } );
+        // app3.status = 1
+    </script>
+</body>
+</html>
