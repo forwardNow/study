@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>购物车</title>
+    <script src="https://unpkg.com/vue@2.5.16/dist/vue.js"></script>
+</head>
+<body>
+    <div id="app">
+        <table>
+            <thead>
+                <tr>
+                    <th>#</th> <th>名称</th> <th>单价</th> <th>数量</th> <th>操作</th> 
+                </tr>
+            </thead>
+            <tbody>
+                <tr v-for="( item, index ) in list">
+                    <td>{{ index + 1 }}</td>
+                    <td>{{ item.name }}</td>
+                    <td>{{ item.price }}</td>
+                    <td>
+                        <button 
+                            v-on:click="handleReduce( index )"
+                            v-bind:disabled="item.count === 1">-</button>
+                        {{ item.count }}
+                        <button 
+                            v-on:click="handleAdd( index )">+</button>
+                    </td>
+                    <td>
+                        <button
+                            v-on:click="handleRemove( index )">移除</button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <div>总价：￥ {{ totalPrice }}</div>
+    </div>
+    <script>
+        var app = new Vue( {
+            el: "#app",
+            data: {
+                list: [
+                    { id: 1, name: "iPhone", price: 5000, count: 1 },
+                    { id: 2, name: "iPad", price: 6000, count: 1 },
+                    { id: 3, name: "iMac", price: 9000, count: 1 }
+                ]
+            },
+            computed: {
+                totalPrice: function() {
+                    var 
+                        totalPrice = 0,
+                        i, len, item
+                    ;
+                    for ( i = 0, len = this.list.length; i < len; i++ ) {
+                        item = this.list[ i ];
+                        totalPrice += item.price * item.count;
+                    }
+                    return totalPrice;
+                }
+            },
+            methods: {
+                handleReduce: function( index ) {
+                    this.list[ index ].count--;
+                },
+                handleAdd: function( index ) {
+                    this.list[ index ].count++;
+                },
+                handleRemove: function( index ) {
+                    this.list.splice( index, 1 );
+                },
+            }
+        } );
+    </script>
+
+</body>
+</html>

@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>事件</title>
+    <script src="https://unpkg.com/vue@2.5.16/dist/vue.js"></script>
+</head>
+<body>
+    <div id="app">
+        点击次数：{{ counter }}
+        <button v-on:click="counter++">+1</button>
+        <button v-on:click="handleAdd( $event )">+2</button>
+
+        <form v-on:submit.prevent></form>
+        <a v-on:click.prevent.stop="handleClick"></a>
+    </div>
+    <script>
+        var app = new Vue( {
+            el: "#app",
+            data: {
+                counter: 0
+            },
+            methods: {
+                handleAdd: function( event ) {
+                    console.info( event );
+                    this.counter += 2;
+                }
+            }
+        } );
+    </script>
+
+</body>
+</html>
