@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>v-model</title>
+    <script src="https://unpkg.com/vue@2.5.16/dist/vue.js"></script>
+</head>
+<body>
+    <div id="app">
+        <input type="text" v-model="message">
+        <p>输入的内容：{{ message }}</p>
+    </div>
+    <script>
+        var app = new Vue( {
+            el: "#app",
+            data: {
+                message: ""
+            }
+        } );
+    </script>
+
+
+    <div id="app2">
+        <label><input type="radio" v-model="gender" value="1"> 男</label>
+        <label><input type="radio" v-model="gender" value="2"> 女</label>
+        <div>性别：{{ gender }}</div>
+    </div>
+    <script>
+        var app2 = new Vue( {
+            el: "#app2",
+            data: {
+                gender: 2
+            }
+        } );
+    </script>
+
+    <div id="app3">
+        <label><input type="checkbox" v-model="fruits" value="apple"> 苹果</label>
+        <label><input type="checkbox" v-model="fruits" value="orange"> 橙子</label>
+        <div>水果：{{ fruits }}</div>
+    </div>
+    <script>
+        var app3 = new Vue( {
+            el: "#app3",
+            data: {
+                fruits: []
+            }
+        } );
+    </script>
+
+    <div id="app4">
+        <select v-model="selected">
+            <option value="HTML">HTML</option>
+            <option value="JS">JS</option>
+            <option value="CSS">CSS</option>
+        </select>
+        <div>选择了：{{ selected }}</div>
+    </div>
+    <script>
+        var app4 = new Vue( {
+            el: "#app4",
+            data: {
+                selected: "JS"
+            }
+        } );
+    </script>
+
+    <div id="app5">
+        <!-- 失去焦点时同步  -->
+        <input type="text" v-model.lazy="message_lazy">
+        <p>{{ message_lazy }}</p>
+
+        <!-- 将输入转换成number类型  -->
+        <input type="text" v-model.number="message_number">
+        <p>{{ message_number }}</p>
+
+        <!-- 过滤首尾空格  -->
+        <input type="text" v-model.trim="message_trim">
+        <p>{{ message_trim }}</p>
+    </div>
+    <script>
+        var app5 = new Vue( {
+            el: "#app5",
+            data: {
+                message_lazy: "",
+                message_number: 123,
+                message_trim: " a "
+            }
+        } );
+    </script>
+</body>
+</html>
