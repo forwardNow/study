@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>组件</title>
+    <script src="https://unpkg.com/vue@2.5.16/dist/vue.js"></script>
+</head>
+<body>
+    <div id="app">
+        <my-component></my-component>
+
+        <table>
+            <tbody is="my-component"></tboby>
+        </table>
+        <!--  
+            <table><div>组件的内容</div></table>
+        -->
+    </div>
+    <script>
+        Vue.component( "my-component", {
+            template: "<div>组件的内容</div>"
+        } );
+        var app = new Vue( {
+            el: "#app"
+        } );
+    </script>
+
+    <div id="app2">
+        <my-component-2></my-component-2>
+    </div>
+    <script>
+        Vue.component( "my-component-2", {
+            template: "<div>{{ message }}</div>",
+            data: function() {
+                return {
+                    message: "Hello component!"
+                };
+            }
+        } );
+        var app2 = new Vue( {
+            el: "#app2"
+        } );
+    </script>
+</body>
+</html>

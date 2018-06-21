@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>props</title>
+    <script src="https://unpkg.com/vue@2.5.16/dist/vue.js"></script>
+</head>
+<body>
+    <div id="app">
+        <my-component message="来自父组件的数据"></my-component>
+    </div>
+    <script>
+        Vue.component( "my-component", {
+            template: "<div>{{message}}</div>",
+            props: [
+                "message"
+            ]
+        } );
+        var app = new Vue( {
+            el: "#app"
+        } );
+    </script>
+
+    <div id="app2">
+        <my-component-2 warning-text="提示信息"></my-component-2>
+    </div>
+    <script>
+        Vue.component( "my-component-2", {
+            template: "<div>{{warningText}}</div>",
+            props: [
+                "warningText"
+            ]
+        } );
+        var app2 = new Vue( {
+            el: "#app2"
+        } );
+    </script>
+
+    <div id="app3">
+        <input type="text" v-model="parentMessage">
+        <my-component-3 v-bind:message="parentMessage"></my-component-3>
+    </div>
+    <script>
+        Vue.component( "my-component-3", {
+            template: "<div>{{message}}</div>",
+            props: [
+                "message"
+            ]
+        } );
+        var app3 = new Vue( {
+            el: "#app3",
+            data: {
+                parentMessage: ""
+            }
+        } );
+    </script>
+
+    <div id="app4">
+        <input type="text" v-model="parentCount">
+        <my-component-4 v-bind:init-count="parentCount"></my-component-4>
+    </div>
+    <script>
+        Vue.component( "my-component-4", {
+            props: [ "initCount" ],
+            template: "<div>{{ count }}</div>",
+            data: function() {
+                return {
+                    count: this.initCount
+                };
+            }
+        } );
+        var app4 = new Vue( {
+            el: "#app4",
+            data: {
+                parentCount: "10"
+            }
+        } );
+    </script>
+
+    <div id="app5">
+        <input type="text" v-model="color">
+        <my-component-5 v-bind:color="color"></my-component-5>
+    </div>
+    <script>
+        Vue.component( "my-component-5", {
+            props: [ "color" ],
+            template: "<div v-bind:style='style'>Hello component！</div>",
+            computed: {
+                style: function() {
+                    return {
+                        color: "#" + this.color
+                    }
+                }
+            }
+        } );
+        var app5 = new Vue( {
+            el: "#app5",
+            data: {
+                color: "000"
+            }
+        } );
+    </script>
+
+</body>
+</html>
