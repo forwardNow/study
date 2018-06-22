@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>动态组件</title>
+    <script src="https://unpkg.com/vue@2.5.16/dist/vue.js"></script>
+</head>
+<body>
+    <div id="app">
+        <component v-bind:is="currentView"></component>
+        <button v-on:click="handleChangeView">切换</button>
+    </div>
+    <script>
+        Vue.component( "com-a", {
+            template: "<div class='a'>aaa</div>"
+        } );
+        Vue.component( "com-b", {
+            template: "<div class='b'>bbb</div>"
+        } );
+        new Vue( {
+            el: "#app",
+            data: {
+                currentView: "com-a"
+            },
+            methods: {
+                handleChangeView: function() {
+                    if ( this.currentView === "com-a" ) {
+                        this.currentView = "com-b";
+                    } else {
+                        this.currentView = "com-a";
+                    }
+                }
+            }
+        } );
+    </script>
+</body>
+</html>

@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>递归组件</title>
+    <script src="https://unpkg.com/vue@2.5.16/dist/vue.js"></script>
+</head>
+<body>
+    <div id="app">
+        <child-component v-bind:count="1"></child-component>
+    </div>
+    <script>
+        Vue.component( "child-component", {
+            name: "child-component",
+            props: {
+                count: Number
+            },
+            template:
+                 '<div class="child">{{ count }}'
+                +     '<child-component '
+                +         'v-bind:count="count + 1"'
+                +         'v-if="count < 3"></child-component>'
+                + '</div>'
+        } );
+
+        new Vue( {
+            el: "#app"
+        } );
+    </script>
+</body>
+</html>

@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>$nextTick</title>
+    <script src="https://unpkg.com/vue@2.5.16/dist/vue.js"></script>
+</head>
+<body>
+    <div id="app">
+        <div id="div" v-if="showDiv">一段文本</div>
+        <button v-on:click="getText">获取文本</button>
+    </div>
+    <script>
+        new Vue( {
+            el: "#app",
+            data: {
+                showDiv: false
+            },
+            methods: {
+                getText: function() {
+                    this.showDiv = true;
+                    this.$nextTick( function() {
+                        console.log( document.querySelector("#div").innerHTML );
+                    } );
+                }
+            }
+        } );
+    </script>
+</body>
+</html>

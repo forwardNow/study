@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>x-template</title>
+    <script src="https://unpkg.com/vue@2.5.16/dist/vue.js"></script>
+</head>
+<body>
+    <div id="app">
+        <my-component></my-component>
+    </div>
+    <script type="text/x-template" id="tpl">
+        <div>组件内容</div>
+    </script>
+    <script>
+        Vue.component( "my-component", {
+            template: "#tpl"
+        } );
+        new Vue( {
+            el: "#app",
+        } );
+    </script>
+</body>
+</html>

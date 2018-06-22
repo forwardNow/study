@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>内联模板</title>
+    <script src="https://unpkg.com/vue@2.5.16/dist/vue.js"></script>
+</head>
+<body>
+    <div id="app">
+        <child-component inline-template v-bind:parent-msg="msg">
+            <div class="child">
+                <p>{{ parentMsg }}</p>
+                <p>{{ childMsg }}</p>
+            </div>
+        </child-component>
+    </div>
+    <script>
+        Vue.component( "child-component", {
+            props: [ "parentMsg" ],
+            data: function() {
+                return {
+                    childMsg: "子组件数据"
+                };
+            }
+        } );
+
+        new Vue( {
+            el: "#app",
+            data: {
+                msg: "父组件数据"
+            }
+        } );
+    </script>
+</body>
+</html>
