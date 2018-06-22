@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>作用域插槽</title>
+    <script src="https://unpkg.com/vue@2.5.16/dist/vue.js"></script>
+</head>
+<body>
+    <div id="app">
+        <child-component>
+            <template slot-scope="slotProps">
+                {{ slotProps.msg }}
+            </template>
+        </child-component>
+    </div>
+    <script>
+        Vue.component( "child-component", {
+            template: "<div><slot msg='子组件的数据'></slot></div>"
+        } );
+        new Vue( {  
+            el: "#app"
+        } );
+    </script>
+
+    <div id="app2">
+        <my-list v-bind:list="books">
+            <template slot="list" slot-scope="listProps">
+                <li>{{listProps.bookName}}</li>
+            </template>
+        </my-list>
+    </div>
+    <script>
+        Vue.component( "my-list", {
+            props: {
+                list: Array
+            },
+            template: 
+                 '<ul>'
+                +    '<slot '
+                +        'name="list"'
+                +        'v-for="item in list"'
+                +        'v-bind:book-name="item.name"'
+                +    '></slot>'
+                +'</ul>'
+        } );
+
+        new Vue( {
+            el: "#app2",
+            data: {
+                books: [
+                    { name: "《书1》" },
+                    { name: "《书2》" },
+                    { name: "《书3》" }
+                ]
+            }
+        } );
+    </script>
+
+
+</body>
+</html>
