@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>非父子组件通信</title>
+    <script src="https://unpkg.com/vue@2.5.16/dist/vue.js"></script>
+</head>
+<body>
+    <div id="app">
+        <my-component></my-component>
+        {{ message }}
+    </div>
+    <script>
+        var bus = new Vue();
+
+        Vue.component( "my-component", {
+            template: '<button v-on:click="handleEvent">点我</button>',
+            methods: {
+                handleEvent: function() {
+                    bus.$emit( "on-message", "Hello。" );
+                }
+            }
+        } );
+
+        var app = new Vue( {
+            el: "#app",
+            data: {
+                message: ""
+            },
+            mounted: function() {
+                var _this = this;
+                bus.$on( "on-message", function( msg ) {
+                    _this.message = msg;
+                } );
+            }
+        } );
+
+    </script>
+
+    <div id="app2">
+        <p>消息：{{ display }}</p>
+        <button v-on:click="handleGetChildMsg">显示子组件消息</button>
+        <com-a ref="comA"></com-a>
+    </div>
+    <script>
+        Vue.component( "com-a", {
+            template: "<button v-on:click='handleGetParentMsg'>显示父组件消息</button>",
+            data: function() {
+                return {
+                    msg: "子组件"
+                };
+            },
+            methods: {
+                handleGetParentMsg: function() {
+                    this.$parent.display = this.$parent.msg;
+                }
+            }
+        } );
+        var app2 = new Vue( {
+            el: "#app2",
+            data: {
+                display: "",
+                msg: "父组件"
+            },
+            methods: {
+                handleGetChildMsg: function() {
+                    this.display = this.$refs.comA.msg;
+                }
+            }
+        } );
+    </script>
+
+</body>
+</html>

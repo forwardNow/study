@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>自定义事件</title>
+    <script src="https://unpkg.com/vue@2.5.16/dist/vue.js"></script>
+</head>
+<body>
+    <div id="app">
+        <p>总数：{{ total }}</p>
+        <my-component v-on:increase="handleGetTotal"></my-component>
+    </div>
+    <script>
+        Vue.component( "my-component", {
+            template: '<button v-on:click="handleIncrease">+1</button>',
+            data: function() {
+                return {
+                    counter: 0
+                };
+            },
+            methods: {
+                handleIncrease: function() {
+                    this.counter++;
+                    this.$emit( "increase", this.counter );
+                }
+            }
+        } );
+        var app = new Vue( {
+            el: "#app",
+            data: {
+                total: 0
+            },
+            methods: {
+                handleGetTotal: function( counter ) {
+                    this.total = counter;
+                }
+            }
+        } );
+    </script>
+
+    <div id="app2">
+        <p>总数2：{{ total }}</p>
+        <my-component-2 v-model="total"></my-component-2>
+    </div>
+    <div id="app3">
+        <p>总数3：{{ total }}</p>
+        <my-component-2 v-on:input="handleGetTotal"></my-component-2>
+    </div>
+    <script>
+        Vue.component( "my-component-2", {
+            template: '<button v-on:click="handleIncrease">+1</button>',
+            data: function() {
+                return {
+                    counter: 0
+                };
+            },
+            methods: {
+                handleIncrease: function() {
+                    this.counter++;
+                    this.$emit( "input", this.counter );
+                }
+            }
+        } );
+        var app2 = new Vue( {
+            el: "#app2",
+            data: {
+                total: 0
+            }
+        } );
+        var app3 = new Vue( {
+            el: "#app3",
+            data: {
+                total: 0
+            },
+            methods: {
+                handleGetTotal: function( counter ) {
+                    this.total = counter;
+                }
+            }
+        } );
+    </script>
+
+    
+
+</body>
+</html>
