@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>标签页</title>
+    <script src="https://unpkg.com/vue@2.5.16/dist/vue.js"></script>
+    <style>
+        [v-cloak] {
+            display: none;
+        }
+        .tabs {
+            font-size: 14px;
+            color: #657180;
+        }
+        .tabs-bar:after {
+            content: "";
+            display: block;
+            width: 100%;
+            height: 1px;
+            background: #d7dde4;
+            margin-top: -1px;
+        }
+        .tabs-tab {
+            display: inline-block;
+            padding: 4px 16px;
+            margin-right: 6px;
+            background: #fff;
+            border: 1px solid #d7dde4;
+            cursor: pointer;
+            position: relative;
+        }
+        .tabs-tab-active {
+            color: #3399ff;
+            border-top: 1px solid #3399ff;
+            border-bottom: 1px solid #fff;
+        }
+        .tabs-tab-active:before {
+            content: "";
+            display: block;
+            height: 1px;
+            background: #3399ff;
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+        }
+        .tabs-content {
+            padding: 8px 0;
+        }
+    </style>
+</head>
+<body>
+    <div id="app" v-cloak>
+        <tabs v-model="activeKey">
+            <pane label="标签1" name="1">
+                标签1 - 内容
+            </pane>
+            <pane label="标签2" name="2">
+                标签2 - 内容
+            </pane>
+            <pane label="标签3" name="3">
+                标签3 - 内容
+            </pane>
+        </tabs>
+    </div>
+    
+    <script type="text/x-template" id="paneTpl">
+        <div class="pane" v-show="show">
+            <slot></slot>
+        </div>
+    </script>
+    <script>
+        Vue.component( "pane", {
+            name: "pane",
+            template: "#paneTpl",
+            props: {
+                name: {
+                    type: String
+                },
+                label: {
+                    type: String,
+                    default: ""
+                }
+            },
+            data: function() {
+                return {
+                    show: true
+                };
+            },
+            methods:  {
+                updateNav: function() {
+                    this.$parent.updateNav();
+                }
+            },
+            watch: {
+                label: function() {
+                    this.updateNav();
+                }
+            },
+            mounted: function() {
+                this.updateNav();
+            }
+        } );
+    </script>
+
+    <script type="text/x-template" id="tabsTpl">
+        <div class="tabs">
+            <div class="tabs-bar">
+                <div
+                    v-bind:class="tabCls(item)"
+                    v-for="(item, index) in navList"
+                    v-on:click="handleChange(index)">
+                    {{ item.label }}
+                </div>
+            </div>
+            <div class="tabs-content">
+                <slot></slot>
+            </div>
+        </div>
+    </script>
+    <script>
+        Vue.component( "tabs", {
+            template: "#tabsTpl",
+            props: {
+                value: {
+                    type: [ String, Number ]
+                }
+            },
+            data: function() {
+                return {
+                    currentValue: this.value,
+                    navList: []
+                };
+            },
+            methods: {
+                tabCls: function( item ) {
+                    return [
+                        "tabs-tab",
+                        {
+                            "tabs-tab-active": item.name === this.currentValue
+                        }
+                    ];
+                },
+                getTabs: function() {
+                    return this.$children.filter( function( item ) {
+                        return item.$options.name === "pane";
+                    } );
+                },
+                updateNav: function() {
+                    var _this = this;
+
+                    this.navList = [];
+
+                    this.getTabs().forEach( function( pane, index ) {
+                        _this.navList.push( {
+                            label: pane.label,
+                            name: pane.name || index
+                        } );
+                        if ( !pane.name ) {
+                            pane.name = index;
+                        }
+                        if ( index === 0 ) {
+                            if ( ! _this.currentValue ) {
+                                _this.currentValue = pane.name || index;
+                            }
+                        }
+                    } );
+
+                    this.updateStatus();
+                },
+                updateStatus: function() {
+                    var tabs = this.getTabs();
+                    var _this = this;
+
+                    tabs.forEach( function( tab ) {
+                        tab.show = tab.name === _this.currentValue;
+                        return tab.show;
+                    } );
+                },
+                handleChange: function( index ) {
+                    var nav = this.navList[ index ];
+                    var name = nav.name;
+                    this.currentValue = name;
+                    this.$emit( "input", name );
+                    this.$emit( "on-click", name );
+                }
+            },
+            watch: {
+                value: function( val ) {
+                    this.currentValue = val;
+                },
+                currentValue: function() {
+                    this.updateStatus();
+                }
+            }
+        } );
+    </script>
+
+
+    <script>
+        new Vue( {
+            el: "#app",
+            data: {
+                activeKey: "1"
+            }
+        } );
+
+    </script>
+</body>
+</html>
