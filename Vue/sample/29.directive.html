@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>指令</title>
+    <script src="https://unpkg.com/vue@2.5.16/dist/vue.js"></script>
+</head>
+<body>
+    <div id="app">
+        <input type="text" v-focus>
+    </div>
+    <script>
+        Vue.directive( "focus", {
+            inserted: function( el ) {
+                el.focus();
+            }
+        } );
+        new Vue( {
+            el: "#app"
+        } );
+    </script>
+</body>
+</html>
