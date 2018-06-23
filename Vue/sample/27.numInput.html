@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>数字输入框组件</title>
+    <script src="https://unpkg.com/vue@2.5.16/dist/vue.js"></script>
+</head>
+<body>
+    <div id="app">
+        <input-number 
+            v-model:value="value"
+            v-bind:max="10"
+            v-bind:min="0"></input-number>
+        {{ value }}
+    </div>
+    
+    <script type="text/x-template" id="tpl">
+        <div class="input-number">
+            <button
+                v-on:click="handleDown"
+                v-bind:disabled="currentValue <= min">-</button>
+            <input 
+                type="text"
+                v-bind:value="currentValue"
+                v-on:change="handleChange">
+            <button
+                v-on:click="handleUp"
+                v-bind:disabled="currentValue >= max">+</button>
+        </div>
+    </script>
+
+    <script>
+        
+        Vue.component( "input-number", {
+            template: "#tpl",
+            props: {
+                max: {
+                    type: Number, 
+                    default: Infinity
+                },
+                min: {
+                    type: Number,
+                    default: -Infinity
+                },
+                value: {
+                    type: Number,
+                    default: 0
+                }
+            },
+            data: function() {
+                return {
+                    currentValue: this.value
+                };
+            },
+            watch: {
+                currentValue: function( val ) {
+                    this.$emit( "input", val );
+                },
+                value: function ( val ) {
+                    this.updateValue( val );
+                }
+            },
+            methods: {
+                handleDown: function() {
+                    if ( this.currentValue <= this.min ) {
+                        return;
+                    }
+                    this.currentValue--;
+                },
+                handleUp: function() {
+                    if ( this.currentValue >= this.max ) {
+                        return;
+                    }
+                    this.currentValue++;
+                },
+                updateValue: function( val ) {
+                    if ( val > this.max ) {
+                        val = this.max;
+                    }
+                    if ( val < this.min ) {
+                        val = this.min;
+                    }
+                    this.currentValue = val;
+                },
+                handleChange: function(event) {
+                    var val = event.target.value.trim();
+                    var max = this.max;
+                    var min = this.min;
+
+                    if ( isValueNumber( val ) ) {
+                        val = Number( val );
+                        this.currentValue = val;
+
+                        if ( val > max ) {
+                            this.currentValue = max;
+                        } else if ( val < min ) {
+                            this.currentValue = min;
+                        }
+
+
+                    } else {
+                        event.target.value = this.currentValue;
+                    }
+                }
+            },
+            mounted: function() {
+                console.info( this.currentValue );
+                this.updateValue( this.value );
+            }
+        } );
+        
+        function isValueNumber( value ) {
+            return /^-?[0-9]+\.?\d*$/.test( value + "" );
+        }
+    </script>
+    <script>
+
+        new Vue( {
+            el: "#app",
+            data: {
+                value: 5
+            }
+        } );
+
+    </script>
+</body>
+</html>
