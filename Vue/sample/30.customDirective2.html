@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>自定义指令2</title>
+    <script src="https://unpkg.com/vue@2.5.16/dist/vue.js"></script>
+</head>
+<body>
+    <div id="app">
+        <div v-test:msg.a.b="message"></div>
+    </div>
+    <script>
+        Vue.directive( "test", {
+            bind: function( el, binding, vnode ) {
+                var keys = [];
+                for ( var i in vnode ) {
+                    keys.push( i );
+                }
+                el.innerHTML = `
+                    name: ${binding.name} <br>
+                    value: ${binding.value} <br>
+                    expression: ${binding.expression} <br>
+                    argument: ${binding.arg} <br>
+                    modifiers: ${JSON.stringify( binding.modifiers )} <br>
+                    vnode keys: ${keys.join( ", " )} <br>
+                    `
+                 ;
+            }
+        } );
+        new Vue( {
+            el: "#app",
+            data: {
+                message: "hello custom directive!"
+            }
+        } );
+    </script>
+
+    <div id="app2">
+        <div v-test2='{msg: "hello", name: "吴钦飞"}'></div>
+    </div>
+    <script>
+        Vue.directive( "test2", {
+            bind: function( el, binding, vnode ) {
+                var value = binding.value;
+                console.info( `${value.name}, ${value.msg}` );
+            }
+        } ); 
+        new Vue( { el: "#app2" } );
+    </script>
+</body>
+</html>
