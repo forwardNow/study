@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>实时时间转换指令</title>
+    <script src="https://unpkg.com/vue@2.5.16/dist/vue.js"></script>
+</head>
+<body>
+    <!--  
+        将时间戳（毫秒数）转换为 xx秒钟前、xx分钟前、xx小时前。
+        
+        设获取到的时间为 t，与当前时间的差为 deltaT 则：
+
+            当 deltaT < 60s，显示 “刚刚”；
+            当 deltaT < 60min，显示 “xx分钟前”；
+            当 deltaT < 24h，显示 “xx小时前”；
+            当 deltaT < 31day，显示 “xx天前”；
+            当 deltaT >= 31day，显示 “xxxx年xx月xx日”
+    -->
+    
+    <div id="app" v-cloak>
+        <div v-time="timeNow"></div>
+        <div v-time="timeBefore"></div>
+    </div>
+    <script>
+        function getFormatTime( timestamp ) {
+            var
+                now = ( new Date() ).getTime(),
+                deltaT = now - timestamp,
+                date,
+                tips = ""
+            ;
+            if ( deltaT < 60 * 1000 ) {
+                tips = "刚刚";
+            } else if ( deltaT < 60 * 60 * 1000 ) {
+                tips = Math.ceil( deltaT / (60 * 1000) ) + "分钟前";
+            } else if ( deltaT < 24 * 60 * 60 * 1000 ) {
+                tips = Math.ceil( deltaT / (60 * 60 * 1000) ) + "小时前";
+            } else if ( deltaT < 31 * 24 * 60 * 60 * 1000 ) {
+                tips = Math.ceil( deltaT / (24 * 60 * 60 * 1000) ) + "天前";
+            } else {
+                date = new Date( timestamp );
+                tips = `${ date.getFullYear() }年${ date.getMonth() + 1 }月${ date.getDate()}日`
+            }
+
+            return tips;
+        }
+        Vue.directive( "time", {
+            bind: function( el, binding ) {
+                el.innerHTML = getFormatTime( binding.value );
+                el.__timerId__ = window.setInterval( function() {
+                    el.innerHTML = getFormatTime( binding.value );
+                }, 60 * 1000 );
+            },
+            unbind: function( el, binding ) {
+                clearInterval( el.__timerId__ );
+                delete el.__timerId__;
+            }
+        } );
+        var app = new Vue( {
+            el: "#app",
+            data: {
+                timeNow: ( new Date() ).getTime(),
+                timeBefore: ( new Date( 2018, 4, 23, 10, 7, 5 ) ).getTime()
+            }
+        } );
+    </script>
+</body>
+</html>
