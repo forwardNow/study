@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>弹性盒布局实例</title>
+</head>
+<body>
+    <style>
+        body {
+            margin: 0;
+            background: #000;
+            font-family: Arial, Helvetica, sans-serif;
+            color: #fff;
+        }
+        h2 {
+            margin: 0;
+            padding: 1em 0 0 0;
+            font-weight: normal;
+            border-top: dashed 1px #fff;
+        }        
+        div {
+            width: 200px;
+            height: 200px;
+            margin: 2em 2em 4em 2em;
+            background: #fff;
+        }
+        span {
+            display: block;
+            width: 50px;
+            height: 50px;
+            line-height: 50px;
+            border-radius: 100px;
+            font-size: 24px;
+            background: #000;
+            text-align: center;
+        }
+        
+        
+    </style>
+
+<h2>单个项目：左对齐</h2>
+
+    <div class="box_align-left">
+        <span>1</span>
+    </div>
+    <style>
+        .box_align-left {
+            display: flex;
+            justify-content: flex-start; /*默认*/
+        }
+    </style>
+
+<h2>首行 居中对齐</h2>
+
+    <div class="box_align-center">
+        <span>1</span>
+    </div>
+    <style>
+        .box_align-center {
+            display: flex;
+            justify-content: center;
+        }
+    </style>
+
+<h2>首行 右对齐</h2>
+
+    <div class="box_align-right">
+        <span>1</span>
+    </div>
+    <style>
+        .box_align-right {
+            display: flex;
+            justify-content: flex-end;
+        }
+    </style>
+
+<h2>垂直 居中</h2>
+
+    <div class="box_valign-center">
+        <span>1</span>
+    </div>
+    <style>
+        .box_valign-center {
+            display: flex;
+            align-items: center;
+        }
+    </style>
+
+
+
+</body>
+</html>
