@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>render函数</title>
+    <script src="https://unpkg.com/vue@2.5.16/dist/vue.js"></script>
+</head>
+<body>
+    
+    <div id="app">
+        <anchor v-bind:level="titleLevel" title="标定xxx">我是标题{{titleLevel}}</anchor>
+    </div>
+    <script>
+        Vue.component( "anchor", {
+            props: {
+                level: {
+                    type: Number,
+                    required: true
+                },
+                title: {
+                    type: String,
+                    default: ""
+                }
+            },
+            render: function( createElement ) {
+                return createElement(
+                    "h" + this.level,
+                    [
+                        createElement(
+                            "a",
+                            {
+                                domProps: {
+                                    href: "#" + this.title
+                                }
+                            }
+                        ),
+                        this.$slots.default
+                    ]
+                );
+            }
+        } );
+
+        var app = new Vue( {
+            el: "#app",
+            data: {
+                titleLevel: 2
+            }
+        } );
+    </script>
+</body>
+</html>
