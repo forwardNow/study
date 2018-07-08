@@ -87,8 +87,11 @@ package.json：
 
 
 ### 2.3. ES6中的代码变化
-* 对象属性的简化：{ name }
-* 对象方法的简化：{ add():{} }
+
+* 对象属性的简化：`{ name }`
+* 对象方法的简化：`{ add():{} }`
+
+示例： 
 
     var name = "吴钦飞";
     var person = {
@@ -157,7 +160,7 @@ Vue：
  * 双向数据流（基于ES5的`defineProperty`来实现，IE9+才支持。）
 
 无论是模块化还是组件化都是在细分代码，只是粒度不一样，比如说：
-开发一个登陆模块，登陆包含 头部组件、主题组件、底部组件。
+开发一个登陆模块，登陆包含 头部组件、主体组件、底部组件。
 头部组件包含：页面（template）、样式（style）、动态效果（script）。
 
 **双向数据流**：
@@ -464,23 +467,63 @@ Vue：
 
 ## 5. vue-router
 
-### 5.1. 介绍
+### 5.1. 前端路由
+
+此处的前端路由，仅指hash路由。
+
+前端路由的核心：侦听锚点值的改变（`hashchange`），根据不同的锚点值，将不同的数据渲染到指定的DOM位置。
+* DOM容器：`<div id="container"></div>`
+* 监听hash：`window.addEventListener( "hashchange", callback )`
+* hash值一旦改变，则执行 `callback`，获取模板和数据后将其插入到 DOM容器
+
+基本实现：
+
+    <header>页头</header>
+    <main id="container"></main>
+    <footer>页脚</footer>
+    <script>
+        // 容器
+        var container = document.getElementById( "container" );
+
+        // 侦听锚点的改变
+        window.addEventListener( "hashchange", handleHashChange, false );
+        
+        // 当hash值改变后，进行处理
+        function handleHashChange() {
+            var 
+                html = "",
+                hash = location.hash
+            ;
+
+            // 匹配 /home
+            if ( /^#\/home/.test( hash ) ) {
+                html = "主页内容"
+            } else if ( /^#\/aboutUs/.test( hash ) ) {
+                html = "关于我们内容";
+            } else {
+                html = "默认内容";
+            }
+
+            container.innerHTML = html;
+        }
+
+        handleHashChange();
+    </script>
+
+
+### 5.2. 介绍
 
 vue的核心插件：
 * `vue-router` 路由
 * `vuex` 管理全局共享数据
 
 
-前端路由的核心：侦听锚点值的改变（`hashChange`），根据不同的锚点值，将不同的数据渲染到指定的DOM位置。
-* DOM容器：`<div id="container"></div>`
-* 监听hash：`window.addEventListener( "hashChange", callback )`
-* hash值一旦改变，则执行 `callback`，获取模板和数据后将其插入到 DOM容器
 
 比较：
 * angular：`ui-router` 通过 Ajax 来获取模板
 * vue：`vue-router` 在打包的文件中调用模板。
 
-### 5.2. 配置
+### 5.3. 配置
 
 安装：
 
@@ -494,7 +537,7 @@ vue的核心插件：
 
     Vue.use( VueRouter );
 
-创建路由对象并配置规则：
+创建路由对象并配置规则：（路由规则，从上往下 挨个匹配）
 
     let vueRouter = new VueRouter( { 
         routes: [ 
@@ -521,7 +564,7 @@ vue的核心插件：
     </template>
 
 
-### 5.3. 使用
+### 5.4. 使用
 
     routes : [
         { name: "aboutUs", path: "/aboutUs", component: AboutUs }
@@ -540,7 +583,7 @@ vue的核心插件：
     <router-view></router-view>
 
 
-### 5.4. 路由参数
+### 5.5. 路由参数
 
 所有vue实例都可访问：
 * `$route`：当前路由，主要用来获取参数数据
@@ -595,7 +638,7 @@ vue的核心插件：
         }
     }
 
-### 5.5. 编程导航
+### 5.6. 编程导航
 
 用程序来控制导航。
 
@@ -614,3 +657,151 @@ vue的核心插件：
         query: { id: 1 } // query 传值
      // params: { id: 1 } // path 传值
     } );
+
+### 5.7. 重定向和404
+
+`http://localhost:8080/index.html` 匹配 `"/"`。
+
+当进入页面后，应该重定向到主页：
+
+    { name: "root", path: "/", redirect: { name: "home" } }
+
+当访问不存在的页面的时，应显示 404找不到页面：
+
+    # 最后一个路由规则匹配所有，即 404页
+    { name: "notFound", path: "*", component: NotFoundVue }
+
+示例：
+
+    new VueRouter( {
+        routes: [
+            { name: "root", path: "/", redirect: { name: "home" } },
+            { name: "home", path: "/home", component: HomeVue },
+            { name: "notFound", path: "*", component: NotFoundVue }
+        ]
+    } );
+
+### 5.8. 多视图
+
+单视图：一个路由 + 一个组件 + 一个挂载点
+
+    # 一个路由 + 一个组件
+    { name: "home", path: "/home", component: HomeVue }
+
+    # 一个挂载点
+    <router-view></router-view>
+
+多视图：一个路由 + 多个组件 + 多个挂载点
+
+    # 一个路由 + 多个组件
+    { name: "home", path: "/home", components: {
+        header: Header,
+        footer: Footer,
+        default: Main
+    } }
+
+    # 一个挂载点
+    <router-view name="header"></router-view> # 挂载 Header
+    <router-view></router-view> # 挂载 Main
+    <router-view name="footer"></router-view> # 挂载 Footer
+
+### 5.9. 嵌套路由
+
+**说明**：
+
+用单页去实现多页应用，比如：页头有导航（首页，管理页），管理页里又有菜单树导航。
+
+视图包含视图：
+
+    # app.vue
+    <router-link :to="{name: 'home'}">首页</router-link>
+    <router-link :to="{name: 'manage'}">管理</router-link>
+    <router-view>
+
+    # manage.vue
+    <router-link :to="{name: 'manage.dept'}">部门管理</router-link>
+    <router-link :to="{name: 'manage.log'}">日志管理</router-link>
+    <router-view>
+
+
+路由具有父子级关系：
+
+    # routes
+    { name: "home", path: "/home", component: Home },
+    { name: "manage", path: "/manage", component: Manage, children: [
+        { name: "manage.dept", path: "dept", component: ManageDept },
+        { name: "manage.log", path: "log", component: ManageLog },
+    ]},
+
+**示例**：
+
+    src/
+        components/
+            layout/
+                footer.vue
+                header.vue
+        pages/
+            error/
+                404.vue
+            home/
+                home.vue
+            manage/
+                dept.vue
+                log.vue
+                manage.vue
+        app.vue
+        index.html
+        main.js
+
+    # main.js
+    const vueRouter = new VueRouter( {
+        routes: [
+            { name: "root", path: "/", redirect: { name: "home" } },
+            { name: "home", path: "/home", component: Home },
+            { name: "manage", path: "/manage", component: Manage, children: [
+                { name: "manage.dept", path: "dept", component: ManageDept },
+                { name: "manage.log", path: "log", component: ManageLog },
+            ]},
+            { name: "notFount", path: "*", component: NotFound }
+        ]
+    } );
+
+    # app.vue
+    <template>
+        <div>
+            <Header></Header>
+            <router-view></router-view>
+            <Footer></Footer>
+        </div>
+    </template>
+
+    # header.vue
+    <template>
+        <div>
+            我是头部  
+            <router-link :to="{ name: 'home' }">首页</router-link>
+            <router-link :to="{ name: 'manage' }">管理</router-link>
+        </div>
+    </template>
+
+    # manage.vue
+    <template>
+        <div>
+            我是管理业
+            <router-link :to=" { name: 'manage.dept' } ">部门管理</router-link>
+            <router-link :to=" { name: 'manage.log' } ">日志管理</router-link>
+            <router-view></router-view>
+        </div>
+    </template>
+
+## 6. vue-resource
+
+说明：
+* [官网](https://github.com/pagekit/vue-resource)
+* vue插件，用于发送web请求和处理响应，使用XMLHttpRequest和JSONP。
+* 现在已经停止维护了，推荐使用 [axios](https://github.com/axios/axios)
+
+## 7. axios
+
+说明:
+* [官网](https://github.com/axios/axios)
