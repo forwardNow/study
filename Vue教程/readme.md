@@ -147,7 +147,7 @@ package.json：
         }
     } );
 
-## 3. Vue 基础
+## 3. vue 基础
 
 ### 3.1. 核心概念
 
@@ -431,43 +431,9 @@ Vue：
     }
     </script>
 
-## 4. mint-ui
+## 4. vue-router
 
-### 4.1. 介绍
-
-饿了么 开发的基于Vue的组件库：
-* 桌面版：[element-ui](http://element-cn.eleme.io/#/zh-CN)
-* 移动版：[mint-ui](http://mint-ui.github.io/#!/zh-cn)
-
-组成
-* JS 组件：需要引用后，才可使用
-* 样式组件：注册后，可直接使用相应标签
-* 表单组件：注册后，可直接使用相应标签
-
-### 4.2. 引入
-
-安装：
-
-    $ npm install mint-ui --save
-
-引入：
-
-    // 引入样式
-
-    // 引入全部组件
-    import Vue from 'vue';
-    import Mint from 'mint-ui';
-    Vue.use(Mint);
-
-    // 按需引入部分组件
-    import { Cell, Checklist } from 'minu-ui';
-    Vue.component(Cell.name, Cell);
-    Vue.component(Checklist.name, Checklist);
-
-
-## 5. vue-router
-
-### 5.1. 前端路由
+### 4.1. 前端路由
 
 此处的前端路由，仅指hash路由。
 
@@ -511,7 +477,7 @@ Vue：
     </script>
 
 
-### 5.2. 介绍
+### 4.2. 介绍
 
 vue的核心插件：
 * `vue-router` 路由
@@ -523,7 +489,7 @@ vue的核心插件：
 * angular：`ui-router` 通过 Ajax 来获取模板
 * vue：`vue-router` 在打包的文件中调用模板。
 
-### 5.3. 配置
+### 4.3. 配置
 
 安装：
 
@@ -564,7 +530,7 @@ vue的核心插件：
     </template>
 
 
-### 5.4. 使用
+### 4.4. 使用
 
     routes : [
         { name: "aboutUs", path: "/aboutUs", component: AboutUs }
@@ -583,7 +549,7 @@ vue的核心插件：
     <router-view></router-view>
 
 
-### 5.5. 路由参数
+### 4.5. 路由参数
 
 所有vue实例都可访问：
 * `$route`：当前路由，主要用来获取参数数据
@@ -638,7 +604,7 @@ vue的核心插件：
         }
     }
 
-### 5.6. 编程导航
+### 4.6. 编程导航
 
 用程序来控制导航。
 
@@ -658,7 +624,7 @@ vue的核心插件：
      // params: { id: 1 } // path 传值
     } );
 
-### 5.7. 重定向和404
+### 4.7. 重定向和404
 
 `http://localhost:8080/index.html` 匹配 `"/"`。
 
@@ -681,7 +647,7 @@ vue的核心插件：
         ]
     } );
 
-### 5.8. 多视图
+### 4.8. 多视图
 
 单视图：一个路由 + 一个组件 + 一个挂载点
 
@@ -705,7 +671,7 @@ vue的核心插件：
     <router-view></router-view> # 挂载 Main
     <router-view name="footer"></router-view> # 挂载 Footer
 
-### 5.9. 嵌套路由
+### 4.9. 嵌套路由
 
 **说明**：
 
@@ -794,14 +760,48 @@ vue的核心插件：
         </div>
     </template>
 
-## 6. vue-resource
+## 5. vue-resource
 
 说明：
 * [官网](https://github.com/pagekit/vue-resource)
 * vue插件，用于发送web请求和处理响应，使用XMLHttpRequest和JSONP。
 * 现在已经停止维护了，推荐使用 [axios](https://github.com/axios/axios)
 
-## 7. axios
+## 6. axios
 
 说明:
 * [官网](https://github.com/axios/axios)
+
+
+## 7. mint-ui
+
+### 7.1. 介绍
+
+饿了么 开发的基于Vue的组件库：
+* 桌面版：[element-ui](http://element-cn.eleme.io/#/zh-CN)
+* 移动版：[mint-ui](http://mint-ui.github.io/#!/zh-cn)
+
+组成
+* JS 组件：需要引用后，才可使用
+* 样式组件：注册后，可直接使用相应标签
+* 表单组件：注册后，可直接使用相应标签
+
+### 7.2. 引入
+
+安装：
+
+    $ npm install mint-ui --save
+
+引入：
+
+    // 引入样式
+
+    // 引入全部组件
+    import Vue from 'vue';
+    import Mint from 'mint-ui';
+    Vue.use(Mint);
+
+    // 按需引入部分组件
+    import { Cell, Checklist } from 'minu-ui';
+    Vue.component(Cell.name, Cell);
+    Vue.component(Checklist.name, Checklist);
