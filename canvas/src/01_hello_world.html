@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+<style>
+    canvas {border : solid 1px #cccccc;}
+</style>
+<!--
+    1.准备画布
+        * 画布是白色的，默认 300*150
+        * 设置canvas元素的width和height属性来设置画布的大小
+-->
+<canvas width="400" height="300"></canvas>
+<!--
+    2. 准备绘制工具，进行绘图
+-->
+<script>
+    // 获取画布
+    var myCanvas = document.querySelector( "canvas" );
+    // 获取上下文（绘制工具箱）
+    var ctx = myCanvas.getContext( "2d" );
+    // 移动画笔
+    ctx.moveTo( 100, 100 );
+    // 绘制直线的轨迹（路径）
+    ctx.lineTo( 200, 100 );
+    // 描边
+    ctx.stroke();
+</script>
+
+</body>
+</html>

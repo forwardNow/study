@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>三角形</title>
+</head>
+<body>
+
+<style>
+    canvas {border : solid 1px #cccccc;}
+</style>
+<canvas width="400" height="400"></canvas>
+<script>
+    // 获取画布
+    var myCanvas = document.querySelector( "canvas" );
+    // 获取上下文（绘制工具箱）
+    var ctx = myCanvas.getContext( "2d" );
+
+
+    ctx.moveTo( 100, 100 );
+    ctx.lineTo( 300, 100 );
+    ctx.lineTo( 300, 300 );
+    ctx.lineTo( 100, 300 );
+    ctx.closePath();
+
+
+    ctx.moveTo( 150, 150 );
+    ctx.lineTo( 150, 250 );
+    ctx.lineTo( 250, 250 );
+    ctx.lineTo( 250, 150 );
+    ctx.closePath();
+
+
+    ctx.lineWidth = 10;
+
+    // 描边
+    // ctx.stroke();
+    // 填充
+    ctx.fill();
+</script>
+
+</body>
+</html>
