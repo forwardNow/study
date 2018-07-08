@@ -178,7 +178,7 @@ Vue：
     * API
         * `Vue.component( "组件名", 组件对象 )`：注册全局组件
         * `Vue.filter( "过滤器名", 函数(值, 参数1, ...) )`：注册全局过滤器
-        * `Vue.use( plugin )`：通常用于初始化第三方Vue插件
+        * `Vue.use( plugin )`：安装插件
 * 实例（vm）
     * 方法
     * 事件
@@ -436,9 +436,181 @@ Vue：
 * 桌面版：[element-ui](http://element-cn.eleme.io/#/zh-CN)
 * 移动版：[mint-ui](http://mint-ui.github.io/#!/zh-cn)
 
+组成
+* JS 组件：需要引用后，才可使用
+* 样式组件：注册后，可直接使用相应标签
+* 表单组件：注册后，可直接使用相应标签
 
 ### 4.2. 引入
 
 安装：
 
     $ npm install mint-ui --save
+
+引入：
+
+    // 引入样式
+
+    // 引入全部组件
+    import Vue from 'vue';
+    import Mint from 'mint-ui';
+    Vue.use(Mint);
+
+    // 按需引入部分组件
+    import { Cell, Checklist } from 'minu-ui';
+    Vue.component(Cell.name, Cell);
+    Vue.component(Checklist.name, Checklist);
+
+
+## 5. vue-router
+
+### 5.1. 介绍
+
+vue的核心插件：
+* `vue-router` 路由
+* `vuex` 管理全局共享数据
+
+
+前端路由的核心：侦听锚点值的改变（`hashChange`），根据不同的锚点值，将不同的数据渲染到指定的DOM位置。
+* DOM容器：`<div id="container"></div>`
+* 监听hash：`window.addEventListener( "hashChange", callback )`
+* hash值一旦改变，则执行 `callback`，获取模板和数据后将其插入到 DOM容器
+
+比较：
+* angular：`ui-router` 通过 Ajax 来获取模板
+* vue：`vue-router` 在打包的文件中调用模板。
+
+### 5.2. 配置
+
+安装：
+
+    $ npm install vue-router --save
+
+引入：
+    
+    import VueRouter from "vue-router";
+
+注册插件：
+
+    Vue.use( VueRouter );
+
+创建路由对象并配置规则：
+
+    let vueRouter = new VueRouter( { 
+        routes: [ 
+            { path: "/home", component: 组件对象Home }, 
+            { path: "/aboutUs", component: 组件对象AboutUs }, 
+            ... 
+        ] 
+    } );
+    
+添加进实例的`options`：
+
+    new Vue( {
+        ...
+        router: vueRouter
+    } );
+
+指定路由挂载点：
+
+    <template>
+        <div>
+            ...
+            <router-view></router-view>
+        </div>
+    </template>
+
+
+### 5.3. 使用
+
+    routes : [
+        { name: "aboutUs", path: "/aboutUs", component: AboutUs }
+    ]
+
+    # 通过 <a> 直接使用
+    <a href="#/aboutUs">关于我们</a>
+
+    # to="route的path"
+    <router-link to="/aboutUs" class="link">关于我们2</router-link>
+
+    # to="route的name"
+    <router-link v-bind:to="{ name: 'aboutUs' }" class="link">关于我们3</router-link>
+
+    # 挂载点
+    <router-view></router-view>
+
+
+### 5.4. 路由参数
+
+所有vue实例都可访问：
+* `$route`：当前路由，主要用来获取参数数据
+* `$router`：路由器，主要用来执行操作
+
+传参方式：
+* 查询字符串方式，如 `/detail?id=66`
+* path方式，如 `/detail/66`
+
+路由设置：
+* query方式，如 `{ name: "detail", path: "/detail", component: Detail }`
+* path方式，如 `{ name: "detail", path: "/detail/:id", component: Detail }`
+
+传递参数：
+* query方式，如 `v-bind:to="{ name:'detail' ,query: { id: 1 } }"`
+* path方式，如 `v-bind:to="{ name:'detail' ,params: { id: 1 } }"`
+
+接收参数（在 `created` 钩子里）：
+* query方式，如 `this.$route.query`
+* path方式，如 `this.$route.params`
+
+
+示例：
+
+    # main.js
+    const vueRouter = new VueRouter( {
+        routes: [
+            { name: "home", path: "/home", component: Home },
+            { name: "aboutUs", path: "/aboutUs/:id", component: AboutUs },
+        ]
+    } );
+
+    # app.vue
+    <router-link 
+        v-bind:to="{ name: 'home', query: { id: 2 } }" 
+        class="link">首页</router-link>
+    <router-link 
+        v-bind:to="{ name: 'aboutUs', params: { id: 2 } }" 
+        class="link">关于我们</router-link>
+
+    # home.vue
+    export default {
+        created() {
+            console.info( this.$route.query );
+        }
+    }
+
+    # about-us.vue
+    export default {
+        created() {
+            console.info( this.$route.params );
+        }
+    }
+
+### 5.5. 编程导航
+
+用程序来控制导航。
+
+`this.$router.go( 参数 )`
+* 作用：根据浏览记录，前进或后退
+* 说明：参数为 1，则前进一步；参数为 -1，则后退一步。
+
+`this.$router.push( 参数 )`
+* 作用：直接跳转都某个页面
+* 说明：参数的值 与 `<router-link :to="属性值">` 的属性值一致。
+
+示例：
+
+    this.$router.push( {
+        name: "detail",
+        query: { id: 1 } // query 传值
+     // params: { id: 1 } // path 传值
+    } );
