@@ -1,12 +1,15 @@
-// 引入 vue
+// vue
 import Vue from "vue";
-// 引入 vue-router
+// vue-router
 import VueRouter from "vue-router";
+// vue-resource
+import VueResource from "vue-resource";
+// axios
+import Axios from "axios";
 
-// 引入 自定义组件
+// 自定义组件
 import App from "./app.vue";
 
-// components
 import Header from "./components/layout/header.vue";
 import Footer from "./components/layout/footer.vue";
 
@@ -17,14 +20,22 @@ import ManageDept from "./pages/manage/dept.vue";
 import ManageLog from "./pages/manage/log.vue";
 import NotFound from "./pages/error/404.vue"
 
-// 注册 vue-router
+// 安装 vue-router
 Vue.use( VueRouter );
+// 安装：将 $http 挂载到Vue的原型。
+Vue.use( VueResource );
+
+// 配置 axios
+Vue.prototype.$axios = Axios;
+// 设置默认参数
+Axios.defaults.baseURL = "http://www.baidu.com";
+
 
 // 全局组件
 Vue.component( "Header", Header );
 Vue.component( "Footer", Footer );
-Footer
 
+// 路由
 const vueRouter = new VueRouter( {
     routes: [
         { name: "root", path: "/", redirect: { name: "home" } },
