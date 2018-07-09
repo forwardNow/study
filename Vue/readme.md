@@ -767,6 +767,51 @@ vue的核心插件：
 * vue插件，用于发送web请求和处理响应，使用XMLHttpRequest和JSONP。
 * 现在已经停止维护了，推荐使用 [axios](https://github.com/axios/axios)
 
+安装：
+
+    $ npm install vue-resource --save
+
+引入：
+
+    import VueResource from "vue-resource";
+    // 安装：将 $http 挂载到Vue的原型。
+    Vue.use( VueResource );
+
+示例：
+
+    export default {
+        created() {
+            this.$http.get( "https://www.baidu.com" )
+                .then( res => {
+                    console.info( res );
+                }, error => {
+                    console.info( error );
+                } );
+
+            this.$http.post( "https://www.baidu.com", {
+                deptId: 1
+            }, {
+                emulateJSON: true
+            } ).then( res => {
+                console.info( res );
+            }, error => {
+                console.info( error );
+            } );
+        }
+    }
+
+注意：
+
+    当发送 跨域的`application/json` 请求时，
+    浏览器会先发送 options 预检请求，
+    以判断服务器是否支持 `content-type:application/json`。
+    但有时服务器确实支持，但未正确处理options预检请求，造成错误判断。
+
+    所以，客户端发送请求时可以将设置为  `application/x-www-form-urlencoded`，
+    以避免 options 预检请求。
+
+
+
 ## 6. axios
 
 说明:
