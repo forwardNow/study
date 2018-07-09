@@ -800,11 +800,15 @@ vue的核心插件：
         }
     }
 
-注意：
+**注意**：
+
+    `application/json`：指定消息体的数据是JSON格式
+
+    `application/x-www-form-urlencoded`：指定消息体的数据是表单数据（`&`连接的）
 
     当发送 跨域的`application/json` 请求时，
     浏览器会先发送 options 预检请求，
-    以判断服务器是否支持 `content-type:application/json`。
+    以判断服务器是否支持 `content-type` 这个头。
     但有时服务器确实支持，但未正确处理options预检请求，造成错误判断。
 
     所以，客户端发送请求时可以将设置为  `application/x-www-form-urlencoded`，
@@ -816,6 +820,48 @@ vue的核心插件：
 
 说明:
 * [官网](https://github.com/axios/axios)
+
+安装：
+
+    $ npm install axios --save
+
+引入：
+
+    import Axios from "axios";
+    // 配置 axios
+    Vue.prototype.$axios = Axios;
+    // 设置默认参数
+    Axios.defaults.baseURL = "http://www.baidu.com";
+
+使用：
+
+    this.$axios.get( "/list", {
+        // 查询字符串
+        params: {
+            deptId: 1
+        },
+        headers: {
+            "content-type": "application/json"
+        }
+    } ).then( res => {
+        console.info( res );
+    } ).catch( error => {
+        console.info( error );
+    } );
+
+    this.$axios.post( "/detail", {
+        deptId: 1
+    } ).then( res => {
+        console.info( res );
+    } ).catch( error => {
+        console.info( error );
+    } );
+
+说明：
+* this.$axiso.get( url, options )
+* this.$axiso.post( url, data, options )
+    * data 为字符串，则自动转换为查询字符串
+    * data 为JS对象，则使用 `application/json`
 
 
 ## 7. mint-ui
