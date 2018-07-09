@@ -666,7 +666,7 @@ vue的核心插件：
         default: Main
     } }
 
-    # 一个挂载点
+    # 多个挂载点
     <router-view name="header"></router-view> # 挂载 Header
     <router-view></router-view> # 挂载 Main
     <router-view name="footer"></router-view> # 挂载 Footer
