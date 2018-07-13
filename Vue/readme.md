@@ -431,6 +431,12 @@ Vue：
     }
     </script>
 
+### 3.7. 计算属性
+
+`watch` 可以对（单个）属性进行监视，也可以深度监视。
+
+`computed`计算属性可以监视多个属性值的改变，并且可以返回对象。
+
 ## 4. vue-router
 
 ### 4.1. 前端路由
@@ -807,16 +813,17 @@ vue的核心插件：
     `application/x-www-form-urlencoded`：指定消息体的数据是表单数据（`&`连接的）
 
     当发送 跨域的`application/json` 请求时，
-    浏览器会先发送 options 预检请求，
-    以判断服务器是否支持 `content-type` 这个头。
-    但有时服务器确实支持，但未正确处理options预检请求，造成错误判断。
+    浏览器会先发送 options 预检请求，以判断服务器是否支持 `content-type` 这个头。
+    若服务器未正确处理options预检请求，则浏览器抛出异常。
 
-    所以，客户端发送请求时可以将设置为  `application/x-www-form-urlencoded`，
+    所以，客户端发送请求时可以将消息体设置为  `application/x-www-form-urlencoded`，
     以避免 options 预检请求。
 
 
 
 ## 6. axios
+
+### 6.1. 基础使用
 
 说明:
 * [官网](https://github.com/axios/axios)
@@ -858,12 +865,79 @@ vue的核心插件：
     } );
 
 说明：
-* this.$axiso.get( url, options )
-* this.$axiso.post( url, data, options )
-    * data 为字符串，则自动转换为查询字符串
-    * data 为JS对象，则使用 `application/json`
+* `this.$axiso.get( url, options )`
+* `this.$axiso.post( url, data, options )`
+    * `data` 为字符串，则自动转换为查询字符串
+    * `data` 为JS对象，则使用 `application/json`
 
+### 6.2. 合并请求
 
+应用场景：必须保证两次请求都成功，只要其中一个请求不成功 就算失败。
+
+示例：
+
+    this.$axios.all( [
+        this.$axios.post( url1, data1, options1 ),
+        this.$axios.get( url2, options2 )
+    ] )
+    // 分发响应
+    .then( this.$axios.spread( ( res1, res2 ) => {
+        // ...
+    } ) )
+    .catch( error => {
+        console.log( error );
+    } );
+
+### 6.3. 拦截器
+
+#### 6.3.1. 基础
+
+过滤，在一次请求与响应中 进行添油加醋。
+
+设置优先级由低到高：
+* `Axios.defaults`：默认参数设置 `defaults`
+* `this.$axios.get(url, options)`：单次请求设置 `options`
+* `Axios.interceptors.request.use(config=>config)`：拦截器配置 `config`
+
+示例：
+
+    Axios.interceptors.request.use( function( config ) {
+
+        // 追加一个值
+        config.headers.accept = "wuqinfei";
+        //=> Accept: application/json, text/plain, */*, wuqinfei
+
+        // 如果不返回，则不发请求
+        return config;
+    } );
+
+#### 6.3.2. token
+
+HTTP协议是无状态的，浏览器、移动端原生应用都可以使用。
+
+浏览器通过 session和cookie机制 来保存通信身份，cookie自动带一个字符串。
+
+移动端原生应用没有cookie，可以通过自定义头添加token来识别身份。
+
+拦截器可以用在添加token上。
+
+#### 6.3.3. 操作 loading
+
+    Axios.interceptors.request.use( function( config ) {
+
+        // 发起请求之前，显示 loading
+        Mint.Indicator.open();
+
+        return config;
+    } );
+
+    Axios.interceptors.response.use( function( config ) {
+
+        // 获取响应后，隐藏 loading
+        Mint.Indicator.close();
+
+        return config;
+    } );
 ## 7. mint-ui
 
 ### 7.1. 介绍
@@ -885,14 +959,8 @@ vue的核心插件：
 
 引入：
 
-    // 引入样式
+    import Mint from "mint-ui";
+    import { Indicator } from "mint-ui";
+    import "mint-ui/lib/style.css";
 
-    // 引入全部组件
-    import Vue from 'vue';
-    import Mint from 'mint-ui';
-    Vue.use(Mint);
-
-    // 按需引入部分组件
-    import { Cell, Checklist } from 'minu-ui';
-    Vue.component(Cell.name, Cell);
-    Vue.component(Checklist.name, Checklist);
+    Vue.use( Mint );

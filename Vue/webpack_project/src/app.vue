@@ -36,13 +36,13 @@ export default {
             console.info( error );
         } );
 
-        this.$axios.post( "/detail", {
-            deptId: 1
-        } ).then( res => {
-            console.info( res );
-        } ).catch( error => {
-            console.info( error );
-        } );
+        // this.$axios.post( "/detail", {
+        //     deptId: 1
+        // } ).then( res => {
+        //     console.info( res );
+        // } ).catch( error => {
+        //     console.info( error );
+        // } );
     }
 }
 </script>

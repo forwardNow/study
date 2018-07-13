@@ -20,6 +20,12 @@ import ManageDept from "./pages/manage/dept.vue";
 import ManageLog from "./pages/manage/log.vue";
 import NotFound from "./pages/error/404.vue"
 
+import Mint from "mint-ui";
+import { Indicator } from "mint-ui";
+import "mint-ui/lib/style.css";
+
+Vue.use( Mint );
+
 // 安装 vue-router
 Vue.use( VueRouter );
 // 安装：将 $http 挂载到Vue的原型。
@@ -29,6 +35,22 @@ Vue.use( VueResource );
 Vue.prototype.$axios = Axios;
 // 设置默认参数
 Axios.defaults.baseURL = "http://www.baidu.com";
+// 拦截器
+Axios.interceptors.request.use( function( config ) {
+
+    // 发起请求之前，显示 loading
+    Mint.Indicator.open();
+
+    return config;
+} );
+
+Axios.interceptors.response.use( function( config ) {
+
+    // 获取响应后，隐藏 loading
+    Mint.Indicator.close();
+
+    return config;
+} );
 
 
 // 全局组件
