@@ -224,3 +224,69 @@ CLI安装位置:
     <a [routerLink]="['desc']">产品-描述</a><br>
     <router-outlet></router-outlet>
 
+### 4.5. 辅助路由
+
+多个插槽。
+
+    # app-routing.module.ts
+    const routes: Routes = [
+        { path: 'chat', component: ChatComponent, outlet: 'chat' },
+    ];
+
+    # app.component.html
+    <a [routerLink]="[ { outlets: { chat: 'chat' } } ]">聊天-显示</a> <br>
+    <a [routerLink]="[ { outlets: { chat: null } } ]">聊天-隐藏</a> <br>
+    <a [routerLink]="[ { outlets: { chat: null, primary: 'home' } } ]">
+        隐藏聊天，主槽显示Home</a> <br>
+    <router-outlet></router-outlet>
+    <router-outlet name="chat"></router-outlet>
+
+### 4.6. 路由守卫
+
+类似于拦截器，显示视图之前进行拦截判断，离开视图之前进行拦截判断。
+
+能否进入：
+
+    # app-routing.module.ts
+    const routes: Routes = [
+        {
+            path: 'product', component: ProductComponent,
+            canActivate: [LoginGuard]
+        },
+    ];
+    @NgModule({
+        providers: [LoginGuard]
+    })
+
+    # login.guard.ts
+    export class LoginGuard implements CanActivate {
+        canActivate() {
+            const loggedIn: boolean = Math.random() < 0.5;
+            if (!loggedIn) {
+                console.info('您未登录！');
+            } else {
+                console.info('已登录！');
+            }
+            return loggedIn;
+        }
+    }
+
+能否离开：
+
+    # app-routing.module.ts
+    const routes: Routes = [
+        {
+            path: 'home', component: HomeComponent,
+            canDeactivate: [UnsavedGuard]
+        },
+    ];
+    @NgModule({
+        providers: [UnsavedGuard]
+    })
+
+    # unsaved.guard.ts
+    export class UnsavedGuard implements CanDeactivate<HomeComponent> {
+        canDeactivate() {
+            return window.confirm( '是否要离开？' );
+        }
+    }

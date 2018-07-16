@@ -9,4 +9,9 @@
 
 <a [routerLink]="['/product', 1]">产品页-路径参数</a> <br>
 
+
+<a [routerLink]="[ { outlets: { chat: 'chat' } } ]">聊天-显示</a> <br>
+<a [routerLink]="[ { outlets: { chat: null } } ]">聊天-隐藏</a> <br>
+<a [routerLink]="[ { outlets: { chat: null, primary: 'home' } } ]">隐藏聊天，主槽显示Home</a> <br>
 <router-outlet></router-outlet>
+<router-outlet name="chat"></router-outlet>
