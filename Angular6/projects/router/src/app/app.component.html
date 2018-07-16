@@ -1,0 +1,12 @@
+<div [routerLink]="['/']">首页</div>
+<div [routerLink]="['/product']">产品页</div>
+<div [routerLink]="['/xxx']">未配置的页</div>
+<div (click)="customNav()">编程导航</div>
+
+<a [routerLink]="['/product']"
+   [queryParams]="{id: 1}">产品页-查询参数</a> <br>
+
+
+<a [routerLink]="['/product', 1]">产品页-路径参数</a> <br>
+
+<router-outlet></router-outlet>

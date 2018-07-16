@@ -1,0 +1,19 @@
+<div class="col-sm-4" *ngFor="let product of products">
+
+  <div class="thumbnail">
+
+    <img src="http://placehold.it/320x240" alt="">
+
+    <div class="caption">
+      <h4 class="pull-right">{{ product.price }}</h4>
+      <h4><a href="#">{{ product.title }}</a></h4>
+      <p>{{ product.desc }}</p>
+    </div>
+
+    <div>
+      <app-star [rating]="product.rating"></app-star>
+    </div>
+
+  </div>
+
+</div>
