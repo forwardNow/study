@@ -32,6 +32,9 @@ Angular 不是由 AngularJS 升级而来，而是完全重写。
     # 新建组件
     $ ng generate component navbar
 
+    # 新建服务
+    $ ng g service shared/product
+
 CLI安装位置:
 `/usr/local/Cellar/node/10.6.0/lib/node_modules/node_modules/@angular/cli/bin/ng`
 
@@ -290,3 +293,62 @@ CLI安装位置:
             return window.confirm( '是否要离开？' );
         }
     }
+
+## 5. 依赖注入
+
+### 5.1. 概念
+
+依赖注入：
+* Dependency Injection，DI
+* 强调手段，如何实现控制反转
+
+控制反转：
+* Inversion of Control，IoC
+* 强调目的，侧重将依赖的控制权从代码的内部转移到外部
+* 实现了控制反转模式的框架 称为IoC容器
+
+Angular就是IoC容器，它实现控制反转的手段就是依赖注入。
+
+好处：
+* 松耦合
+* 可重用性
+    * 配置在providers中配置不同的service实现类
+* 可测试性
+    * 测试时： `LoginComponent` <= `MockLoginService`
+    * 实际中： `LoginComponent` <= `RealLoginService`
+
+### 5.2. 注入器和提供器
+
+#### 5.2.1. 注入器
+
+标注为注入器的方式：
+
+* 被 `@Injectable()` 装饰
+* 被 `@Component()` 装饰，该装饰是 `@Injectable()` 的子类
+
+注意：
+* 所有的 service 都应该加上 `@Injectable()`，即使不依赖其他服务
+
+通过构造函数注入服务：
+
+    constructor( private productService: ProductService ) {}
+
+#### 5.2.2. 提供器
+
+提供器的声明位置：
+
+* 模块：`@NgModule({ providers:[] })`
+* 组件：`@Component({ providers:[] })`
+
+声明的方式：
+
+* `providers:[ ProductService ]`
+* `providers:[ { provide: ProductService, useClass: ProductService } ]`
+* `providers:[ { provide: ProductService, useClass: XxxProductService } ]`
+* `providers:[ { provide: ProductService, useFactory: ()=>{...} } ]`
+
+提供器的作用域规则：
+
+* 模块级，模块中所有组件可以使用
+* 组件级，该组件及子组件可以使用
+* 组件级中同名的提供器会屏蔽模块级
