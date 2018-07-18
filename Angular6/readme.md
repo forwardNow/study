@@ -329,9 +329,50 @@ Angular就是IoC容器，它实现控制反转的手段就是依赖注入。
 注意：
 * 所有的 service 都应该加上 `@Injectable()`，即使不依赖其他服务
 
-通过构造函数注入服务：
+通过构造函数（注入点）注入服务：
 
     constructor( private productService: ProductService ) {}
+
+注入器的层级关系：
+
+    应用级注入器
+        主组件注入器
+            子组件注入器
+
+    注入点需要提供器，则在当前层查找相应注入器，
+    如果没有则依次往上层查找，最终找不到则抛异常。
+
+
+应用级注入器：
+
+    # app.module.ts
+    @NgModule({
+        imports: [],
+        providers: [],
+    })
+    imports 和 providers 里面的提供器将被注册到应用级注入器
+
+主组件注入器：
+
+    # app.component.ts
+    @Component({
+        providers: []
+    })
+    providers 里面的提供器将被注册到主组件注入器
+
+子组件注入器：
+
+    # xxx.component.ts
+    @Component({
+        providers: []
+    })
+    providers 里面的提供器将被注册到子组件注入器
+
+    子组件：
+        在 app.component.html 中直接使用的组件
+        在 app.component.html 中路由插槽中显示的组件
+        
+
 
 #### 5.2.2. 提供器
 
