@@ -1,21 +1,22 @@
-import { BrowserModule } from '@angular/platform-browser';
-import { NgModule } from '@angular/core';
+import {BrowserModule} from '@angular/platform-browser';
+import {NgModule} from '@angular/core';
 
-import { AppComponent } from './app.component';
-import { NavbarComponent } from './navbar/navbar.component';
-import { FooterComponent } from './footer/footer.component';
-import { SearchComponent } from './search/search.component';
-import { CarouselComponent } from './carousel/carousel.component';
-import { ProductComponent } from './product/product.component';
-import { StarComponent } from './star/star.component';
-import { ProductDetailComponent } from './product-detail/product-detail.component';
-import { HomeComponent } from './home/home.component';
+import {AppComponent} from './app.component';
+import {NavbarComponent} from './navbar/navbar.component';
+import {FooterComponent} from './footer/footer.component';
+import {SearchComponent} from './search/search.component';
+import {CarouselComponent} from './carousel/carousel.component';
+import {ProductComponent} from './product/product.component';
+import {StarComponent} from './star/star.component';
+import {ProductDetailComponent} from './product-detail/product-detail.component';
+import {HomeComponent} from './home/home.component';
 import {RouterModule, Routes} from '@angular/router';
+import {ProductService} from './shared/product.service';
 
 const routes: Routes = [
-  { path: '', component: HomeComponent },
-  { path: 'home', component: HomeComponent },
-  { path: 'productDetail/:productTitle', component: ProductDetailComponent }
+  {path: '', component: HomeComponent},
+  {path: 'home', component: HomeComponent},
+  {path: 'productDetail/:productId', component: ProductDetailComponent}
 ];
 
 @NgModule({
@@ -32,9 +33,10 @@ const routes: Routes = [
   ],
   imports: [
     BrowserModule,
-    RouterModule.forRoot( routes )
+    RouterModule.forRoot(routes)
   ],
-  providers: [],
+  providers: [ProductService],
   bootstrap: [AppComponent]
 })
-export class AppModule { }
+export class AppModule {
+}
