@@ -1,5 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {Product, ProductService} from '../shared/product.service';
+import {FormControl} from '@angular/forms';
+import 'rxjs/Rx';
+
 
 @Component({
   selector: 'app-product',
@@ -10,7 +13,16 @@ export class ProductComponent implements OnInit {
 
   public products: Array<Product>;
 
-  constructor( private productService: ProductService) {
+  keyword: string;
+
+  titleField: FormControl = new FormControl();
+
+  constructor(private productService: ProductService) {
+    this.titleField.valueChanges
+      .debounceTime(500)
+      .subscribe( value => {
+        this.keyword = value;
+      } );
 
   }
 
