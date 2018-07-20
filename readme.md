@@ -15,7 +15,7 @@
 #### 3.1.1. JavaScript
 
 * [《TypeScript》](./TypeScript)
-* [《深入理解ES6》【进行中】](./深入理解ES6)
+* [《深入理解ES6》](./深入理解ES6)
 
 #### 3.1.2. CSS
 
