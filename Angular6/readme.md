@@ -544,3 +544,55 @@ number
                 } );
         }
     }
+
+## 9. 组件
+
+### 9.1. 父传子（输入属性）
+
+    # parent.component.html
+    <input [(ngModel)]="parentValue">
+    <sub arg1="1" arg2="parentValue"></sub>
+
+    # sub.component.ts
+    class SubComponnet {
+        @Input()
+        arg1: number;
+        @Input()
+        arg2: string;
+    }
+
+子组件通过 `@Input()` 来声明可接受数据的属性。
+
+类比函数：子组件就是一个函数，通过`@Input()`声明参数。
+
+### 9.2. 子传父（输出属性，事件绑定）
+
+
+    # sub.component.ts
+    import {EventEmitter} from '@angular/core';
+    class SubComponent {
+        @Output()
+        subTime: EventEmitter<Date> = new EventEmitter();
+        ngOnInit() {
+            setInterval( () => {
+                this.subTime.emit( new Date() );
+            }, 1000 );
+        }
+    }
+
+    # parent.component.html
+    <sub (subTime)="handleTime($event)"></sub>
+    {{ parentTime }}
+
+    # parent.component.ts
+    class ParentComponent {
+        parentTime: Date;
+        handleTime( $event: Date ) {
+            this.parentTime = $event;
+        }
+    }
+
+子组件通过 `@Output()` 声明一个事件发射器A，
+父组件通过在子组件元素上绑定 事件A 处理该事件 以获取事件A携带的数据。
+
+
