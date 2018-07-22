@@ -12,12 +12,16 @@ import {ProductDetailComponent} from './product-detail/product-detail.component'
 import {HomeComponent} from './home/home.component';
 import {RouterModule, Routes} from '@angular/router';
 import {ProductService} from './shared/product.service';
-import { MyPipePipe } from './shared/my-pipe.pipe';
+import {MyPipePipe} from './shared/my-pipe.pipe';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
-import { FilterPipe } from './pipe/filter.pipe';
+import {FilterPipe} from './pipe/filter.pipe';
+import {ReactiveFormComponent} from './test/reactive-form/reactive-form.component';
+import { ReactiveRegistComponent } from './test/reactive-regist/reactive-regist.component';
 
 const routes: Routes = [
   {path: '', component: HomeComponent},
+  {path: 'test/reactiveForm', component: ReactiveFormComponent},
+  {path: 'test/reactiveRegist', component: ReactiveRegistComponent},
   {path: 'home', component: HomeComponent},
   {path: 'productDetail/:productId', component: ProductDetailComponent}
 ];
@@ -35,6 +39,8 @@ const routes: Routes = [
     HomeComponent,
     MyPipePipe,
     FilterPipe,
+    ReactiveFormComponent,
+    ReactiveRegistComponent,
   ],
   imports: [
     BrowserModule,

@@ -1,0 +1,8 @@
+<form [formGroup]="formModel" (submit)="handleSubmit()">
+  用户名：<input formControlName="username">
+  <div formGroupName="passwordGroup">
+    密码：<input formControlName="password"> <br>
+    确认：<input formControlName="pwdRepeat">
+  </div>
+  <button class="btn btn-primary">提交</button>
+</form>
