@@ -1,5 +1,6 @@
 import {Component, OnInit} from '@angular/core';
-import {FormBuilder, FormGroup} from '@angular/forms';
+import {AbstractControl, FormBuilder, FormGroup, Validators} from '@angular/forms';
+import {composeAsyncValidators} from '@angular/forms/src/directives/shared';
 
 @Component({
   selector: 'app-reactive-regist',
@@ -7,6 +8,7 @@ import {FormBuilder, FormGroup} from '@angular/forms';
   styleUrls: ['./reactive-regist.component.css']
 })
 export class ReactiveRegistComponent implements OnInit {
+
 
   formModel: FormGroup;
 
@@ -25,6 +27,10 @@ export class ReactiveRegistComponent implements OnInit {
 
   handleSubmit() {
     console.log(this.formModel.value);
+  }
+
+  xxxValidator(control: AbstractControl): { [key: string]: any } {
+    return null;
   }
 
 }
