@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>半透明边框</title>
+</head>
+<body>
+<style>
+    body {
+        background: pink;
+    }
+    div {
+        width: 200px;
+        height: 200px;
+        margin: 20px;
+    }
+    .box1 {
+        border: 10px solid rgba(255,255,255, 0.5);
+        background: white;
+    }
+    .box2 {
+        border: 10px solid rgba(255,255,255, 0.5);
+        background: white;
+        background-clip: padding-box;
+    }
+    .box3 {
+        padding: 10px;
+        border: 10px solid rgba(255,255,255, 0.5);
+        background: white;
+        background-clip: content-box;
+    }
+</style>
+    <div class="box1"></div>
+    <div class="box2"></div>
+    <div class="box3"></div>
+</body>
+</html>
