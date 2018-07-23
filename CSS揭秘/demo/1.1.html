@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+
+<style>
+
+.btn-1 {
+    padding: 6px 16px;
+    border: 1px solid #446d88;
+    background: #58a linear-gradient(#77a0bb, #58a);
+    border-radius: 4px;
+    box-shadow: 0 1px 5px gray;
+    color: white;
+    text-shadow: 0 -1px 1px #335166;
+    font-size: 20px;
+    line-height: 30px;
+}
+
+.btn-2 {
+    padding: .3em .8em;
+    border: 1px solid rgba(0,0,0,.1);
+    background: #58a linear-gradient(hsla(0,0%,100%,.2),
+                                    transparent);
+    border-radius: .2em;
+    box-shadow: 0 .05em .25em rgba(0,0,0,.5); color: white;
+    text-shadow: 0 -.05em .05em rgba(0,0,0,.5);
+    font-size: 125%; 
+    line-height: 1.5;
+}
+
+.btn-2.cancel { 
+    background-color: #c00;
+}
+.btn-2.ok { 
+    background-color: #6b0;
+}
+
+.callout { 
+    position: relative; 
+    max-width: 200px;
+    padding: 3px 8px;
+    color: #fff;
+    text-align: center;
+    background-color: #000;
+    border-radius: 4px;
+    border: solid 1px #000;
+}
+.callout.warning {
+    color: #8a6d3b;
+    background-color: #fcf8e3;
+    border-color: #faebcc;
+}
+.callout::before { content: "";
+    position: absolute;
+    top: -.4em; 
+    left: 1em; 
+    padding: .35em; 
+    background: inherit; 
+    border: inherit; 
+    border-right: 0; 
+    border-bottom: 0; 
+    transform: rotate(45deg);
+}
+</style>
+
+</head>
+<body>
+    <button type="button" class="btn-1">按钮-1</button>
+
+    <button type="button" class="btn-2">按钮-2</button>
+    <button type="button" class="btn-2 cancel">按钮-2</button>
+    <button type="button" class="btn-2 ok">按钮-2</button>
+
+    <hr>
+    <div class="callout">
+        用户名为必填项
+    </div>
+    <hr>
+    <div class="callout warning">
+        用户名为必填项
+    </div>
+</body>
+</html>
