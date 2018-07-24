@@ -1,18 +1,27 @@
 <form [formGroup]="formModel" (submit)="handleSubmit()">
-  用户名：<input formControlName="username">
-  <span [hidden]="!formModel.hasError('required', ['username'])">必填</span>
-  <span [hidden]="!formModel.hasError('minlength', ['username'])">
-    {{formModel.getError('minlength', ['username'])?.requiredLength}}
+  用户名：<input formControlName="username"
+  [class.has-error]="formModel.get('username').invalid && formModel.get('username').touched">
+  <span [hidden]="formModel.get('username').valid || formModel.get('username').untouched">
+    <span [hidden]="!formModel.hasError('required', ['username'])">必填</span>
+    <span [hidden]="!formModel.hasError('minlength', ['username'])">
+      {{formModel.getError('minlength', ['username'])?.requiredLength}}
+    </span>
   </span>
   <br>
   手机号：<input formControlName="mobile">
-  <span [hidden]="!formModel.hasError('mobile', ['mobile'])">手机号</span>
+  <span [hidden]="formModel.get('mobile').valid || formModel.get('mobile').pristine">
+    <span [hidden]="!formModel.hasError('mobile', ['mobile'])">手机号</span>
+  </span>
   <br>
   <div formGroupName="passwordGroup">
     密码：<input formControlName="password">
     <span [hidden]="!formModel.hasError('required', ['passwordGroup','password'])">必填</span>
     <br>
-    确认：<input formControlName="pwdRepeat"> <br>
+    确认：<input formControlName="pwdRepeat">
+    <span [hidden]="!formModel.get(['passwordGroup','pwdRepeat']).pending">
+      异步校验合法性
+    </span>
+    <br>
     <span [hidden]="!formModel.hasError('equals', ['passwordGroup'])">
       {{formModel.getError('equals', ['passwordGroup'])?.msg}}
     </span>
