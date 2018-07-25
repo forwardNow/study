@@ -17,11 +17,15 @@ import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {FilterPipe} from './pipe/filter.pipe';
 import {ReactiveFormComponent} from './test/reactive-form/reactive-form.component';
 import { ReactiveRegistComponent } from './test/reactive-regist/reactive-regist.component';
+import { TemplateFormComponent } from './template-form/template-form.component';
+import { MobileValidatorDirective } from './directives/mobile-validator.directive';
+import { EqualValidatorDirective } from './directives/equal-validator.directive';
 
 const routes: Routes = [
   {path: '', component: HomeComponent},
   {path: 'test/reactiveForm', component: ReactiveFormComponent},
   {path: 'test/reactiveRegist', component: ReactiveRegistComponent},
+  {path: 'test/templateForm', component: TemplateFormComponent},
   {path: 'home', component: HomeComponent},
   {path: 'productDetail/:productId', component: ProductDetailComponent}
 ];
@@ -41,6 +45,9 @@ const routes: Routes = [
     FilterPipe,
     ReactiveFormComponent,
     ReactiveRegistComponent,
+    TemplateFormComponent,
+    MobileValidatorDirective,
+    EqualValidatorDirective,
   ],
   imports: [
     BrowserModule,

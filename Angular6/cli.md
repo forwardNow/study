@@ -24,5 +24,9 @@
     # 新建管道
     $ ng g pipe pipe/filter
 
+    # 新建指令
+    $ ng g directive directives/mobileValidator
+
+
 CLI安装位置:
 `/usr/local/Cellar/node/10.6.0/lib/node_modules/node_modules/@angular/cli/bin/ng`
