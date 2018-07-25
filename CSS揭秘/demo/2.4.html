@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>边框内圆角</title>
+</head>
+<body>
+<style>
+    div {
+        width: 200px;
+        height: 100px;
+    }
+    .outer { 
+        padding: .8em;
+        background: #655;
+    }
+    .inner {
+        background: tan;
+        border-radius: .8em;
+    }
+    .box1, .box2, .box3 {
+        float: left;
+        margin: 2em;
+    }
+    .box1 {
+        border-radius: .8em;
+        background: tan;
+        outline: solid .8em #655;
+    }
+    .box2 {
+        border-radius: .8em;
+        background: tan;
+        box-shadow: 0 0 0 .8em #655;
+    }
+    .box3 {
+        border-radius: .8em;
+        background: tan;
+        outline: solid .8em #655;
+        box-shadow: 0 0 0 .6em #655;
+    }
+</style>
+
+<div class="outer">
+    <div class="inner">hi, I'm 吴钦飞.</div>
+</div>
+
+<div class="box1">box1，描边不沿着圆角走</div>
+
+<div class="box2">box2，投影沿着圆角走</div>
+
+<div class="box3">box3，结合描边和投影</div>
+
+</body>
+</html>
