@@ -24,6 +24,10 @@ export class ProductService {
   constructor() {
   }
 
+  getAllCategories() {
+    return ['类别1', '类别2', '类别3', '类别4', '类别5', '类别6'];
+  }
+
   getProducts(): Product[] {
     return this.products;
   }
@@ -31,13 +35,13 @@ export class ProductService {
   getProductById(id: number): Product {
 
     return this.products.find((product) => {
-      return  Number( id ) === product.id;
+      return Number(id) === product.id;
     });
   }
 
   getCommentsByProductId(id: number): Comment[] {
     return this.comments.filter((comment: Comment) => {
-      return comment.productId === Number( id );
+      return comment.productId === Number(id);
     });
   }
 }
