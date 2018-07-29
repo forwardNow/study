@@ -16,16 +16,20 @@ import {MyPipePipe} from './shared/my-pipe.pipe';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {FilterPipe} from './pipe/filter.pipe';
 import {ReactiveFormComponent} from './test/reactive-form/reactive-form.component';
-import { ReactiveRegistComponent } from './test/reactive-regist/reactive-regist.component';
-import { TemplateFormComponent } from './template-form/template-form.component';
-import { MobileValidatorDirective } from './directives/mobile-validator.directive';
-import { EqualValidatorDirective } from './directives/equal-validator.directive';
+import {ReactiveRegistComponent} from './test/reactive-regist/reactive-regist.component';
+import {TemplateFormComponent} from './template-form/template-form.component';
+import {MobileValidatorDirective} from './directives/mobile-validator.directive';
+import {EqualValidatorDirective} from './directives/equal-validator.directive';
+import {HttpClientModule} from '@angular/common/http';
+import {WebSocketComponent} from './web-socket/web-socket.component';
+import {HashLocationStrategy, LocationStrategy} from '@angular/common';
 
 const routes: Routes = [
   {path: '', component: HomeComponent},
   {path: 'test/reactiveForm', component: ReactiveFormComponent},
   {path: 'test/reactiveRegist', component: ReactiveRegistComponent},
   {path: 'test/templateForm', component: TemplateFormComponent},
+  {path: 'test/ws', component: WebSocketComponent},
   {path: 'home', component: HomeComponent},
   {path: 'productDetail/:productId', component: ProductDetailComponent}
 ];
@@ -48,14 +52,18 @@ const routes: Routes = [
     TemplateFormComponent,
     MobileValidatorDirective,
     EqualValidatorDirective,
+    WebSocketComponent,
   ],
   imports: [
     BrowserModule,
     RouterModule.forRoot(routes),
     FormsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    HttpClientModule
   ],
-  providers: [ProductService],
+  providers: [ProductService,
+    {provide: LocationStrategy, useClass: HashLocationStrategy}
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule {

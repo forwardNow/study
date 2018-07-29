@@ -26,6 +26,10 @@ export class ReactiveFormComponent implements OnInit {
   ngOnInit() {
   }
 
+  getControls() {
+    return (this.formModel.get('emails') as FormArray).controls;
+  }
+
   handleSubmit() {
     console.log(this.formModel.value);
   }

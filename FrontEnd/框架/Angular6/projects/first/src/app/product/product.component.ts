@@ -1,8 +1,6 @@
 import {Component, OnInit} from '@angular/core';
-import {Product, ProductService} from '../shared/product.service';
-import {FormControl} from '@angular/forms';
-import 'rxjs/Rx';
-
+import {Product, ProductSearchParams, ProductService} from '../shared/product.service';
+import {Observable} from 'rxjs';
 
 @Component({
   selector: 'app-product',
@@ -11,24 +9,19 @@ import 'rxjs/Rx';
 })
 export class ProductComponent implements OnInit {
 
-  public products: Array<Product>;
+  public products: Observable<Product[]>;
 
-  keyword: string;
-
-  titleField: FormControl = new FormControl();
 
   constructor(private productService: ProductService) {
-    this.titleField.valueChanges
-      .debounceTime(500)
-      .subscribe( value => {
-        this.keyword = value;
-      } );
-
   }
 
   ngOnInit() {
     this.products = this.productService.getProducts();
+    this.productService.searchEvent.subscribe((params: ProductSearchParams) => {
+      this.products = this.productService.search(params);
+    });
   }
+
 
 }
 

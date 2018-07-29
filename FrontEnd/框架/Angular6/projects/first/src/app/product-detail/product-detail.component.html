@@ -1,14 +1,14 @@
 <div class="thumbnail">
   <img src="http://placehold.it/800x600" alt="">
   <div>
-    <h4 class="pull-right">{{product.price}}元</h4>
-    <h4>{{product.title}}</h4>
-    <p>{{product.desc}}</p>
+    <h4 class="pull-right">{{product?.price}}元</h4>
+    <h4>{{product?.title}}</h4>
+    <p>{{product?.desc}}</p>
   </div>
   <div>
-    <p class="pull-right">{{comments.length}}条评论</p>
+    <p class="pull-right">{{comments?.length}}条评论</p>
     <p>
-      <app-star [rating]="product.rating"></app-star>
+      <app-star [rating]="product?.rating"></app-star>
     </p>
   </div>
 </div>

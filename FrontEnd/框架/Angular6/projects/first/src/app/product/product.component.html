@@ -1,14 +1,6 @@
-<div class="row">
-  <div class="col-sm-12">
-    <div class="form-group">
-      <input type="text" class="form-control" placeholder="请输入商品名称"
-             [formControl]="titleField">
-    </div>
-  </div>
-</div>
 
 <div class="col-sm-4"
-     *ngFor="let product of (products | filter: 'title': keyword )">
+     *ngFor="let product of (products | async )">
 
   <div class="thumbnail">
 

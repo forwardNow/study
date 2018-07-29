@@ -5,7 +5,7 @@
     结束：<input type="date" formControlName="to">
   </div>
   <ul formArrayName="emails">
-    <li *ngFor="let item of formModel.get('emails').controls; let i = index;">
+    <li *ngFor="let item of getControls(); let i = index;">
       <input type="email" [formControlName]="i">
     </li>
   </ul>
