@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 
 @Component({
   selector: 'app-template-form',
@@ -7,12 +7,23 @@ import { Component, OnInit } from '@angular/core';
 })
 export class TemplateFormComponent implements OnInit {
 
-  constructor() { }
+  constructor() {
+  }
 
   ngOnInit() {
   }
-  handleSubmit( formModel, isValid ) {
-    console.log( formModel, isValid );
+
+  handleSubmit(myForm) {
+    if (myForm.valid) {
+      console.log('表单验证通过', myForm.value);
+
+      // 验证通过后 重置表单
+      myForm.reset();
+
+    } else {
+      console.log('表单验证不通过', myForm.value);
+    }
   }
+
 
 }

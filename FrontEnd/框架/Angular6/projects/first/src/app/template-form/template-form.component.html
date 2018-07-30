@@ -1,19 +1,8 @@
-<form #myFrom="ngForm" novalidate
-      (ngSubmit)="handleSubmit(myFrom.value, myFrom.valid)">
-  <div>
-    用户：<input type="text" ngModel name="username"
-                   required minlength="6">
-    <span [hidden]="!myFrom.form.hasError('required', ['username'])">必填</span>
-    <span [hidden]="!myFrom.form.hasError('minlength', ['username'])">
-      {{myFrom.form.getError('minlength', ['username'])?.requiredLength}}
+<form #myForm="ngForm" novalidate autocomplete="off"
+      (ngSubmit)="handleSubmit(myForm)">
+    用户：<input type="text"  #username="ngModel"ngModel name="username" required>
+    <span [hidden]="username?.valid || username.untouched">
+      <span [hidden]="! username.errors?.required">必填</span>
     </span>
-  </div>
-  <div>手机：<input type="number" ngModel name="mobile"
-                   appMobileValidator>
-  </div>
-  <div ngModelGroup="passwordsGroup" appEqualValidator>
-    <div>密码：<input type="text" ngModel name="password"></div>
-    <div>确认：<input type="text" ngModel name="pConfirm"></div>
-  </div>
-  <button type="submit">注册</button>
+    <button type="submit">注册</button>
 </form>
