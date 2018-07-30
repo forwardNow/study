@@ -33,8 +33,8 @@
 #### 3.1.4. 框架
 
 * [《Vue.js实战》](./FrontEnd/框架/Vue.js实战)：详略不得当，不太适合新手。
-* [Vue【待定】](./FrontEnd/框架/Vue)
-* [Angular6【进行中】](./FrontEnd/框架/Angular6)
+* [Vue](./FrontEnd/框架/Vue)
+* [Angular6](./FrontEnd/框架/Angular6)
 
 #### 3.1.5. 构建
 
