@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>自适应的椭圆</title>
+</head>
+<body>
+    
+<style>
+    div {
+        float: left;
+        margin: 1em;
+        background: #fb3;
+    }
+    .box1 {
+        width: 200px;
+        height: 200px;
+        border-radius: 100px; /* >= 正方形边长的一半 */
+    }
+    .box2 {
+        width: 200px;
+        height: 150px;
+        border-radius: 100px / 75px;
+    }
+    .box3 {
+        width: 120px;
+        height: 180px;
+        border-radius: 50%;
+    }
+
+    .box4 {
+        width: 160px;
+        height: 100px;
+        border-radius: 50% / 100% 100% 0 0;
+    }
+    .box5 {
+        width: 160px;
+        height: 100px;
+        border-radius: 50% / 0 0 100% 100%;
+    }
+    
+    .box6 {
+        width: 160px;
+        height: 100px;
+        border-radius: 100% 0 0 0;
+    }
+    .box7 {
+        width: 160px;
+        height: 100px;
+        border-radius: 0 100% 0 0;
+    }
+</style>
+    <div class="box1">box1</div>
+    <div class="box2">box2</div>
+    <div class="box3">box3</div>
+    
+    <div class="box4">box4</div>
+    <div class="box5">box5</div>
+    
+    <br style="clear:both;">
+
+    <div class="box6">box6</div>
+    <div class="box7">box7</div>
+
+</body>
+</html>
