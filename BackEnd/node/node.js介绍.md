@@ -109,6 +109,8 @@ Node.js中的JavaScript：（做服务端）
 
 非常容易构建一个web服务器
 
+查看：[./code/05-http.js](./code/05-http.js)
+
 ```JavaScript
 // 1. 加载 http 核心模块
 var http = require('http');
@@ -126,4 +128,23 @@ server.listen(3000, function() {
     console.log('服务器已启动，请访问 http://127.0.0.1:3000/');
 });
 
+```
+
+## 8. 请求与响应
+
+查看：[./code/06-http-req-res.js](./code/06-http-req-res.js)
+
+```JavaScript
+server.on('request', function(request, response) {
+    // http://127.0.0.1:3000/ => /
+    // http://127.0.0.1:3000/a/b/c => /a/b/c
+    console.log( '收到客户端的请求: ' + request.url);
+
+    // write()：往响应流中写数据，可以调用多次
+    response.write('hello ');
+    response.write('nodejs');
+    
+    // 结束响应流，
+    response.end();
+});
 ```
