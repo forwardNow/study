@@ -146,5 +146,42 @@ server.on('request', function(request, response) {
     
     // 结束响应流，
     response.end();
+
+    // 上面三句代码等同于 reponse.end('hello nodejs') 
 });
 ```
+
+## 9. 处理不同URL与返回JSON
+
+`response.end( string | buffer )`
+
+```javascript
+server.on('request', function(request, response) {
+    var url = request.url;
+
+    if (url === '/') {
+        response.end('index page');
+    } else if (url === '/login') {
+        response.end('login page');
+    } else if (url === '/json') {
+        response.end(JSON.stringify({
+            name: '吴钦飞',
+            gender: '男'
+        }));
+    } else {
+        response.end('404 not found');
+    }
+});
+```
+
+## 10. 核心模块
+
+Node 为 JavaScript 提供了很多服务器级别的API，
+这些API绝大多数都被封装到一个个具名的核心模块中了，
+比如：
+* `fs`：操作文件
+* `http`：服务构建
+* `path`：操作路径
+* `os`：系统信息
+
+参考[官方API](https://nodejs.org/dist/latest-v10.x/docs/api/)
