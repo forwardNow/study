@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>菱形图片</title>
+</head>
+<body>
+
+<style>
+    div {
+        float: left;
+        margin: 4em 0 0 4em;
+    }
+</style>
+
+<style>
+    .picture1 {
+        width: 200px;
+        height: 200px;
+        transform: rotate(45deg);
+        overflow: hidden;
+    }
+    .picture1 > img {
+        max-width: 100%;
+        transform: rotate(-45deg);
+    }
+</style>
+
+<div class="picture1">
+    <img src="../images/adamcatlace.jpg" alt="">
+</div>
+
+<style>
+    .picture2 {
+        width: 200px;
+        height: 200px;
+        transform: rotate(45deg);
+        overflow: hidden;
+    }
+    .picture2 > img {
+        max-width: 100%;
+        transform: rotate(-45deg) scale(1.42);
+    }
+</style>
+
+<div class="picture2">
+    <img src="../images/adamcatlace.jpg" alt="">
+</div>
+
+<p style="clear: both; margin: 4em;"></p>
+
+<style>
+    img {
+        width: 200px;
+        clip-path: polygon(50% 0, 100% 50%, 50% 100%, 0 50%);
+    }
+    img:hover {
+        clip-path: polygon(0 0, 100% 0,100% 100%, 0 100%);
+    }
+</style>
+
+<img src="../images/adamcatlace.jpg" alt="">
+
+
+</body>
+</html>
