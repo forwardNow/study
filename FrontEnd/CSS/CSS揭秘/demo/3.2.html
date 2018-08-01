@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+<style>
+div {
+    float: left;
+    margin: 2em;
+    padding: 1em;
+    color: #fff;
+}
+
+.box1 {
+    background: #58a;
+    transform: skewX(-45deg);
+}
+.box2 {
+    background: #58a;
+    transform: skewX(-45deg);
+}
+.box2 span {
+    display: inline-block;
+    transform: skewX(45deg);
+}
+.box3 {
+    position: relative;
+}
+.box3:before {
+    content: "";
+    z-index: -1;
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: #58a;
+    transform: skewX(-45deg);
+}
+</style>
+
+    <div class="box1">box1</div>
+
+    <div class="box2">
+        <span>box2</span>
+    </div>
+
+    <div class="box3">box3</div>
+    
+</body>
+</html>
