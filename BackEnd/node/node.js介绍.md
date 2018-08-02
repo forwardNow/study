@@ -185,3 +185,33 @@ Node 为 JavaScript 提供了很多服务器级别的API，
 * `os`：系统信息
 
 参考[官方API](https://nodejs.org/dist/latest-v10.x/docs/api/)
+
+## 11. 模块系统
+
+**模块**：
+* 核心模块，如 `fs`、`http`
+* 自定义模块，必须使用完整的相对路径以区分核心模块，如 `./utils.js`
+* 第三方模块
+
+node没有全局作用域，只有模块作用域，模块之间通过导入和导出进行通信
+
+**导入和导出**
+
+```javascript
+// 文件 main.js
+var utils = require('./utils.js');
+
+// 通过 require() 方法导入其他模块
+// 导入模块的路径的“.js”后缀可以省略
+
+utils.add(1, 2)
+```
+
+```javascript
+// 文件 utils.js
+function add(num1, num2) {
+    return num1 + num2;
+}
+exports.add = add;
+// exports 默认是空对象，可以在上面挂载当前模块要向外暴露的接口
+```
