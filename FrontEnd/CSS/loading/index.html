@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>loading</title>
+</head>
+<body>
+
+<style>
+    @keyframes loader {
+        from {
+            background-position: 0 0;
+        }
+
+        to {
+            background-position: -700px 0;
+        }
+    }
+
+    #loader {
+        box-sizing: border-box;
+        position: fixed;
+        z-index: 100;
+        top: 50%;
+        left: 50%;
+        width: 100px;
+        padding-top: 100px;
+        margin-top: -50px;
+        margin-left: -50px;
+        background: url("./images/loader.png") no-repeat left top;
+        color: rgba(0,0,0,.5);
+        font-weight: bold;
+        text-align: center;
+        text-shadow: 0 1px white;
+
+        animation: loader 1s infinite steps(7);
+    }
+</style>
+<div id="loader"></div>
+
+
+</body>
+</html>
