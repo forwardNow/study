@@ -36,13 +36,18 @@
 * [Vue](./FrontEnd/框架/Vue)
 * [Angular6](./FrontEnd/框架/Angular6)
 
-#### 3.1.5. 构建
+#### 3.1.5. 库
+
+* [RxJS](./FrontEnd/库/RxJS/readme.md)
+
+#### 3.1.6. 构建
 
 * [《NPM官方文档》[翻译]](./FrontEnd/构建/NPM官方文档)
 
-#### 3.1.6. 其他
+#### 3.1.7. 其他
 
 * [2018/07/30 前端发展趋势](./blog/2018/07/30.前端发展趋势.md)
+* [制作web浏览器](./FrontEnd/其他/制作web浏览器)
 
 ### 3.2. 后端
 
