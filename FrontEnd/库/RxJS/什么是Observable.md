@@ -88,11 +88,124 @@ var arr = [1, 2, 3];
 var iterator = arr[Symbol.iterator]();
 
 iterator.next();
-// { value: 1, done: false }
+//=> { value: 1, done: false }
 iterator.next();
-// { value: 2, done: false }
+//=> { value: 2, done: false }
 iterator.next();
-// { value: 3, done: false }
+//=> { value: 3, done: false }
 iterator.next();
-// { value: undefined, done: true }
+//=> { value: undefined, done: true }
 ```
+
+JavaScript 的 Iterator 只有一个 next 方法，这个 next 方法只会返回这两种结果：
+
+1. 在最后一个元素前： `{ done: false, value: elem }`
+2. 在最后一个元素之后： `{ done: true, value: undefined }`
+
+当然我们可以自己实现简单的 Iterator Pattern
+
+```javascript
+class IteratorFromArray {
+    constructor(arr) {
+        this._array = arr;
+        this._cursor = 0;
+    }
+
+    next() {
+        return this._cursor < this._array.length ?
+        { value: this._array[this._cursor++], done: false } :
+        { done: true };
+    }
+}
+```
+
+Iterator Pattern 虽然很单纯，但同时带来了两个优势:
+
+1. 它渐进式取得数据的特性可以拿来做延迟运算(Lazy evaluation)，让我们能用它来处理大数据结构
+2. 因为 iterator 本身是序列，所以可以实现所有数组的运算方法像 map, filter... 等
+
+这里我们利用最后一段代码实现 map 试试
+
+```javascript
+class IteratorFromArray {
+    constructor(arr) {
+        this._array = arr;
+        this._cursor = 0;
+    }
+
+    next() {
+        return this._cursor < this._array.length ?
+        { value: this._array[this._cursor++], done: false } :
+        { done: true };
+    }
+    
+    map(callback) {
+        const iterator = new IteratorFromArray(this._array);
+        return {
+            next: () => {
+                const { done, value } = iterator.next();
+                return {
+                    done: done,
+                    value: done ? undefined : callback(value)
+                }
+            }
+        }
+    }
+}
+
+var iterator = new IteratorFromArray([1,2,3]);
+var newIterator = iterator.map(value => value + 3);
+
+newIterator.next();
+//=> { value: 4, done: false }
+newIterator.next();
+//=> { value: 5, done: false }
+newIterator.next();
+//=> { value: 6, done: false }
+```
+
+### 2.1. 补充: 延迟运算(Lazy evaluation)
+
+延迟运算，或说 call-by-need，是一种运算策略(evaluation strategy)，简单来说我们延迟一个表达式的运算时机直到真正需要它的值在做运算。
+
+以下我们用 generator 实现 iterator 来举一个例子
+
+```javascript
+function* getNumbers(words) {
+    for (let word of words) {
+        if (/^[0-9]+$/.test(word)) {
+            yield parseInt(word, 10);
+        }
+    }
+}
+
+const iterator = getNumbers('30 天精通 RxJS (04)');
+
+iterator.next();
+//=> { value: 3, done: false }
+iterator.next();
+//=> { value: 0, done: false }
+iterator.next();
+//=> { value: 0, done: false }
+iterator.next();
+//=> { value: 4, done: false }
+iterator.next();
+//=> { value: undefined, done: true }
+```
+
+这里我们写了一个函式用来抓取字串中的数字，在这个函数中我们用 for...of 的方式来取得每个字符并用正则表示式来判断是不是数值，如果为真就转成数值并返回。当我们把一个字符串丢进 `getNumbers` 函数时，并没有马上运算出字符串中的所有数字，必须等到我们执行 `next()` 时，才会真的做运算，这就是所谓的延迟运算(evaluation strategy)
+
+## 3. Observable
+
+在了解 Observer 跟 Iterator 后，不知道大家有没有发现其实 Observer 跟 Iterator 有个共通的特性，就是他们都是 渐进式(progressive) 的取得数据，差别只在于 Observer 是生产者(Producer)推送数据(push)，而 Iterator 是消费者(Consumer)要求数据(pull)!
+
+Observable 其实就是这两个 Pattern 思想的结合，Observable 具备生产者推送数据的特性，同时能像序列，拥有序列处理数据的方法(map, filter...)！
+
+更简单的来说，Observable 就像是一个序列，里面的元素会随着时间推送。
+
+>注意这里讲的是 思想的结合，Observable 跟 Observer 在实现上还是有差异，这我们在下一篇文章中讲到。
+
+## 4. 今日小结
+
+今天讲了 Iterator 跟 Observer 两个 Pattern，这两个 Pattern 都是渐进式的取得元素，差异在于 Observer 是靠生产者推送数据，Iterator 则是消费者去要求数据，而 Observable 就是这两个思想的结合！
+
