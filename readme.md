@@ -14,6 +14,7 @@
 
 #### 3.1.1. JavaScript
 
+* [2018/08/08 JavaScript代码风格](./blog/2018/08/08.JavaScript代码风格.md)
 * [《TypeScript》](./FrontEnd/JavaScript/TypeScript)
 * [《深入理解ES6》](./FrontEnd/JavaScript/深入理解ES6)
 
