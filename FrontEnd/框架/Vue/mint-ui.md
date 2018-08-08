@@ -5,7 +5,7 @@
 
 饿了么 开发的基于Vue的组件库：
 * 桌面版：[element-ui](http://element-cn.eleme.io/#/zh-CN)
-* 移动版：[mint-ui](http://mint-ui.github.io/#!/zh-cn)
+* 移动版：[mint-ui](https://mint-ui.github.io/#!/zh-cn)
 
 组成
 * JS 组件：需要引用后，才可使用

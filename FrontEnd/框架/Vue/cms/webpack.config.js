@@ -31,6 +31,10 @@ module.exports = {
                 }
             }, 
             {
+                /*
+                    "style-loader" 必须放在 fallback 中，如果置于 use 中，则会报错
+                    Module build failed (from ./node_modules/style-loader/index.js):ReferenceError: window is not defined
+                 */
                 test: /\.css$/,
                 // use: [ "style-loader", "css-loader", "postcss-loader" ]
                 use: ExtractTextPlugin.extract({
@@ -71,13 +75,15 @@ module.exports = {
                 })
             },
             {
-                test: /\.(jpg|svg|png|gif)$/,
+                test: /\.(jpg|png|gif|svg|ttf|woff|woff2)$/,
                 // loader:"url-loader?limit=4096&name=[name].[ext]",
                 // "?" 后面可以传参数，也可以 以下面这种写法。
-                loader: "url-loader",
-                options:{
-                   limit: 4096,
-                   name: "[name].[ext]"
+                use: {
+                    loader: "url-loader",
+                    options:{
+                        limit: 4096,
+                        name: "[name].[ext]"
+                    }
                 }
             },
             {
