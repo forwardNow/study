@@ -225,3 +225,51 @@ exports.add = add;
 * 在计算机中有一些默认的端口号，最好不要去使用
     * 如 HTTP服务 的80
 * 开发过程中使用一些简单好记的就可以了
+
+
+## 13. Content-Type
+
+```javascript
+server.on( 'request', function(req, res) {
+    let url = req.url;
+
+    if ( url === '/') {
+        res.end( 'hello' );
+    }
+    else if ( url === '/plain' ) {
+        res.setHeader( 'Content-Type', 'text/plain;charset=utf-8' );
+        res.end( '吴钦飞' );
+    } 
+    else if ( url === '/html' ) {
+        res.setHeader( 'Content-Type', 'text/html;charset=utf-8' );
+        res.end( '<a href="#">点我</a>' );
+    }
+} );
+```
+
+注意：
+* 文本需要指定编码`charset=utf-8`，图片等媒体数据不需要指定编码
+* 查看 [HTTP Content-Type](http://tool.oschina.net/commons)
+
+## 14. 读取文件返回浏览器
+
+配合 fs 模块使用
+
+```javascript
+server.on('request', function(req, res) {
+    var url = req.url;
+
+    if ( url === '/' ) {
+        fs.readFile('./asset/index.html', function( error, data ) {
+            res.setHeader('Content-Type', 'text/html;charset=utf-8');
+            res.end(data);
+        })
+    }
+    else if ( url === '/img' ) {
+        fs.readFile('./asset/icon_loading.gif', function( error, data ) {
+            res.setHeader('Content-Type', 'image/gif');
+            res.end(data);
+        })
+    }
+});
+```
