@@ -32,7 +32,7 @@
 
 ### 1.5. 库
 
-* [RxJS](./FrontEnd/库/RxJS/readme.md)
+* [《RxJS》](./FrontEnd/库/RxJS/readme.md)
 
 ### 1.6. 构建
 
