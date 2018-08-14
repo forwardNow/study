@@ -9,6 +9,7 @@
 * [什么是 Observable？](./什么是Observable.md)
 * [建立 Observable(一)](./建立Observable(一).md)
 * [建立 Observable(二)](./建立Observable(二).md)
+* [操作符Operator和图解](./操作符Operator和图解.md)
 
 ## 2. 参考
 
