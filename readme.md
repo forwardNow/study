@@ -35,10 +35,6 @@
 
 * [《RxJS》](./FrontEnd/库/RxJS/readme.md)
 
-### 1.6. 构建
-
-* [《NPM官方文档》[翻译]](./FrontEnd/构建/NPM官方文档)
-
 ### 1.7. 其他
 
 * [浏览器的工作原理](./blog/2018/08/11.浏览器的工作原理.md)
@@ -50,6 +46,7 @@
 ### 2.1. node.js
 
 * [Node.js](./BackEnd/node/readme.md)
+* [NPM](./BackEnd/npm/readme.md)
 
 ## 3. 计算机
 
