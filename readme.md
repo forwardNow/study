@@ -6,9 +6,12 @@
 
 ### 1.1. JavaScript
 
+* ESMAScript
+  * ES5：[ES5 - ES2009](./blog/2018/08/15.ES5.md)
+  * ES6：[《深入理解ES6》](./FrontEnd/JavaScript/深入理解ES6)
 * [JavaScript代码风格](./blog/2018/08/08.JavaScript代码风格.md)
 * [《TypeScript》](./FrontEnd/JavaScript/TypeScript)
-* [《深入理解ES6》](./FrontEnd/JavaScript/深入理解ES6)
+
 
 ### 1.2. CSS
 
