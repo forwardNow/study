@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>takeUntil</title>
+</head>
+<body>
+<div style="height: 100px; background: pink;"></div>
+<script src="https://unpkg.com/@reactivex/rxjs@5.0.0/dist/global/Rx.js"></script>
+<script>
+var obs1 = Rx.Observable.interval(1000).take(5);
+var obs2 = Rx.Observable.interval(500).take(2);
+var obs3 = Rx.Observable.interval(2000).take(1);
+
+var source = Rx.Observable.of(obs1, obs2, obs3);
+
+var example = source.concatAll();
+
+example.subscribe({
+    next: (value) => { console.log(value); },
+    error: (err) => { console.log('Error: ' + err); },
+    complete: () => { console.log('complete'); }
+});
+// 0
+// 1
+// 2
+// 3
+// 4
+// 0
+// 1
+// 0
+// complete
+</script>
+</body>
+</html>

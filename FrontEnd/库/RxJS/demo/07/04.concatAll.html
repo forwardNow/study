@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>takeUntil</title>
+</head>
+<body>
+<div style="height: 100px; background: pink;"></div>
+<script src="https://unpkg.com/@reactivex/rxjs@5.0.0/dist/global/Rx.js"></script>
+<script>
+var click = Rx.Observable.fromEvent(document.body, 'click');
+var source = click.map(e => Rx.Observable.of(1,2,3));
+
+var example = source.concatAll();
+example.subscribe({
+    next: (value) => { console.log(value); },
+    error: (err) => { console.log('Error: ' + err); },
+    complete: () => { console.log('complete'); }
+});
+</script>
+</body>
+</html>

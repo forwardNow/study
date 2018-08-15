@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>拖拽</title>
+</head>
+<body>
+<div id="drag"></div>
+<style>
+  body,
+  html {
+    height: 100%;
+  }
+
+  #drag {
+    position: absolute;
+    width: 100px;
+    height: 100px;
+    background: pink;
+  }
+</style>
+<script src="https://unpkg.com/@reactivex/rxjs@5.0.0/dist/global/Rx.js"></script>
+<script>
+const dragDOM = document.getElementById('drag');
+const body = document.body;
+
+const mouseDown = Rx.Observable.fromEvent(dragDOM, 'mousedown');
+const mouseUp = Rx.Observable.fromEvent(body, 'mouseup');
+const mouseMove = Rx.Observable.fromEvent(body, 'mousemove');
+
+mouseDown
+  .map(event => mouseMove.takeUntil(mouseUp))
+  .concatAll()
+  .map(event => ({ x: event.clientX, y: event.clientY }))
+  .subscribe(pos => {
+  	dragDOM.style.left = pos.x + 'px';
+    dragDOM.style.top = pos.y + 'px';
+  })
+</script>
+</body>
+</html>
