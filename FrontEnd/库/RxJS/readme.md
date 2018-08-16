@@ -9,8 +9,9 @@
 * [什么是 Observable？](./什么是Observable.md)
 * [建立 Observable(一)](./建立Observable(一).md)
 * [建立 Observable(二)](./建立Observable(二).md)
-* [操作符Operator和图解](./操作符Operator和图解.md)
-* [简单拖拉的实现- take, first, takeUntil, concatAll](./简单拖拉的实现.md)
+* [操作符Operator1和图解](./操作符Operator1和图解.md)
+* [操作符Operator2和简单拖拉](./操作符Operator2和简单拖拉.md)
+* [操作符Operator3](./操作符Operator3.md)
 
 ## 2. 安装
 
