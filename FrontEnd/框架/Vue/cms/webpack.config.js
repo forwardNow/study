@@ -75,7 +75,7 @@ module.exports = {
                 })
             },
             {
-                test: /\.(jpg|png|gif|svg|ttf|woff|woff2)$/,
+                test: /\.(jpg|png|gif|svg|ttf|woff|woff2|eot)$/,
                 // loader:"url-loader?limit=4096&name=[name].[ext]",
                 // "?" 后面可以传参数，也可以 以下面这种写法。
                 use: {
