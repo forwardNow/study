@@ -12,10 +12,11 @@
   * ES7：[ES7 - tc39/proposals](./blog/2018/08/16.ES7.md)
 * 浏览器环境
   * Cookie：
-* 未分类
+* 编码
   * [JavaScript代码风格](./blog/2018/08/08.JavaScript代码风格.md)
+  * [《编写可维护的 JavaScript》]()
+* 未分类
   * [《TypeScript》](./FrontEnd/JavaScript/TypeScript)
-
 
 ### 1.2. CSS
 
