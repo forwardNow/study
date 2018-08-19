@@ -59,6 +59,16 @@ server.on('request', function(req, res) {
 });
 ```
 
+### 3.1. 模板引擎：art-template
+
+模板引擎最早就是诞生于服务器领域，后来才发展到前端；本质是字符串解析替换。
+
+`{{}}`：双花括号，mustache 语法，八字胡语法
+
+art-template 既可以在浏览器端使用，也可以在node中使用。
+
+
+
 ## 4. 请求对象 Request
 
 ## 5. 响应对象 Response
