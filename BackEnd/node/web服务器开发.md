@@ -74,17 +74,11 @@ server.on('request', function(req, res) {
 
 `ServerResponse` 常用方法及属性
 
-* `response.end([data][, encoding][, callback])`
+* `response.end([data][, encoding][, callback])`：此方法必须调用，否则一直被阻塞。
 * `response.getHeader(name)`
 * `response.setHeader(name, value)`
 
-## 6. 在 Node 中使用模板引擎
-
-模板引擎最早就是诞生于服务器领域，后来才发展到前端；本质是字符串解析替换。
-
-`{{}}`：双花括号，mustache 语法，八字胡语法
-
-art-template 既可以在浏览器端使用，也可以在node中使用。
+## 6. 服务端渲染
 
 **服务端渲染和客户端渲染的区别**：
 
@@ -94,7 +88,17 @@ art-template 既可以在浏览器端使用，也可以在node中使用。
   * 商品列表采用服务端渲染，目的是为了 SEO 搜索引擎优化
   * 商品评论列表采用客户端渲染，以提高用户体验，因为不需要 SEO 优化
 
-## 7. 统一处理静态资源
+
+## 7. 在 Node 中使用模板引擎
+
+模板引擎最早就是诞生于服务器领域，后来才发展到前端；本质是字符串解析替换。
+
+`{{}}`：双花括号，mustache 语法，八字胡语法
+
+art-template 既可以在浏览器端使用，也可以在node中使用。
+
+
+## 8. 统一处理静态资源
 
 浏览器收到 HTML 响应内容后，开始从上到下一次解析。
 
@@ -109,7 +113,7 @@ art-template 既可以在浏览器端使用，也可以在node中使用。
 
 为了统一处理静态资源，我们约定把所有静态资源放在 `public` 目录
 
-### 7.1. 示例
+### 8.1. 示例
 
 目录：
 
@@ -159,5 +163,51 @@ http
 
 ```
 
-## 8. 服务端渲染
+## 9. 表单提交
 
+### 9.1. 处理 url
+
+使用 `url` 核心模块，解析 `req.url` 获取 `pathname` 和 `query` 。
+
+```javascript
+url.parse('/comment?name=张三,gender=男', true)
+Url {
+  protocol: null,
+  slashes: null,
+  auth: null,
+  host: null,
+  port: null,
+  hostname: null,
+  hash: null,
+  search: '?name=张三,gender=男',
+  query: { name: '张三,gender=男' },
+  pathname: '/comment',
+  path: '/comment?name=张三,gender=男',
+  href: '/comment?name=张三,gender=男' }
+```
+
+### 9.2. 重定向
+
+```javascript
+// 重定向：302 状态码（临时重定向）和 Location 头
+res.statusCode = 302;
+res.setHeader('Location', '/');
+
+res.end();
+```
+
+## 10. REPL
+
+* read：读取用户输入
+* eval：执行输入
+* print：打印输出
+* loop：循环，等待用户输入
+
+在 node 中也有类似于浏览器控制台的环境，如下
+
+```
+wuqinfeis-iMac:feedback forwardNow$ node（敲回车）
+> url.parse('/comment?name=张三')
+```
+
+在控制台环境可以直接使用核心模块而不必引入，主要用于测试一些 API。

@@ -4,10 +4,24 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <link rel="stylesheet" href="/public/lib/bootstrap/dist/css/bootstrap.css">
   <link rel="stylesheet" href="/public/css/main.css">
   <title>Document</title>
 </head>
 <body>
-  hello
+  <div class="container">
+    <h2>留言板</h2>
+    <p>
+      <a href="/post" class="btn btn-success">发表留言</a>
+    </p>
+    <ul class="list-group">
+    {{each comments}}
+      <li class="list-group-item">
+        {{ $value.name }} 说：“{{ $value.message }}”。
+        <span class="pull-right">{{ $value.dateTime }}</span>
+      </li>
+      {{/each}}
+    </ul>
+  </div>
 </body>
 </html>

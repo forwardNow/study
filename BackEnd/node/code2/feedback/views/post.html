@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <link rel="stylesheet" href="/public/lib/bootstrap/dist/css/bootstrap.css">
+  <title>发表评论</title>
+</head>
+<body>
+  <div class="container">
+    <h2>发表留言</h2>
+    <p><a href="/">返回首页</a></p>
+
+    <form action="/comment" method="get">
+      <div class="form-group">
+        <label for="">姓名</label>
+        <input type="text" class="form-control" id="name" name="name">
+      </div>
+      <div class="form-group">
+        <label for="">内容</label>
+        <input type="text" class="form-control" id="message" name="message">
+      </div>
+      <button type="submit" class="btn btn-info">提交</button>
+    </form>
+
+  </div>
+</body>
+</html>
