@@ -2,6 +2,8 @@
 
 Node 对于前端来讲是进阶高级前端开发工程师必备技能。
 
+Node 比 PHP 更轻量、灵活。
+
 ## 1. Node.js 是什么
 
 Node.js 是一个JavaScript运行时环境，也就是说可以解析和执行JavaScript代码的容器。
