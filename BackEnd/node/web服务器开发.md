@@ -1,6 +1,19 @@
  # Web 服务器开发
- 
-## 1. IP 地址和端口号
+
+## 1. 比较
+
+* Node Server
+* PHP + Apache（默认帮你封装好了很多底层细节）
+
+Node 不需要服务器中间件，它有 `http` 核心模块，可以通过代码控制服务器的行为。
+
+但是在 Node 比较偏底层，很多东西需要你亲自写代码来实现。
+
+PHP 中无论是代码还是网页，都可以直接通过 web url 路径来访问。
+
+在 Node 中开启的服务器，默认是黑盒子，所有资源都不允许用户来访问，用户可以访问哪些资源由开发人员编写设计的代码为准。
+
+## 2. IP 地址和端口号
 
 * IP 地址用来定位计算机
 * 端口号用来定位具体的应用程序
@@ -11,7 +24,7 @@
 * 开发过程中使用一些简单好记的就可以了
 
 
-## 2. Content-Type
+## 3. Content-Type
 
 ```javascript
 server.on( 'request', function(req, res) {
@@ -36,7 +49,7 @@ server.on( 'request', function(req, res) {
 * 文本需要指定编码`charset=utf-8`，图片等媒体数据不需要指定编码
 * 查看 [HTTP Content-Type](http://tool.oschina.net/commons)
 
-## 3. 读取文件返回浏览器
+## 4. 读取文件返回浏览器
 
 配合 fs 模块使用
 
@@ -59,7 +72,7 @@ server.on('request', function(req, res) {
 });
 ```
 
-## 4. 请求对象 Request
+## 5. 请求对象 Request
 
 参考：[http_class_http_clientrequest](https://nodejs.org/dist/latest-v10.x/docs/api/http.html#http_class_http_clientrequest)
 
@@ -68,7 +81,7 @@ server.on('request', function(req, res) {
 * `request.getHeader(name)`
 * `request.url`
 
-## 5. 响应对象 Response
+## 6. 响应对象 Response
 
 参考：[http_class_http_serverresponse](https://nodejs.org/dist/latest-v10.x/docs/api/http.html#http_class_http_serverresponse)
 
@@ -78,9 +91,18 @@ server.on('request', function(req, res) {
 * `response.getHeader(name)`
 * `response.setHeader(name, value)`
 
-## 6. 服务端渲染
+## 7. 服务端渲染
+
+SEO：
+
+* 网站运营涉及 SEO
+* 有专门的职位 SEO 运营专员
+* 百度、谷歌、搜狗等
 
 **服务端渲染和客户端渲染的区别**：
+
+* 客户端渲染：最少两次请求，发起 Ajax 在客户端使用模板引擎渲染
+* 服务端渲染：在 JavaEE 中，使用 JSP、freemark
 
 * 客户端渲染不利于 SEO 搜索引擎优化
 * 服务器端渲染是可以被爬虫抓取到的，客户端异步渲染是很难被爬虫抓取到的
@@ -89,7 +111,8 @@ server.on('request', function(req, res) {
   * 商品评论列表采用客户端渲染，以提高用户体验，因为不需要 SEO 优化
 
 
-## 7. 在 Node 中使用模板引擎
+
+## 8. 在 Node 中使用模板引擎
 
 模板引擎最早就是诞生于服务器领域，后来才发展到前端；本质是字符串解析替换。
 
@@ -97,8 +120,10 @@ server.on('request', function(req, res) {
 
 art-template 既可以在浏览器端使用，也可以在node中使用。
 
+`artTemplate.render(tpl, data)`
 
-## 8. 统一处理静态资源
+
+## 9. 统一处理静态资源
 
 浏览器收到 HTML 响应内容后，开始从上到下一次解析。
 
@@ -113,7 +138,7 @@ art-template 既可以在浏览器端使用，也可以在node中使用。
 
 为了统一处理静态资源，我们约定把所有静态资源放在 `public` 目录
 
-### 8.1. 示例
+### 9.1. 示例
 
 目录：
 
@@ -163,9 +188,9 @@ http
 
 ```
 
-## 9. 表单提交
+## 10. 表单提交
 
-### 9.1. 处理 url
+### 10.1. 处理 url
 
 使用 `url` 核心模块，解析 `req.url` 获取 `pathname` 和 `query` 。
 
@@ -186,7 +211,7 @@ Url {
   href: '/comment?name=张三,gender=男' }
 ```
 
-### 9.2. 重定向
+### 10.2. 重定向
 
 ```javascript
 // 重定向：302 状态码（临时重定向）和 Location 头
@@ -196,7 +221,7 @@ res.setHeader('Location', '/');
 res.end();
 ```
 
-## 10. REPL
+## 11. console（REPL）
 
 * read：读取用户输入
 * eval：执行输入
