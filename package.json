@@ -4,9 +4,11 @@
   "description": "## 1. 简介",
   "main": "index.js",
   "dependencies": {
-    "art-template": "^4.12.2",
+    "art-template": "^4.13.0",
+    "body-parser": "^1.18.3",
     "bootstrap": "^3.3.7",
     "express": "^4.16.3",
+    "express-art-template": "^1.0.1",
     "rxjs": "^6.2.2",
     "rxjs-compat": "^6.2.2"
   },
