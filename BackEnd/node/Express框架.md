@@ -53,3 +53,169 @@ app.listen(3000, () => {
 });
 
 ```
+
+
+## 4. 自动重启服务
+
+使用第三方命令行工具 nodemon ,但文件被修改后自动重启服务。
+
+nodemon 是一个基于 Node.js 开发的第三方命令行工具，我们需要独立安装：
+
+```shell
+$ npm install --global nodemon
+```
+
+使用：
+
+```shell
+$ nodemon app.js
++ nodemon@1.18.3
+added 300 packages from 151 contributors in 11.539s
+```
+
+只要是通过 `nodemon` 执行的脚本，它会监视脚本的变化，一旦脚本被修改则自动帮你重启服务。
+
+## 5. 基本路由
+
+路由其实就是一张表，这个表里面有具体的映射关系。
+
+get：
+
+```javascript
+app.get('/', (req, res) => {
+  res.send('hello world');
+});
+```
+
+post：
+
+```javascript
+app.post('/reg', (req, res) => {
+  req.query;
+  res.send('hello world');
+});
+```
+
+## 6. 静态服务（公开静态资源）
+
+文档：http://expressjs.com/en/starter/static-files.html
+
+```
+/
+  public/
+    js/
+      a.js
+```
+
+常用方式：
+
+```javascript
+// 访问 /public/js/a.js
+app.use('/public/', express.static('./public/'));
+```
+
+省略目录：
+
+```javascript
+// 访问 /js/a.js
+app.use( express.static('./public/'));
+```
+
+其他（别名）：
+
+```javascript
+// 访问 /abc/js/a.js
+app.use('/abc/', express.static('./public/'));
+```
+
+## 7. 配置并使用 art-template
+
+文档：https://aui.github.io/art-template/express/
+
+### 7.1. 安装
+
+```shell
+$ npm install --save art-template
+$ npm install --save express-art-template
+```
+
+### 7.2. 配置
+
+```javascript
+var express = require('express');
+var app = express();
+
+// 当渲染以 .art 结尾的文件时，使用 art-template 模板引擎
+app.engine('art', require('express-art-template'));
+```
+
+### 7.3. 使用
+
+Express 为 Response 提供了一个方法：`render()`：
+
+```javascript
+res.render('模板路径', {模板数据})
+```
+
+当给 Express 配置了模板引擎后才可以使用 `render()`：
+
+```javascript
+app.engine('html', require('express-art-template'));
+```
+
+模板路径默认情况下是相对于 `${root}/views/` 目录，可指定默认相对路径：
+
+```javascript
+app.set('views', './myViews/');
+```
+
+使用：
+
+```javascript
+app.get('/', (req, res) => {
+  // ./views/index.html
+  res.render('index.html', {
+    title: '首页'
+  });
+});
+```
+
+## 8. 获取 GET 请求参数
+
+```javascript
+req.query; //=> { name: '张三' }
+```
+
+## 9. 获取 POST 请求体数据
+
+在 Express 中没有内置获取表单 POST 请求体的 API，
+需要使用 Express 中间件 [body-parser](http://expressjs.com/en/resources/middleware/body-parser.html)。
+
+### 9.1. 安装
+
+```shell
+$ npm install --save body-parser
+```
+
+### 9.2. 配置
+
+配置完成后，会在 `req` 上添加添加 `body` 属性以获取请求体数据。
+
+```javascript
+var express = require('express')
+var bodyParser = require('body-parser')
+
+var app = express()
+
+// parse application/x-www-form-urlencoded
+app.use(bodyParser.urlencoded({ extended: false }))
+
+// parse application/json
+app.use(bodyParser.json())
+
+app.use(function (req, res) {
+  res.setHeader('Content-Type', 'text/plain')
+  res.write('you posted:\n')
+  res.end(JSON.stringify(req.body, null, 2))
+})
+```
