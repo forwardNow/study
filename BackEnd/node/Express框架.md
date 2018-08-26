@@ -219,3 +219,14 @@ app.use(function (req, res) {
   res.end(JSON.stringify(req.body, null, 2))
 })
 ```
+
+## 10. 路由设计
+
+| method | pathname        | query | body                       | desc       |
+| ------ | --------------- | ----- | -------------------------- | ---------- |
+| GET    | /students       |       |                            | 渲染首页   |
+| GET    | /student/new    |       |                            | 渲染添加页 |
+| POST   | /student/new    |       | name&age&gender&hobbies    | 处理添加   |
+| GET    | /student/edit   | id    |                            | 渲染编辑页 |
+| POST   | /student/edit   |       | id&name&age&gender&hobbies | 处理编辑   |
+| GET    | /student/delete | id    |                            | 处理删除   |
