@@ -220,7 +220,9 @@ app.use(function (req, res) {
 })
 ```
 
-## 10. 路由设计
+## 10. 路由
+
+### 10.1. 路由设计
 
 | method | pathname        | query | body                       | desc       |
 | ------ | --------------- | ----- | -------------------------- | ---------- |
@@ -230,3 +232,72 @@ app.use(function (req, res) {
 | GET    | /student/edit   | id    |                            | 渲染编辑页 |
 | POST   | /student/edit   |       | id&name&age&gender&hobbies | 处理编辑   |
 | GET    | /student/delete | id    |                            | 处理删除   |
+
+### 10.2. Express 路由
+
+目录：
+
+```
+/
+app.js
+router.js
+```
+
+router.js
+
+```javascript
+const express = require('express');
+
+// 1. 创建路由容器
+const router = express.Router();
+
+// 2. 把路由挂载到路由容器上
+router.get('/', (req, res) => {
+  res.render('index.html');
+});
+
+// 3. 导出路由容器
+module.exports = router;
+```
+
+/app.js
+
+```javascript
+const express = require('express');
+
+// 4. 引入路由容器
+const router = require('./router.js');
+
+const app = express();
+
+//...
+
+// 5. 把路由容器挂载到 app 服务上
+app.use(router);
+
+```
+
+## 11. 模块
+
+模块职责要单一。
+
+划分模块的目的就是为了增强代码的可维护性，提升开发效率。
+
+### 11.1. app.js 模块
+
+职责：
+
+* 创建服务
+* 做一些服务相关配置
+    * 模板引擎
+    * body-parser 解析 post 请求体
+    * 提供静态服务
+* 挂载路由
+* 监听端口并启动服务
+
+### 11.2. router.js 模块
+
+职责：
+
+* 处理路由
+* 根据不同的请求方法、请求路径，设置不同的请求处理函数
