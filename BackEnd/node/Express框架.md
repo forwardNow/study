@@ -302,8 +302,24 @@ app.use(router);
 * 处理路由
 * 根据不同的请求方法、请求路径，设置不同的请求处理函数
 
-### Student.js
+### 11.3. Student.js
 
 职责：操作文件的数据，只处理数据，不关心业务
 
-通过回调函数获取异步操作的结果。
+
+## 12. 异步操作
+
+回调函数（callback）：获取异步操作的结果。
+
+```javascript
+function fn(callback) {
+  setTimeout(() => {
+    let data = 'hello';
+    callback(data);
+  });
+}
+
+fn((data) => {
+  console.log(data);
+});
+```
