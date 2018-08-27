@@ -25,31 +25,16 @@ router.get('/student/new', (req, res) => {
 router.post('/student/new', (req, res) => {
   // 1. 获取表单数据
   const { body } = req;
-  const {
-    name, gender, age, hobbies,
-  } = body;
 
   // 2. 处理
-  fs.readFile('./db.json', 'utf8', (err, data) => {
+  Student.save(body, (err) => {
     if (err) {
-      res.status(500).send('server error');
-    }
-    const { students } = JSON.parse(data);
-    students.push({
-      id: students.length + 1,
-      name,
-      gender,
-      age,
-      hobbies,
-    });
-    fs.writeFile('./db.json', JSON.stringify({ students }), (err2) => {
-      if (err2) {
-        res.status(500).send('server error');
-      }
-
       // 3. 响应
-      res.redirect('/students');
-    });
+      res.status(500).send('server error');
+      return;
+    }
+    // 3. 响应
+    res.redirect('/students');
   });
 });
 

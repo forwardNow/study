@@ -6,6 +6,8 @@ const fs = require('fs');
 
 const dbPath = './db.json';
 
+let count = 0;
+
 /**
  * 获取所有学生
  * @param callback {function} callback(err, data)
@@ -26,7 +28,27 @@ exports.findAll = (callback) => {
  * @param stduent {object}
  */
 exports.save = (student, callback) => {
+  fs.readFile(dbPath, 'utf8', (err, data) => {
+    if (err) {
+      return;
+    }
+    const { students } = JSON.parse(data);
+    const newStudent = student;
 
+    newStudent.id = count;
+
+    count += 1;
+
+    students.push(newStudent);
+
+    fs.writeFile(dbPath, JSON.stringify({ students }), (err2) => {
+      if (err2) {
+        callback(err2);
+        return;
+      }
+      callback(null);
+    });
+  });
 };
 
 /**
