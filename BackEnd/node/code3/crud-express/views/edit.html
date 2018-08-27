@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <link rel="stylesheet" href="/public/lib/bootstrap.css">
+  <title>编辑学生</title>
+</head>
+<body>
+  <div class="container">
+    <h1>编辑学生</h1>
+    <hr>
+    <form action="/student/edit" method="POST">
+      <input type="hidden" name="id" value="{{ student.id }}">
+      <div class="form-group">
+        <label for="name">姓名</label>
+        <input type="text" class="form-control" id="name" name="name" value="{{ student.name }}">
+      </div>
+      <div class="form-group">
+        <label for="name">性别</label>
+        <label class="radio-inline">
+          <input type="radio" name="gender" value="0"> 男
+        </label>
+        <label class="radio-inline">
+          <input type="radio" name="gender" value="1"> 女
+        </label>
+      </div>
+      <div class="form-group">
+        <label for="age">年龄</label>
+        <input type="text" class="form-control" id="age" name="age" value="{{ student.age }}">
+      </div>
+      <div class="form-group">
+        <label for="hobbies">爱好</label>
+        <input type="text" class="form-control" id="hobbies" name="hobbies" value="{{ student.hobbies }}">
+      </div>
+
+      <button type="submit" class="btn btn-success">保存</button>
+    </form>
+  </div>
+</body>
+</html>
