@@ -9,6 +9,7 @@
     "bootstrap": "^3.3.7",
     "express": "^4.16.3",
     "express-art-template": "^1.0.1",
+    "mongoose": "^5.2.10",
     "rxjs": "^6.2.2",
     "rxjs-compat": "^6.2.2"
   },
