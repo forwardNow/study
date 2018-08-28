@@ -20,10 +20,14 @@
       <div class="form-group">
         <label for="name">性别</label>
         <label class="radio-inline">
-          <input type="radio" name="gender" value="0"> 男
+          <input type="radio" name="gender" value="0" 
+          {{ student.gender === 0}}{{/if}}
+          > 男
         </label>
         <label class="radio-inline">
-          <input type="radio" name="gender" value="1"> 女
+          <input type="radio" name="gender" value="1"
+          {{ if student.gender === 1}}checked{{/if}}
+          > 女
         </label>
       </div>
       <div class="form-group">

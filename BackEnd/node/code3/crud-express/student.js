@@ -73,11 +73,8 @@ exports.updateById = (student, callback) => {
     if (err) {
       return;
     }
-    let { id } = student;
+    const { id } = student;
     const { students } = JSON.parse(data);
-
-    id = parseInt(id, 10);
-
     const oldStu = students.find(item => item.id === id);
 
     Object.keys(student).forEach((key) => {
@@ -99,6 +96,23 @@ exports.updateById = (student, callback) => {
 /**
  * 删除学生
  */
-exports.delete = () => {
+exports.deleteById = (id, callback) => {
+  fs.readFile(dbPath, 'utf8', (err, data) => {
+    if (err) {
+      return;
+    }
+    const { students } = JSON.parse(data);
 
+    const pos = students.findIndex(item => item.id === id);
+
+    students.splice(pos, 1);
+
+    fs.writeFile(dbPath, JSON.stringify({ students }), (err2) => {
+      if (err2) {
+        callback(err2);
+        return;
+      }
+      callback(null);
+    });
+  });
 };
