@@ -305,21 +305,3 @@ app.use(router);
 ### 11.3. Student.js
 
 职责：操作文件的数据，只处理数据，不关心业务
-
-
-## 12. 异步操作
-
-回调函数（callback）：获取异步操作的结果。
-
-```javascript
-function fn(callback) {
-  setTimeout(() => {
-    let data = 'hello';
-    callback(data);
-  });
-}
-
-fn((data) => {
-  console.log(data);
-});
-```
