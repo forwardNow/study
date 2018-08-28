@@ -182,3 +182,66 @@ insert
 > db.students.find()
 { "_id" : ObjectId("5b853e3a26fb7dc36213f272"), "name" : "wuqinfei" }
 ```
+
+## 7. 在 Node 中操作 MongoDB
+
+### 7.1. 使用官方的 `mongodb` 原生驱动包
+
+官方的驱动包太麻烦。
+
+文档：https://github.com/mongodb/node-mongodb-native
+
+### 7.2. 使用第三方 `mongoose` 来操作
+
+#### 说明
+`mongoose` 基于官方的 `mongodb` 做了再一次封装，使用更简单。
+
+文档：https://mongoosejs.com/
+
+#### 安装
+
+```shell
+$ npm install mongoose --save
+```
+
+#### 示例
+
+```javascript
+// 引入
+const mongoose = require('mongoose');
+
+// 连接 MongoDB 数据库
+mongoose.connect('mongodb://localhost/test', { useNewUrlParser: true });
+
+// 创建模型（设计数据库）
+// MongoDB 是动态的，非常灵活，只需要在代码中设计数据库
+// mongoose 使设计数据库更简单
+// Cat 为集合（表）名，生成 cats 集合
+// { name: String } 键（字段）
+const Cat = mongoose.model('Cat', { name: String });
+
+// 实例化一个 Cat
+const kitty = new Cat({ name: 'Zildjian' });
+
+// 持久化保存 kitty 实例
+kitty.save().then(() => console.log('meow'));
+```
+
+**查看**：
+
+```shell
+> show dbs
+admin   0.000GB
+config  0.000GB
+local   0.000GB
+mydb    0.000GB
+test    0.000GB
+> use test
+switched to db test
+> show collections
+cats
+> db.cats.find()
+{ "_id" : ObjectId("5b85defba953ff06bdce91ef"), "name" : "Zildjian", "__v" : 0 }
+{ "_id" : ObjectId("5b85df3164614806db23d2f8"), "name" : "Zildjian", "__v" : 0 }
+>
+```
