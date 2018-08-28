@@ -66,3 +66,28 @@ build environment:
     distarch: x86_64
     target_arch: x86_64
 ```
+
+## 4. 启动与停止
+
+### 默认数据存储目录
+
+默认数据存储目录为 `/data/db`，此目录需要手动创建并给予读写权限
+
+```shell
+$ sudo mkdir -p /data/db
+$ sudo chmod -R 777 /data/db
+```
+
+### 启动
+
+```shell
+# 使用默认数据存储目录
+$ mongod
+
+# 使用指定数据存储目录
+$ mongod --dbpath=数据存储目录路径
+```
+
+### 停止
+
+通过 `Ctrl + C` 停止。
