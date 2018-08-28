@@ -213,11 +213,6 @@ app.use(bodyParser.urlencoded({ extended: false }))
 // parse application/json
 app.use(bodyParser.json())
 
-app.use(function (req, res) {
-  res.setHeader('Content-Type', 'text/plain')
-  res.write('you posted:\n')
-  res.end(JSON.stringify(req.body, null, 2))
-})
 ```
 
 ## 10. 路由
@@ -305,3 +300,9 @@ app.use(router);
 ### 11.3. Student.js
 
 职责：操作文件的数据，只处理数据，不关心业务
+
+## 12. ES6 API
+
+`Array.prototype.find`
+
+`Array.prototype.findIndex`
