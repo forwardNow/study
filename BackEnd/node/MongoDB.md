@@ -40,17 +40,49 @@
 
 * 数据库
 * 数据表 => 集合（collection）
-* 表记录 => 对象（object）
+* 表记录 => 文档
 
 MongoDB 不需要设计表结构，
 也就是说可以任意往里面存数据，没有结构一说，
 也就是说可以往集合里插入任意结构的对象。
 
-## 3. 下载与安装
+## 3. MongoDB 基本概念
+
+* 数据库
+* 集合（表）
+* 文档（表记录）：文档结构很灵活，没有任何限制
+
+建库建表由 MongoDB 来完成，不需要像 MySQL 一样先创建数据库、表。
+
+```javascript
+// MongoDB 存储结构
+{
+  // 数据库 test
+  test: {
+
+    // 集合（表）
+    cats: [
+
+      // 文档（表记录）
+      {name: "张三", age: 10},
+      {name: "张三2", age: 11},
+      {name: "张三2", age: 11},
+
+    ]
+
+  },
+  // 数据库 admin
+  admin: {
+
+  }
+}
+```
+
+## 4. 下载与安装
 
 官网：https://www.mongodb.com/
 
-### 3.1. OSX
+### 4.1. OSX
 
 文档： https://docs.mongodb.com/manual/tutorial/install-mongodb-on-os-x/
 
@@ -69,9 +101,9 @@ build environment:
     target_arch: x86_64
 ```
 
-## 4. 启动与停止
+## 5. 启动与停止
 
-### 4.1. 默认数据存储目录
+### 5.1. 默认数据存储目录
 
 默认数据存储目录为 `/data/db`，此目录需要手动创建并给予读写权限
 
@@ -80,7 +112,7 @@ $ sudo mkdir -p /data/db
 $ sudo chmod -R 777 /data/db
 ```
 
-### 4.2. 启动
+### 5.2. 启动
 
 ```shell
 # 使用默认数据存储目录
@@ -90,11 +122,11 @@ $ mongod
 $ mongod --dbpath=数据存储目录路径
 ```
 
-### 4.3. 停止
+### 5.3. 停止
 
 通过 `Ctrl + C` 停止。
 
-## 5. 连接数据库
+## 6. 连接数据库
 
 
 ```shell
@@ -109,9 +141,9 @@ Welcome to the MongoDB shell.
 bye
 ```
 
-## 6. 基本命令
+## 7. 基本命令
 
-### 6.1. `show dbs`
+### 7.1. `show dbs`
 
 查看所有数据库
 
@@ -122,7 +154,7 @@ config  0.000GB
 local   0.000GB
 ```
 
-### 6.2. `db`
+### 7.2. `db`
 
 查看当前数据库。
 
@@ -137,7 +169,7 @@ local   0.000GB
 test
 ```
 
-### 6.3. `use 数据库名称`
+### 7.3. `use 数据库名称`
 
 切换到指定的数据库（如果没有则新建）
 
@@ -152,7 +184,7 @@ config  0.000GB
 local   0.000GB
 ```
 
-### 6.4. 插入数据
+### 7.4. 插入数据
 
 在 `mydb` 数据库中创建集合（表） `students`，并插入一条数据（对象）
 
@@ -171,7 +203,7 @@ local   0.000GB
 mydb    0.000GB
 ```
 
-### 6.5. 查询数据
+### 7.5. 查询数据
 
 ```shell
 # 查询所有集合（表）
@@ -183,28 +215,30 @@ insert
 { "_id" : ObjectId("5b853e3a26fb7dc36213f272"), "name" : "wuqinfei" }
 ```
 
-## 7. 在 Node 中操作 MongoDB
+## 8. 在 Node 中操作 MongoDB
 
-### 7.1. 使用官方的 `mongodb` 原生驱动包
+### 8.1. 使用官方的 `mongodb` 原生驱动包
 
 官方的驱动包太麻烦。
 
 文档：https://github.com/mongodb/node-mongodb-native
 
-### 7.2. 使用第三方 `mongoose` 来操作
+### 8.2. 使用第三方 `mongoose` 来操作
 
-#### 说明
+#### 8.2.1. 说明
 `mongoose` 基于官方的 `mongodb` 做了再一次封装，使用更简单。
 
 文档：https://mongoosejs.com/
 
-#### 安装
+#### 8.2.2. 安装
 
 ```shell
 $ npm install mongoose --save
 ```
 
-#### 示例
+#### 8.2.3. 起步
+
+查看：[./code4/01.mongoose-demo.js](./code4/01.mongoose-demo.js)
 
 ```javascript
 // 引入
