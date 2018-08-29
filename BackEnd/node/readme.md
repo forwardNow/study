@@ -7,7 +7,6 @@
 5. [Express 框架](./Express框架.md)
 6. [异步编程](./异步编程.md)
 7. [MongoDB](./MongoDB.md)
-8. [Promise](./Promise.md)
 
 参考：
 
