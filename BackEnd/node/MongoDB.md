@@ -280,7 +280,7 @@ cats
 >
 ```
 
-## 9. mongoose
+## 9. mongoose 基本使用
 
 查看：[./code4/02.mongoose-demo2.js](./code4/02.mongoose-demo2.js)
 
