@@ -219,13 +219,14 @@ insert
 
 ### 8.1. 使用官方的 `mongodb` 原生驱动包
 
-官方的驱动包太麻烦。
+官方的驱动包太麻烦（原始）。
 
 文档：https://github.com/mongodb/node-mongodb-native
 
 ### 8.2. 使用第三方 `mongoose` 来操作
 
 #### 8.2.1. 说明
+
 `mongoose` 基于官方的 `mongodb` 做了再一次封装，使用更简单。
 
 文档：https://mongoosejs.com/
