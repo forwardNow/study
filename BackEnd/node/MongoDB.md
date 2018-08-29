@@ -285,6 +285,8 @@ cats
 
 查看：[./code4/02.mongoose-demo2.js](./code4/02.mongoose-demo2.js)
 
+> mongoose 中所有操作数据的 API 都支持 Promise。
+
 ### 9.1. 设计 Schema 并发布 Model
 
 ```javascript
