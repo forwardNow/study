@@ -1,5 +1,7 @@
  # MongoDB
 
+>不需要设计表，业务的改动不需要关心数据表结构。
+
 ## 1. 参考
 
 菜鸟教程：http://www.runoob.com/mongodb/mongodb-tutorial.html
@@ -225,9 +227,13 @@ insert
 
 ### 8.2. 使用第三方 `mongoose` 来操作
 
+>设计 Schema，发布 Model（得到模型构造函数），通过 Model 的实例来进行 CRUD。
+
 #### 8.2.1. 说明
 
 `mongoose` 基于官方的 `mongodb` 做了再一次封装，使用更简单。
+
+由 WordPress 项目开发团队开发与维护。
 
 文档：https://mongoosejs.com/
 
@@ -319,7 +325,7 @@ const userSchema = new Schema({
   },
 });
 
-// 3. 创建模型
+// 3. 发布（创建）模型
 // mongoose.model()
 //   参数1：数据库名称。'User' => 数据库 users
 //   参数2：Scheme 实例
