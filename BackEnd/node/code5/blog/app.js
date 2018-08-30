@@ -1,6 +1,9 @@
 const express = require('express');
 const path = require('path');
 const expressArtTemplate = require('express-art-template');
+const bodyParser = require('body-parser');
+
+const routes = require('./routes/index.js');
 
 const app = express();
 
@@ -13,11 +16,14 @@ app.engine('html', expressArtTemplate);
 // 视图目录
 app.set('views', path.join(__dirname, './views/'));
 
-app.get('/', (req, res) => {
-  res.render('index.html', {
-    title: '博客系统',
-  });
-});
+// 配置解析请求体插件（注意：一定要在挂载路由之前）
+// parse application/x-www-form-urlencoded
+app.use(bodyParser.urlencoded({ extended: false }));
+// parse application/json
+app.use(bodyParser.json());
+
+// 将路由挂载到 app
+app.use(routes);
 
 app.listen(3000, () => {
   console.log('http://localhost:3000');

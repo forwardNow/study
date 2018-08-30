@@ -4,7 +4,7 @@
 <head>
   <meta charset="UTF-8">
   <title>Document</title>
-  <link rel="stylesheet" href="/node_modules/bootstrap/dist/css/bootstrap.css">
+  <link rel="stylesheet" href="/public/lib/bootstrap/css/bootstrap.css">
   <link rel="stylesheet" href="/public/css/login.css">
 </head>
 
@@ -12,19 +12,19 @@
   <div class="main">
     <div class="header">
       <a href="/">
-        <img src="/public/img/logo3.png" alt="">
+        <img src="/public/img/logo.jpg" alt="">
       </a>
       <h1>用户登录</h1>
     </div>
     <form id="login_form">
       <div class="form-group">
-        <label for="">邮箱</label>
-        <input type="email" class="form-control" id="" name="email" placeholder="Email" autofocus>
+        <label for="email">邮箱</label>
+        <input type="email" class="form-control" id="email" name="email" placeholder="Email" autofocus>
       </div>
       <div class="form-group">
-        <label for="">密码</label>
+        <label for="password">密码</label>
         <a class="pull-right" href="">忘记密码？</a>
-        <input type="password" class="form-control" id="" name="password" placeholder="Password">
+        <input type="password" class="form-control" id="password" name="password" placeholder="Password">
       </div>
       <div class="checkbox">
         <label>
@@ -37,7 +37,7 @@
       <p>没有账号? <a href="/register">点击创建</a>.</p>
     </div>
   </div>
-  <script src="/node_modules/jquery/dist/jquery.js"></script>
+  <script src="/public/lib/jquery.js"></script>
   <script>
     $('#login_form').on('submit', function (e) {
       e.preventDefault()
