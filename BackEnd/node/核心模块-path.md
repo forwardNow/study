@@ -1,20 +1,19 @@
- # 核心模块
 
-## 1. path
+ # 1. 核心模块-path
 
-### 1.1. 说明
+## 1. 说明
 
 操作路径操作的模块。
 
-### 1.2. 引入
+## 2. 引入
 
 ```javascript
 const path = require('path');
 ```
 
-### 1.3. 常用 API
+## 3. 常用 API
 
-#### 1.3.1. `path.basename(path[, ext])`
+### 3.1. `path.basename(path[, ext])`
 
 **作用**：
 
@@ -30,7 +29,7 @@ console.log(path.basename('/a/b/c.txt', '.txt'));
 // c
 ```
 
-#### 1.3.2. `path.dirname(path)`
+### 3.2. `path.dirname(path)`
 
 **作用**：
 
@@ -46,7 +45,7 @@ console.log(path.dirname('/a/b/c.txt'));
 // /a/b
 ```
 
-#### 1.3.3. `path.extname(path)`
+### 3.3. `path.extname(path)`
 
 **作用**：
 
@@ -71,7 +70,7 @@ path.extname('.index');
 // Returns: ''
 ```
 
-#### 1.3.4. `path.isAbsolute(path)`
+### 3.4. `path.isAbsolute(path)`
 
 **作用**：
 
@@ -86,7 +85,7 @@ path.isAbsolute('qux/');     // false
 path.isAbsolute('.');        // false
 ```
 
-#### 1.3.5. `path.join([...paths])`
+### 3.5. `path.join([...paths])`
 
 **作用**：
 
@@ -99,7 +98,7 @@ path.join('/foo', 'bar', 'baz/asdf', 'quux', '..');
 // Returns: '/foo/bar/baz/asdf'
 ```
 
-#### 1.3.6. `path.parse(path)`
+### 3.6. `path.parse(path)`
 
 **作用**：
 
