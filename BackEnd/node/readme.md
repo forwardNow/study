@@ -8,7 +8,8 @@
 6. [异步编程](./异步编程.md)
 7. [MongoDB](./MongoDB.md)
 8. [博客项目](./博客项目.md)
-9. [核心模块-path](./核心模块-path.md)
+9. [全局对象（Global Objects）](./全局对象.md)
+10. [核心模块-path](./核心模块-path.md)
 
 参考：
 
