@@ -1,0 +1,22 @@
+{{ extend './layout/default.html'}}
+
+{{ block 'title' }}{{ title }}{{ /block }}
+
+{{ block 'head' }}
+<style>
+  body {
+    color: #333;
+  }
+</style>
+{{ /block }}
+
+{{ block 'content' }}
+index 内容
+{{ /block }}
+
+{{ block 'script' }}
+<script>
+  console.log('script');
+</script>
+{{ /block }}
+
