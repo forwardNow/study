@@ -215,9 +215,40 @@ app.use(bodyParser.json())
 
 ```
 
-## 10. 路由
+## 10. 常用 API
 
-### 10.1. 路由设计
+### 10.1. 返回状态码
+
+```javascript
+app.get('/', (req, res) => {
+    res.status(200).send('ok');
+});
+```
+
+### 10.2. 渲染页面
+
+```javascript
+app.engine('art', require('express-art-template'));
+
+app.get('/', (req, res) => {
+    res.render('index.html', { data });
+});
+```
+
+### 10.3. 返回 json 字符串
+
+```javascript
+app.get('/', (req, res) => {
+    res.status(200).json({
+      success: true,
+      message: '处理成功'
+    });
+});
+```
+
+## 11. 路由
+
+### 11.1. 路由设计
 
 | method | pathname        | query | body                       | desc       |
 | ------ | --------------- | ----- | -------------------------- | ---------- |
@@ -228,7 +259,7 @@ app.use(bodyParser.json())
 | POST   | /student/edit   |       | id&name&age&gender&hobbies | 处理编辑   |
 | GET    | /student/delete | id    |                            | 处理删除   |
 
-### 10.2. Express 路由
+### 11.2. Express 路由
 
 目录：
 
@@ -272,13 +303,13 @@ app.use(router);
 
 ```
 
-## 11. 模块
+## 12. 模块
 
 模块职责要单一。
 
 划分模块的目的就是为了增强代码的可维护性，提升开发效率。
 
-### 11.1. app.js 模块
+### 12.1. app.js 模块
 
 职责：
 
@@ -290,18 +321,18 @@ app.use(router);
 * 挂载路由
 * 监听端口并启动服务
 
-### 11.2. router.js 模块
+### 12.2. router.js 模块
 
 职责：
 
 * 处理路由
 * 根据不同的请求方法、请求路径，设置不同的请求处理函数
 
-### 11.3. Student.js
+### 12.3. Student.js
 
 职责：操作文件的数据，只处理数据，不关心业务
 
-## 12. ES6 API
+## 13. ES6 API
 
 `Array.prototype.find`
 
