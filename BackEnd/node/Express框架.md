@@ -303,13 +303,64 @@ app.use(router);
 
 ```
 
-## 12. 模块
+## 12. session 
+
+>此处的客户端为浏览器，移动端应用虽然支持 HTTP 协议但是一般不支持 Cookie。
+
+### 说明
+
+HTTP 是无状态的，为了识别每个 HTTP 请求：
+
+1. 浏览器发送登陆认证 HTTP 请求
+2. 在服务端接收到请求，并进行认证处理，登陆(认证)成功后
+    1. 将用户信息存入一个 Session，通过 sessionId 来读取该 Session
+    2. 将 sessionId 写入响应头 `Set-Cookie:sessionId=1` 
+    3. 发送响应
+3. 浏览器接收到响应，将 sessionId 存入 cookie
+4. 浏览器向该服务器发送的后续请求都会自动携带 `Cookie: sessionId=1;`
+
+session 的有效期通常由 cookie 的有效期决定。
+
+### express-session 中间件
+
+官网：http://expressjs.com/en/resources/middleware/session.html
+
+安装：
+
+```shell
+$ npm install express-session --save
+```
+
+使用：
+
+```javascript
+var express = require('express')
+var session = require('express-session')
+var app = express()
+
+app.use(session({
+  secret: 'keyboard cat',
+  resave: false,
+  saveUninitialized: true
+}))
+
+app.get('/', (req, res) => {
+
+  // 写入数据
+  req.session.user = {...} 
+
+  // 读取数据
+  console.log(req.session.user);
+});
+```
+
+## 13. 模块
 
 模块职责要单一。
 
 划分模块的目的就是为了增强代码的可维护性，提升开发效率。
 
-### 12.1. app.js 模块
+### 13.1. app.js 模块
 
 职责：
 
@@ -321,18 +372,18 @@ app.use(router);
 * 挂载路由
 * 监听端口并启动服务
 
-### 12.2. router.js 模块
+### 13.2. router.js 模块
 
 职责：
 
 * 处理路由
 * 根据不同的请求方法、请求路径，设置不同的请求处理函数
 
-### 12.3. Student.js
+### 13.3. Student.js
 
 职责：操作文件的数据，只处理数据，不关心业务
 
-## 13. ES6 API
+## 14. ES6 API
 
 `Array.prototype.find`
 
