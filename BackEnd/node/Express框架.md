@@ -303,11 +303,11 @@ app.use(router);
 
 ```
 
-## 12. session 
+## 12. session
 
 >此处的客户端为浏览器，移动端应用虽然支持 HTTP 协议但是一般不支持 Cookie。
 
-### 说明
+### 12.1. 说明
 
 HTTP 是无状态的，为了识别每个 HTTP 请求：
 
@@ -324,7 +324,7 @@ HTTP 是无状态的，为了识别每个 HTTP 请求：
 * session 的有效期通常由 cookie 的有效期决定。
 * session 默认是存储在内存的，一旦服务器重启就会丢失，生产环境下会把 session 持久化存储（如文件、数据库）
 
-### express-session 中间件
+### 12.2. express-session 中间件
 
 官网：http://expressjs.com/en/resources/middleware/session.html
 
@@ -362,13 +362,185 @@ app.get('/', (req, res) => {
 });
 ```
 
-## 13. 模块
+## 13. 中间件
+
+### 13.1. 概念
+
+类比自来水处理的中间环节，水库里水经过很多个中间处理环节才最终到达用户的家里，如下
+
+![image-20180831151101229](./images/middlewar.png)
+
+
+处理过程的环节可以只有一个，也可以有多个，每个处理环节有输入有输出。
+
+中间件就是一个处理环节。
+
+对于浏览器和数据库，Web 服务器就是中间件。
+
+### 13.2. Express 中间件
+
+查看：[./code5/02.middlewar.js](./code5/02.middlewar.js)
+
+#### 13.2.1. 说明
+
+从上往下注册中间件，也就是说先注册的先匹配，匹配成功才执行中间件。
+
+执行了 `next()` 方法才会继续匹配下一个中间件，执行到最后一个中间件如果进行响应，则返回默认的 404。
+
+同一个请求所经过的中间件，都是同一对 `req` 和 `res`；
+也就是说前面中间件往 `req`、`res` 挂载属性或方法，后续匹配到的中间件可以使用，比如：
+
+* 注册了 express-session 后，可以使用 `req.session`
+* 注册了 body-parser 后，可以使用 `req.body`
+
+#### 13.2.2. 中间件类别
+
+参考：http://expressjs.com/en/guide/using-middleware.html
+
+**Application-level middleware**
+
+通过 `app.use()` 、`app.get()` 、`app.post()` 等注册的中间件
+
+```javascript
+app.get('/', (req, res) => {...})
+
+// 处理 404
+// 至于中间件链末尾，但错误处理中间件之前
+app.use((req, res) => {
+  res.render('404.html'); // 要配置模板引擎
+});
+```
+
+**Router-level middleware**
+
+与应用级的从差不多，不过是通过 `express.Router()` 注册的中间件，
+
+```javascript
+var router = express.Router()
+
+router.get('/', (req, res) => {...})
+```
+
+**Error-handling middleware**
+
+中间件必须指定四个参数，且中间件必须至于中间件链末尾。
+
+```javascript
+// 置于中间件链最后
+// 必须指定四个形参
+app.use(function (err, req, res, next) {
+  console.error(err.stack)
+  res.status(500).send('Something broke!')
+})
+```
+
+当执行的某个中间件抛出异常时，会自动跳转到末尾的错误处理中间件
+
+```javascript
+app.get(() => {
+  throw {err_code: 500, message: '我是一个错误。'};
+});
+```
+
+当执行的某个中间件调用了 `next(err)` 方法，会直接跳转到末尾的错误处理中间件
+
+```javascript
+app.get('/', (req, res, next) => {
+  fs.readFile('/no/such/file', (err) => {
+    // 必须传递参数，以直接跳转到后面的错误处理中间件（四个参数的中间件）
+    next(err);
+  })
+});
+```
+
+**Built-in middleware**
+
+```javascript
+// express.static
+app.use('/public/', express.static(path.join(__dirname, './public/')))
+
+```
+
+**Third-party middleware**
+
+[官方推荐第三方中间件](http://expressjs.com/en/resources/middleware.html)
+
+
+#### 13.2.3. 创建中间件
+
+中间件：处理请求的，本质就是函数
+
+```javascript
+/**
+ * Express 中间件
+ * @param {Request} req 请求
+ * @param {Response} res 响应
+ * @param {function} next 执行下一个中间件
+ */
+function middleware(req, res, next) {
+  next();
+}
+```
+
+#### 13.2.4. 注册中间件
+
+方式：
+
+* app.use(middleware) 匹配所有 url
+* app.use(pathnamePrefix, middleware) 匹配指定前缀的 url
+* app.get(pathname, middleware) 完全匹配 url，且为 GET 请求
+* app.post(pathname, middleware) 完全匹配 url，且为 POST 请求
+
+示例：
+
+```javascript
+app.use((req, res, next) => {
+  console.log(1, req.url);
+  next();
+});
+
+app.use('/a/', (req, res, next) => {
+  console.log(2, req.url);
+  next();
+});
+
+app.get('/a/b', (req, res, next) => {
+  console.log(3, req.url);
+  next();
+});
+
+app.get('/a/b', (req, res, next) => {
+  console.log(4, req.url);
+  next();
+});
+
+app.use((req, res) => {
+  console.log(5, req.url);
+  res.status(404).send(`没有：${req.method} ${req.url}`);
+});
+
+/*
+服务端
+
+1 '/a/b'
+2 '/b'
+3 '/a/b'
+4 '/a/b'
+5 '/a/b'
+
+浏览器
+
+  没有：GET /a/b
+*/
+```
+
+## 14. 模块
 
 模块职责要单一。
 
 划分模块的目的就是为了增强代码的可维护性，提升开发效率。
 
-### 13.1. app.js 模块
+### 14.1. app.js 模块
 
 职责：
 
@@ -380,18 +552,18 @@ app.get('/', (req, res) => {
 * 挂载路由
 * 监听端口并启动服务
 
-### 13.2. router.js 模块
+### 14.2. router.js 模块
 
 职责：
 
 * 处理路由
 * 根据不同的请求方法、请求路径，设置不同的请求处理函数
 
-### 13.3. Student.js
+### 14.3. Student.js
 
 职责：操作文件的数据，只处理数据，不关心业务
 
-## 14. ES6 API
+## 15. ES6 API
 
 `Array.prototype.find`
 
