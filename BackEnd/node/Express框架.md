@@ -319,7 +319,10 @@ HTTP 是无状态的，为了识别每个 HTTP 请求：
 3. 浏览器接收到响应，将 sessionId 存入 cookie
 4. 浏览器向该服务器发送的后续请求都会自动携带 `Cookie: sessionId=1;`
 
-session 的有效期通常由 cookie 的有效期决定。
+注意：
+
+* session 的有效期通常由 cookie 的有效期决定。
+* session 默认是存储在内存的，一旦服务器重启就会丢失，生产环境下会把 session 持久化存储（如文件、数据库）
 
 ### express-session 中间件
 
@@ -339,8 +342,13 @@ var session = require('express-session')
 var app = express()
 
 app.use(session({
-  secret: 'keyboard cat',
+  // 加密 sessionId 的过程中拼接一段字符串，以提升安全性防止恶意伪造
+  // 如 md5(md5(sessionId) + 'wahh')
+  secret: 'wahh',
+  
   resave: false,
+
+  // true：无论是否往使用 session，都会往 cookie 存 sessionId
   saveUninitialized: true
 }))
 
