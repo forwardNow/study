@@ -41,8 +41,9 @@
         <li class="dropdown">
           <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><img width="20" height="20" src="../public/img/avatar-default.png" alt=""> <span class="caret"></span></a>
           <ul class="dropdown-menu">
-            <li class="dropdown-current-user">
-              当前登录用户: {{ user.nickname }}
+            <li class="dropdown-current-user" style="padding: 3px 20px;">
+              <div style="color: #888; margin-bottom: 4px;">当前登录用户：</div>
+              <div>{{ user.nickname }}</div>
             </li>
             <li role="separator" class="divider"></li>
             <li><a href="#">个人主页</a></li>

@@ -3,7 +3,8 @@ const express = require('express');
 const router = express.Router();
 
 router.get('/', (req, res) => {
-  res.render('index.html');
+  const { session: { user } } = req;
+  res.render('index.html', { user });
 });
 
 // 导入 session 路由
