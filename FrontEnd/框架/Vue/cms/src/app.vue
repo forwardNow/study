@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div class="app">
         <mt-header fixed title="信息管理系统"></mt-header>
         <router-view></router-view>
         <nav class="mui-bar mui-bar-tab">
@@ -28,5 +28,9 @@ export default {
 }
 </script>
 <style scoped>
+.app {
+  padding-top: 40px;
+  padding-bottom: 50px;
+}
 </style>
 
