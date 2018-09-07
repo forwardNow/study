@@ -38,7 +38,7 @@ $ npm i webpack-cli -D
 ```javascript
 {
   "scripts": {
-    "dev": "webpack"
+    "build": "webpack"
   }
 }
 ```
@@ -57,4 +57,79 @@ module.exports = {
 
 ```shell
 $ npm run dev
+```
+
+## 3. webpack-dev-server
+
+>将 /src 中的 JS 打包到内存
+
+### 3.1. 安装
+
+```shell
+$ npm install webpack-dev-server -D
++ webpack-dev-server@3.1.8
+```
+
+### 3.2. 起步
+
+#### 3.2.1. package.json
+
+> `--hot`：一旦源文件（JS 文件）内容改变，则浏览器页面自动刷新。
+
+```javascript
+{
+  "scripts": {
+    "dev": "webpack-dev-server --open --port 8081 --hot --host 127.0.0.1"
+  }
+}
+```
+
+
+#### 3.2.2. 运行
+
+```shell
+$ npm run dev
+> webpack-dev-server --open --port 8081 --hot --host 127.0.0.1
+
+｢wds｣: Project is running at http://127.0.0.1:8081/
+
+# 可通过 / 目录直接访问 /dist 目录。
+｢wds｣: webpack output is served from /
+
+｢wdm｣: Hash: 40f7e964f1b893b933f3
+Version: webpack 4.17.2
+```
+
+## 4. html-webpack-plugin
+
+> 将 index.html 生成到内存，并自动配置打包好的 JS 文件。
+
+### 4.1. 安装
+
+```shell
+$ npm install html-webpack-plugin -D
+
++ html-webpack-plugin@3.2.0
+```
+
+### 4.2. 配置
+
+```javascript
+const path = require('path');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
+
+// 创建一个插件的实例
+const htmlPlugin = new HtmlWebpackPlugin({
+  template: path.join(__dirname, './src/index.html'), // 源文件
+  filename: 'index.html', // 生成到内存中首页的名称
+});
+
+module.exports = {
+  // 'development' | 'production'
+  mode: 'development',
+
+  plugins: [
+    htmlPlugin,
+  ],
+};
 ```
