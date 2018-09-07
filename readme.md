@@ -34,6 +34,7 @@
 * [《Vue.js实战》](./FrontEnd/框架/Vue.js实战)：详略不得当，不太适合新手。
 * [Vue](./FrontEnd/框架/Vue)
 * [Angular6](./FrontEnd/框架/Angular6)
+* [React](./FrontEnd/框架/React)
 
 ### 1.5. 库
 
