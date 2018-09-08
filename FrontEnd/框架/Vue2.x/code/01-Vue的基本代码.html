@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>01-Vue的基本代码.html</title>
+  <script src="https://unpkg.com/vue@2.5.17/dist/vue.js"></script>
+</head>
+<body>
+
+  <!-- vm 控制的这个元素区域，就是 MVVM 中的 V -->
+  <div id="app">
+    <p>{{ msg }}</p>
+  </div>
+
+  <script>
+    // Vue 的实例就是 MMVVM 中的 VM（调度者）
+    let vm = new Vue({
+      el: '#app',
+      // vm.data 就是 MVVM 中的 M
+      data: {
+        msg: 'hello Vue.js!'
+      }
+    });
+  </script>
+  
+</body>
+</html>
