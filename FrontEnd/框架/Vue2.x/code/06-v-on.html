@@ -4,20 +4,25 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <title>05-v-bind.html</title>
+  <title>06-v-on.html</title>
   <script src="https://unpkg.com/vue@2.5.17/dist/vue.js"></script>
 </head>
 <body>
 
 <div id="app">
-  <p v-bind:title="myTitle">哇哈哈</p>
+  <button v-on:click='handleAlert()'>按钮</button>
 </div>
 
 <script>
   let vm = new Vue({
     el: '#app',
     data: {
-      myTitle: '我是段落标签'
+      msg: '哇哈哈'
+    },
+    methods: {
+      handleAlert: () => {
+        return alert(this.msg);
+      }
     }
   });
 </script>
