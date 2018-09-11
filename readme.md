@@ -32,13 +32,13 @@
 ### 1.4. 框架
 
 * Vue.js
-    * [Vue2.x](./FrontEnd/框架/Vue2.x/readme.md)
-    * [Vue](./FrontEnd/框架/Vue)
-    * [《Vue.js实战》](./FrontEnd/框架/Vue.js实战)：详略不得当，不太适合新手。
+  * [Vue2.x](./FrontEnd/框架/Vue2.x/readme.md)
+  * [Vue](./FrontEnd/框架/Vue)
+  * [《Vue.js实战》](./FrontEnd/框架/Vue.js实战)：详略不得当，不太适合新手。
 * Angular.js
-    * [Angular6](./FrontEnd/框架/Angular6)
+  * [Angular6](./FrontEnd/框架/Angular6)
 * React.js
-    * [React](./FrontEnd/框架/React)
+  * [React](./FrontEnd/框架/React)
 
 ### 1.5. 库
 
@@ -56,10 +56,10 @@
 * [制作web浏览器【待完成】](./FrontEnd/其他/制作web浏览器/readme.md)
 * [浏览器的工作原理【待完成】](./blog/2018/08/11.浏览器的工作原理.md)
 
-
 ### 1.8. 待分类
 
 * [前端发展趋势](./blog/2018/07/30.前端发展趋势.md)
+* [同步vscode的配置](./blog/2018/09/11.同步vscode的配置.md)
 
 ## 2. 后端
 
