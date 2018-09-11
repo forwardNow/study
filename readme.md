@@ -10,7 +10,7 @@
 * ES6：[《深入理解ES6》](./FrontEnd/JavaScript/深入理解ES6)
 * ES7：[ES7 - tc39/proposals](./blog/2018/08/16.ES7.md)
 * [JavaScript代码风格](./blog/2018/08/08.JavaScript代码风格.md)
-* [《编写可维护的 JavaScript》【待完成】]()
+* [《编写可维护的 JavaScript》【待完成】](xx)
 * [《TypeScript》](./FrontEnd/JavaScript/TypeScript)
 * [JavaScript运行机制：Event Loop](./blog/2018/09/02.EventLoop.md)
 
@@ -22,7 +22,6 @@
 * [《CSS揭秘》](./FrontEnd/CSS/CSS揭秘)
 * [阿里巴巴矢量图标库](./FrontEnd/CSS/阿里巴巴矢量图标库.md)
 
-
 ### 1.3. HTML
 
 * [《SVG精髓》](./FrontEnd/HTML/SVG精髓)
@@ -32,13 +31,13 @@
 ### 1.4. 框架
 
 * Vue.js
-    * [Vue2.x](./FrontEnd/框架/Vue2.x/readme.md)
-    * [Vue](./FrontEnd/框架/Vue)
-    * [《Vue.js实战》](./FrontEnd/框架/Vue.js实战)：详略不得当，不太适合新手。
+  * [Vue2.x](./FrontEnd/框架/Vue2.x/readme.md)
+  * [Vue](./FrontEnd/框架/Vue)
+  * [《Vue.js实战》](./FrontEnd/框架/Vue.js实战)：详略不得当，不太适合新手。
 * Angular.js
-    * [Angular6](./FrontEnd/框架/Angular6)
+  * [Angular6](./FrontEnd/框架/Angular6)
 * React.js
-    * [React](./FrontEnd/框架/React)
+  * [React](./FrontEnd/框架/React)
 
 ### 1.5. 库
 
@@ -55,7 +54,6 @@
 * [Chrome常用插件](./blog/2018/09/01.Chrome常用插件.md)
 * [制作web浏览器【待完成】](./FrontEnd/其他/制作web浏览器/readme.md)
 * [浏览器的工作原理【待完成】](./blog/2018/08/11.浏览器的工作原理.md)
-
 
 ### 1.8. 待分类
 
