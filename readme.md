@@ -9,6 +9,7 @@
 * ES5：[ES5 - ES2009](./blog/2018/08/15.ES5.md)
 * ES6：[《深入理解ES6》](./FrontEnd/JavaScript/深入理解ES6)
 * ES7：[ES7 - tc39/proposals](./blog/2018/08/16.ES7.md)
+* ES8：[ES8 - tc39/proposals](./blog/2018/09/12.ES8.md)
 * [JavaScript代码风格](./blog/2018/08/08.JavaScript代码风格.md)
 * [《编写可维护的 JavaScript》【待完成】](xx)
 * [《TypeScript》](./FrontEnd/JavaScript/TypeScript)
@@ -58,6 +59,7 @@
 ### 1.8. 待分类
 
 * [前端发展趋势](./blog/2018/07/30.前端发展趋势.md)
+* [同步vscode的配置](./blog/2018/09/11.同步vscode的配置.md)
 
 ## 2. 后端
 

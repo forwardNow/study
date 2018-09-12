@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>08-过滤器</title>
+  <script src="https://unpkg.com/vue@2.5.17/dist/vue.js"></script>
+</head>
+<body>
+
+<div id="app">
+  <p>{{ birthday | globalFmtDate }}</p>
+  <p>{{ birthday | privateFmtDate }}</p>
+</div>
+
+<script>
+  Vue.filter('globalFmtDate', (value) => {
+    const d = new Date(value);
+    return `${ d.getFullYear() }年${ d.getMonth() + 1 }月`
+  });
+  let vm = new Vue({
+    el: '#app',
+    data: {
+      birthday: Date.now()
+    },
+    filters: {
+      privateFmtDate(value) {
+        const d = new Date(value);
+        return `${ d.getMonth() + 1 }月${ d.getDate() }日`
+      }
+    }
+  });
+</script>
+  
+</body>
+</html>
