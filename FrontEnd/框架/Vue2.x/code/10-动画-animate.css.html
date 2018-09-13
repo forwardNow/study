@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>10-动画-animate.css</title>
+  <link rel="stylesheet" href="https://unpkg.com/animate.css@3.7.0/animate.css">
+  <script src="https://unpkg.com/vue@2.5.17/dist/vue.js"></script>
+</head>
+<body>
+
+<div id="app" style="width: 400px; margin: 10em auto; text-align: center;">
+  <button type="button" @click="flag = !flag">显示/隐藏</button>
+  <transition 
+    enter-active-class="animated bounceInRight"
+    leave-active-class="animated bounceOutRight"
+    :duration="{ enter: 500, leave: 800 }">
+    <h1 v-if="flag">吴钦飞</h1>
+  </transition>
+</div>
+
+<script>
+  let vm = new Vue({
+    el: '#app',
+    data: {
+      flag: true
+    }
+  });
+</script>
+  
+</body>
+</html>
