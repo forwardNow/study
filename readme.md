@@ -10,14 +10,11 @@
 * ES6：[《深入理解ES6》](./FrontEnd/JavaScript/深入理解ES6)
 * ES7：[ES7 - tc39/proposals](./blog/2018/08/16.ES7.md)
 * ES8：[ES8 - tc39/proposals](./blog/2018/09/12.ES8.md)
-* [JavaScript代码风格](./blog/2018/08/08.JavaScript代码风格.md)
-* [《编写可维护的 JavaScript》【待完成】](xx)
 * [《TypeScript》](./FrontEnd/JavaScript/TypeScript)
 * [JavaScript运行机制：Event Loop](./blog/2018/09/02.EventLoop.md)
 
 ### 1.2. CSS
 
-* [css代码风格](./blog/2018/08/09.css代码风格.md)
 * [弹性布局-语法[翻译]](./blog/2018/06/01.弹性布局-语法.md)：非常好的flex相关属性教程
 * [弹性布局-实例](./blog/2018/06/02.弹性布局-实例.md)
 * [《CSS揭秘》](./FrontEnd/CSS/CSS揭秘)
@@ -56,10 +53,15 @@
 * [制作web浏览器【待完成】](./FrontEnd/其他/制作web浏览器/readme.md)
 * [浏览器的工作原理【待完成】](./blog/2018/08/11.浏览器的工作原理.md)
 
-### 1.8. 待分类
+### 1.8. 代码风格
+
+* [JavaScript代码风格](./blog/2018/08/08.JavaScript代码风格.md)
+* [《编写可维护的 JavaScript》](./FrontEnd/其他/MaintainableJavaScript/readme.md)
+* [css代码风格](./blog/2018/08/09.css代码风格.md)
+
+### 1.9. 待分类
 
 * [前端发展趋势](./blog/2018/07/30.前端发展趋势.md)
-* [同步vscode的配置](./blog/2018/09/11.同步vscode的配置.md)
 
 ## 2. 后端
 
@@ -77,3 +79,9 @@
 ### 3.2. 音视频
 
 * [视频格式与编码](./blog/2018/08/03.视频格式与编码.md)
+
+## 4. 开发工具
+
+### 4.1. vscode
+
+* [同步vscode的配置](./blog/2018/09/11.同步vscode的配置.md)
