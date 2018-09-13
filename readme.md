@@ -6,25 +6,39 @@
 
 ### 1.1. JavaScript
 
-* ES5：[ES5 - ES2009](./blog/2018/08/15.ES5.md)
-* ES6：[《深入理解ES6》](./FrontEnd/JavaScript/深入理解ES6)
-* ES7：[ES7 - tc39/proposals](./blog/2018/08/16.ES7.md)
-* ES8：[ES8 - tc39/proposals](./blog/2018/09/12.ES8.md)
-* [《TypeScript》](./FrontEnd/JavaScript/TypeScript)
-* [JavaScript运行机制：Event Loop](./blog/2018/09/02.EventLoop.md)
+* ECMAScript
+  * ES5：[ES5 - ES2009](./blog/2018/08/15.ES5.md)
+  * ES6：[《深入理解ES6》](./FrontEnd/JavaScript/深入理解ES6)
+  * ES7：[ES7 - tc39/proposals](./blog/2018/08/16.ES7.md)
+  * ES8：[ES8 - tc39/proposals](./blog/2018/09/12.ES8.md)
+* 代码风格
+  * [JavaScript代码风格](./blog/2018/08/08.JavaScript代码风格.md)
+  * [《编写可维护的 JavaScript》](./FrontEnd/其他/MaintainableJavaScript/readme.md)
+* 编译器
+  * [《TypeScript》](./FrontEnd/JavaScript/TypeScript)
+* 原理相关
+  * [JavaScript运行机制：Event Loop](./blog/2018/09/02.EventLoop.md)
 
 ### 1.2. CSS
 
-* [弹性布局-语法[翻译]](./blog/2018/06/01.弹性布局-语法.md)：非常好的flex相关属性教程
-* [弹性布局-实例](./blog/2018/06/02.弹性布局-实例.md)
-* [《CSS揭秘》](./FrontEnd/CSS/CSS揭秘)
-* [阿里巴巴矢量图标库](./FrontEnd/CSS/阿里巴巴矢量图标库.md)
+* 代码风格
+  * [css代码风格](./blog/2018/08/09.css代码风格.md)
+* 布局
+  * [弹性布局-语法[翻译]](./blog/2018/06/01.弹性布局-语法.md)：非常好的flex相关属性教程
+  * [弹性布局-实例](./blog/2018/06/02.弹性布局-实例.md)
+* 标准
+  * [《CSS揭秘》](./FrontEnd/CSS/CSS揭秘)
+* 图标
+  * [阿里巴巴矢量图标库](./FrontEnd/CSS/阿里巴巴矢量图标库.md)
 
 ### 1.3. HTML
 
-* [《SVG精髓》](./FrontEnd/HTML/SVG精髓)
-* [网页视频播放](./blog/2018/07/04.视频播放（包括IE8）.md)
-* [canvas](./FrontEnd/HTML/canvas)
+* svg
+  * [《SVG精髓》](./FrontEnd/HTML/SVG精髓)
+* canvas
+  * [canvas](./FrontEnd/HTML/canvas)
+* video
+  * [网页视频播放](./blog/2018/07/04.视频播放（包括IE8）.md)
 
 ### 1.4. 框架
 
@@ -41,7 +55,7 @@
 
 * [《RxJS》](./FrontEnd/库/RxJS/readme.md)
 
-### 1.6. 接口相关
+### 1.6. 测试
 
 * [JSON Server](./blog/2018/08/29.JsonServer.md)
 * [Postman](./blog/2018/08/30.Postman.md)
@@ -53,13 +67,7 @@
 * [制作web浏览器【待完成】](./FrontEnd/其他/制作web浏览器/readme.md)
 * [浏览器的工作原理【待完成】](./blog/2018/08/11.浏览器的工作原理.md)
 
-### 1.8. 代码风格
-
-* [JavaScript代码风格](./blog/2018/08/08.JavaScript代码风格.md)
-* [《编写可维护的 JavaScript》](./FrontEnd/其他/MaintainableJavaScript/readme.md)
-* [css代码风格](./blog/2018/08/09.css代码风格.md)
-
-### 1.9. 待分类
+### 1.8. 待分类
 
 * [前端发展趋势](./blog/2018/07/30.前端发展趋势.md)
 
