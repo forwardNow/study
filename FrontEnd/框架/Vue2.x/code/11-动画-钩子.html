@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>11-动画-钩子</title>
+  <link rel="stylesheet" href="https://unpkg.com/animate.css@3.7.0/animate.css">
+  <script src="https://unpkg.com/vue@2.5.17/dist/vue.js"></script>
+</head>
+<body>
+
+<style>
+  .ball {
+    width: 100px;
+    height: 100px;
+    background: red;
+    border-radius: 100%;
+  }
+</style>
+
+<div id="app">
+  <button type="button" @click="flag = !flag">走</button>
+  <transition 
+    v-on:before-enter="beforeEnter"
+    v-on:enter="enter"
+    v-on:after-enter="afterEnter">
+    <div class="ball" v-if="flag"></div>
+  </transition>
+</div>
+
+<script>
+  let vm = new Vue({
+    el: '#app',
+    data: {
+      flag: false
+    },
+    methods: {
+      // 表示动画入场之前，此时，动画尚未开始，可以设置初始样式
+      beforeEnter(el) {
+        // 起始位置
+        el.style.transform = 'translate(0, 0)';
+      },
+      // 可以设置动画结束状态以及过渡
+      enter(el, done) {
+        // 强制动画刷新
+        el.offsetWidth;
+
+        // 结束状态
+        el.style.transform = 'translate(100px, 300px)';
+
+        // 动画时长
+        el.style.transition = 'all 1s ease';
+
+        // 动画执行完毕后调用，以执行 afterEnter()
+        done();
+      },
+      // 动画完成之后，隐藏
+      afterEnter() {
+        this.flag = !this.flag;
+      }
+    }
+  });
+</script>
+  
+</body>
+</html>
