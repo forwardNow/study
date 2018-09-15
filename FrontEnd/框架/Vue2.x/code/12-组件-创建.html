@@ -18,6 +18,7 @@
   <my-title2></my-title2>
   <my-title3></my-title3>
   <my-title4></my-title4>
+  <my-title5></my-title5>
 </div>
 
 <template id="myTitle4">
@@ -53,6 +54,11 @@
     data: {
     },
     methods: {
+    },
+    components: {
+      'myTitle5': {
+        template: '<h1>哇哈哈5 - 私有组件</h1>'
+      }
     }
   });
 </script>
