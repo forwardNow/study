@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>12-组件-创建</title>
+  <script src="https://unpkg.com/vue@2.5.17/dist/vue.js"></script>
+</head>
+<body>
+
+<script id="myTitle3" type="x-template">
+    <h1>哇哈哈3</h1>
+</script>
+
+<div id="app">
+  <my-title></my-title>
+  <my-title2></my-title2>
+  <my-title3></my-title3>
+  <my-title4></my-title4>
+</div>
+
+<template id="myTitle4">
+    <h1>哇哈哈4</h1>
+</template>
+
+<script>
+  // 方式一
+  let titleVm = Vue.extend({
+    template: '<h1>哇哈哈</h1>'
+  });
+
+  Vue.component('myTitle', titleVm);
+
+  // 方式二
+
+  Vue.component('myTitle2', {
+    template: '<h1>哇哈哈2</h1>'
+  });
+
+  // 方式三
+  Vue.component('myTitle3', {
+    template: '#myTitle3'
+  });
+
+  // 方式三
+  Vue.component('myTitle4', {
+    template: '#myTitle4'
+  });
+
+  let vm = new Vue({
+    el: '#app',
+    data: {
+    },
+    methods: {
+    }
+  });
+</script>
+  
+</body>
+</html>
