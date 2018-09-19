@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>13-组件-切换.html</title>
+  <script src="https://unpkg.com/vue@2.5.17/dist/vue.js"></script>
+</head>
+<body>
+
+
+<div id="app">
+  <a href="#" @click.prevent="componentId = 'login'">登陆</a>
+  <a href="#" @click.prevent="componentId = 'register'">注册</a>
+  <component :is="componentId"></component>
+</div>
+
+<script>
+  Vue.component('login', {
+    template: '<h1>登陆组件</h1>'
+  });
+  
+  Vue.component('register', {
+    template: '<h1>注册组件</h1>'
+  });
+
+  let vm = new Vue({
+    el: '#app',
+    data: {
+      componentId: 'login'
+    },
+  });
+</script>
+  
+</body>
+</html>
