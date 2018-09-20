@@ -20,7 +20,7 @@
     template: '<h1>子组件</h1>',
     mounted() {
       setInterval(() => {
-        this.$emit('subevent', Date.now());
+        this.$emit('subevent', Date.now(), '子组件');
       }, 1000)
     },
   });
@@ -31,8 +31,8 @@
       msg: '父组件的哇哈哈'
     },
     methods: {
-      show(time) {
-        this.msg = time; 
+      show(time, msg) {
+        this.msg = msg + time;
       }
     }
   });
