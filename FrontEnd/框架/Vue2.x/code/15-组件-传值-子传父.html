@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>15-组件-传值-子传父</title>
+  <script src="https://unpkg.com/vue@2.5.17/dist/vue.js"></script>
+</head>
+<body>
+
+
+<div id="app">
+  <sub-comp @subevent="show"></sub-comp>
+  {{ msg }}
+</div>
+
+<script>
+  Vue.component('sub-comp', {
+    template: '<h1>子组件</h1>',
+    mounted() {
+      setInterval(() => {
+        this.$emit('subevent', Date.now());
+      }, 1000)
+    },
+  });
+
+  let vm = new Vue({
+    el: '#app',
+    data: {
+      msg: '父组件的哇哈哈'
+    },
+    methods: {
+      show(time) {
+        this.msg = time; 
+      }
+    }
+  });
+</script>
+  
+</body>
+</html>
