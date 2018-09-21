@@ -4,26 +4,27 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <title>14-组件-传值</title>
+  <title>16-组件-ref</title>
   <script src="https://unpkg.com/vue@2.5.17/dist/vue.js"></script>
 </head>
 <body>
 
 
 <div id="app">
-  <sub-comp :sub-msg="msg"></sub-comp>
+  <div ref="myDiv">哇哈哈</div>
+  <sub-comp ref="subComp"></sub-comp>
 </div>
 
 <script>
   Vue.component('sub-comp', {
-    template: '<h1>子组件 - {{ subMsg }}</h1>',
-    props: [ 'subMsg' ]
+    template: '<h1>子组件</h1>',
   });
 
   let vm = new Vue({
     el: '#app',
-    data: {
-      msg: '父组件的哇哈哈'
+    mounted() {
+      console.log(this.$refs.myDiv);
+      console.log(this.$refs.subComp);
     },
   });
 </script>
