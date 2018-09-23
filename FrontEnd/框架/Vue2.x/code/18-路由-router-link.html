@@ -21,6 +21,7 @@
 <script>
   let router = new VueRouter({
     routes: [
+      { path: '/', redirect: '/login' },
       { path: '/login', component: { template: '<h1>登陆页</h1>' }, },
       { path: '/register', component: { template: '<h1>注册页</h1>' }, },
     ]
