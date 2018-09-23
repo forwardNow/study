@@ -12,16 +12,23 @@
 
 
 <div id="app">
-  <sub-comp></sub-comp>
+  <a href="#/login">登陆</a>
+  <a href="#/register">注册</a>
+
+  <router-view></router-view>
 </div>
 
 <script>
-  Vue.component('sub-comp', {
-    template: '<h1>子组件</h1>',
+  let router = new VueRouter({
+    routes: [
+      { path: '/login', component: { template: '<h1>登陆页</h1>' }, },
+      { path: '/register', component: { template: '<h1>注册页</h1>' }, },
+    ]
   });
 
   let vm = new Vue({
     el: '#app',
+    router,
   });
 </script>
   
