@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>19-路由-切换动画.html</title>
+  <script src="https://unpkg.com/vue@2.5.17/dist/vue.js"></script>
+  <script src="https://unpkg.com/vue-router@3.0.1/dist/vue-router.js"></script>
+</head>
+<body>
+
+<style>
+  .v-enter,
+  .v-leave-to {
+    opacity: 0;
+    transform: translateX(140px);
+  }
+
+  .v-enter-active,
+  .v-leave-active {
+    transition: all 0.5s ease;
+  }
+</style>
+<div id="app">
+  <router-link to="/login">登陆</router-link> 
+  <router-link to="/register" tag="span">注册</router-link> 
+
+  <transition mode="out-in">
+    <router-view></router-view>
+  </transition>
+</div>
+
+<script>
+  let router = new VueRouter({
+    routes: [
+      { path: '/', redirect: '/login' },
+      { path: '/login', component: { template: '<h1>登陆页</h1>' }, },
+      { path: '/register', component: { template: '<h1>注册页</h1>' }, },
+    ],
+  });
+
+  let vm = new Vue({
+    el: '#app',
+    router,
+  });
+</script>
+  
+</body>
+</html>
