@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>22-路由-嵌套</title>
+  <script src="https://unpkg.com/vue@2.5.17/dist/vue.js"></script>
+  <script src="https://unpkg.com/vue-router@3.0.1/dist/vue-router.js"></script>
+</head>
+<body>
+<div id="app">
+  <router-link to="/system">系统管理</router-link> 
+  <router-view></router-view>
+</div>
+<template id="system">
+  <div>
+    <h1>系统管理</h1>
+    <ul>
+      <li><router-link to="/system/user">用户管理</router-link></li>
+      <li><router-link to="/system/dept">部门管理</router-link></li>
+    </ul>
+    <router-view></router-view>
+  </div>
+</template>
+<script>
+  let system = {
+    template: '#system'
+  };
+  let user = {
+    template: '<h2>用户管理</h2>'
+  }
+  let dept = {
+    template: '<h2>部门管理</h2>'
+  }
+  let router = new VueRouter({
+    routes: [
+      { 
+        path: '/system', 
+        component: system, 
+        children: [
+          { path: 'user', component: user },
+          { path: 'dept', component: dept },
+        ]
+      }
+    ],
+  });
+
+  let vm = new Vue({
+    el: '#app',
+    router,
+  });
+</script>
+  
+</body>
+</html>
