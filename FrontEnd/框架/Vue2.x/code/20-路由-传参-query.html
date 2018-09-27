@@ -4,22 +4,14 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <title>20-路由-传参.html</title>
+  <title>20-路由-传参-query</title>
   <script src="https://unpkg.com/vue@2.5.17/dist/vue.js"></script>
   <script src="https://unpkg.com/vue-router@3.0.1/dist/vue-router.js"></script>
 </head>
 <body>
 <div id="app">
-  <router-link 
-      :to="{ 
-        name: 'login', 
-        params: { msg: '登陆页传递的参数' } 
-      }">登陆</router-link> 
-  <router-link 
-      :to="{ 
-        path: '/register', 
-        query: { msg: '注册页传递的参数' } 
-      }" tag="span">注册</router-link> 
+  <router-link to="/login">登陆</router-link> 
+  <router-link to="/register?msg=hello">注册</router-link> 
 
   <router-view></router-view>
 </div>
@@ -27,22 +19,24 @@
 <script>
   let login = { 
     template: '<h1>登陆页</h1>',
-    created() {
-      console.log(this.$route.params.msg);
-    },
   };
   
   let register = { 
-    template: '<h1>注册页</h1>',
+    template: '<h1>注册页 {{ msg }}</h1>',
     created() {
-      console.log(this.$route.query.msg);
+      this.msg = this.$route.query.msg;
     },
+    data() {
+      return {
+        msg: ''
+      }
+    }
   };
 
   let router = new VueRouter({
     routes: [
-      { path: '/', redirect: { name: 'login' } },
-      { name: 'login', path: '/login/:id', component: login, },
+      { path: '/', redirect: '/login' },
+      { path: '/login', component: login, },
       { path: '/register', component: register, },
     ],
   });
