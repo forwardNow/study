@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <title>25-案例-名称-watch</title>
+  <title>26-案例-名称-computed</title>
   <script src="https://unpkg.com/vue@2.5.17/dist/vue.js"></script>
   <script src="https://unpkg.com/vue-router@3.0.1/dist/vue-router.js"></script>
 </head>
@@ -20,19 +20,10 @@
     data: {
       firstName: '',
       lastName: '',
-      fullName: '',
     },
-    methods: {
-      getFullName() {
-        this.fullName = this.firstName + this.lastName;
-      }
-    },
-    watch: {
-      firstName(newVal, oldVal) {
-        this.getFullName();
-      },
-      lastName(newVal, oldVal) {
-        this.getFullName();
+    computed: {
+      fullName() {
+        return this.firstName + this.lastName;
       }
     }
   });
