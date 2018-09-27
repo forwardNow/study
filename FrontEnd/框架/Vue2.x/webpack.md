@@ -2,6 +2,8 @@
 
 ## 1. nrm
 
+> nrm 只是提供了镜像地址，并切换镜像地址。我们安装包时还是需要使用 npm。
+
 **作用**：
 
 提供了一些最常用的 NPM 包镜像地址，能够让我们快速的切换安装包时候的服务器地址。
@@ -31,6 +33,7 @@ $ nrm ls
   edunpm - http://registry.enpmjs.org/
 
 # 切换镜像源地址
-$ nrm use npm
 $ nrm use taobao
+
+   Registry has been set to: https://registry.npm.taobao.org/
 ```
