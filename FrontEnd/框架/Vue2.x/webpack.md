@@ -116,7 +116,9 @@ $ npm install webpack --save-dev
 
 ## 4. 初步使用
 
->1.webpack 能够处理 JS 文件的互相依赖关系；2.webpack 能够处理 JS 兼容问题，把浏览器不识别的语法转为能识别的语法。
+查看：[./webpack/01-sample/src/index.html](./webpack/01-sample/src/index.html)
+
+需求：使用 jQuery 将列表隔行变色。
 
 **项目结构**：
 
@@ -179,3 +181,51 @@ bundle.js  275 kB       0  [emitted]  [big]  main
 </body>
 </html>
 ```
+
+**总结**：
+
+1. webpack 能够处理 JS 文件的互相依赖关系；
+2. webpack 能够处理 JS 兼容问题，把浏览器不识别的语法转为能识别的语法。
+
+## 5. 最基本的配置文件
+
+查看：[./webpack/02-base-config](./webpack/02-base-config)
+
+**创建并编辑 webpack.config.js 文件**：
+
+```javascript
+const path = require('path');
+
+module.exports = {
+  // 入口。指定要打包文件的位置
+  entry: path.join(__dirname, './src/main.js'),
+
+  // 出口。输出文件相关的配置
+  output: {
+    // 指定打包好的文件，输出的位置
+    path: path.join(__dirname, './dist'),
+
+    // 指定输出文件的名称
+    filename: 'bundle.js',
+  },
+};
+```
+
+**执行打包命令**：
+
+```shell
+$ ./node_modules/.bin/webpackHash: b1bcaed961f060499873
+Version: webpack 3.12.0
+Time: 220ms
+    Asset    Size  Chunks                    Chunk Names
+bundle.js  275 kB       0  [emitted]  [big]  main
+   [0] ./src/main.js 132 bytes {0} [built]
+    + 1 hidden module
+```
+
+**总结**：
+
+1. 执行 `webpack` 命令时，没有指定入口和出口
+2. webpack 就去找 `webpack.config.js` 文件
+3. 执行 `webpack.config.js` 文件获取到配置对象
+4. 根据配置文件中指定的入口和出口进行打包构建。
