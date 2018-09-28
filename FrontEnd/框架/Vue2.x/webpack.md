@@ -113,3 +113,69 @@ $ sudo npm install -g webpack
 # 安装到项目依赖
 $ npm install webpack --save-dev
 ```
+
+## 4. 初步使用
+
+>1.webpack 能够处理 JS 文件的互相依赖关系；2.webpack 能够处理 JS 兼容问题，把浏览器不识别的语法转为能识别的语法。
+
+**项目结构**：
+
+```text
+/
+  dist/
+  src/
+    css/
+    images/
+    js/
+    index.html
+    main.js
+  package.json
+```
+
+**安装 webpack 、jquery**：
+
+```shell
+$ npm install --save-dev webpack@3
++ webpack@3.12.0
+
+$ npm install --save jquery
+```
+
+**编写 `main.js`**：
+
+```javascript
+import $ from 'jquery';
+
+$(() => {
+  $('li:odd').css('backgroundColor', 'red');
+  $('li:even').css('backgroundColor', 'blue');
+});
+```
+
+**打包**：
+
+```shell
+$ ./node_modules/.bin/webpack ./src/main.js ./dist/bundle.js
+
+    Asset    Size  Chunks                    Chunk Names
+bundle.js  275 kB       0  [emitted]  [big]  main
+   [0] ./src/main.js 131 bytes {0} [built]
+    + 1 hidden module
+```
+
+**在 index.html 中引用**：
+
+```html
+<!DOCTYPE html>
+<html lang="en">
+<body>
+  <ul>
+    <li>111111111</li>
+    <li>2222222222</li>
+    <li>33333333</li>
+    <li>444444444</li>
+  </ul>
+  <script src="../dist/bundle.js"></script>
+</body>
+</html>
+```
