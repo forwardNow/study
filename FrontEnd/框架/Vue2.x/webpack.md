@@ -103,3 +103,13 @@ webpack 是前端的一个项目构建工具，它是基于 Node.js 开发出来
 解决依赖关系，减少网络请求。
 
 借助 webpack可以完美实现资源的合并、打包、压缩、混淆等诸多功能。
+
+## 3. 安装
+
+```shell
+# 全局安装
+$ sudo npm install -g webpack
+
+# 安装到项目依赖
+$ npm install webpack --save-dev
+```
