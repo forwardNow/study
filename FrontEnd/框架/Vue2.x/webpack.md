@@ -229,3 +229,40 @@ bundle.js  275 kB       0  [emitted]  [big]  main
 2. webpack 就去找 `webpack.config.js` 文件
 3. 执行 `webpack.config.js` 文件获取到配置对象
 4. 根据配置文件中指定的入口和出口进行打包构建。
+
+## 6. webpack-dev-server
+
+当改动代码后，想立即看到改变后的效果。
+
+node/nodemon 、 webpack/webpack-dev-server
+
+### 6.1. 基本使用
+
+查看：[./webpack/03-dev-server-base](./webpack/03-dev-server-base)
+
+**安装**：
+
+```shell
+$ npm install webpack-dev-server@2
++ webpack-dev-server@2.11.3
+```
+
+webpack-dev-server 如果想要正常运行，需要本地安装 webpack。
+
+**运行**：
+
+```shell
+$ ./node_modules/.bin/webpack-dev-server
+Project is running at http://localhost:8080/
+webpack output is served from /
+Hash: 4745cdd348836783435c
+Version: webpack 3.12.0
+Time: 382ms
+    Asset    Size  Chunks                    Chunk Names
+bundle.js  597 kB       0  [emitted]  [big]  main
+```
+
+**总结**：
+
+* 打包后的文件存放到内存中以避免频繁读写磁盘，通过 `http:localhost:8080/bundle.js` 访问
+* 改变 `/src/` 中的文件后，会自动刷新浏览器
