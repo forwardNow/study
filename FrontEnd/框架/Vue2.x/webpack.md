@@ -306,9 +306,46 @@ module.exports = {
   },
 
   // 配置插件
-  plugins: [
+  plugins: [ 
     // 启用热更新:第 3 步
     new webpack.HotModuleReplacementPlugin(),
+  ],
+};
+```
+
+## 7. html-webpack-plugin 插件
+
+**说明**：
+
+不使用该插件：
+
+* 需要指定启动的目录（`--contentBase src`）
+* 需要手动引入 `<script src="/bundle.js">`
+
+使用该插件后：
+
+* 将指定模板编译到内存，避免频繁读写磁盘
+* 自动把打包好的 `bundle.js` 插入到 `<body>` 末尾
+
+**使用**：
+
+```javascript
+const path = require('path');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
+
+module.exports = {
+  // ...
+
+  // 配置插件
+  plugins: [
+    // 启动页
+    new HtmlWebpackPlugin({
+      // 指定模板页面：将此模板编译到内存中
+      template: path.join(__dirname, './src/index.html'),
+
+      // 指定编译后的文件名称
+      filename: 'index.html',
+    }),
   ],
 };
 ```
