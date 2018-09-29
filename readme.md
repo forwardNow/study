@@ -85,6 +85,10 @@
 
 * [ECS](./Operation/ECS/readme.md)
 
+### 3.2. Linux
+
+* [Linux 笔记](./Operation/Linux/readme.md)
+
 ## 4. 计算机
 
 ### 4.1. 网络
