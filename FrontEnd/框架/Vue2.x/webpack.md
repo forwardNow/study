@@ -460,3 +460,77 @@ module.exports = {
   },
 };
 ```
+
+## 9. 处理图片路径
+
+默认情况下，webpack 无法处理 css 文件中的 url 地址，无论是图片还是字体文件。
+
+**安装**：
+
+```shell
+$ npm i url-loader@0.6.2 -D
+
++ url-loader@0.6.2
+
+$ npm i file-loader@0.11.2 -D
+
++ file-loader@0.11.2
+```
+
+**配置**：
+
+```javascript
+{
+  test: /\.(jpg|png|gif|bmp|jpeg)$/,
+
+  /*
+    * url-loader 依赖 file-loader
+    * 默认转 base64，可通过设置 limit 参数，当小于该值时才转 base64
+    */
+  use: [
+    {
+      loader: 'url-loader',
+      options: {
+        // 单位 KB
+        limit: 92,
+
+        /*
+          * 设置打包后的文件名称，默认为 hash 值名称
+          * [hash:8] 取前 8 位 hash 值
+          */
+        name: '[name].[hash:8].[ext]',
+      },
+    },
+  ],
+},
+```
+
+## 10. 处理字体文件
+
+**说明**：
+
+使用 `url-loader`
+
+**配置**：
+
+```javascript
+// 处理字体文件
+{
+  test: /\.(ttf|eot|svg|woff|woff2)$/,
+  use: [
+    {
+      loader: 'url-loader',
+      options: {
+        // 单位 KB
+        limit: 1024 * 2,
+
+        /*
+          * 设置打包后的文件名称，默认为 hash 值名称
+          * [hash:8] 取前 8 位 hash 值
+          */
+        name: '[name].[hash:8].[ext]',
+      },
+    },
+  ],
+},
+```
