@@ -359,11 +359,11 @@ webpack 默认只能打包处理 JS 类型的文件，非 JS 文件需要配置�
 **安装**：
 
 ```shell
-$ npm i css-loader@0.28.11
+$ npm i css-loader@0.28.11 -D
 
 + css-loader@0.28.11
 
-$ npm i style-loader
+$ npm i style-loader -D
 
 + style-loader@0.23.0
 ```
@@ -376,13 +376,54 @@ module.exports = {
 
   // 配置第三方模块加载器
   module: {
-    // 文件的匹配规则和对应处理器
+
+    /*
+     * 文件的匹配规则和对应处理器
+     * webpack 要处理的文件不是 JS 文件时，会在这里匹配相应的 loader 进行处理，
+     * 处理的结果直接交给 webpack 进行打包合并，最终输出到 bundle.js
+     */
     rules: [
       {
         // 匹配规则
         test: /\.css$/,
-        // 匹配到了使用哪些 loader 来处理
+
+        /*
+         * 匹配到了使用哪些 loader 来处理
+         * loader 从右到左调用，以管道的方式
+         */
         use: ['style-loader', 'css-loader'],
+      },
+    ],
+  },
+};
+
+```
+
+### less 文件
+
+**安装**：
+
+```shell
+$ npm i less-loader -D
+
++ less-loader@4.1.0
+
+$ npm i less -D
+
++ less@3.8.1
+```
+
+**配置**：
+
+```javascript
+module.exports = {
+  // ...
+
+  module: {
+    rules: [
+      {
+        test: /\.less$/,
+        use: ['style-loader', 'css-loader', 'less-loader'],
       },
     ],
   },
