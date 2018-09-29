@@ -399,7 +399,7 @@ module.exports = {
 
 ```
 
-### less 文件
+### 8.2. less 文件
 
 **安装**：
 
@@ -428,5 +428,35 @@ module.exports = {
     ],
   },
 };
+```
 
+### 8.3. scss 文件
+
+**安装**：
+
+```shell
+$ npm i sass-loader -D
+
++ sass-loader@7.1.0
+
+$ npm i node-sass -D
+
++ node-sass@4.9.3
+```
+
+**配置**：
+
+```javascript
+module.exports = {
+  // ...
+
+  module: {
+    rules: [
+      {
+        test: /\.scss$/,
+        use: ['style-loader', 'css-loader', 'sass-loader'],
+      },
+    ],
+  },
+};
 ```
