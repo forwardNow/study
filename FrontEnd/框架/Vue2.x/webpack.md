@@ -349,3 +349,43 @@ module.exports = {
   ],
 };
 ```
+
+## 8. 处理样式文件
+
+webpack 默认只能打包处理 JS 类型的文件，非 JS 文件需要配置（loader）。
+
+### 8.1. css 文件
+
+**安装**：
+
+```shell
+$ npm i css-loader@0.28.11
+
++ css-loader@0.28.11
+
+$ npm i style-loader
+
++ style-loader@0.23.0
+```
+
+**配置**：
+
+```javascript
+module.exports = {
+  // ...
+
+  // 配置第三方模块加载器
+  module: {
+    // 文件的匹配规则和对应处理器
+    rules: [
+      {
+        // 匹配规则
+        test: /\.css$/,
+        // 匹配到了使用哪些 loader 来处理
+        use: ['style-loader', 'css-loader'],
+      },
+    ],
+  },
+};
+
+```
