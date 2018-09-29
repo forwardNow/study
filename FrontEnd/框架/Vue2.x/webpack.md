@@ -275,4 +275,40 @@ bundle.js  597 kB       0  [emitted]  [big]  main
 * `--hot` 热更新
   * 不会重新编译完整的 bundle，以补丁的方式加载变化的部分；
   * 不会刷新整个页面（针对样式的修改）
-* ``
+
+推荐在 `scripts` 中定义
+
+```json
+"scripts": {
+  "dev": "webpack-dev-server --open --port 8000 --contentBase src --hot"
+},
+```
+
+运行 `npm run dev` 即可。
+
+### 6.3. 在配置文件中设置参数
+
+这种方式要稍显麻烦，设置热更新需要 webpack 的热更新模块插件。
+
+```javascript
+// 启用热更新:第 2 步
+const webpack = require('webpack');
+
+module.exports = {
+  // ...
+
+  // 配置 webpack-dev-server
+  devServer: {
+    open: true, // 自动打开浏览器
+    port: 8000, // 端口号
+    contentBase: 'src', // 设置根目录
+    hot: true,  // 启用热更新:第 1 步
+  },
+
+  // 配置插件
+  plugins: [
+    // 启用热更新:第 3 步
+    new webpack.HotModuleReplacementPlugin(),
+  ],
+};
+```
