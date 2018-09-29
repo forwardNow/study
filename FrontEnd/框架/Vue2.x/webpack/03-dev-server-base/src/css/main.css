@@ -1,0 +1,8 @@
+li {
+  list-style: none;
+}
+
+body {
+  background: url(../images/icon_loading.gif) no-repeat;
+  background-size: cover;
+}
