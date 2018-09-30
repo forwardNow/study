@@ -266,3 +266,271 @@ bundle.js  597 kB       0  [emitted]  [big]  main
 
 * 打包后的文件存放到内存中以避免频繁读写磁盘，通过 `http:localhost:8080/bundle.js` 访问
 * 改变 `/src/` 中的文件后，会自动刷新浏览器
+
+### 6.2. 常用参数
+
+* `--open` 自动打开浏览器
+* `--port 8000` 设置端口号
+* `--contentBase src` 设置根路径
+* `--hot` 热更新
+  * 不会重新编译完整的 bundle，以补丁的方式加载变化的部分；
+  * 不会刷新整个页面（针对样式的修改）
+
+推荐在 `scripts` 中定义
+
+```json
+"scripts": {
+  "dev": "webpack-dev-server --open --port 8000 --contentBase src --hot"
+},
+```
+
+运行 `npm run dev` 即可。
+
+### 6.3. 在配置文件中设置参数
+
+这种方式要稍显麻烦，设置热更新需要 webpack 的热更新模块插件。
+
+```javascript
+// 启用热更新:第 2 步
+const webpack = require('webpack');
+
+module.exports = {
+  // ...
+
+  // 配置 webpack-dev-server
+  devServer: {
+    open: true, // 自动打开浏览器
+    port: 8000, // 端口号
+    contentBase: 'src', // 设置根目录
+    hot: true,  // 启用热更新:第 1 步
+  },
+
+  // 配置插件
+  plugins: [ 
+    // 启用热更新:第 3 步
+    new webpack.HotModuleReplacementPlugin(),
+  ],
+};
+```
+
+## 7. html-webpack-plugin 插件
+
+**说明**：
+
+不使用该插件：
+
+* 需要指定启动的目录（`--contentBase src`）
+* 需要手动引入 `<script src="/bundle.js">`
+
+使用该插件后：
+
+* 将指定模板编译到内存，避免频繁读写磁盘
+* 自动把打包好的 `bundle.js` 插入到 `<body>` 末尾
+
+**使用**：
+
+```javascript
+const path = require('path');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
+
+module.exports = {
+  // ...
+
+  // 配置插件
+  plugins: [
+    // 启动页
+    new HtmlWebpackPlugin({
+      // 指定模板页面：将此模板编译到内存中
+      template: path.join(__dirname, './src/index.html'),
+
+      // 指定编译后的文件名称
+      filename: 'index.html',
+    }),
+  ],
+};
+```
+
+## 8. 处理样式文件
+
+webpack 默认只能打包处理 JS 类型的文件，非 JS 文件需要配置（loader）。
+
+### 8.1. css 文件
+
+**安装**：
+
+```shell
+$ npm i css-loader@0.28.11 -D
+
++ css-loader@0.28.11
+
+$ npm i style-loader -D
+
++ style-loader@0.23.0
+```
+
+**配置**：
+
+```javascript
+module.exports = {
+  // ...
+
+  // 配置第三方模块加载器
+  module: {
+
+    /*
+     * 文件的匹配规则和对应处理器
+     * webpack 要处理的文件不是 JS 文件时，会在这里匹配相应的 loader 进行处理，
+     * 处理的结果直接交给 webpack 进行打包合并，最终输出到 bundle.js
+     */
+    rules: [
+      {
+        // 匹配规则
+        test: /\.css$/,
+
+        /*
+         * 匹配到了使用哪些 loader 来处理
+         * loader 从右到左调用，以管道的方式
+         */
+        use: ['style-loader', 'css-loader'],
+      },
+    ],
+  },
+};
+
+```
+
+### 8.2. less 文件
+
+**安装**：
+
+```shell
+$ npm i less-loader -D
+
++ less-loader@4.1.0
+
+$ npm i less -D
+
++ less@3.8.1
+```
+
+**配置**：
+
+```javascript
+module.exports = {
+  // ...
+
+  module: {
+    rules: [
+      {
+        test: /\.less$/,
+        use: ['style-loader', 'css-loader', 'less-loader'],
+      },
+    ],
+  },
+};
+```
+
+### 8.3. scss 文件
+
+**安装**：
+
+```shell
+$ npm i sass-loader -D
+
++ sass-loader@7.1.0
+
+$ npm i node-sass -D
+
++ node-sass@4.9.3
+```
+
+**配置**：
+
+```javascript
+module.exports = {
+  // ...
+
+  module: {
+    rules: [
+      {
+        test: /\.scss$/,
+        use: ['style-loader', 'css-loader', 'sass-loader'],
+      },
+    ],
+  },
+};
+```
+
+## 9. 处理图片路径
+
+默认情况下，webpack 无法处理 css 文件中的 url 地址，无论是图片还是字体文件。
+
+**安装**：
+
+```shell
+$ npm i url-loader@0.6.2 -D
+
++ url-loader@0.6.2
+
+$ npm i file-loader@0.11.2 -D
+
++ file-loader@0.11.2
+```
+
+**配置**：
+
+```javascript
+{
+  test: /\.(jpg|png|gif|bmp|jpeg)$/,
+
+  /*
+    * url-loader 依赖 file-loader
+    * 默认转 base64，可通过设置 limit 参数，当小于该值时才转 base64
+    */
+  use: [
+    {
+      loader: 'url-loader',
+      options: {
+        // 单位 KB
+        limit: 92,
+
+        /*
+          * 设置打包后的文件名称，默认为 hash 值名称
+          * [hash:8] 取前 8 位 hash 值
+          */
+        name: '[name].[hash:8].[ext]',
+      },
+    },
+  ],
+},
+```
+
+## 10. 处理字体文件
+
+**说明**：
+
+使用 `url-loader`
+
+**配置**：
+
+```javascript
+// 处理字体文件
+{
+  test: /\.(ttf|eot|svg|woff|woff2)$/,
+  use: [
+    {
+      loader: 'url-loader',
+      options: {
+        // 单位 KB
+        limit: 1024 * 2,
+
+        /*
+          * 设置打包后的文件名称，默认为 hash 值名称
+          * [hash:8] 取前 8 位 hash 值
+          */
+        name: '[name].[hash:8].[ext]',
+      },
+    },
+  ],
+},
+```
