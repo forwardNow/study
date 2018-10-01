@@ -534,3 +534,49 @@ $ npm i file-loader@0.11.2 -D
   ],
 },
 ```
+
+## 11. 处理 ECMAScript 高级语法
+
+**说明**：
+
+webpack 默认只能处理一部分 ES6 的新语法，更高级的语法需要借助第三方 loader。
+
+使用 [babel](https://babeljs.io/) 帮我们将高级语法转换为低级语法
+
+**安装**：
+
+```shell
+# 核心包及插件
+$ npm i -D babel-core babel-loader@7 babel-plugin-transform-runtime
+
++ babel-loader@7.1.5
++ babel-plugin-transform-runtime@6.23.0
++ babel-core@6.26.3
+
+# 可使用的 ES 语法（语法包）
+$ npm i -D babel-preset-env babel-preset-stage-0
+
++ babel-preset-stage-0@6.24.1
++ babel-preset-env@1.7.0
+```
+
+**配置**：
+
+创建 `/.babelrc` 文件，并编辑：
+
+```json
+{
+  "presets": ["env", "stage-0"],
+  "plugins": ["transform-runtime"]
+}
+```
+
+配置 loader：
+
+```javascript
+{
+  test: /\.js$/,
+  exclude: /node_modules/,
+  use: 'babel-loader',
+},
+```
