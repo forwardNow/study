@@ -79,28 +79,34 @@
 * [Node.js](./BackEnd/node/readme.md)
 * [NPM](./BackEnd/npm/readme.md)
 
-## 3. 运维
+## 3. 移动端
 
-### 3.1. ECS (阿里云服务器)
+### 3.1. Weex
+
+* [Weex 笔记](./Mobile/weex/readme.md)
+
+## 4. 运维
+
+### 4.1. ECS (阿里云服务器)
 
 * [ECS](./Operation/ECS/readme.md)
 
-### 3.2. Linux
+### 4.2. Linux
 
 * [Linux 笔记](./Operation/Linux/readme.md)
 
-## 4. 计算机
+## 5. 计算机
 
-### 4.1. 网络
+### 5.1. 网络
 
 * [《网络是怎样连接的》](./网络/网络是怎样连接的)
 
-### 4.2. 音视频
+### 5.2. 音视频
 
 * [视频格式与编码](./blog/2018/08/03.视频格式与编码.md)
 
-## 5. 开发工具
+## 6. 开发工具
 
-### 5.1. vscode
+### 6.1. vscode
 
 * [同步vscode的配置](./blog/2018/09/11.同步vscode的配置.md)
