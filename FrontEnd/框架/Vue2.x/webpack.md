@@ -306,7 +306,7 @@ module.exports = {
   },
 
   // 配置插件
-  plugins: [ 
+  plugins: [
     // 启用热更新:第 3 步
     new webpack.HotModuleReplacementPlugin(),
   ],
@@ -583,6 +583,8 @@ $ npm i -D babel-preset-env babel-preset-stage-0
 
 ## 12. 在 webpack 中使用 Vue
 
+### 12.1. 像网页中一样使用
+
 **说明**：
 
 vue 包的入口是 `"main": "dist/vue.runtime.common.js",`，
@@ -599,6 +601,49 @@ const app = new Vue({
   el: '#app',
   data: {
     msg: 'hello',
+  },
+});
+```
+
+### 12.2. 单文件模式
+
+**说明**：
+
+处理 `.vue` 文件，需要安装配置 vue-loader。
+
+使用 vue-runtime 时，要借助 `render()` 函数将组建渲染到页面。
+
+**安装**：
+
+```shell
+npm i -D vue-loader@14 vue-template-compiler
+```
+
+**配置**：
+
+```javascript
+{
+  test: /\.vue$/,
+  use: 'vue-loader',
+},
+```
+
+**示例**：
+
+```html
+<!-- src/index.html -->
+<div id="app"></div>
+```
+
+```javascript
+// src/main.js
+import Vue from 'vue';
+import LoginComponent from './components/Login.vue';
+
+const app = new Vue({
+  el: '#app',
+  render(createElements) {
+    return createElements(LoginComponent);
   },
 });
 ```
