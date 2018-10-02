@@ -611,12 +611,15 @@ const app = new Vue({
 
 处理 `.vue` 文件，需要安装配置 vue-loader。
 
-使用 vue-runtime 时，要借助 `render()` 函数将组建渲染到页面。
+使用 vue-runtime 时，要借助 `render()` 函数将根组件（`/src/App.vue`）渲染到页面。
 
 **安装**：
 
 ```shell
 npm i -D vue-loader@14 vue-template-compiler
+
++ vue-template-compiler@2.5.17
++ vue-loader@14.2.3
 ```
 
 **配置**：
@@ -638,12 +641,69 @@ npm i -D vue-loader@14 vue-template-compiler
 ```javascript
 // src/main.js
 import Vue from 'vue';
-import LoginComponent from './components/Login.vue';
+import AppComponent from './App.vue';
 
 const app = new Vue({
   el: '#app',
   render(createElements) {
-    return createElements(LoginComponent);
+    return createElements(AppComponent);
   },
+});
+```
+
+## 13. 路由
+
+**安装**：
+
+```shell
+$ npm i -S vue-router
+
++ vue-router@3.0.1
+```
+
+**使用**：
+
+```html
+<!-- /src/index.html -->
+<div id="#app"></div>
+```
+
+```html
+<!-- /src/App.vue -->
+<template>
+  <div>
+    App Vue
+    <router-link to="/login">登陆</router-link>
+    <router-link to="/register">注册</router-link>
+    <router-view></router-view>
+  </div>
+</template>
+```
+
+```javascript
+// /src/main.js
+
+// 1. 引入
+import Vue from 'vue';
+import VueRouter from 'vue-router';
+
+// 2. 安装
+Vue.use(VueRouter);
+
+// 3. 配置路由
+const router = new VueRouter({
+  routes: [
+    { path: '/login', component: LoginComponent },
+    { path: '/register', component: RegisterComponent },
+  ],
+});
+
+// 4. 挂载到根实例
+const app = new Vue({
+  el: '#app',
+  render(createElements) {
+    return createElements(AppComponent);
+  },
+  router,
 });
 ```
