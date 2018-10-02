@@ -756,3 +756,31 @@ const router = new VueRouter({
   ],
 });
 ```
+
+## 14. Vue 单文件中的样式
+
+### 14.1. 作用域
+
+**说明**：
+
+通过 `<style scope>` 设置内嵌样式只对该组件有效
+
+**示例**：
+
+```html
+<style scoped>
+</style>
+```
+
+### 14.2. 使用 scss/less 语法
+
+**说明**：
+
+通过 `<style lang="scss">` 设置使用的 css 预处理器。
+
+**示例**：
+
+```html
+<style lang="scss">
+</style>
+```
