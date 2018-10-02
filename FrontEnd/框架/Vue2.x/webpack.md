@@ -553,7 +553,7 @@ $ npm i -D babel-core babel-loader@7 babel-plugin-transform-runtime
 + babel-plugin-transform-runtime@6.23.0
 + babel-core@6.26.3
 
-# 可使用的 ES 语法（语法包）
+# 可使用的 ES 语法（语法包）：env 包含所有的 ES 语法。
 $ npm i -D babel-preset-env babel-preset-stage-0
 
 + babel-preset-stage-0@6.24.1
@@ -579,4 +579,26 @@ $ npm i -D babel-preset-env babel-preset-stage-0
   exclude: /node_modules/,
   use: 'babel-loader',
 },
+```
+
+## 12. 在 webpack 中使用 Vue
+
+**说明**：
+
+vue 包的入口是 `"main": "dist/vue.runtime.common.js",`，
+此 JS 只提供了 runtime-only 的方式，并不能像网页中一样使用。
+
+可以自行引入完整的文件 `vue/dist/vue.js`。
+
+**示例**：
+
+```javascript
+import Vue from 'vue/dist/vue';
+
+const app = new Vue({
+  el: '#app',
+  data: {
+    msg: 'hello',
+  },
+});
 ```
