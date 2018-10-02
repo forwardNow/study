@@ -653,6 +653,8 @@ const app = new Vue({
 
 ## 13. 路由
 
+### 13.1. 基本使用
+
 **安装**：
 
 ```shell
@@ -705,5 +707,52 @@ const app = new Vue({
     return createElements(AppComponent);
   },
   router,
+});
+```
+
+### 13.2. 子路由
+
+**示例**：
+
+```html
+<!-- /src/index.html -->
+<div id="app"></div>
+
+<!-- /src/App.vue -->
+<template>
+  <div>
+    App：
+    <router-link to="/management">管理</router-link>
+    <router-view></router-view>
+  </div>
+</template>
+
+<!-- /src/views/management/Management.vue -->
+<template>
+  <div>
+    管理：
+    <router-link to="/management/user">用户管理</router-link>
+    <router-link to="/management/dept">部门管理</router-link>
+    <router-view></router-view>
+  </div>
+</template>
+```
+
+```javascript
+import ManagementComponent from './views/management/Management.vue';
+import UserManagementComponent from './views/management/User.vue';
+import DeptManagementComponent from './views/management/Dept.vue';
+
+const router = new VueRouter({
+  routes: [
+    {
+      path: '/management',
+      component: ManagementComponent,
+      children: [
+        { path: 'user', component: UserManagementComponent },
+        { path: 'dept', component: DeptManagementComponent },
+      ],
+    },
+  ],
 });
 ```
