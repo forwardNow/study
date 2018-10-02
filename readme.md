@@ -85,28 +85,32 @@
 
 * [Weex 笔记](./Mobile/weex/readme.md)
 
-## 4. 运维
+## 4. 测试
 
-### 4.1. ECS (阿里云服务器)
+* [Web 自动化测试](./Test/Web自动化测试/readme.md)
+
+## 5. 运维
+
+### 5.1. ECS (阿里云服务器)
 
 * [ECS](./Operation/ECS/readme.md)
 
-### 4.2. Linux
+### 5.2. Linux
 
 * [Linux 笔记](./Operation/Linux/readme.md)
 
-## 5. 计算机
+## 6. 计算机
 
-### 5.1. 网络
+### 6.1. 网络
 
 * [《网络是怎样连接的》](./网络/网络是怎样连接的)
 
-### 5.2. 音视频
+### 6.2. 音视频
 
 * [视频格式与编码](./blog/2018/08/03.视频格式与编码.md)
 
-## 6. 开发工具
+## 7. 开发工具
 
-### 6.1. vscode
+### 7.1. vscode
 
 * [同步vscode的配置](./blog/2018/09/11.同步vscode的配置.md)
