@@ -1,12 +1,10 @@
-# ECS
+# ECS - CentOS 6.5
 
 [阿里云服务器公网ip无法访问解决办法](https://yq.aliyun.com/articles/87135)
 
 远程连接密码: 183376
 
-## 1. CentOS5
-
-### 1.1. 账户
+## 1. 账户
 
 账户: root / Wu+
 
@@ -18,7 +16,38 @@ $ ssh root@39.105.88.174
 Welcome to Alibaba Cloud Elastic Compute Service !
 ```
 
-### 1.2. 修改 ssh 配置
+## 2. 安装 zsh 和 oh my zsh
+
+安装 zsh
+
+```shell
+# 安装zsh包
+yum -y install zsh
+
+# 切换默认shell为zsh
+chsh -s /bin/zsh
+
+# 重启服务器让修改的配置生效
+shutdown -r
+```
+
+安装 git
+
+```shell
+# 查看 git 信息
+yum info git
+
+# 安装
+yum install -y git
+```
+
+安装 oh my zsh
+
+```shell
+sh -c "$(wget https://raw.github.com/robbyrussell/oh-my-zsh/master/tools/install.sh -O -)"
+```
+
+## 3. 修改 ssh 配置避免频繁掉线
 
 ```shell
 [root@iz8rrzrale48hez ssh]# cd /etc/ssh
@@ -32,5 +61,8 @@ PermitRootLogin yes
 ClientAliveInterval 60
 
 # 每次keepalive报文发送三个，超过三个仍然未能建立连接的话，断开连接
-ClientAliveCountMax 3  
+ClientAliveCountMax 3
+
+# 重新载入ssh参数
+[root@iz8rrzrale48hez ssh]# service sshd reload
 ```
