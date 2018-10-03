@@ -763,7 +763,9 @@ const router = new VueRouter({
 
 **说明**：
 
-通过 `<style scope>` 设置内嵌样式只对该组件有效
+通过 `<style scope>` 设置内嵌样式只对该组件有效。
+
+通过属性选择器实现。
 
 **示例**：
 
