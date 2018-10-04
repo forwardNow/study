@@ -1,7 +1,5 @@
 # ECS - CentOS 6.5
 
-[阿里云服务器公网ip无法访问解决办法](https://yq.aliyun.com/articles/87135)
-
 远程连接密码: 183376
 
 ## 1. 账户
@@ -16,7 +14,11 @@ $ ssh root@39.105.88.174
 Welcome to Alibaba Cloud Elastic Compute Service !
 ```
 
-## 2. 安装 zsh 和 oh my zsh
+## 2. 开放端口和 IP
+
+[阿里云服务器公网ip无法访问解决办法](https://yq.aliyun.com/articles/87135)
+
+## 3. 安装 zsh 和 oh my zsh
 
 安装 zsh
 
@@ -47,7 +49,7 @@ yum install -y git
 sh -c "$(wget https://raw.github.com/robbyrussell/oh-my-zsh/master/tools/install.sh -O -)"
 ```
 
-## 3. 修改 ssh 配置避免频繁掉线
+## 4. 修改 ssh 配置避免频繁掉线
 
 ```shell
 [root@iz8rrzrale48hez ssh]# cd /etc/ssh
@@ -67,7 +69,7 @@ ClientAliveCountMax 3
 [root@iz8rrzrale48hez ssh]# service sshd reload
 ```
 
-## 4. 安装并配置 Nginx
+## 5. 安装并配置 Nginx
 
 安装
 
@@ -110,7 +112,7 @@ server {
 chmod o+x /root
 ```
 
-## 5. 安装 node
+## 6. 安装 node
 
 ```shell
 # 安装，但版本太低
@@ -128,7 +130,7 @@ n stable
 npm install -g npm
 ```
 
-## 6. 安装 MongoDB
+## 7. 安装 MongoDB
 
 安装
 
@@ -144,4 +146,30 @@ npm install -g npm
 ➜  nodejs-admin git:(master) jobs
 [1]  - running    mongod
 [2]  + running    node app.js
+```
+
+## 8. 使用 `nohup` 命令运行后台任务
+
+使用 ssh 远程连接到 CentOS 执行的后台任务，一旦关闭 ssh ，后台任务就会自动停止。
+
+```shell
+# 后台运行 nodejs 服务
+➜  ~ cd /root/github/nodejs-admin
+➜  nodejs-admin git:(master) ✗ nohup node app.js &
+
+# 后台运行 MongoDB 数据库
+➜  ~ nohup mongod &
+
+# 查看后台任务
+➜  ~ jobs
+[1]  - running    nohup mongod
+[2]  + running    nohup node app.js
+
+# 关闭后台任务：编号为`[1]`的后台任务
+➜  ~ kill %1
+➜  ~
+[1]  - 6032 done       nohup mongod
+
+➜  ~ jobs
+[2]  + running    nohup node app.js
 ```
