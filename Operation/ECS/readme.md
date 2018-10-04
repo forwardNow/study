@@ -66,3 +66,82 @@ ClientAliveCountMax 3
 # 重新载入ssh参数
 [root@iz8rrzrale48hez ssh]# service sshd reload
 ```
+
+## 4. 安装并配置 Nginx
+
+安装
+
+```shell
+➜  ~ yum install -y nginx
+```
+
+查看安装路径
+
+```shell
+➜  ~ rpm -ql nginx
+```
+
+启动与停止
+
+```shell
+# 启动
+nginx
+
+# 停止
+nginx -s stop
+```
+
+编辑 `/etc/nginx/nginx.conf`
+
+```text
+server {
+    listen       80 default_server;
+    # listen       [::]:80 default_server;
+    server_name  _;
+    root         /root/github/vue-admin/dist;
+    charset UTF-8;
+    index index.html;
+}
+```
+
+更改权限，使 Nginx 可访问
+
+```shell
+chmod o+x /root
+```
+
+## 5. 安装 node
+
+```shell
+# 安装，但版本太低
+yum install nodejs
+
+# 安装镜像源管理
+npm install -g nrm
+nrm use taobao
+
+# 升级 node
+npm install -g n
+n stable
+
+# 升级 npm
+npm install -g npm
+```
+
+## 6. 安装 MongoDB
+
+安装
+
+```zsh
+➜  ~ vi /etc/yum.repos.d/mongodb-org-3.6.repo
+➜  ~ yum install -y mongodb-org
+```
+
+运行
+
+```zsh
+➜  ~ mongod &
+➜  nodejs-admin git:(master) jobs
+[1]  - running    mongod
+[2]  + running    node app.js
+```
