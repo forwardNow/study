@@ -148,7 +148,7 @@ npm install -g npm
 [2]  + running    node app.js
 ```
 
-## 8. 使用 `nohup` 命令运行后台任务
+## 8. 使用 `setsid` 命令运行后台任务
 
 使用 ssh 远程连接到 CentOS 执行的后台任务，一旦关闭 ssh ，后台任务就会自动停止。
 
@@ -158,18 +158,9 @@ npm install -g npm
 ➜  nodejs-admin git:(master) ✗ nohup node app.js &
 
 # 后台运行 MongoDB 数据库
-➜  ~ nohup mongod &
+➜  ~ setsid mongod &
 
-# 查看后台任务
-➜  ~ jobs
-[1]  - running    nohup mongod
-[2]  + running    nohup node app.js
-
-# 关闭后台任务：编号为`[1]`的后台任务
-➜  ~ kill %1
-➜  ~
-[1]  - 6032 done       nohup mongod
-
-➜  ~ jobs
-[2]  + running    nohup node app.js
+# 查看端口占用情况
+➜  ~ netstat -tunlp | grep 3000
+➜  ~ netstat -tunlp | grep 27017
 ```
