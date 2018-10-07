@@ -164,3 +164,74 @@ npm install -g npm
 ➜  ~ netstat -tunlp | grep 3000
 ➜  ~ netstat -tunlp | grep 27017
 ```
+
+## 9. 安装 vsftp
+
+```shell
+# 安装
+➜  ~ yum install vsftpd
+Installed:
+  vsftpd.x86_64 0:3.0.2-22.el7
+
+Complete!
+
+# 启动
+➜  ~ service vsftpd start
+
+# 查看服务状态
+➜  ~ systemctl status vsftpd.service
+
+# 查看进程
+➜  ~ ps -ef | grep ftp
+root     30085     1  0 19:26 ?   00:00:00 /usr/sbin/vsftpd /etc/vsftpd/vsftpd.conf
+
+# 查看端口
+➜  ~ netstat -tnlp | grep ftp
+tcp6      0      0 :::21     :::*     LISTEN      30085/vsftpd
+```
+
+```shell
+# 创建用户
+➜  ~ useradd ftptest
+
+# 修改密码：123
+➜  ~ passwd ftptest
+```
+
+[修改匿名用户的权限](https://juejin.im/post/5ad56f6ef265da238f1309d4)
+
+## 10. 安装 SSL 证书
+
+证书位置
+
+```text
+/root/ssl_cert/1539663368755.key
+/root/ssl_cert/1539663368755.pem
+```
+
+配置 Nginx ：
+
+```shell
+➜  ~ vim /etc/nginx/nginx.conf
+
+    server {
+        listen 443;
+        server_name fn1.top;
+        ssl on;
+        root         /root/github/vue-admin/dist;
+        charset UTF-8;
+        index index.html;
+        ssl_certificate   /root/ssl_cert/1539663368755.pem;
+        ssl_certificate_key  /root/ssl_cert/1539663368755.key;
+        ssl_session_timeout 5m;
+        ssl_ciphers ECDHE-RSA-AES128-GCM-SHA256:ECDHE:ECDH:AES:HIGH:!NULL:!aNULL:!MD5:!ADH:!RC4;
+        ssl_protocols TLSv1 TLSv1.1 TLSv1.2;
+        ssl_prefer_server_ciphers on;
+
+        location ^~/api {
+            proxy_set_header Host $http_host;
+            proxy_set_header X-Forward-For $remote_addr;
+            proxy_pass http://127.0.0.1:3000/api;
+            proxy_cookie_path  /api /api;
+        }
+    }
