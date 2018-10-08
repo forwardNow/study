@@ -306,7 +306,7 @@ module.exports = {
   },
 
   // 配置插件
-  plugins: [ 
+  plugins: [
     // 启用热更新:第 3 步
     new webpack.HotModuleReplacementPlugin(),
   ],
@@ -533,4 +533,256 @@ $ npm i file-loader@0.11.2 -D
     },
   ],
 },
+```
+
+## 11. 处理 ECMAScript 高级语法
+
+**说明**：
+
+webpack 默认只能处理一部分 ES6 的新语法，更高级的语法需要借助第三方 loader。
+
+使用 [babel](https://babeljs.io/) 帮我们将高级语法转换为低级语法
+
+**安装**：
+
+```shell
+# 核心包及插件
+$ npm i -D babel-core babel-loader@7 babel-plugin-transform-runtime
+
++ babel-loader@7.1.5
++ babel-plugin-transform-runtime@6.23.0
++ babel-core@6.26.3
+
+# 可使用的 ES 语法（语法包）：env 包含所有的 ES 语法。
+$ npm i -D babel-preset-env babel-preset-stage-0
+
++ babel-preset-stage-0@6.24.1
++ babel-preset-env@1.7.0
+```
+
+**配置**：
+
+创建 `/.babelrc` 文件，并编辑：
+
+```json
+{
+  "presets": ["env", "stage-0"],
+  "plugins": ["transform-runtime"]
+}
+```
+
+配置 loader：
+
+```javascript
+{
+  test: /\.js$/,
+  exclude: /node_modules/,
+  use: 'babel-loader',
+},
+```
+
+## 12. 在 webpack 中使用 Vue
+
+### 12.1. 像网页中一样使用
+
+**说明**：
+
+vue 包的入口是 `"main": "dist/vue.runtime.common.js",`，
+此 JS 只提供了 runtime-only 的方式，并不能像网页中一样使用。
+
+可以自行引入完整的文件 `vue/dist/vue.js`。
+
+**示例**：
+
+```javascript
+import Vue from 'vue/dist/vue';
+
+const app = new Vue({
+  el: '#app',
+  data: {
+    msg: 'hello',
+  },
+});
+```
+
+### 12.2. 单文件模式
+
+**说明**：
+
+处理 `.vue` 文件，需要安装配置 vue-loader。
+
+使用 vue-runtime 时，要借助 `render()` 函数将根组件（`/src/App.vue`）渲染到页面。
+
+**安装**：
+
+```shell
+npm i -D vue-loader@14 vue-template-compiler
+
++ vue-template-compiler@2.5.17
++ vue-loader@14.2.3
+```
+
+**配置**：
+
+```javascript
+{
+  test: /\.vue$/,
+  use: 'vue-loader',
+},
+```
+
+**示例**：
+
+```html
+<!-- src/index.html -->
+<div id="app"></div>
+```
+
+```javascript
+// src/main.js
+import Vue from 'vue';
+import AppComponent from './App.vue';
+
+const app = new Vue({
+  el: '#app',
+  render(createElements) {
+    return createElements(AppComponent);
+  },
+});
+```
+
+## 13. 路由
+
+### 13.1. 基本使用
+
+**安装**：
+
+```shell
+$ npm i -S vue-router
+
++ vue-router@3.0.1
+```
+
+**使用**：
+
+```html
+<!-- /src/index.html -->
+<div id="#app"></div>
+```
+
+```html
+<!-- /src/App.vue -->
+<template>
+  <div>
+    App Vue
+    <router-link to="/login">登陆</router-link>
+    <router-link to="/register">注册</router-link>
+    <router-view></router-view>
+  </div>
+</template>
+```
+
+```javascript
+// /src/main.js
+
+// 1. 引入
+import Vue from 'vue';
+import VueRouter from 'vue-router';
+
+// 2. 安装
+Vue.use(VueRouter);
+
+// 3. 配置路由
+const router = new VueRouter({
+  routes: [
+    { path: '/login', component: LoginComponent },
+    { path: '/register', component: RegisterComponent },
+  ],
+});
+
+// 4. 挂载到根实例
+const app = new Vue({
+  el: '#app',
+  render(createElements) {
+    return createElements(AppComponent);
+  },
+  router,
+});
+```
+
+### 13.2. 子路由
+
+**示例**：
+
+```html
+<!-- /src/index.html -->
+<div id="app"></div>
+
+<!-- /src/App.vue -->
+<template>
+  <div>
+    App：
+    <router-link to="/management">管理</router-link>
+    <router-view></router-view>
+  </div>
+</template>
+
+<!-- /src/views/management/Management.vue -->
+<template>
+  <div>
+    管理：
+    <router-link to="/management/user">用户管理</router-link>
+    <router-link to="/management/dept">部门管理</router-link>
+    <router-view></router-view>
+  </div>
+</template>
+```
+
+```javascript
+import ManagementComponent from './views/management/Management.vue';
+import UserManagementComponent from './views/management/User.vue';
+import DeptManagementComponent from './views/management/Dept.vue';
+
+const router = new VueRouter({
+  routes: [
+    {
+      path: '/management',
+      component: ManagementComponent,
+      children: [
+        { path: 'user', component: UserManagementComponent },
+        { path: 'dept', component: DeptManagementComponent },
+      ],
+    },
+  ],
+});
+```
+
+## 14. Vue 单文件中的样式
+
+### 14.1. 作用域
+
+**说明**：
+
+通过 `<style scope>` 设置内嵌样式只对该组件有效。
+
+通过属性选择器实现。
+
+**示例**：
+
+```html
+<style scoped>
+</style>
+```
+
+### 14.2. 使用 scss/less 语法
+
+**说明**：
+
+通过 `<style lang="scss">` 设置使用的 css 预处理器。
+
+**示例**：
+
+```html
+<style lang="scss">
+</style>
 ```

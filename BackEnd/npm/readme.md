@@ -1,4 +1,4 @@
- # npm模块管理器
+# npm模块管理器
 
 ## 1. 简介
 
@@ -41,10 +41,14 @@ $ npm config list -l
 如果使用了 `-f`（代表force）、`-y`（代表yes），则跳过提问阶段，直接生成一个新的 `package.json` 文件。
 
 ```shell
-$ npm init -y
+npm init -y
 ```
 
-## 3. npm set
+## 3. npm ls --depth=0
+
+查看安装的包
+
+## 4. npm set
 
 `npm set` 用来设置环境变量。
 
@@ -55,38 +59,39 @@ $ npm set init-author-name 'Your name'
 $ npm set init-author-email 'Your email'
 $ npm set init-author-url 'http://yourdomain.com'
 $ npm set init-license 'MIT'
+x
 ```
 
 上面命令等于为 `npm init` 设置了默认值，以后执行 `npm init` 的时候，`package.json` 的作者姓名、邮件、主页、许可证字段就会自动写入预设的值。这些信息会存放在用户主目录的 `~/.npmrc` 文件，使得用户不用每个项目都输入。如果某个项目有不同的设置，可以针对该项目运行 `npm config`。
 
 ```shell
-$ npm set save-exact true
+npm set save-exact true
 ```
 
 上面命令设置加入模块时，`package.json` 将记录模块的确切版本，而不是一个可选的版本范围。
 
-## 4. npm config
+## 5. npm config
 
 ```shell
-$ npm config set prefix $dir
+npm config set prefix $dir
 ```
 
 上面的命令将指定的 `$dir` 目录，设为模块的全局安装目录。如果当前有这个目录的写权限，那么运行 `npm install` 的时候，就不再需要 `sudo` 命令授权了。
 
 ```shell
-$ npm config set init.author.name $name
-$ npm config set init.author.email $email
+npm config set init.author.name $name
+npm config set init.author.email $email
 ```
 
 上面命令指定使用 `npm init` 时，生成的 `package.json` 文件的字段默认值。
 
 ```shell
-$ npm config set registry https://registry.npmjs.org/
+npm config set registry https://registry.npmjs.org/
 ```
 
 设置npm包的仓库
 
-## 5. npm info
+## 6. npm info
 
 `npm info` 命令可以查看每个模块的具体信息
 
@@ -116,33 +121,33 @@ latest: 6.2.2
 published a month ago by blesh <ben@benlesh.com>
 ```
 
-## 6. npm search
+## 7. npm search
 
 `npm search` 命令用于搜索npm仓库
 
-## 7. npm list
+## 8. npm list
 
 `npm list` 命令以树型结构列出当前项目安装的所有模块，以及它们依赖的模块。
 
 ```shell
-$ npm list
+npm list
 ```
 
 加上 `global` 参数，会列出全局安装的模块。
 
 ```shell
-$ npm list -global
+npm list -global
 ```
 
-列出单个模块: 
+列出单个模块:
 
 ```shell
-$ npm list rxjs-compat
+npm list rxjs-compat
 ```
 
-## 8. npm install
+## 9. npm install
 
-### 8.1. 基本用法
+### 9.1. 基本用法
 
 Node 模块采用 `npm install` 命令安装。
 
@@ -154,7 +159,7 @@ Node 模块采用 `npm install` 命令安装。
 
 ```shell
 # 本地安装
-$ npm install <package name>
+npm install <package name>
 
 # 全局安装
 $ sudo npm install -global <package name>
@@ -164,8 +169,8 @@ $ sudo npm install -g <package name>
 `npm install` 也支持直接输入 Github 代码库地址。
 
 ```shell
-$ npm install git://github.com/package/path.git
-$ npm install git://github.com/package/path.git#0.1.0
+npm install git://github.com/package/path.git
+npm install git://github.com/package/path.git#0.1.0
 ```
 
 安装之前，`npm install` 会先检查，`node_modules` 目录之中是否已经存在指定模块。如果存在，就不再重新安装了，即使远程仓库已经有了一个新版本，也是如此。
@@ -173,24 +178,24 @@ $ npm install git://github.com/package/path.git#0.1.0
 如果你希望，一个模块不管是否安装过，npm 都要强制重新安装，可以使用 `-f` 或 `--force` 参数。
 
 ```shell
-$ npm install <packageName> --force
+npm install <packageName> --force
 ```
 
 如果你希望，所有模块都要强制重新安装，那就删除 `node_modules` 目录，重新执行 `npm install` 。
 
 ```shell
-$ rm -rf node_modules
-$ npm install
+rm -rf node_modules
+npm install
 ```
 
-### 8.2. 安装不同版本
+### 9.2. 安装不同版本
 
 `install` 命令总是安装模块的最新版本，如果要安装模块的特定版本，可以在模块名后面加上@和版本号。
 
 ```shell
-$ npm install sax@latest
-$ npm install sax@0.1.1
-$ npm install sax@">=0.1.0 <0.2.0"
+npm install sax@latest
+npm install sax@0.1.1
+npm install sax@">=0.1.0 <0.2.0"
 ```
 
 `install` 命令可以使用不同参数，指定所安装的模块属于哪一种性质的依赖关系，即出现在 `packages.json` 文件的哪一项中。
@@ -199,11 +204,11 @@ $ npm install sax@">=0.1.0 <0.2.0"
 * `–-save-dev`: 模块名将被添加到 devDependencies ，可以简化为参数 `-D` 。
 
 ```shell
-$ npm install sax --save
-$ npm install node-tap --save-dev
+npm install sax --save
+npm install node-tap --save-dev
 # 或者
-$ npm install sax -S
-$ npm install node-tap -D
+npm install sax -S
+npm install node-tap -D
 ```
 
 如果要安装 beta 版本的模块，需要使用下面的命令。
@@ -219,7 +224,7 @@ $ npm install <module-name>@1.3.1-beta.3
 `npm install` 默认会安装 `dependencies` 字段和 `devDependencies` 字段中的所有模块，如果使用`--production` 参数，可以只安装 `dependencies` 字段的模块。
 
 ```shell
-$ npm install --production
+npm install --production
 ```
 
 一旦安装了某个模块，就可以在代码中用 `require` 命令加载这个模块。
@@ -229,7 +234,7 @@ var backbone = require('backbone')
 console.log(backbone.VERSION)
 ```
 
-## 9. npm update
+## 10. npm update
 
 `npm update` 命令可以更新本地安装的模块。
 
@@ -248,10 +253,10 @@ $ npm update -global [package name]
 注意，从 npm v2.6.1 开始，`npm update` 只更新顶层模块，而不更新依赖的依赖，以前版本是递归更新的。如果想取到老版本的效果，要使用下面的命令。
 
 ```shell
-$ npm --depth 9999 update
+npm --depth 9999 update
 ```
 
-## 10. npm uninstall
+## 11. npm uninstall
 
 `npm uninstall` 命令，卸载已安装的模块。
 
@@ -262,14 +267,14 @@ $ npm uninstall [package name]
 $ npm uninstall [package name] -global
 ```
 
-## 11. npm run
+## 12. npm run
 
 `npm` 不仅可以用于模块管理，还可以用于执行脚本。`package.json` 文件有一个 `scripts` 字段，可以用于指定脚本命令，供 `npm` 直接调用。
 
 列出 `package.json` 里面所有可以执行的脚本命令：
 
 ```shell
-$ npm run
+npm run
 ```
 
 `npm run` 命令会自动在环境变量 `$PATH` 添加 `node_modules/.bin` 目录，所以 `scripts` 字段里面调用命令时不用加上路径，这就避免了全局安装 NPM 模块。
@@ -279,7 +284,7 @@ $ npm run
 举例来说，你执行 ESLint 的安装命令。
 
 ```shell
-$ npm i eslint --save-dev
+npm i eslint --save-dev
 ```
 
 运行上面的命令以后，会产生两个结果。首先，ESLint 被安装到当前目录的 `node_modules` 子目录；其次，`node_modules/.bin` 目录会生成一个符号链接 `node_modules/.bin/eslint` ，指向 ESLint 模块的可执行脚本。
