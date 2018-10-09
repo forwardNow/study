@@ -187,3 +187,111 @@ vim 中计算器的使用
 2. 按下 `Ctrl + r`
 3. 按下 `=`
 4. 输入公式，如 `100 + 88`
+
+## 9. 扩展
+
+### 9.1. vim 的配置文件
+
+vim 是一款编辑器，有相应的配置文件。
+
+vim 配置有三种情况：
+
+* 在末行模式下的配置（临时的）
+* 个人配置文件
+  * 路径：`~/.vimrc`
+  * 每个用户都可以单独设置，默认没有
+  * 该文件中的配置项优先级高于全局配置
+* 全局配置文件（vim 自带的）
+  * 路径：`/etc/vimrc`
+  * 不建议修改
+
+配置项：
+
+```text
+# set line num
+set nu
+
+" syntax highlight
+syntax on
+```
+
+### 9.2. 异常退出
+
+在编辑文件后，并没有正常退出（`:wq` 或 `:q!`），而是直接关闭终端：
+
+1. `vim 1.txt`
+2. 进入编辑模式，输入内容
+3. 关闭终端
+
+此时在目录存在以下文件
+
+```shell
+➜  test ls -a
+.          ..         .1.txt.swp
+```
+
+再次去编辑 `1.txt`，会显示如下结果
+
+```shell
+➜  test vim 1.txt
+
+
+E325: ATTENTION
+Found a swap file by the name ".1.txt.swp"
+          owned by: forwardNow   dated: Tue Oct  9 21:03:25 2018
+         file name: ~forwardNow/Downloads/test/1.txt
+          modified: YES
+         user name: forwardNow   host name: wuqinfeis-iMac.local
+        process ID: 5851
+While opening file "1.txt"
+
+(1) Another program may be editing the same file.  If this is the case,
+    be careful not to end up with two different instances of the same
+    file when making changes.  Quit, or continue with caution.
+(2) An edit session for this file crashed.
+    If this is the case, use ":recover" or "vim -r 1.txt"
+    to recover the changes (see ":help recovery").
+    If you did this already, delete the swap file ".1.txt.swp"
+    to avoid this message.
+
+Swap file ".1.txt.swp" already exists!
+[O]pen Read-Only, (E)dit anyway, (R)ecover, (D)elete it, (Q)uit, (A)bort:
+```
+
+解决方法就是删除交换文件，按下 `d` 键即可。
+
+### 9.3. 别名机制
+
+给命令指定别名。（用于给比较长的命令指定别名）
+
+通过别名映射文件（`~/.bashrc`）实现的。
+
+```shell
+➜  ~ cat ~/.bashrc
+# .bashrc
+
+# User specific aliases and functions
+
+alias rm='rm -i'
+alias cp='cp -i'
+alias mv='mv -i'
+
+# Source global definitions
+if [ -f /etc/bashrc ]; then
+  . /etc/bashrc
+fi
+```
+
+例如，添加清屏别名 `alias cls='clear'`。
+
+修改完毕后，如果想让它生效，需要重新登录用户。
+
+### 9.4. 退出方式
+
+退出 vim 的方式
+
+* `:q`
+* `:wq`（如果未修改而使用该命令，会更新最后修改时间，造成修改时间的混淆）
+* `:x`（修改过，则保存退出；未修改过，则直接退出）
+
+注意：`:X` 是对文件进行加密（或解密，输入空密码）。加密后需要保存。
