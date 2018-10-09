@@ -55,10 +55,9 @@
 
 * [《RxJS》](./FrontEnd/库/RxJS/readme.md)
 
-### 1.6. 测试
+### 1.6. 单元测试
 
-* [JSON Server](./blog/2018/08/29.JsonServer.md)
-* [Postman](./blog/2018/08/30.Postman.md)
+* [Mocha.js 的使用](./blog/2018/10/09.mochajs的使用.md)
 
 ### 1.7. 浏览器相关
 
@@ -88,6 +87,8 @@
 ## 4. 测试
 
 * [Web 自动化测试](./Test/Web自动化测试/readme.md)
+* [JSON Server](./blog/2018/08/29.JsonServer.md)
+* [Postman](./blog/2018/08/30.Postman.md)
 
 ## 5. 运维
 
