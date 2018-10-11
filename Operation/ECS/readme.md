@@ -155,7 +155,7 @@ npm install -g npm
 ```shell
 # 后台运行 nodejs 服务
 ➜  ~ cd /root/github/nodejs-admin
-➜  nodejs-admin git:(master) ✗ nohup node app.js &
+➜  nodejs-admin git:(master) ✗ setsid node app.js &
 
 # 后台运行 MongoDB 数据库
 ➜  ~ setsid mongod &
