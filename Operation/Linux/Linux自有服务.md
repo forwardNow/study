@@ -212,6 +212,31 @@ ftptest:$6$FHB9KYAi$rMcyq/Qt/VtCDPVJ5d/MLeDZ369z2s06v4j2H/UPpFPHpu/Gn6HmwCO64R6z
 lisi:$6$diehAwbc$rMfya2qyJ5.rKj4txUHqStSiuqEHxk5WXU7SGlm.FRqe5spld7clpEsEa0xYGTL01mpJhK1gwZd7ZzWTbhxiE1:17817:0:99999:7:::
 ```
 
+#### 2.1.4. 切换用户
+
+语法：`su 用户名` （switch user，如果不指定用户名则切换到超级管理员）
+
+示例：
+
+```shell
+# 切换到 lisi 用户
+➜  ~ su lisi
+[lisi@iz8rrzrale48hez root]$ pwd
+/root
+[lisi@iz8rrzrale48hez root]$ cd
+[lisi@iz8rrzrale48hez ~]$ pwd
+/home/zhangsan
+
+# 切换到超级管理员
+[lisi@iz8rrzrale48hez ~]$ su
+Password:
+➜  zhangsan cd
+➜  ~ pwd
+/root
+```
+
+#### 2.1.5. 删除用户
+
 ## 3. 网络设置
 
 ## 4. ssh 服务
