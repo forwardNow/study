@@ -325,6 +325,25 @@ zhangsan:x:1001:
 admin:x:1002:
 ```
 
+#### 2.2.2. 用户组修改
+
+语法：`groupmod 选项 组名`
+
+常用参数：
+
+* `-g`：修改 ID
+* `-n`：修改组名
+
+示例：
+
+```shell
+➜  ~ tail -1 /etc/group
+admin:x:1002:
+➜  ~ groupmod -n wahaha -g 1010 admin
+➜  ~ tail -1 /etc/group
+wahaha:x:1010:
+```
+
 ## 3. 网络设置
 
 ## 4. ssh 服务
