@@ -155,7 +155,7 @@ zhangsan:x:1001:1001::/home/zhangsan:/bin/bash
 
 #### 2.1.2. 修改用户
 
-语法：`usermod 选项 用户名`
+语法：`usermod 选项 用户名 [新的用户名]`
 
 常用选项：
 
@@ -184,6 +184,32 @@ lisi:x:1002:1000::/home/zhangsan:/bin/bash
 mongod:x:994:
 ftptest:x:1000:lisi
 zhangsan:x:1001:
+```
+
+#### 2.1.3. 设置用户密码
+
+Linux 不允许不允许没有密码的用户登陆到系统，新建的用户处于锁定状态
+
+语法：`passwd 用户名`
+
+示例：
+
+```shell
+➜  ~ tail -1 /etc/passwd
+lisi:x:1002:1000::/home/zhangsan:/bin/bash
+
+➜  ~ passwd lisi
+Changing password for user lisi.
+New password:【123456】
+BAD PASSWORD: The password is shorter than 8 characters
+Retype new password:
+passwd: all authentication tokens updated successfully.
+
+# 查看密码是否已经设置（mongod 没有密码）
+➜  ~ tail -3 /etc/shadow
+mongod:!!:17808::::::
+ftptest:$6$FHB9KYAi$rMcyq/Qt/VtCDPVJ5d/MLeDZ369z2s06v4j2H/UPpFPHpu/Gn6HmwCO64R6zd0.gCmHtPCeNgShIJGJMM6gR20:17811:0:99999:7:::
+lisi:$6$diehAwbc$rMfya2qyJ5.rKj4txUHqStSiuqEHxk5WXU7SGlm.FRqe5spld7clpEsEa0xYGTL01mpJhK1gwZd7ZzWTbhxiE1:17817:0:99999:7:::
 ```
 
 ## 3. 网络设置
