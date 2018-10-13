@@ -55,11 +55,17 @@
 
 * [《RxJS》](./FrontEnd/库/RxJS/readme.md)
 
-### 1.6. 单元测试
+### 1.6. 构建
+
+* [npm【待完成】](.FrontEnd/Build/npm.md)
+* [yarn【待完成】](.FrontEnd/Build/yarn.md)
+* [pnpm【待完成】](.FrontEnd/Build/pnpm.md)
+
+### 1.7. 单元测试
 
 * [Mocha.js 的使用](./blog/2018/10/09.mochajs的使用.md)
 
-### 1.7. 浏览器相关
+### 1.8. 浏览器相关
 
 * Chrome
   * [Chrome常用插件](./blog/2018/09/01.Chrome常用插件.md)
@@ -67,7 +73,7 @@
 * [制作web浏览器【待完成】](./FrontEnd/其他/制作web浏览器/readme.md)
 * [浏览器的工作原理【待完成】](./blog/2018/08/11.浏览器的工作原理.md)
 
-### 1.8. 待分类
+### 1.9. 待分类
 
 * [前端发展趋势](./blog/2018/07/30.前端发展趋势.md)
 
