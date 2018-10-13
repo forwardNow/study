@@ -344,6 +344,22 @@ admin:x:1002:
 wahaha:x:1010:
 ```
 
+#### 2.2.3. 用户组删除
+
+语法：`groupdel 组名`
+
+示例：
+
+```shell
+➜  ~ groupdel wahaha
+➜  ~ cat /etc/group | grep wahaha
+➜  ~
+```
+
+注意：
+
+* 当删除的组是某个用户的主组时，不能删除这个组；要先移除组内所有用户。
+
 ## 3. 网络设置
 
 ## 4. ssh 服务
