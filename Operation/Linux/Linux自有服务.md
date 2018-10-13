@@ -418,6 +418,9 @@ total 52
 -rwxr-xr-x. 1 root root  7293 May  3  2017 network
 
 ➜  ~ /etc/init.d/network restart
+
+➜  ~ /etc/init.d/network restart
+Restarting network (via systemctl):                        [  OK  ]
 ```
 
 `/etc/init.d/` 目录下存放着服务的快捷方式，可直接执行。
@@ -444,10 +447,74 @@ total 52
 
 在实际工作中不要禁用网卡。
 
-## 4. ssh 服务
+## 4. SSH 服务
 
 ### 4.1. 介绍
 
-### 4.2. 应用
+SSH：secure shell，安全外壳协议。
+
+有两个常用方式：
+
+* 远程连接
+* 远程文件传输
+
+SSH 协议默认使用 22 端口号。（防火墙默认是允许该端口号的）
+
+### 4.2. 配置文件
+
+位置：`/etc/ssh/ssh_config`
+
+```shell
+➜  ~ cat /etc/ssh/ssh_config
+......
+# Host *
+#   ForwardAgent no
+#   ForwardX11 no
+#   RhostsRSAAuthentication no
+#   RSAAuthentication yes
+#   PasswordAuthentication yes
+#   HostbasedAuthentication no
+#   GSSAPIAuthentication no
+#   GSSAPIDelegateCredentials no
+#   GSSAPIKeyExchange no
+#   GSSAPITrustDNS no
+#   BatchMode no
+#   CheckHostIP yes
+#   AddressFamily any
+#   ConnectTimeout 0
+#   StrictHostKeyChecking ask
+#   IdentityFile ~/.ssh/identity
+#   IdentityFile ~/.ssh/id_rsa
+#   IdentityFile ~/.ssh/id_dsa
+#   IdentityFile ~/.ssh/id_ecdsa
+#   IdentityFile ~/.ssh/id_ed25519
+#   Port 22
+#   Protocol 2
+#   Cipher 3des
+#   Ciphers aes128-ctr,aes192-ctr,aes256-ctr,arcfour256,arcfour128,aes128-cbc,3des-cbc
+#   MACs hmac-md5,hmac-sha1,umac-64@openssh.com,hmac-ripemd160
+#   EscapeChar ~
+#   Tunnel no
+#   TunnelDevice any:any
+#   PermitLocalCommand no
+#   VisualHostKey no
+#   ProxyCommand ssh -q -W %h:%p gateway.example.com
+#   RekeyLimit 1G 1h
+#
+# Uncomment this if you want to use .local domain
+# Host *.local
+#   CheckHostIP no
+
+➜  ~
+```
+
+### 4.3. 重启
+
+```shell
+➜  ~ service sshd restart
+Redirecting to /bin/systemctl restart sshd.service
+```
+
+### 4.3. 应用
 
 ## 5. 修改主机名
