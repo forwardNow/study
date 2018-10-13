@@ -362,6 +362,46 @@ wahaha:x:1010:
 
 ## 3. 网络设置
 
+### 3.1. 网卡配置文件
+
+位置：`/etc/sysconfig/network-scripts`
+
+文件命名格式：`ifcfg-网卡名称`
+
+```shell
+➜  ~ ls /etc/sysconfig/network-scripts | grep ifcfg
+ifcfg-eth0
+ifcfg-lo
+```
+
+查看：
+
+```shell
+➜  ~ cat /etc/sysconfig/network-scripts/ifcfg-lo
+DEVICE=lo
+IPADDR=127.0.0.1
+NETMASK=255.0.0.0
+NETWORK=127.0.0.0
+# If you're having problems with gated making 127.0.0.0/8 a martian,
+# you can change this to something else (255.255.255.255, for example)
+BROADCAST=127.255.255.255
+ONBOOT=yes
+NAME=loopback
+
+➜  ~ cat /etc/sysconfig/network-scripts/ifcfg-eth0
+DEVICE=eth0
+BOOTPROTO=dhcp
+ONBOOT=yes
+```
+
+### 3.2. 网卡服务重启方式
+
+### 3.3. 配置选项说明
+
 ## 4. ssh 服务
+
+### 4.1. 介绍
+
+### 4.2. 应用
 
 ## 5. 修改主机名
