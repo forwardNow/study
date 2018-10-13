@@ -153,10 +153,37 @@ zhangsan:x:1001:1001::/home/zhangsan:/bin/bash
 解释器 shell：用户输入指令后，该解释器会收集用户输入传递给内核处理
 ```
 
+#### 2.1.2. 修改用户
+
+语法：`usermod 选项 用户名`
+
+常用选项：
+
+* `-g`
+* `-G`
+* `-u`
+* `-l` 修改用户名
+
 示例：
 
 ```shell
+➜  ~ tail -3 /etc/passwd
+mongod:x:996:994:mongod:/var/lib/mongo:/bin/false
+ftptest:x:1000:1000::/home/ftptest:/bin/bash
+zhangsan:x:1001:1001::/home/zhangsan:/bin/bash
 
+# 将 zhangsan 修改为 lisi
+➜  ~ usermod -u 1002 -g 1000 -G 1000 -l lisi zhangsan
+➜  ~ tail -3 /etc/passwd
+mongod:x:996:994:mongod:/var/lib/mongo:/bin/false
+ftptest:x:1000:1000::/home/ftptest:/bin/bash
+lisi:x:1002:1000::/home/zhangsan:/bin/bash
+
+# 查看主组和附加组
+➜  ~ tail -3 /etc/group
+mongod:x:994:
+ftptest:x:1000:lisi
+zhangsan:x:1001:
 ```
 
 ## 3. 网络设置
