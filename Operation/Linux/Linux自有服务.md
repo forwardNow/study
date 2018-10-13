@@ -396,7 +396,53 @@ ONBOOT=yes
 
 ### 3.2. 网卡服务重启方式
 
-### 3.3. 配置选项说明
+**方式一**：
+
+```shell
+➜  ~ service network restart
+```
+
+有些 Linux 分支不见得有这个服务。
+
+**方式二**：
+
+```shell
+➜  ~ ls -l /etc/init.d/
+total 52
+-rw-r--r--  1 root root  1160 Sep  7  2017 README
+-rwxr-xr-x  1 root root  2164 Sep 28 10:08 aegis
+-rwxr-xr-x  1 root root  3044 Sep 28 10:08 agentwatch
+-rw-r--r--. 1 root root 17500 May  3  2017 functions
+-rwxr-xr-x  1 root root  3693 Sep 18 22:16 mongod
+-rwxr-xr-x. 1 root root  4334 May  3  2017 netconsole
+-rwxr-xr-x. 1 root root  7293 May  3  2017 network
+
+➜  ~ /etc/init.d/network restart
+```
+
+`/etc/init.d/` 目录下存放着服务的快捷方式，可直接执行。
+
+创建快捷方式（软链接）：
+
+* 语法：`ln -s 文件路径 快捷方式路径`
+
+### 3.3. 重启指定网卡
+
+语法：
+
+* `ifdown 网卡名` 停止指定网卡
+* `ifup 网卡名` 启动指定网卡
+
+示例：
+
+```shell
+➜  ~ ifdown eth0
+➜  ~ ifup eth0
+```
+
+注意：
+
+在实际工作中不要禁用网卡。
 
 ## 4. ssh 服务
 
