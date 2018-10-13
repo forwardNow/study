@@ -16,6 +16,7 @@
   * [《编写可维护的 JavaScript》](./FrontEnd/其他/MaintainableJavaScript/readme.md)
 * 编译器
   * [《TypeScript》](./FrontEnd/JavaScript/TypeScript)
+  * [flow：静态类型检查](./blog/2018/10/14.flow静态类型检查.md)
 * 原理相关
   * [JavaScript运行机制：Event Loop](./blog/2018/09/02.EventLoop.md)
 
