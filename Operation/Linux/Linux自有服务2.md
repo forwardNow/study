@@ -148,7 +148,42 @@ SUB    = The low-level unit activation state, values depend on unit type.
   ntpd.service  loaded active running Network Time Service
 ```
 
-## 4. 防火墙
+## 4. 防火墙服务
+
+### 4.1. 介绍
+
+防火墙：
+
+* 防范网络攻击
+* 有软件防火墙、硬件防火墙之分
+* 选择性让请求通过，从而保证网络安全性
+* 早 CentOS 6.x 中使用的是 iptables
+* 在 CentOS 7.x 中使用的是 firewalld
+* 国家长城防火墙 GFW
+
+### 4.2. 使用
+
+```shell
+# 启动
+➜  ~ service firewalld start
+Redirecting to /bin/systemctl start firewalld.service
+
+# 查看进程
+➜  ~ ps -ef | grep fire
+root      1918     1  2 16:30 ? 00:00:00 /usr/bin/python -Es /usr/sbin/firewalld --nofork --nopid
+
+# 查看服务状态
+➜  ~ service firewalld status
+Redirecting to /bin/systemctl status firewalld.service
+● firewalld.service - firewalld - dynamic firewall daemon
+   Loaded: loaded (/usr/lib/systemd/system/firewalld.service; disabled; vendor preset: enabled)
+   Active: inactive (dead)
+     Docs: man:firewalld(1)
+
+# 关闭
+➜  ~ service firewalld stop
+Redirecting to /bin/systemctl stop firewalld.service
+```
 
 ## 5. rpm 软件管理
 
