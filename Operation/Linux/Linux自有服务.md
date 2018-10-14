@@ -515,6 +515,43 @@ SSH 协议默认使用 22 端口号。（防火墙默认是允许该端口号的
 Redirecting to /bin/systemctl restart sshd.service
 ```
 
-### 4.3. 应用
+### 4.4. 应用
+
+#### 4.4.1. iTerm(远程连接)
+
+```shell
+➜  ~ ssh root@39.105.88.174
+root@39.105.88.174‘s password:
+Last failed login: Sun Oct 14 09:28:44 CST 2018 from 117.152.146.22 on ssh:notty
+There were 2 failed login attempts since the last successful login.
+Last login: Sat Oct 13 18:00:15 2018
+
+Welcome to Alibaba Cloud Elastic Compute Service !
+
+➜  ~
+```
+
+#### 4.4.2. Filezilla(文件传输)
+
+**配置站点**：
+
+`File`(文件菜单) --> `Site Manager`(站点管理菜单项)
+
+**配置**：
+
+```text
+Protocol:   SFTP - SSH File Transfer Protocol
+Host:       39.105.88.174           Port:  22
+
+LogonType:  Normal
+User:       root（使用 Linux 即可）
+Password:   ******
+```
+
+#### 4.4.3. `scp` 命令
+
+使用 SCP 协议传输文件。
+
+查看文档：[http://man.linuxde.net/scp](http://man.linuxde.net/scp)
 
 ## 5. 修改主机名
