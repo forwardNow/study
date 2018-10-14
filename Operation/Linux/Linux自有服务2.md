@@ -112,6 +112,42 @@ SUB    = The low-level unit activation state, values depend on unit type.
 
 ## 3. ntp 服务
 
+**作用**：同步计算机的时间。
+
+**同步方式**：
+
+* 手动同步
+* 通过服务自动同步
+
+**上游时间服务器的概念**：
+
+```text
+根时间服务器
+    ......
+        上上一级的时间服务器
+            上一级的时间服务器
+                自己的服务器
+```
+
+**手动同步**：
+
+语法：`ntpdate 时间服务器地址`
+
+可在 [http://www.ntp.org.cn/](http://www.ntp.org.cn/) 选择ntp服务器获取时间
+
+```shell
+➜  ~ ntpdate 120.25.108.11
+```
+
+**通过服务自动同步**：
+
+启动 `ntpd` 服务即可：`service ntpd start`。
+
+```shell
+➜  ~ systemctl list-units --type=service | grep ntp
+  ntpd.service  loaded active running Network Time Service
+```
+
 ## 4. 防火墙
 
 ## 5. rpm 软件管理
