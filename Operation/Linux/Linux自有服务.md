@@ -553,5 +553,3 @@ Password:   ******
 使用 SCP 协议传输文件。
 
 查看文档：[http://man.linuxde.net/scp](http://man.linuxde.net/scp)
-
-## 5. 修改主机名
