@@ -187,4 +187,84 @@ Redirecting to /bin/systemctl stop firewalld.service
 
 ## 5. rpm 软件管理
 
+### 5.1. 介绍
+
+用于 Linux 中的软件包管理：
+
+* 查询
+* 安装（更新）
+* 卸载
+
+### 5.2. 查询
+
+语法：`rpm 选项 软件名`
+
+常用选项：
+
+* `-q` 查询 query
+* `-a` 全部 all
+
+示例：
+
+```shell
+# 查看有没有装某个软件
+➜  ~ rpm -qa | grep node
+nodejs-6.14.3-1.el7.x86_64
+```
+
+### 5.3. 卸载
+
+语法：`rpm -e 软件名`
+
+注意：
+
+* 没有被其他软件依赖的软件，可直接卸载
+* 强制卸载，不考虑依赖关系：`rpm -e 软件名 --nodeps`
+
+### 5.4. 安装
+
+>安装 rpm 包
+
+安装包的获得方式
+
+* 去官网下载最新版本
+* 从光盘中安装
+
+查看块状设备：
+
+```shell
+➜  ~ lsblk
+NAME   MAJ:MIN RM SIZE RO TYPE MOUNTPOINT
+vda    253:0    0  40G  0 disk
+└─vda1 253:1    0  40G  0 part /
+```
+
+设备的挂载和弹出：
+
+* `umount 设备的挂载点` ：弹出
+* `mount 设备原始地址 设备的挂载点` ：挂载
+
+```shell
+# 查看设备的原始地址
+➜  ~ ls -l /dev
+
+➜  ~ mkdir /mnt/dvd
+
+# 挂载
+➜  ~ mount /dev/sr0 /mnt/dvd
+
+# 弹出
+➜  ~ umount /mnt/dvd
+```
+
+安装软件包：`rpm -ivh 完整软件名称`
+
+* `-i` 安装 install
+* `-v` 显示进度条
+* `-h` 以 `#` 方式显示进度条
+
+```shell
+rpm -ivh ...../xxx.rpm
+```
+
 ## 6. cron 计划任务
