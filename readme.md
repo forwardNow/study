@@ -56,9 +56,9 @@
 
 * [《RxJS》](./FrontEnd/库/RxJS/readme.md)
 
-### 1.6. 构建
+### 1.6. 包管理器
 
-* [npm【待完成】](./FrontEnd/Build/npm.md)
+* [NPM](./BackEnd/npm/readme.md)
 * [yarn](./FrontEnd/Build/yarn.md)
 * [pnpm](./FrontEnd/Build/pnpm.md)
 
@@ -84,7 +84,6 @@
 ### 2.1. node.js
 
 * [Node.js](./BackEnd/node/readme.md)
-* [NPM](./BackEnd/npm/readme.md)
 
 ## 3. 移动端
 
