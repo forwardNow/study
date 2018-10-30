@@ -58,9 +58,9 @@
 
 ### 1.6. 构建
 
-* [npm【待完成】](.FrontEnd/Build/npm.md)
-* [yarn【待完成】](.FrontEnd/Build/yarn.md)
-* [pnpm【待完成】](.FrontEnd/Build/pnpm.md)
+* [npm【待完成】](./FrontEnd/Build/npm.md)
+* [yarn](./FrontEnd/Build/yarn.md)
+* [pnpm【待完成】](./FrontEnd/Build/pnpm.md)
 
 ### 1.7. 单元测试
 
