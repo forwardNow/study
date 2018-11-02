@@ -1,5 +1,7 @@
 # 编写可维护的 JavaScript
 
+作者：Nicholas C. Zakas（尼古拉斯 C 扎卡斯）
+
 索引：
 
 1. [编程风格](./编程风格.md)
