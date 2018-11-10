@@ -1,4 +1,4 @@
- # React的使用
+# React的使用
 
 ## 1. 起步
 
@@ -31,6 +31,8 @@ import ReactDom from 'react-dom';
 
 ### 1.4. 创建虚拟 DOM 元素
 
+>虚拟 DOM，用 JS 对象来表示 DOM 以及 DOM 之间的嵌套关系。
+
 ```javascript
 /**
  * 2.创建虚拟 DOM 元素
@@ -61,4 +63,45 @@ const myh1 = React.createElement(
  * @param-2 {HTMLElement} DOM 容器
  */
 ReactDom.render(myh1, document.querySelector('#app'));
+```
+
+## 2. JSX
+
+### 2.1. 说明
+
+在 JS 文件中，默认不能直接写 HTML 代码。
+
+可以使用 babel 来转换这些 JS 中的 HTML 代码。
+
+这种在 JS 中，混合 HTML 代码的语法，叫做 JSX（符合 XML 规范的 JS）。
+
+JSX 在运行时，将其转换成了 `React.createElement(...)` 来执行。
+
+### 2.2. 启用 JSX 语法
+
+```shell
+# 安装 babel
+$ npm i -D @babel/core babel-loader @babel/preset-env @babel/preset-react
+
+$ npm install --save-dev @babel/plugin-transform-runtime
+$ npm install --save @babel/runtime
+```
+
+配置 `.babelrc` 文件
+
+```json
+{
+  "presets": [ "@babel/preset-env", "@babel/preset-react" ],
+  "plugins": [ "@babel/plugin-transform-runtime" ]
+}
+```
+
+配置 webpack `loader`
+
+```javascript
+{
+  test: /\.js|jsx$/,
+  use: 'babel-loader',
+  exclude: /node_modules/,
+}
 ```
