@@ -2,23 +2,12 @@
 import React from 'react';
 import ReactDom from 'react-dom';
 
-const msg = '哇哈哈2';
-const title = '我是 DIV';
-const list = [
-  <p>1</p>,
-  <p>2</p>,
-];
+const msg = '哇哈哈';
 
 /**
  * 2.创建虚拟 DOM 元素
  */
-const div =
-  <div title={ title }>
-    { msg }
-    { list }
-  </div>
-;
-
+const div = <div>{ msg }</div>;
 
 
 /**
