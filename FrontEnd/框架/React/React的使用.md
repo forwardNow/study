@@ -141,10 +141,12 @@ const div =
 
 #### 2.3.2. 注释
 
-```javascript
-/* 我是注释 */
+```jsx
+{/* 我是注释 */}
 ```
 
 #### 2.3.3. 关键词
 
 关键字前面加 `html` 前缀，例如 `class` 属性为 `htmlClass`，`for` 属性为 `htmlFor`
+
+## 样式
