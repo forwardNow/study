@@ -11,9 +11,11 @@
   * ES6：[《深入理解ES6》](./FrontEnd/JavaScript/深入理解ES6)
   * ES7：[ES7 - tc39/proposals](./blog/2018/08/16.ES7.md)
   * ES8：[ES8 - tc39/proposals](./blog/2018/09/12.ES8.md)
-* 代码风格
+* 编程风格
   * [JavaScript代码风格](./blog/2018/08/08.JavaScript代码风格.md)
   * [《编写可维护的 JavaScript》](./FrontEnd/其他/MaintainableJavaScript/readme.md)
+* 面向对象
+  * [《JavaScript 面向对象精要》【翻译】](./FrontEnd/其他/ObjectOrientedJavaScript/readme.md)
 * 编译器
   * [《TypeScript》](./FrontEnd/JavaScript/TypeScript)
   * [flow：静态类型检查](./blog/2018/10/14.flow静态类型检查.md)
