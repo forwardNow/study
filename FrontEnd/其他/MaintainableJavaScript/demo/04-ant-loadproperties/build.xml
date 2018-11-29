@@ -1,0 +1,9 @@
+<project name="demo" default="hello">
+
+  <loadproperties srcfile="build.properties" />
+
+  <target name="hello">
+    <echo>Version - ${version}</echo>
+  </target>
+
+</project>
