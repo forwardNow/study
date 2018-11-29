@@ -1,0 +1,11 @@
+<project name="demo" default="hello">
+
+  <target name="hello">
+    <echo>Hello world!</echo>
+  </target>
+
+  <target name="goodbye" depends="hello">
+    <echo>Goodbye!</echo>
+  </target>
+
+</project>
