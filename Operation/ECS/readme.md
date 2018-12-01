@@ -235,3 +235,19 @@ tcp6      0      0 :::21     :::*     LISTEN      30085/vsftpd
             proxy_cookie_path  /api /api;
         }
     }
+```
+
+## 11. 后台运行 node app
+
+参考：[https://wellingguzman.com/notes/run-node-app-in-background-linux](https://wellingguzman.com/notes/run-node-app-in-background-linux)
+
+```shell
+# 安装
+$ npm install forever -g
+
+# 使用
+$ forever start /nodeapp/index.js
+$ forever restart /nodeapp/index.js
+$ forever stop /nodeapp/index.js
+$ forever list
+```
