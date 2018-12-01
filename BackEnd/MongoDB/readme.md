@@ -42,6 +42,9 @@ net:
 net:
   port: 27017
   bindIpAll: true
+
+# 启动：指定配置文件。
+$ mongod --config /etc/mongod.conf
 ```
 
 ## 3. 备份与还原
