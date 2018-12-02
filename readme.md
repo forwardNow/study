@@ -12,9 +12,9 @@
   * [《ECMAScript 6 入门》—— 阮一峰](./FrontEnd/JavaScript/ES6)
 * 编程风格
   * [JavaScript代码风格](./blog/2018/08/08.JavaScript代码风格.md)
-  * [《编写可维护的 JavaScript》—— Nicholas C. Zakas](./FrontEnd/其他/MaintainableJavaScript/readme.md)
+  * [《编写可维护的 JavaScript》—— Nicholas C. Zakas](./FrontEnd/JavaScript/MaintainableJavaScript/readme.md)
 * 面向对象
-  * [《JavaScript 面向对象精要》—— Nicholas C. Zakas【翻译】](./FrontEnd/其他/ObjectOrientedJavaScript/readme.md)
+  * [《JavaScript 面向对象精要》—— Nicholas C. Zakas【翻译】](./FrontEnd/JavaScript/ObjectOrientedJavaScript/readme.md)
 * 编译器
   * [《TypeScript》](./FrontEnd/JavaScript/TypeScript)
   * [flow：静态类型检查](./blog/2018/10/14.flow静态类型检查.md)
