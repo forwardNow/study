@@ -125,3 +125,46 @@ let x;
 ES6 规定暂时性死区和 `let`、`const` 语句不出现变量提升，主要是为了减少运行时错误，防止在变量声明前就使用这个变量，从而导致意料之外的行为。这样的错误在 ES5 是很常见的，现在有了这种规定，避免此类错误就很容易了。
 
 总之，暂时性死区的本质就是，只要一进入当前作用域，所要使用的变量就已经存在了，但是不可获取，只有等到声明变量的那一行代码出现，才可以获取和使用该变量。
+
+### 1.4. 不允许重复声明
+
+`let` 不允许在相同作用域内，重复声明同一个变量。
+
+>示例：[./demo/08-let-不能重复声明.js](./demo/08-let-不能重复声明.js)
+
+```javascript
+(function f1() {
+  var num1 = 1;
+  var num1 = 2;
+
+  console.log('f1:', num1); // f1: 2
+}());
+
+(function f2() {
+  let num2 = 3;
+  var num2 = 4; // SyntaxError: Identifier 'num2' has already been declared
+
+  console.log('f2:', num2);
+}());
+
+(function f3() {
+  let num3 = 5;
+  let num3 = 6; // SyntaxError: Identifier 'num3' has already been declared
+
+  console.log('f3:', num3);
+}());
+```
+
+当然也不能再函数内部重新声明参数。
+
+```javascript
+function f1(arg) {
+  let arg; // 报错
+}
+
+function f2(arg) {
+  {
+    let arg; // 不报错
+  }
+}
+```
