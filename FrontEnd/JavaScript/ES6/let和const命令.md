@@ -52,4 +52,20 @@ for (let i = 0; i < 2; i++) {
 // 哇哈哈
 ```
 
-运行上面的代码输出两次 `哇哈哈`。循环体中的变量 `i` 与循环变量 `i` 不在同一个作用域，有各自单独的作用域。
+运行上面的代码输出两次 `哇哈哈`。循环体中的变量 `i` 与循环变量 `i` 不在同一个作用域。
+
+### 1.2. 不存在变量提升
+
+`var` 命令会发生”变量提升“现象，即变量可以在声明之前使用，值为 `undefined`。这种现象多多少少是有些奇怪的，按照一般的逻辑，变量应该在声明语句之后才可以使用。
+
+为了纠正这种现象，`let` 命令改变了语法行为，它所声明的变量一定要在声明后使用，否则报错。
+
+>示例：[./demo/01-let和const/04-let-变量提升.js](./demo/01-let和const/04-let-变量提升.js)
+
+```javascript
+console.log(varNum); // undefined
+console.log(letNum); // ReferenceError: letNum is not defined
+
+var varNum = 1;
+let letNum = 2;
+```
