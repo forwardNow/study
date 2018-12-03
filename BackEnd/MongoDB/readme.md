@@ -57,6 +57,10 @@ $ mongod --config /etc/mongod.conf
 | 端口号 | 27017 | 27017 |
 | 数据库 | platform | platform |
 
+| 参数 | 说明 |
+| - | - |
+| --drop | 恢复之前删除 collections |
+
 本地覆盖远程：
 
 ```shell
@@ -66,7 +70,7 @@ mkdir ~/mongodb_dump
 mongodump -h 127.0.0.1 --port 27017 -d platform -o ~/mongodb_dump
 
 # 还原
-mongorestore -h 39.105.88.174 --port 27017 -d platform ~/mongodb_dump/platform
+mongorestore --drop -h 39.105.88.174 --port 27017 -d platform ~/mongodb_dump/platform
 
 rm -rf ~/mongodb_dump
 ```
@@ -80,7 +84,7 @@ mkdir ~/mongodb_dump
 mongodump -h 39.105.88.174 --port 27017 -d platform -o ~/mongodb_dump
 
 # 还原
-mongorestore -h 127.0.0.1 --port 27017 -d platform ~/mongodb_dump/platform
+mongorestore --drop -h 127.0.0.1 --port 27017 -d platform ~/mongodb_dump/platform
 
 rm -rf ~/mongodb_dump
 ```
