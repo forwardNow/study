@@ -127,3 +127,23 @@ console.log(undefined === null);  // false
 ```
 
 当使用双等于时，字符串 `"5"` 和数字 `5` 被认为是相等的，因为双等于在比较之前将字符串转换为数字。三等于运算符不认为这些值相等，因为它们是两种不同的类型。同样，当你比较 `undefined` 和 `null`  时，双等号表示它们是等价的，而三等号表示它们不是等价的。在尝试标识 `null` 时，使用三等于号，以便正确标识类型。
+
+### 2.2. 基本类型的方法
+
+尽管它们是基本类型，字符串、数字和布尔实际上都有方法。（`null` 和 `undefined` 类型没有方法。）尤其是字符串，有许多方法可以帮助您使用它们。例如：
+
+```javascript
+var name = "Nicholas";
+var lowercaseName = name.toLowerCase();  // convert to lowercase
+var firstLetter = name.charAt(0);        // get first character
+var middleOfName = name.substring(2, 5); // get characters 2-4
+
+var count = 10;
+var fixedCount = count.toFixed(2);        // convert to "10.00"
+var hexCount = count.toString(16);        // convert to "a"
+
+var flag = true;
+var stringFlag = flag.toString();         // convert to "true"
+```
+
+尽管它们具有方法，但基本类型值本身不是对象。JavaScript 使它们看起来像对象，以提供语言中一致的体验，正如您将在本章后面看到的。
