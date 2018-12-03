@@ -215,3 +215,62 @@ console.log(i); // 10
 ```
 
 上面代码中，变量 `i` 只用来控制循环，但是循环结束后，它并没有消失，泄露成了全局变量。
+
+### 2.2. ES6 的块级作用域
+
+`let` 实际上为 JavaScript 新增了块级作用域。
+
+>示例：[./demo/11-block-es6-1.js](./demo/11-block-es6-1.js)
+
+```javascript
+function f1() {
+  let num = 1;
+  if (true) {
+    let num = 5;
+  }
+
+  return num;
+}
+
+console.log(f1()); // 1
+```
+
+上面的函数有两个代码块，都声明了变量 `num`，运行后输出 `1`。这表示外层代码块不受内层代码块的影响。如果两次都使用 `var` 定义变量 `num`，最后输出的值才是 `5`。
+
+外层作用域无法读取内层作用域的变量。
+
+>示例：[./demo/12-block-es6-2.js](./demo/12-block-es6-2.js)
+
+```javascript
+{
+  { let num = 1; }
+  console.log(num); // ReferenceError: num is not defined
+}
+```
+
+内层作用域可以定义外层作用域的同名变量。
+
+>示例：[./demo/13-block-es6-3.js](./demo/13-block-es6-3.js)
+
+```javascript
+{
+  let num = 1;
+  { let num = 2; }
+}
+```
+
+块级作用域的出现，实际上使得获得广泛应用的立即执行函数表达式（IIFE）不再必要了。
+
+```javascript
+// IIFE 写法
+(function () {
+  var num = 1;
+  console.log(num);
+}());
+
+// 块级作用域写法
+{
+  let num = 2;
+  console.log(num);
+}
+```
