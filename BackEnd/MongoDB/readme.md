@@ -49,10 +49,38 @@ $ mongod --config /etc/mongod.conf
 
 ## 3. 备份与还原
 
-```shell
-# 备份本地 MongoDB 的 “platform” 数据库，输出到当前目录
-$ mongodump -h 127.0.0.1 --port 27017 -d platform -o ./
+说明：
 
-# 将本地 “platform” 数据库还原到远程数据库服务器
-$ mongorestore -h 39.105.88.174 --port 27017 -d platform ./platform
+| | 本地 | 远程 |
+| - | - | - |
+| IP | 127.0.0.1 | 39.105.88.174 |
+| 端口号 | 27017 | 27017 |
+| 数据库 | platform | platform |
+
+本地覆盖远程：
+
+```shell
+mkdir ~/mongodb_dump
+
+# 备份
+mongodump -h 127.0.0.1 --port 27017 -d platform -o ~/mongodb_dump
+
+# 还原
+mongorestore -h 39.105.88.174 --port 27017 -d platform ~/mongodb_dump/platform
+
+rm -rf ~/mongodb_dump
+```
+
+远程覆盖本地：
+
+```shell
+mkdir ~/mongodb_dump
+
+# 备份
+mongodump -h 39.105.88.174 --port 27017 -d platform -o ~/mongodb_dump
+
+# 还原
+mongorestore -h 127.0.0.1 --port 27017 -d platform ~/mongodb_dump/platform
+
+rm -rf ~/mongodb_dump
 ```
