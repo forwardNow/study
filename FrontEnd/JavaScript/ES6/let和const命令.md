@@ -168,3 +168,50 @@ function f2(arg) {
   }
 }
 ```
+
+## 2. 块级作用域
+
+### 2.1. 为什么需要块级作用域？
+
+ES5 只有全局作用域和函数作用域，没有块级作用域，这带来很多不合理的场景。
+
+第一种场景，内层变量可能会覆盖外层变量。
+
+>示例：[./demo/09-block-为什么需要块级作用域.js](./demo/09-block-为什么需要块级作用域.js)
+
+```javascript
+var num = 1;
+
+function f1() {
+  console.log(num);
+  if (false) {
+    var num = 100;
+  }
+}
+
+function f2() {
+  var num;
+  console.log(num);
+  if (false) {
+    num = 100;
+  }
+}
+
+f1();  // undefined
+```
+
+`f1()` 中的变量 `num` 由于变量提升，覆盖了同名的全局变量 `num`。`f1()` 与 `f2()` 是等价的。
+
+第二种场景，用来计数的循环变量泄露为全局变量。
+
+>示例：[./demo/10-block-为什么需要块级作用域2.js](./demo/10-block-为什么需要块级作用域2.js)
+
+```javascript
+for (var i = 0; i < 10; i++) {
+  // do something
+}
+
+console.log(i); // 10
+```
+
+上面代码中，变量 `i` 只用来控制循环，但是循环结束后，它并没有消失，泄露成了全局变量。
