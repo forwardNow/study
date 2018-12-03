@@ -411,3 +411,19 @@ var constantize = (obj) => {
   });
 };
 ```
+
+### 3.3. ES6 声明变量的六种方法
+
+ES5 只有两种声明变量的方法：
+
+* `var` 命令
+* `function` 命令
+
+S6 一共有 6 种声明变量的方法:
+
+* `var` 命令
+* `function` 命令
+* `let` 命令
+* `const` 命令
+* `import` 命令
+* `class` 命令
