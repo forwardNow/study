@@ -85,3 +85,45 @@ console.log(color2);  // "red"
 在此代码中，`color1` 更改为 `"blue"`，`color2` 保留其原始值 `"red"`。
 
 ### 2.1. 区分基本类型
+
+识别基础类型的最佳方法是使用 `typeof` 操作符，它能处理任何变量，并返回表示数据类型的字符串。`typeof` 操作可以处理字符串、数字、布尔值、`undefined`。下面显示了在不同基本类型值上使用 `typeof` 的输出：
+
+```javascript
+console.log(typeof "Nicholas"); // "string"
+console.log(typeof 10);         // "number"
+console.log(typeof 5.1);        // "number"
+console.log(typeof true);       // "boolean"
+console.log(typeof undefined);  // "undefined"
+```
+
+正如您所预期的，`typeof` 在值是字符串时返回 `"string"`；在值是数字时返回 `"number"`（无论是整数还是浮点值）；在值是布尔值时返回 `"boolean"`，在值初始化时返回 `"undefined"`。
+
+麻烦的是区分 `null`。
+
+您不会是第一个被这行代码的结果弄糊涂的开发人员：
+
+```javascript
+console.log(typeof null); // "object"
+```
+
+当运行 `typeof null` 时，结果是 `"object"`。但是，当类型为 `null` 时，为什么会有对象呢？（事实上，设计和维护 JavaScript 的委员会 TC39 已经承认这是一个错误。您可以认为 `null` 是一个空对象指针，`"object"` 是逻辑返回值，但这仍然令人困惑。
+
+确定值是否为 `null` 的最佳方法是直接将它与 `null` 进行比较，如下所示：
+
+```javascript
+console.log(value === null);  // true or false
+```
+
+无强转的比较（comparing without coercion）。
+
+注意，这段代码使用三个等于运算符（===）而不是双等于运算符。原因是，三个等于进行比较时不会将变量强制转换成另一种类型。要理解这一点为什么重要，请思考下面的代码：
+
+```javascript
+console.log("5" == 5);  // true
+console.log("5" === 5); // false
+
+console.log(undefined == null);   // true
+console.log(undefined === null);  // false
+```
+
+当使用双等于时，字符串 `"5"` 和数字 `5` 被认为是相等的，因为双等于在比较之前将字符串转换为数字。三等于运算符不认为这些值相等，因为它们是两种不同的类型。同样，当你比较 `undefined` 和 `null`  时，双等号表示它们是等价的，而三等号表示它们不是等价的。在尝试标识 `null` 时，使用三等于号，以便正确标识类型。
