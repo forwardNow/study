@@ -362,3 +362,52 @@ PI = 3.14;
 `const` 命令声明的常量也是不提升，同样存在暂时性死区，只能在声明的位置后面使用。
 
 `const` 声明的常量，也与 `let` 一样不可重复声明。
+
+### 3.2. 本质
+
+`const` 实际上保证的，并不是变量的值不得改动，而是变量指向的那个内存地址所保存的数据不得改动。对于简单类型的数据（数值、字符串、布尔值），值就保存在变量指向的那个内存地址，因此等同于常量。但对于复合类型的数据（主要是对象和数组），变量指向的内存地址，保存的只是一个指向实际数据的指针，`const` 只能保证这个指针是固定的（即总是指向另一个固定的地址），至于它指向的数据结构是不是可变的，就完全不能控制了。因此，将一个对象声明为常量必须非常小心。
+
+>示例：[./demo/16-const-本质.js](./demo/16-const-本质.js)
+
+```javascript
+const person = {};
+
+person.name = '张三';
+console.log(person.name); // 张三
+
+person = {}; // TypeError: Assignment to constant variable.
+```
+
+上面代码中，常量 `person` 储存的是一个地址，这个地址指向一个对象。不可变的只是这个地址，即不能把 `person` 指向另一个地址，但对象本身是可变的，所以依然可以为其添加新属性。
+
+如果真的想将对象冻结，应该使用 `Object.freeze()` 方法。
+
+>示例：[./demo/17-const-freeze.js](./demo/17-const-freeze.js)
+
+```javascript
+const person = {
+  name: '哇哈哈',
+};
+
+Object.freeze(person);
+console.log(Object.isFrozen(person)); // true
+
+/* 在严格模式下，会报如下错误；在非严格模式下，会忽略下行代码
+ * TypeError: Cannot assign to read only property 'name' of object '#<Object>'
+ */
+person.name = '张三';
+console.log(person.name); // 哇哈哈
+```
+
+除了将对象本身冻结，对象的属性也应该冻结。下面是一个将对象彻底冻结的函数。
+
+```javascript
+var constantize = (obj) => {
+  Object.freeze(obj);
+  Object.keys(obj).forEach( (key, i) => {
+    if ( typeof obj[key] === 'object' ) {
+      constantize( obj[key] );
+    }
+  });
+};
+```
