@@ -179,3 +179,16 @@ var object2 = object1;
 
 ![./images/1-3.png](./images/1-3.png)
 
+### 3.2. 取消对象的引用
+
+JavaScript 语言有垃圾回收机制，因此在使用引用类型时，不必担心内存分配。但是，最好取消对您不再需要的对象的引用，以便垃圾收集器可以释放该内存。最好的方法是将对象变量设置为 `null`。
+
+```javascript
+var object1 = new Object();
+
+// do something
+
+object1 = null;     // dereference
+```
+
+在这里，`object1` 被创建和使用，然后最终被设置为 `null`。当内存中不再引用对象时，垃圾收集器可以将该内存用于其他内容。（取消对象的引用在使用数百万对象的非常大的应用程序中尤其重要。）
