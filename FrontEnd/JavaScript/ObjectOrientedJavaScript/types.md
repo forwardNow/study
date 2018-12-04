@@ -160,7 +160,7 @@ var stringFlag = flag.toString();         // convert to "true"
 
 ![./images/1-2.png](./images/1-2.png)
 
-有两种方法来创建或实例化对象。第一种是使用新的运算符和构造函数。(构造函数只是使用new创建对象的函数，任何函数都可以是构造函数。)按照惯例， JavaScript 中的构造函数以大写字母开头，以区别于非构造函数。例如，此代码实例化一个对象并在对象中存储对它的引用：
+有两种方法来创建或实例化对象。第一种是使用新的运算符和构造函数。(构造函数只是使用 `new` 创建对象的函数，任何函数都可以是构造函数。)按照惯例， JavaScript 中的构造函数以大写字母开头，以区别于非构造函数。例如，此代码实例化一个通用对象并在对象中存储对它的引用：
 
 ```javascript
 var object = new Object();
@@ -192,3 +192,21 @@ object1 = null;     // dereference
 ```
 
 在这里，`object1` 被创建和使用，然后最终被设置为 `null`。当内存中不再引用对象时，垃圾收集器可以将该内存用于其他内容。（取消对象的引用在使用数百万对象的非常大的应用程序中尤其重要。）
+
+### 3.3. 添加或删除属性
+
+JavaScript 中对象的另一个有趣的方面是，您可以随时添加和删除属性。例如：
+
+```javascript
+var object1 = new Object();
+var object2 = object1;
+
+object1.myCustomProperty = "Awesome!";
+console.log(object2.myCustomProperty);     // "Awesome!"
+```
+
+在这里，`myCustomProperty` 属性被添加到 `object1` 中，其值为 `"Awesome!"`。在 `object2` 上也可以访问该属性，因为 `object1` 和 `object2` 都指向同一个对象。
+
+注意：这个示例演示了 · 的一个特别独特的方面：您可以随时修改对象的属性，即使一开始没有在对象中定义这些属性。还有一些方法可以防止这种修改，你将会在本书后面会学到的。
+
+除了通用对象引用类型之外，JavaScript 还有其他一些内置类型可供您使用。
