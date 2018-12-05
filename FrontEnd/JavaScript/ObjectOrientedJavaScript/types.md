@@ -236,3 +236,7 @@ var func = new Function("console.log('Hi');");
 var object = new Object();
 var re = new RegExp("\\d+");
 ```
+
+### 4.1. 常量形式（Literal Forms，字面量形式）
+
+一些内置引用类型具有常量形式。常量值是一种语法，它允许您使用 `new` 运算符和对象的构造函数，在不显式创建对象的情况下定义引用值。（在本章前面，您看到了基本类型常量的示例，包括字符串常量、数字常量、布尔常量、`null` 常量和 `undefined` 的常量。）
