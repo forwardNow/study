@@ -210,3 +210,29 @@ console.log(object2.myCustomProperty);     // "Awesome!"
 注意：这个示例演示了 · 的一个特别独特的方面：您可以随时修改对象的属性，即使一开始没有在对象中定义这些属性。还有一些方法可以防止这种修改，你将会在本书后面会学到的。
 
 除了通用对象引用类型之外，JavaScript 还有其他一些内置类型可供您使用。
+
+## 4. 实例化内置类
+
+您已经看到了如何用 `new Object()` 创建通用对象。`Object` 类型只是 JavaScript 提供的少量内置引用类型中的一种。其他内置类型用于特殊场景，并且可以在任何时候进行实例化。
+
+内置类型为：
+
+| 内置类型 | 说明 |
+| - | - |
+| Array | 数值索引值的有序列表 |
+| Date | 日期和时间 |
+| Error | 运行时错误（也有几个更具体的错误子类型） |
+| Function | 函数 |
+| Object | 通用对象 |
+| RegExp | 正则表达式 |
+
+你可以通过 `new` 来实例化内置引用类型，如下：
+
+```javascript
+var items = new Array();
+var now = new Date();
+var error = new Error("Something bad happened.");
+var func = new Function("console.log('Hi');");
+var object = new Object();
+var re = new RegExp("\\d+");
+```
