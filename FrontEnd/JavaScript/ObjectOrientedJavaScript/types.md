@@ -237,7 +237,7 @@ var object = new Object();
 var re = new RegExp("\\d+");
 ```
 
-### 4.1. 字面量形式（Literal Forms，字面量形式）
+### 4.1. 字面量形式（Literal Forms）
 
 一些内置引用类型具有字面量形式。字面量值是一种语法，它允许您使用 `new` 运算符和对象的构造函数，在不显式创建对象的情况下定义引用值。（在本章前面，您看到了基本类型字面量的示例，包括字符串字面量、数字字面量、布尔字面量、`null` 字面量和 `undefined` 的字面量。）
 
@@ -286,3 +286,19 @@ console.log(colors[0]);     // "red"
 var colors = new Array("red", "blue", "green")
 console.log(colors[0]);     // "red"
 ```
+
+### 4.3. 函数字面量
+
+您几乎总是使用字面量形式定义函数。事实上，由于维护、阅读和调试字符串形式的代码很麻烦，通常不鼓励使用构造函数，因此在代码中很少看到它。
+
+在使用字面量形式时，创建函数更容易，而且不易出错。例如：
+
+```javascript
+function reflect(value) {
+    return value;
+}
+// is the same as
+var reflect = new Function("value", "return value;");
+```
+
+上面的代码定义了 `reflect()` 函数，它返回传递给它的任何值。即使定义这个简单函数，字面量形式也比构造函数形式更容易编写和理解。此外，没有调试以构造函数形式创建的函数的好方法：JavaScript 调试器无法识别这些函数，因此在应用程序中就是黑盒子。
