@@ -408,3 +408,86 @@ console.log(Array.isArray(items)); // true
 ```
 
 在大多数环境中，无论是在浏览器中还是在 Node.js，都支持 `Array.isArray()` 方法。在 Internet Explorer 8 以及更早的版本中不支持此方法。
+
+## 8. 基本类型的包装类型
+
+也许 JavaScript 最令人困惑的部分之一是包装类型的概念。有三个包装类型（字符串、数字和布尔）。存在这些特殊的引用类型是为了使处理基本类型值像处理对象一样简单。（如果你使用面向过程的方式来获取文本的子字符串时，你会感到非常迷惑。）
+
+包装器类型是引用类型，每当读取字符串、数字或布尔值时，这些引用类型都会在幕后自动创建。例如，在该示例的第一行中，将字符串值分配给 `name`。第二行将 `name` 视为对象，并使用点标记调用 `charAt(0)` 方法。
+
+```javascript
+var name = "Nicholas";
+var firstChar = name.charAt(0);
+console.log(firstChar); // "N"
+```
+
+这就是幕后发生的事情：
+
+```javascript
+// what the JavaScript engine does
+var name = "Nicholas";
+var temp = new String(name);
+var firstChar = temp.charAt(0);
+temp = null;
+console.log(firstChar); // "N"
+```
+
+因为第二行像对象一样使用字符串，所以 JavaScript 引擎创建 String 的实例，以便 `charAt(0)` 能够工作。`String` 对象在销毁之前只对一个语句其作用（称为自动装箱的过程）。为了测试这一点，尝试将属性添加到字符串中，就像它是一个常规对象一样：
+
+```javascript
+var name = "Nicholas";
+name.last = "Zakas";
+console.log(name.last); // undefined
+```
+
+此代码试图将属性最后添加到字符串名称中。代码本身没有任何问题，只是属性消失了。发生了什么事？当使用常规对象时，您可以随时添加属性，这些属性一直保留到手动删除它们。对于包装器类型，属性似乎消失了，因为分配属性的对象随后立即被销毁。
+
+下面是 JavaScript 引擎中实际发生的事情：
+
+```javascript
+// what the JavaScript engine does
+var name = "Nicholas";
+var temp = new String(name);
+temp.last = "Zakas";
+temp = null; // temporary object destroyed
+
+var temp = new String(name);
+console.log(temp.last); // undefined
+temp = null;
+```
+
+代码实际上不是为字符串分配新属性，而是在临时对象上创建新属性，然后销毁临时对象。稍后尝试访问该属性时，将临时创建不同的对象，因此新的属性是不存在的。虽然为基本类型值自动创建引用值，但是当 `instanceof` 检查这些类型的值时，结果为 `false`：
+
+```javascript
+var name = "Nicholas";
+var count = 10;
+var found = false;
+
+console.log(name instanceof String);    // false
+console.log(count instanceof Number);   // false
+console.log(found instanceof Boolean);  // false
+```
+
+`instanceof` 操作符返回 `false`，因为只有在读取值时才创建临时对象。因为 `instanceof` 实际上不读取任何内容，所以不会创建临时对象，并且它告诉我们这些值不是包装器类型的实例。您可以手动创建包装类型，但也存在某些副作用：
+
+```javascript
+var name = new String("Nicholas");
+var count = new Number(10);
+var found = new Boolean(false);
+console.log(typeof name); // "object"
+console.log(typeof count); // "object"
+console.log(typeof found); // "object"
+```
+
+如您所见，创建包装器类型的实例只会创建另一个对象，这意味着 typeof 无法识别出存储的数据类型。
+
+此外，不能使用字符串、数字和布尔对象作为基本类型值。例如，下面的代码使用布尔对象。`Boolean` 对象是封装了 `false`，但是 `console.log("Found")` 仍然执行，因为在条件语句中，对象总是被认为是 `true`。对象代表 `false` 是无关紧要的，它是一个对象，所以认为它为 `true`。
+
+```javascript
+var found = new Boolean(false);
+if (found) {
+    console.log("Found"); // this executes
+}
+```
+
+手动实例化包装类型在其他方面也会令人困惑，所以除非您发现这样做有特殊的意义，否则应该避免这样做。大多数时候，使用包装对象而不是基本类型只会导致错误。
