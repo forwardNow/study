@@ -84,7 +84,7 @@ console.log(color2);  // "red"
 
 在此代码中，`color1` 更改为 `"blue"`，`color2` 保留其原始值 `"red"`。
 
-### 2.1. 区分基本类型
+### 2.1. 识别基本类型
 
 识别基础类型的最佳方法是使用 `typeof` 操作符，它能处理任何变量，并返回表示数据类型的字符串。`typeof` 操作可以处理字符串、数字、布尔值、`undefined`。下面显示了在不同基本类型值上使用 `typeof` 的输出：
 
@@ -347,7 +347,7 @@ array[method](12345);
 
 在上面的示例中，变量 `method` 的值为 `"push"`，因此可在数组上调用 `push()`。这种能力是非常有用的，正如你将从这本书中看到的那样。需要记住的一点是，除了语法之外，点符号和括号符号之间唯一的性能或其他方面的区别是括号符号允许在属性名称中使用特殊的字符。开发者更倾向于使用点标记，因为更容易阅读，你会发现它比括号符号使用得更频繁。
 
-## 6. 区分引用类型
+## 6. 识别引用类型
 
 函数是最容易识别的引用类型，因为在函数上使用 `typeof` 操作符时，操作符会返回`"function"`：
 
@@ -373,3 +373,38 @@ console.log(object instanceof Object); // true
 console.log(reflect instanceof Function); // true
 ```
 
+在这个例子中，使用 `instanceof` 和构造函数测试了几个值。通过使用 `instanceof` 和表示其真实类型的构造函数（即使构造函数没有用于创建对象），可以正确地识别每个引用类型。
+
+操作符的实例可以标识继承的类型。这意味着每个对象实际上是 `Object` 的实例，因为每个引用类型都继承自 `Object`。
+
+为了进行演示，以下代码检查之前用 `instanceof` 创建的三个引用：
+
+```javascript
+var items = [];
+var object = {};
+function reflect(value) {
+    return value;
+}
+
+console.log(items instanceof Array); // true
+console.log(items instanceof Object); // true
+console.log(object instanceof Object); // true
+console.log(object instanceof Array); // false
+console.log(reflect instanceof Function); // true
+console.log(reflect instanceof Object); // true
+```
+
+每个引用类型都被正确地标识为对象的实例，所有引用类型都从该实例继承。
+
+## 7. 识别数组
+
+虽然 `instanceof` 可以识别数组，但是影响 Web 开发人员的一个例外是： JavaScript 值可以在同一网页中的框架（`<iframe>`）之间来回传递。只有在您试图标识引用值的类型时，这才会成为一个问题，因为每个网页都有自己的全局上下文——自己的 `Object`、`Array` 所有其他内置的类型。因此，当将数组从一个 `<iframe>` 传递到另一个 `<iframe>` 时，`instanceof` 无法工作，因为数组实际上是来自不同 `<iframe>` 的 `Array` 的实例。
+
+为了解决这个问题，ECMAScript 5 引入了 `Array.isArray()` ，它明确地将值标识为 `Array` 的实例，而不管值的来自哪里。当该方法接受一个数组类型的参数，无论该数组来自哪里，它都返回 `true`。如果您的环境是兼容 ECMAScript 5，则 `Array.isArray()` 是识别数组的最好方法：
+
+```javascript
+var items = [];
+console.log(Array.isArray(items)); // true
+```
+
+在大多数环境中，无论是在浏览器中还是在 Node.js，都支持 `Array.isArray()` 方法。在 Internet Explorer 8 以及更早的版本中不支持此方法。
