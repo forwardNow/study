@@ -347,3 +347,29 @@ array[method](12345);
 
 在上面的示例中，变量 `method` 的值为 `"push"`，因此可在数组上调用 `push()`。这种能力是非常有用的，正如你将从这本书中看到的那样。需要记住的一点是，除了语法之外，点符号和括号符号之间唯一的性能或其他方面的区别是括号符号允许在属性名称中使用特殊的字符。开发者更倾向于使用点标记，因为更容易阅读，你会发现它比括号符号使用得更频繁。
 
+## 6. 区分引用类型
+
+函数是最容易识别的引用类型，因为在函数上使用 `typeof` 操作符时，操作符会返回`"function"`：
+
+```javascript
+function reflect(value) {
+    return value;
+}
+console.log(typeof reflect);    // "function"
+```
+
+其他引用类型很难识别，因为对于除了函数之外的所有引用类型，`typeof` 都返回`"object"`。当你处理很多不同的引用类型时，这并不是很有用。为了更容易地识别引用类型，可以使用 JavaScript 的 `instanceof` 操作符。
+
+操作符 `instanceof` 以对象和构造函数作为参数。当指定的对象是指定的构造函数构造出来的时，`instanceof` 返回 `true`；否则，它返回 `false`，如下所示：
+
+```javascript
+var items = [];
+var object = {};
+function reflect(value) {
+    return value;
+}
+console.log(items instanceof Array); // true
+console.log(object instanceof Object); // true
+console.log(reflect instanceof Function); // true
+```
+
