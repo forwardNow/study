@@ -10,4 +10,5 @@
   * [创建第一个应用](./first-app.md)
   * [Cordova 应用程序模板](./template.md)
   * [平台支撑情况](./support.md)
-  * [开发平台](./platforms.md)
+  * 开发平台
+    * [Android 平台](./platforms/android.md)
