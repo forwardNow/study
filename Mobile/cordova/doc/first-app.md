@@ -195,3 +195,39 @@ cordova-plugin-whitelist 1.3.3 "Whitelist"
 重建项目时，Android 版本具有特定的样式，而其他版本保持不变。
 
 您还可以使用 `${root}/merges` 来添加原始 `www` 目录中不存在的文件。 例如，应用程序可以将后退按钮图形合并到 iOS 界面中，存储在 `merges/ios/img/back_button.png` 中，而 Android 版本可以从相应的硬件按钮捕获后退按钮事件。
+
+## 9. 更新 Cordova 和您的项目
+
+安装 `cordova` 工具后，您始终可以通过运行以下命令将其更新到最新版本：
+
+```shell
+sudo npm update -g cordova
+```
+
+使用此语法安装特定版本：
+
+```shell
+sudo npm install -g cordova@3.1.0
+```
+
+运行 `cordova -v` 以查看当前正在运行的版本。
+
+```shell
+$ cordova -v
+8.1.2 (cordova-lib@8.1.1)
+```
+
+要查找最新发布的 cordova 版本，您可以运行：
+
+```shell
+$ npm info cordova version
+8.1.2
+```
+
+要更新您要定位的平台：
+
+```shell
+$ cordova platform update android --save
+$ cordova platform update ios --save
+...etc.
+```
