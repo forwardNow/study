@@ -78,6 +78,10 @@ ${root}/
   jcenter()
 ```
 
+说明：
+
+`https://maven.google.com` 已经重定向到 `https://dl.google.com`；如果要使用 Google 的 maven 仓库，得使用 `google()`。
+
 ### 2.7. 生成 apk 文件
 
 ```shell
