@@ -137,3 +137,42 @@ cordova run android
 * [Cordova run command reference documentation](https://cordova.apache.org/docs/en/8.x/reference/cordova-cli/index.html#cordova-run-command)
 * [Cordova emulate command reference documentation](https://cordova.apache.org/docs/en/8.x/reference/cordova-cli/index.html#cordova-emulate-command)
 
+## 7. 添加插件
+
+您可以修改默认生成的应用程序以利用标准 Web 技术，但是要让应用程序访问设备级功能，您需要添加插件。
+
+插件提供了用于使用原生 SDK 功能的 Javascript API。 插件通常托管在 npm 上，您可以在[插件搜索页面](https://cordova.apache.org/plugins/)上搜索它们。 一些关键 AP I由 Apache Cordova 开源项目提供，这些 API 称为 [Core Plugin API](https://cordova.apache.org/docs/en/8.x/guide/support/index.html#core-plugin-apis)。 您还可以使用CLI启动搜索页面：
+
+```shell
+cordova plugin search camera
+```
+
+指定相机插件的 npm 包名称，即可将相机插件添加并保存到 `config.xml` 和 `package.json`：
+
+```shell
+$ cordova plugin add cordova-plugin-camera
+Installing "cordova-plugin-camera" for android
+Android Studio project detected
+Subproject Path: CordovaLib
+Subproject Path: app
+Adding cordova-plugin-camera to package.json
+Saved plugin info for "cordova-plugin-camera" to config.xml
+```
+
+也可以使用目录或 git repo 添加插件。
+
+>注意：CLI 会根据每个平台添加适当的插件代码。 如果您希望使用概述中讨论的低级 shell 工具或平台 SDK 进行开发，则需要运行 Plugman 实用程序以分别为每个平台添加插件。 （有关更多信息，请参阅使用 Plugman 管理插件。）
+
+使用 `plugin ls`（或 `plugin list` 或 `plugin`）来查看当前安装的插件。 安装的每个插件都会显示器标识符：
+
+```shell
+$ cordova plugin ls
+cordova-plugin-camera 4.0.3 "Camera"
+cordova-plugin-whitelist 1.3.3 "Whitelist"
+```
+
+也可以看看：
+
+* [Cordova plugin command reference documentation](https://cordova.apache.org/docs/en/8.x/reference/cordova-cli/index.html#cordova-plugin-command)
+* [Cordova plugin search page](https://cordova.apache.org/plugins/)
+* [Core Plugin APIs](https://cordova.apache.org/docs/en/8.x/guide/support/index.html#core-plugin-apis)
