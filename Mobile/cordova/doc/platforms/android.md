@@ -82,3 +82,80 @@ $ echo $PATH
 ### 2.7. Windows
 
 略。
+
+## 3. 项目配置
+
+如果您希望在 Android 模拟器上运行 Cordova 应用程序，首先需要创建 Android 虚拟设备（AVD）。
+
+正确配置 AVD 后，您应该能够通过运行以下命令将 Cordova 应用程序部署到模拟器：
+
+```shell
+cordova run --emulator
+```
+
+### 3.1. 配置 Gradle
+
+截至 cordova-android@4.0.0，用于 Android 项目的 Cordova 是使用 Gradle 构建的。 有关使用 Ant 构建的说明，请参阅文档的旧版本。 请注意，从 Android SDK Tools 25.3.0 开始，不推荐使用 Ant 版本。
+
+#### 3.1.1. 设置 Gradle 属性
+
+可以通过设置 Cordova 公开的某些 [Gradle 属性](https://docs.gradle.org/current/userguide/build_environment.html)的值来配置 Gradle 构建。 可以设置以下属性：
+
+| Property | Description |
+| - | - |
+| `cdvBuildMultipleApks` | 如果设置了此项，则将生成多个 APK 文件：每个原生平台一个。 如果您的项目使用大型原生库，这可能很重要，这会大大增加生成的 APK 的大小。 如果未设置，则将生成可在所有设备上使用的单个 APK |
+| `cdvVersionCode` | 覆盖 `AndroidManifest.xml` 中设置的 `versionCode` |
+| `cdvReleaseSigningPropertiesFile` | 默认值：`release-signing.properties`。
+包含发布版本的签名信息的 `.properties` 文件的路径（请参阅签署应用程序） |
+| `cdvDebugSigningPropertiesFile` | 默认值：`debug-signing.properties`。
+包含调试版本的签名信息的 `.properties` 文件的路径（请参阅签署应用程序）。 需要与其他开发人员共享签名密钥时很有用 |
+| `cdvMinSdkVersion` | 覆盖 `AndroidManifest.xml` 中设置的 `minSdkVersion` 的值。 在基于 SDK 版本创建多个 APK 时很有用 |
+| `cdvBuildToolsVersion` | 覆盖自动检测到的 `android.buildToolsVersion` 值 |
+| `cdvCompileSdkVersion` | 覆盖自动检测到的 `android.compileSdkVersion` 值 |
+
+您可以通过以下四种方式之一设置这些属性：
+
+* 通过设置环境变量，如下所示：
+
+```shell
+# export ORG_GRADLE_PROJECT_cdvMinSdkVersion=20
+$ cordova build android
+```
+
+* 通过在 Cordova 构建（`build`）或运行（`run`）命令中使用 `--gradleArg` 标志：
+
+```shell
+cordova run android -- --gradleArg=-PcdvMinSdkVersion=20
+```
+
+* 通过在 Android 平台文件夹（`<your-project>/platforms/android`）中放置一个名为 `gradle.properties` 的文件并在其中设置属性，如下所示：
+
+```text
+# In <your-project>/platforms/android/gradle.properties
+cdvMinSdkVersion=20
+```
+
+* 通过 `build-extras.gradle` 文件扩展 `build.gradle` 并设置属性如下：
+
+```text
+// In <your-project>/platforms/android/build-extras.gradle
+ext.cdvMinSdkVersion = 20
+```
+
+后两个选项都涉及在 Android 平台文件夹中包含一个额外的文件。 通常，不建议您编辑此文件夹的内容，因为这些更改很容易丢失或覆盖。 相反，应使用 `before_build` [挂钩](https://cordova.apache.org/docs/en/8.x/guide/appdev/hooks/index.html)将这两个文件从另一个位置复制到该文件夹中作为构建命令的一部分。
+
+#### 3.1.2. 扩展 build.gradle
+
+略。
+
+### 3.2. 设置版本代码
+
+要更改应用程序生成的 apk 的版本代码，请在应用程序的 `config.xml` 文件的 `<widget>` 元素中设置 `android-versionCode` 属性。 如果未设置 `android-versionCode`，则将使用 `version` 属性确定版本代码。 例如，如果版本是 `MAJOR.MINOR.PATCH`：
+
+```text
+versionCode = MAJOR * 10000 + MINOR * 100 + PATCH
+```
+
+如果您的应用程序已启用 `cdvBuildMultipleApks` Gradle属性（请参阅设置 Gradle 属性），则应用程序的版本代码也将乘以 10，以便代码的最后一位数字可用于指示 apk 构建的体系结构。 无论版本代码是从 `android-versionCode` 属性获取还是使用 `version` 生成，都会发生这种乘法。 请注意，添加到项目中的某些插件（包括 `cordova-plugin-crosswalk-webview`）可能会自动设置此 Gradle 属性。
+
+请注意：更新 `android-versionCode` 属性时，增加从构建的 apk 获取的版本代码是不明智的。 相反，您应该根据 `config.xml` 文件的 `android-versionCode` 属性中的值增加代码。 这是因为 `cdvBuildMultipleApks` 属性导致版本代码在构建的 apk 中乘以 10，因此使用该值将导致您的下一个版本代码是原始版本的 100 倍，等等。
