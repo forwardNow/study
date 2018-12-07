@@ -245,3 +245,10 @@ keyPassword=SECRET2
 4. `Gradle Sync`
 
 完成导入后，您应该能够直接从 Android Studio 构建和运行应用程序。 有关详细信息，请参阅 Android Studio 概述以及从 Android Studio 构建和运行。
+
+## 6. 以平台为中心的工作流程
+
+cordova-android 包含许多脚本，允许在没有完整 Cordova CLI 的情况下使用该平台。 在某些情况下，此开发路径可为您提供比跨平台 cordova CLI 更多的开发选项。 例如，在将自定义 Cordova WebView 与本机组件一起部署时，需要使用 shell 工具。 在使用此开发路径之前，您仍必须按照上面的“要求和支持”中的说明配置 Android SDK 环境。
+
+略。。
+
