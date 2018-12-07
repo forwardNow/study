@@ -24,3 +24,20 @@ C:\>npm install -g cordova
 ```
 
 安装之后，您应该能够在命令行上运行 `cordova`，它应该打印帮助文本。
+
+## 2. 创建应用程序
+
+在源代码的目录，并创建一个 cordova 项目：
+
+```shell
+cordova create hello com.example.hello HelloWorld
+```
+
+这将为您的 cordova 应用程序创建所需的目录结构。 默认情况下，`cordova create` 脚本会生成基于 Web 的骨架应用程序，其主页是项目的 `www/index.html` 文件。
+
+也可以看看：
+
+* [Cordova create command reference documentation](https://cordova.apache.org/docs/en/8.x/reference/cordova-cli/index.html#cordova-create-command)
+* [Cordova project directory structure](https://cordova.apache.org/docs/en/8.x/reference/cordova-cli/index.html#directory-structure)
+* [Cordova project templates](https://cordova.apache.org/docs/en/8.x/guide/cli/template.html#)
+
