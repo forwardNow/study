@@ -159,3 +159,70 @@ versionCode = MAJOR * 10000 + MINOR * 100 + PATCH
 如果您的应用程序已启用 `cdvBuildMultipleApks` Gradle属性（请参阅设置 Gradle 属性），则应用程序的版本代码也将乘以 10，以便代码的最后一位数字可用于指示 apk 构建的体系结构。 无论版本代码是从 `android-versionCode` 属性获取还是使用 `version` 生成，都会发生这种乘法。 请注意，添加到项目中的某些插件（包括 `cordova-plugin-crosswalk-webview`）可能会自动设置此 Gradle 属性。
 
 请注意：更新 `android-versionCode` 属性时，增加从构建的 apk 获取的版本代码是不明智的。 相反，您应该根据 `config.xml` 文件的 `android-versionCode` 属性中的值增加代码。 这是因为 `cdvBuildMultipleApks` 属性导致版本代码在构建的 apk 中乘以 10，因此使用该值将导致您的下一个版本代码是原始版本的 100 倍，等等。
+
+## 4. 签署应用程序
+
+首先，您应该阅读 Android 应用程序签名要求。
+
+### 4.1. 使用标志
+
+要签署应用程序，您需要以下参数：
+
+| Parameter | Flag | Description |
+| - | - | - |
+| Keystore | --keystore | 包含 key 的密钥库(二进制文件)的路径 |
+| Keystore Password | --storePassword | 密钥库的密码 |
+| Alias | --alias | 指定用于签名的私钥的 ID |
+| Password | --password | 指定私钥的密码 |
+| Type of the Keystore | --keystoreType | 默认值：基于文件扩展名自动检测。无论是 pkcs12 还是 jks |
+
+可以使用上面的命令行参数为 Cordova CLI 的 `build` 或 `run` 命令指定这些参数。
+
+注意：您应该使用双 `-` 表示这些是特定于平台的参数，例如：
+
+```shell
+cordova run android --release -- --keystore=../my-release-key.keystore --storePassword=password --alias=alias_name --password=password.
+```
+
+### 4.2. 使用 build.json
+
+或者，您可以使用相同命令的 `--buildConfig` 参数在构建配置文件（`build.json`）中指定它们。以下是构建配置文件的示例：
+
+```json
+{
+    "android": {
+        "debug": {
+            "keystore": "../android.keystore",
+            "storePassword": "android",
+            "alias": "mykey1",
+            "password" : "password",
+            "keystoreType": ""
+        },
+        "release": {
+            "keystore": "../android.keystore",
+            "storePassword": "",
+            "alias": "mykey2",
+            "password" : "password",
+            "keystoreType": ""
+        }
+    }
+}
+```
+
+对于发布签名，可以排除密码，构建系统将发出询问密码的提示。
+
+还支持在 `build.json` 中混合和匹配命令行参数和参数。 命令行参数中的值将优先。 这对于在命令行上指定密码很有用。
+
+### 4.3. 使用 Gradle
+
+您还可以通过包含 `.properties` 文件并使用 `cdvReleaseSigningPropertiesFile` 和 `cdvDebugSigningPropertiesFile` Gradle 属性指向它来指定签名属性（请参阅设置 Gradle 属性）。 该文件应如下所示：
+
+```text
+storeFile=relative/path/to/keystore.p12
+storePassword=SECRET1
+storeType=pkcs12
+keyAlias=DebugSigningKey
+keyPassword=SECRET2
+```
+
+`storePassword` 和 `keyPassword` 是可选的，如果省略，将提示输入。
