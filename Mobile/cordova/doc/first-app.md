@@ -176,3 +176,22 @@ cordova-plugin-whitelist 1.3.3 "Whitelist"
 * [Cordova plugin command reference documentation](https://cordova.apache.org/docs/en/8.x/reference/cordova-cli/index.html#cordova-plugin-command)
 * [Cordova plugin search page](https://cordova.apache.org/plugins/)
 * [Core Plugin APIs](https://cordova.apache.org/docs/en/8.x/guide/support/index.html#core-plugin-apis)
+
+## 8. 使用 `merges` 为每个平台添加自定义代码
+
+虽然 Cordova 允许您轻松地为许多不同平台部署应用程序，但有时您需要添加自定义内容。 在这种情况下，您不希望修改顶级 `platforms` 中各个平台的 `www` 目录中的源文件，因为它们经常被顶级 `www` 目录的跨平台源替换。
+
+相反，顶级 `${root}/merges` 目录提供了指定要在特定平台上部署的资源的位置。 `${root}/merges` 中的每个特定于平台的子目录都对应 `${root}/www` 目录的结构，允许您根据需要覆盖或添加文件。 例如，以下是如何使用 `${root}/merges` 来增强 Android 设备的默认字体大小：
+
+* 在 `${root}/www/index.html` 引入一个额外的 CSS 文件 `overrides.css`
+
+```html
+<link rel="stylesheet" type="text/css" href="css/overrides.css" />
+```
+
+* 创建空文件 `${root}/www/css/overrides.css`，避免非 Android 平台编译时报找不到文件错误
+* 创建文件 `${root}/merges/android/css/overrides.css`，编写 Android 上应用的样式
+
+重建项目时，Android 版本具有特定的样式，而其他版本保持不变。
+
+您还可以使用 `${root}/merges` 来添加原始 `www` 目录中不存在的文件。 例如，应用程序可以将后退按钮图形合并到 iOS 界面中，存储在 `merges/ios/img/back_button.png` 中，而 Android 版本可以从相应的硬件按钮捕获后退按钮事件。
