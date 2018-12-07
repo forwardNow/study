@@ -252,3 +252,7 @@ cordova-android 包含许多脚本，允许在没有完整 Cordova CLI 的情况
 
 略。。
 
+## 7. 升级
+
+有关升级 `cordova-android` 版本的说明，请参阅[此文章](https://cordova.apache.org/docs/en/8.x/guide/platforms/android/upgrade.html)。
+
