@@ -226,3 +226,22 @@ keyPassword=SECRET2
 ```
 
 `storePassword` 和 `keyPassword` 是可选的，如果省略，将提示输入。
+
+## 5. 调试
+
+有关 Android SDK 随附的调试工具的详细信息，请参阅 Android 的开发人员文档以进行调试。 此外，Android 的用于调试Web应用程序的开发人员文档提供了有关调试 Webview 中运行的应用程序部分的简介。
+
+### 5.1. 在 Android Studio 中打开项目
+
+适用于 Android 项目的 Cordova 可以在 Android IDE，Android Studio 中打开。 如果您希望使用 Android Studio 内置的 Android 调试/分析工具，或者您正在开发 Android 插件，这将非常有用。 请注意，在 Android studio 中打开项目时，建议您不要在 IDE 中编辑代码。 这将编辑项目的平台文件夹（而不是 `www`）中的代码，并且更改可能会被覆盖。 而是编辑 `www` 文件夹并通过运行 `cordova build` 复制您的更改。
+
+希望在 IDE 中编辑其原生代码的插件开发人员在通过 `cordova plugin add` 将其插件添加到项目时应使用 `--link` 标志。 这将链接文件，以便对 `platforms` 文件夹中的插件文件的更改反映在插件的源文件夹中（反之亦然）。
+
+要在 Android Studio 中打开 Cordova for Android 项目，请执行以下操作：
+
+1. 启动 Android Studio.
+2. 选择 `Import Project (Eclipse ADT, Gradle, etc)`.
+3. 选择 `<your-project>/platforms/android`
+4. `Gradle Sync`
+
+完成导入后，您应该能够直接从 Android Studio 构建和运行应用程序。 有关详细信息，请参阅 Android Studio 概述以及从 Android Studio 构建和运行。
