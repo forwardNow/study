@@ -41,3 +41,32 @@ cordova create hello com.example.hello HelloWorld
 * [Cordova project directory structure](https://cordova.apache.org/docs/en/8.x/reference/cordova-cli/index.html#directory-structure)
 * [Cordova project templates](https://cordova.apache.org/docs/en/8.x/guide/cli/template.html#)
 
+## 3. 添加平台
+
+所有后续命令都需要在项目的目录或任何子目录中运行：
+
+```shell
+cd hello
+```
+
+添加您要定位应用的平台。 我们将添加 ios 和 android 平台并确保它们保存到 `config.xml` 和 `package.json`：
+
+```shell
+cordova platform add ios
+cordova platform add android
+```
+
+检查当前的平台集：
+
+```shell
+cordova platform ls
+```
+
+运行添加或删除平台的命令会影响项目平台目录的内容，其中每个指定的平台都显示为子目录。
+
+>注意：使用 CLI 构建应用程序时，不应编辑 `platforms` 目录中的任何文件。 在准备构建应用程序或重新安装插件时，会定期覆盖此目录中的文件。
+
+也可以看看：
+
+* [Cordova platform command reference documentation](https://cordova.apache.org/docs/en/8.x/reference/cordova-cli/index.html#cordova-platform-command)
+
