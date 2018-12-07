@@ -112,3 +112,28 @@ cordova build ios
 可以看看：
 
 * [Cordova build command reference documentation](https://cordova.apache.org/docs/en/8.x/reference/cordova-cli/index.html#cordova-build-command)
+
+## 6. 测试应用程序
+
+适用于移动平台的 SDK 通常与运行设备镜像的模拟器捆绑在一起，因此您可以从主屏幕启动应用程序，并查看它与许多平台功能的交互方式。 运行如下命令来重建应用程序并在特定平台的模拟器中查看它：
+
+```shell
+cordova emulate android
+```
+
+继续使用 `cordova emulate` 命令刷新模拟器以显示最新的应用程序，该应用程序现在可从主屏幕启动。
+
+或者，您可以将手机插入计算机并直接测试应用程序：
+
+```shell
+cordova run android
+```
+
+在运行此命令之前，您需要按照每个平台不同设备不同设置以进行测试。
+
+也可以看看：
+
+* [Setting up Android emulator](https://cordova.apache.org/docs/en/8.x/guide/platforms/android/index.html#setting-up-an-emulator)
+* [Cordova run command reference documentation](https://cordova.apache.org/docs/en/8.x/reference/cordova-cli/index.html#cordova-run-command)
+* [Cordova emulate command reference documentation](https://cordova.apache.org/docs/en/8.x/reference/cordova-cli/index.html#cordova-emulate-command)
+
