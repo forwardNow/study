@@ -93,3 +93,22 @@ Gradle: installed /usr/local/Cellar/gradle/5.0/bin/gradle
 * [iOS platform requirements](https://cordova.apache.org/docs/en/8.x/guide/platforms/ios/index.html#requirements-and-support)
 * [Windows platform requirements](https://cordova.apache.org/docs/en/8.x/guide/platforms/windows/index.html#requirements-and-support)
 
+## 5. 构建应用程序
+
+默认情况下，`cordova create` 脚本生成一个基于 Web 的骨架应用程序，其起始页是项目的 `www/index.html` 文件。 应将任何初始化指定为 `www/js/index.js` 中定义的 [deviceready](https://cordova.apache.org/docs/en/8.x/cordova/events/events.html#deviceready) 事件处理程序的一部分。
+
+运行以下命令为所有平台构建项目：
+
+```shell
+cordova build
+```
+
+您可以选择将每个构建的范围限制为特定平台 - 在这种情况下为 “ios”：
+
+```shell
+cordova build ios
+```
+
+可以看看：
+
+* [Cordova build command reference documentation](https://cordova.apache.org/docs/en/8.x/reference/cordova-cli/index.html#cordova-build-command)
