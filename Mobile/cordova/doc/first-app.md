@@ -70,3 +70,26 @@ cordova platform ls
 
 * [Cordova platform command reference documentation](https://cordova.apache.org/docs/en/8.x/reference/cordova-cli/index.html#cordova-platform-command)
 
+## 4. 安装构建的环境
+
+要构建和运行应用程序，您需要为要定位的每个平台安装 SDK。 或者，如果您使用浏览器进行开发，则可以使用不需要任何平台 SDK 的浏览器平台。
+
+检查您是否满足构建到指定平台的要求：
+
+```shell
+$ cordova requirements
+Android Studio project detected
+
+Requirements check results for android:
+Java JDK: installed 1.8.0
+Android SDK: installed true
+Android target: installed android-28,android-27,android-26,android-21,android-19,android-16,android-15
+Gradle: installed /usr/local/Cellar/gradle/5.0/bin/gradle
+```
+
+可以看看：
+
+* [Android platform requirements](https://cordova.apache.org/docs/en/8.x/guide/platforms/android/index.html#requirements-and-support)
+* [iOS platform requirements](https://cordova.apache.org/docs/en/8.x/guide/platforms/ios/index.html#requirements-and-support)
+* [Windows platform requirements](https://cordova.apache.org/docs/en/8.x/guide/platforms/windows/index.html#requirements-and-support)
+
