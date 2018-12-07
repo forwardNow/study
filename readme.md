@@ -93,9 +93,11 @@
 
 ## 3. 移动端
 
-### 3.1. Weex
-
-* [Weex 笔记](./Mobile/weex/readme.md)
+* Weex
+  * [Weex 笔记](./Mobile/weex/readme.md)
+* Cordova
+  * [Cordova 笔记](./Mobile/cordova)
+  * [官方文档 —— 翻译](./Mobile/cordova/doc)
 
 ## 4. 测试
 
