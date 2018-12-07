@@ -12,3 +12,4 @@
   * [平台支撑情况](./support.md)
   * 开发平台
     * [Android 平台](./platforms/android.md)
+    * iOS 平台
