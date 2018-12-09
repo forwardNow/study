@@ -107,3 +107,61 @@ console.log(numbers); // "[1, 10, 2, 4, 5, 6, 7, 8]"
 在这个例子中，传递给 `sort()` 的比较函数实际上是一个函数表达式。 请注意，该函数没有名称; 它仅作为传递给另一个函数的引用存在（作为匿名函数）。 两个值相减会从比较函数中返回正确的结果。
 
 将其与第二次调用 `sort()` 进行比较，该调用不使用比较函数。 数组的顺序与预期的不同，因为 1 后跟 10，这是因为默认比较在比较它们之前将所有值转换为字符串。
+
+## 3. 参数
+
+JavaScript 函数的另一个独特方面是，您可以将任意数量的参数传递给任何函数，而不会导致错误。 那是因为函数参数实际上存储在类数组对象 `arguments` 中。 就像常规JavaScript数组一样，参数可以增长以包含任意数量的值。 这些值通过数字索引引用，并且有一个 `length` 属性来确定存在多少个值。
+
+`arguments` 对象在任何函数内自动可用。 这意味着函数中的命名参数主要是为了方便而存在，并不实际限制函数可以接受的参数数量。
+
+`arguments` 对象不是 `Array` 的实例，因此没有与数组相同的方法; `Array.isArray(arguments)`始终返回 `false`。
+
+另一方面，JavaScript 也不会忽略函数的命名参数。 函数期望的参数数量存储在函数的 `length` 属性中。 请记住，函数实际上只是一个对象，因此它可以具有属性。 `length` 属性表示函数期望的参数数量。 知道函数预期参数数量在 JavaScript 中很重要，因为如果传入太多或太少的参数，函数不会抛出错误。
+
+这是一个使用 `arguments` 和函数预期参数数量的简单示例; 请注意，传递给函数的参数数量对预期函数时参数数量没有影响：
+
+```javascript
+function reflect(value) {
+    return value;
+}
+
+console.log(reflect("Hi!")); // "Hi!"
+console.log(reflect("Hi!", 25)); // "Hi!"
+console.log(reflect.length); // 1
+
+reflect = function() {
+    return arguments[0];
+};
+
+console.log(reflect("Hi!")); // "Hi!"
+console.log(reflect("Hi!", 25)); // "Hi!"
+console.log(reflect.length); // 0
+```
+
+此示例首先使用单个命名参数定义 `reflect()` 函数，但在将第二个参数传递给函数时没有错误。 此外，`length` 属性为 1，因为只有一个命名参数。 然后重新定义 `reflect()` 函数，没有命名参数; 它返回 `arguments[0]`，这是传入的第一个参数。该函数的新版本与前一版本完全相同，但其长度为 0。
+
+`reflect()` 的第一个实现更容易理解，因为它使用命名参数（就像在其他语言中一样）。 使用 `arguments` 对象的版本可能会令人困惑，因为没有命名参数，您必须读取函数体以确定是否使用了参数。 这就是为什么许多开发人员宁愿避免使用参数，除非必要。
+
+但是，有时使用参数实际上比命名参数更有效。 例如，假设您要创建一个接受任意数量参数并返回其总和的函数。 您不能使用命名参数，因为您不知道需要多少参数，因此在这种情况下，使用参数是最佳选择。
+
+```javascript
+function sum() {
+    var result = 0,
+        i = 0,
+        len = arguments.length;
+
+    while (i < len) {
+        result += arguments[i];
+        i++;
+    }
+
+    return result;
+}
+
+console.log(sum(1, 2)); // 3
+console.log(sum(3, 4, 5, 6)); // 18
+console.log(sum(50)); // 50
+console.log(sum()); // 0
+```
+
+`sum()` 函数接受任意数量的参数，并通过使用 `while` 循环遍历参数中的值将它们添加到一起。 这与您将数字数组相加的情况完全相同。 当没有传入参数时，该函数甚至可以工作，因为结果初始化为值 0。
