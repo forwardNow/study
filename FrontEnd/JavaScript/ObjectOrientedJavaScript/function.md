@@ -56,3 +56,19 @@ var add = function(num1, num2) {
 ```
 
 只要您在使用函数之前始终定义函数，使用函数声明或函数表达式都不会出问题。
+
+## 2. 将函数作为值
+
+因为 JavaScript 中的函数是 first-class，所以您可以像使用其他任何对象一样使用它们。 您可以将它们赋值给变量，将它们添加到对象的属性上，将它们作为参数传递给其他函数，将它们作为函数的返回值。 基本上，您可以在任何使用任何其他引用类型值的地方使用函数。 这使 JavaScript 的函数非常强大。 请考虑以下示例：
+
+```javascript
+function sayHi() {
+    console.log("Hi!");
+}
+
+sayHi(); // outputs "Hi!"
+
+var sayHi2 = sayHi;
+
+sayHi2(); // outputs "Hi!"
+```
