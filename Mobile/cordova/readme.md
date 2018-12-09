@@ -23,6 +23,7 @@ cordova create MyApp
 ### 2.3. 检测环境是否配置好
 
 ```shell
+cd MyApp
 cordova requirements
 # 提示 Gradle 没有安装
 ```
@@ -47,7 +48,7 @@ cordova platform add android
 
 ### 2.6. 修改 build.gradle 文件
 
->`android` 目录下，所有子项目的 `build.gradle` 都需要更改
+>如果你的maven仓库有问题，则需要更改 `android` 目录下所有子项目的 `build.gradle` 。
 
 位置：
 
@@ -77,10 +78,6 @@ ${root}/
   google()
   jcenter()
 ```
-
-说明：
-
-`https://maven.google.com` 已经重定向到 `https://dl.google.com`；如果要使用 Google 的 maven 仓库，得使用 `google()`。
 
 ### 2.7. 生成 apk 文件
 
