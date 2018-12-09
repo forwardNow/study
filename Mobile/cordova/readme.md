@@ -32,7 +32,7 @@ cordova requirements
 参考 [https://gradle.org/install/](https://gradle.org/install/)：
 
 ```shell
-$ brew gradle
+$ brew install gradle
 $ gradle -v
 Gradle 5.0
 ```
