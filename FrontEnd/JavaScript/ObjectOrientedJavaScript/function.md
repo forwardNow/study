@@ -213,3 +213,20 @@ sayMessage("Hello!"); // outputs "Hello!"
 在此示例中，`sayMessage()` 函数根据传入的参数数量有不同的行为。如果没有传入参数（`arguments.length === 0`），则使用默认消息。 否则，第一个参数用作消息。 这比其他语言中的函数重载更复杂，但最终结果是相同的。 如果您确实要检查不同的数据类型，可以使用 `typeof` 和 `instanceof`。
 
 实际上，检查命名参数是否为 `undefined` 比依赖 `arguments.length` 更常见。
+
+## 5. 对象方法
+
+如第 1 章所述，您可以随时添加和删除对象中的属性。 当属性值实际上是一个函数时，该属性被视为方法。 您可以像添加属性一样向对象添加方法。 例如，在下面的代码中，为 `person` 变量分配了一个具有 `name` 属性和 `sayName` 方法的对象字面量。
+
+```javascript
+var person = {
+    name: "Nicholas",
+    sayName: function() {
+        console.log(person.name);
+    }
+};
+
+person.sayName(); // outputs "Nicholas"
+```
+
+请注意，数据属性和方法的语法完全相同 - 标识符后跟冒号和值的。`sayName` 属性的值恰好是一个函数。 然后，您可以直接从对象中调用方法，如 `person.sayName("Nicholas")`。
