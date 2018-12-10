@@ -142,7 +142,7 @@ console.log(reflect.length); // 0
 
 `reflect()` 的第一个实现更容易理解，因为它使用命名参数（就像在其他语言中一样）。 使用 `arguments` 对象的版本可能会令人困惑，因为没有命名参数，您必须读取函数体以确定是否使用了参数。 这就是为什么许多开发人员宁愿避免使用参数，除非必要。
 
-但是，有时使用参数实际上比命名参数更有效。 例如，假设您要创建一个接受任意数量参数并返回其总和的函数。 您不能使用命名参数，因为您不知道需要多少参数，因此在这种情况下，使用参数是最佳选择。
+但是，有时使用 `arguments` 实际上比命名参数更有效。 例如，假设您要创建一个接受任意数量参数并返回其总和的函数。 您不能使用命名参数，因为您不知道需要多少参数，因此在这种情况下，使用参数是最佳选择。
 
 ```javascript
 function sum() {
@@ -165,3 +165,68 @@ console.log(sum()); // 0
 ```
 
 `sum()` 函数接受任意数量的参数，并通过使用 `while` 循环遍历参数中的值将它们添加到一起。 这与您将数字数组相加的情况完全相同。 当没有传入参数时，该函数甚至可以工作，因为结果初始化为值 0。
+
+## 4. 重载
+
+大多数面向对象的语言都支持函数重载，这是单个函数具有多个签名的能力。 函数签名由函数名称加上函数期望的参数的数量和类型组成。 因此，单个函数可以有一个接受单个字符串参数的签名，另一个接受两个数字参数。 该语言根据传入的参数确定要调用的函数版本。
+
+如前所述，JavaScript 函数可以接受任意数量的参数，函数所使用的参数类型根本不需要指定。 这意味着 JavaScript 函数实际上没有签名。 缺少函数签名也意味着缺少函数重载。 看看当你尝试声明两个具有相同名称的函数时会发生什么：
+
+```javascript
+function sayMessage(message) {
+    console.log(message);
+}
+
+function sayMessage() {
+    console.log("Default message");
+}
+
+sayMessage("Hello!"); // outputs "Default message"
+```
+
+如果这是另一种语言，则 `sayMessage("Hello！")` 的输出可能是 `Hello！`。 但是，在 JavaScript 中，当您定义多个具有相同名称的函数时，代码中最后出现的函数会获胜。 先前的函数声明被完全删除，最后一个声明将会被使用。 再来一次，使用对象思考这种情况会有所帮助：
+
+```javascript
+var sayMessage = new Function("message", "console.log(message);");
+
+sayMessage = new Function("console.log(\"Default message\");");
+
+sayMessage("Hello!"); // outputs "Default message"
+```
+
+以这种方式查看代码可以清楚地了解为什么以前的代码不起作用。 函数对象连续两次分配给 `sayMessage`，因此第一个函数对象丢失是有道理的。
+
+函数在 JavaScript 中没有签名这一事实并不意味着您无法模仿函数重载。 您可以使用 `arguments` 对象检索传入的参数数量，并且可以使用该信息来确定要执行的操作。 例如：
+
+```javascript
+function sayMessage(message) {
+    if (arguments.length === 0) {
+        message = "Default message";
+    }
+
+    console.log(message);
+}
+
+sayMessage("Hello!"); // outputs "Hello!"
+```
+
+在此示例中，`sayMessage()` 函数根据传入的参数数量有不同的行为。如果没有传入参数（`arguments.length === 0`），则使用默认消息。 否则，第一个参数用作消息。 这比其他语言中的函数重载更复杂，但最终结果是相同的。 如果您确实要检查不同的数据类型，可以使用 `typeof` 和 `instanceof`。
+
+实际上，检查命名参数是否为 `undefined` 比依赖 `arguments.length` 更常见。
+
+## 5. 对象方法
+
+如第 1 章所述，您可以随时添加和删除对象中的属性。 当属性值实际上是一个函数时，该属性被视为方法。 您可以像添加属性一样向对象添加方法。 例如，在下面的代码中，为 `person` 变量分配了一个具有 `name` 属性和 `sayName` 方法的对象字面量。
+
+```javascript
+var person = {
+    name: "Nicholas",
+    sayName: function() {
+        console.log(person.name);
+    }
+};
+
+person.sayName(); // outputs "Nicholas"
+```
+
+请注意，数据属性和方法的语法完全相同 - 标识符后跟冒号和值的。`sayName` 属性的值恰好是一个函数。 然后，您可以直接从对象中调用方法，如 `person.sayName("Nicholas")`。
