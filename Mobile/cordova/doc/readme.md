@@ -13,3 +13,4 @@
   * 开发平台
     * [Android 平台](./platforms/android.md)
     * iOS 平台
+  * [平台和插件版本控制](./versioning.md)
