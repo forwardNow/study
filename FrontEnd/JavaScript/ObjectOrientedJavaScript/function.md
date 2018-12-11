@@ -230,3 +230,48 @@ person.sayName(); // outputs "Nicholas"
 ```
 
 请注意，数据属性和方法的语法完全相同 - 标识符后跟冒号和值的。`sayName` 属性的值恰好是一个函数。 然后，您可以直接从对象中调用方法，如 `person.sayName("Nicholas")`。
+
+### 5.1. `this` 对象
+
+您可能已经注意到上一个示例中的一些奇怪内容。 `sayName()` 方法直接引用 `person.name`，这会在方法和对象之间产生紧密的耦合。 由于许多原因，这是有问题的。 首先，如果更改变量名称，还需要记住在方法中更改对该名称的引用。 其次，这种紧密耦合使得难以对不同的对象使用相同的功能。 幸运的是，JavaScript 解决了这个问题。
+
+JavaScript 中的每个作用域都有一个 `this` 对象，它表示函数的调用对象。 在全局作用域中，它表示全局对象（Web 浏览器中的 `window`）。 调用对象的方法时，默认情况下，该值等于该对象。 因此，您可以改为引用 `this`，而不是直接引用方法中的对象。 例如，您可以重写以前的示例中的代码来使用它：
+
+```javascript
+var person = {
+    name: "Nicholas",
+    sayName: function() {
+        console.log(this.name);
+    }
+};
+
+person.sayName();       // outputs "Nicholas"
+```
+
+此代码与早期版本的工作方式相同，但这次，`sayName()` 引用 `this` 而不是 `person`。 这意味着您可以轻松更改变量的名称，甚至可以在不同的对象上重用该函数。
+
+```javascript
+function sayNameForAll() {
+    console.log(this.name);
+}
+
+var person1 = {
+    name: "Nicholas",
+    sayName: sayNameForAll
+};
+
+var person2 = {
+    name: "Greg",
+    sayName: sayNameForAll
+};
+
+var name = "Michael";
+
+person1.sayName(); // outputs "Nicholas"
+person2.sayName(); // outputs "Greg"
+sayNameForAll();   // outputs "Michael"
+```
+
+在此示例中，首先定义名为 `sayName` 的函数。 然后，创建两个对象字面量，将 `sayName` 属性值设置为 `sayNameForAll` 函数。 函数只是引用值，因此您可以将它们作为属性值分配给任意数量的对象。 当在 `person1` 上调用 `sayName()` 时，它输出 `Nicholas`; 当在 `person2` 上调用时，它输出 “`Greg`”。 那是因为在调用函数时 `this` 会被设置好了，所以 `this.name` 是准确的。
+
+此示例的最后一部分定义了一个名为 `name` 的全局变量。 当直接调用 `sayNameForAll()` 时，它输出 “`Michael`”，因为全局变量被视为全局对象的属性。
