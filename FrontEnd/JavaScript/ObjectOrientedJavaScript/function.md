@@ -275,3 +275,31 @@ sayNameForAll();   // outputs "Michael"
 在此示例中，首先定义名为 `sayName` 的函数。 然后，创建两个对象字面量，将 `sayName` 属性值设置为 `sayNameForAll` 函数。 函数只是引用值，因此您可以将它们作为属性值分配给任意数量的对象。 当在 `person1` 上调用 `sayName()` 时，它输出 `Nicholas`; 当在 `person2` 上调用时，它输出 “`Greg`”。 那是因为在调用函数时 `this` 会被设置好了，所以 `this.name` 是准确的。
 
 此示例的最后一部分定义了一个名为 `name` 的全局变量。 当直接调用 `sayNameForAll()` 时，它输出 “`Michael`”，因为全局变量被视为全局对象的属性。
+
+### 5.2. 改变 `this`
+
+使用和操作函数的 `this` 的能力是 JavaScript 中良好的面向对象编程的关键。 函数可以在许多不同的上下文中使用，并且它们需要能够在每种情况下工作。 尽管通常 `this` 会自动分配，但您可以更改其值以实现不同的目标。 有三种函数方法可以让您更改它的值。 （请记住，函数是对象，对象可以有方法，因此函数也可以。）
+
+#### 5.2.1. `call()`
+
+操作它的第一个函数方法是 `call()`，它使用特定的值和特定参数执行函数。  `call()` 的第一个参数是执行函数时 `this` 的值。 所有后续参数都是传递给函数的参数。 例如，假设您更新 `sayNameForAll()` 以获取参数：
+
+```javascript
+function sayNameForAll(label) {
+    console.log(label + ":" + this.name);
+}
+
+var person1 = {
+    name: "Nicholas"
+};
+
+var person2 = {
+    name: "Greg"
+};
+
+var name = "Michael";
+
+sayNameForAll.call(this, "global"); // outputs "global:Michael"
+sayNameForAll.call(person1, "person1"); // outputs "person1:Nicholas"
+sayNameForAll.call(person2, "person2"); // outputs "person2:Greg"
+```
