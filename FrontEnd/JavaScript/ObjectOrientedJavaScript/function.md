@@ -331,3 +331,35 @@ sayNameForAll.apply(person2, ["person2"]); // outputs "person2:Greg"
 ```
 
 此代码采用前面的示例，并使用 `apply()` 替换 `call()`，结果完全一样。 您使用的方法通常取决于数据的类型。 如果您已有数据数组，请使用 `apply()`; 如果你只有个别变量，请使用 `call()`。
+
+#### 5.2.3. `bind()`
+
+更改它的第三个函数方法是 `bind()`。 ECMAScript 5 中添加了此方法，其行为与其他两种方法完全不同。 `bind()` 的第一个参数是新函数的 this 值。 所有其他参数表示应在新函数中永久设置的命名参数。 您仍然可以传入以后未永久设置的任何参数。
+
+```javascript
+function sayNameForAll(label) {
+    console.log(label + ":" + this.name);
+}
+
+var person1 = {
+    name: "Nicholas"
+};
+
+var person2 = {
+    name: "Greg"
+};
+
+// ① create a function just for person1
+var sayNameForPerson1 = sayNameForAll.bind(person1);
+sayNameForPerson1("person1"); // outputs "person1:Nicholas"
+
+// ② create a function just for person2
+var sayNameForPerson2 = sayNameForAll.bind(person2, "person2");
+sayNameForPerson2(); // outputs "person2:Greg"
+
+// ③ attaching a method to an object doesn't change 'this'
+person2.sayName = sayNameForPerson1;
+person2.sayName("person2"); // outputs "person2:Nicholas"
+```
+
+① 中没有为 `sayNameForPerson1()` 绑定任何参数，因此您仍需要传入输出的标签。② 中， 函数 `sayNameForPerson2()` 不仅将 `person2` 绑定到 `this`，还将第一个参数绑定为 `"person2"`。 这意味着您可以调用 `sayNameForPerson2()` 而不传入任何其他参数。 ③ 本示例的最后一部分将 `sayNameForPerson1()` 添加到 `person2` 上，属性名为 `sayName`。 该函数是绑定的，因此即使 `sayNameForPerson1` 现在是 `person2` 上的函数，它的值也不会改变。 该方法仍然输出 `person1.name` 的值。
