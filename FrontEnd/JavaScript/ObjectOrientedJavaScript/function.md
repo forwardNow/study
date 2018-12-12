@@ -303,3 +303,31 @@ sayNameForAll.call(this, "global"); // outputs "global:Michael"
 sayNameForAll.call(person1, "person1"); // outputs "person1:Nicholas"
 sayNameForAll.call(person2, "person2"); // outputs "person2:Greg"
 ```
+
+在此示例中，`sayNameForAll()` 接受一个用作输出值标签的参数。 然后调用该函数三次。 请注意，函数名后面没有括号，因为它是作为对象而不是作为要执行的代码来访问的。 第一个函数调用使用全局 `this` 并传入参数 `"global"` 来输出 `"global:Michael"`。 相同的函数再被调用两次，对于 `person1` 和 `person2` 分别调用一次。 因为正在使用 `call()` 方法，所以您不需要将函数直接添加到每个对象上 - 您可以显式指定此值，而不是让 JavaScript s引擎自动执行此操作。
+
+#### 5.2.2. `apply()`
+
+您可以用来操作它的第二个函数方法是 `apply()`。 `apply()` 方法与 `call()` 完全相同，只是它只接受两个参数：`this` 的值和一个数组或类数组对象（这意味着你可以使用 `arguments` 作为第二个参数）。 因此，不用像 `call()` 一样挨个传递每个参数，而是可以轻松地将数组传递给 `apply()` 作为第二个参数。 除此之外，`call()` 和 `apply()` 的行为相同。 此示例显示了 `apply()` 方法的操作：
+
+```javascript
+function sayNameForAll(label) {
+    console.log(label + ":" + this.name);
+}
+
+var person1 = {
+    name: "Nicholas"
+};
+
+var person2 = {
+    name: "Greg"
+};
+
+var name = "Michael";
+
+sayNameForAll.apply(this, ["global"]); // outputs "global:Michael"
+sayNameForAll.apply(person1, ["person1"]); // outputs "person1:Nicholas"
+sayNameForAll.apply(person2, ["person2"]); // outputs "person2:Greg"
+```
+
+此代码采用前面的示例，并使用 `apply()` 替换 `call()`，结果完全一样。 您使用的方法通常取决于数据的类型。 如果您已有数据数组，请使用 `apply()`; 如果你只有个别变量，请使用 `call()`。
