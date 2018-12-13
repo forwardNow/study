@@ -90,3 +90,24 @@ console.log(person1.hasOwnProperty("toString")); // false
 ```
 
 在此示例中，`name` 是 `person1` 的自己的属性，因此 `in` 运算符和 `hasOwnProperty()` 都返回 `true`。 然而，`toString()` 方法是一个存在于所有对象上的原型属性。 操作符对 `toString()` 返回 `true`，但 `hasOwnProperty()` 返回 `false`。 这是一个重要的区别，将在第 4 章进一步讨论。
+
+## 3. 删除属性
+
+就像属性可以随时添加到对象一样，它们也可以被删除。 简单地将属性设置为 `null` 实际上并不会从对象中删除属性。 这样的操作调用 `[[Set]]` 的值为 `null`，正如您在本章前面所见，它只替换属性的值。 您需要使用 `delete` 运算符从对象中完全删除属性。
+
+`delete` 运算符在单个对象属性上工作，并调用名为 `[[Delete]]` 的内部操作。 您可以将此操作视为从哈希表中删除 键/值 对。 当 `delete` 运算符成功时，它返回 `true`。 （某些属性无法删除，本章稍后将对此进行更详细的讨论。）例如，以下列表显示了 delete 运算符的操作：
+
+```javascript
+var person1 = {
+    name: "Nicholas"
+};
+
+console.log("name" in person1); // true
+delete person1.name; // true - not output
+console.log("name" in person1); // false
+console.log(person1.name); // undefined
+```
+
+在此示例中，将从 `person1` 中删除 `name` 属性。 操作完成后，`in` 运算符返回 `false`。 另请注意，尝试访问不存在的属性只会返回 `undefined`。图 3-2 显示了 `delete` 如何影响对象。
+
+![Figure 3-2: When you delete the name property, it completely disappears from person1.](./images/3-2.png)
