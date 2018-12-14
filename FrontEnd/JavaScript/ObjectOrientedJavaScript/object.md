@@ -194,3 +194,48 @@ console.log(person1.name); // "Setting name to Greg" then "Greg"
 尽管此示例使用 `_name` 存储属性数据，但您可以轻松地将数据存储在变量中，甚至存储在另一个对象中。 此示例仅添加日志记录到属性的行为; 如果您只将数据存储在另一个属性中，通常没有理由使用访问者属性 —— 只需使用属性本身。 当您希望赋值来触发某种行为时，或者在读取值时需要计算所需的返回值时，访问器属性最有用。
 
 您不需要同时定义 `getter` 和 `setter`; 你可以选择一个或两个。 如果只定义一个 `getter`，那么该属性将变为只读，并且尝试写入该属性将在非严格模式下静默失败并在严格模式下抛出错误。 如果仅定义 `setter`，则该属性将变为只写，并且尝试读取该值都将在 strict 和 nonstrict 模式下以静默方式失败。
+
+## 6. 属性的特性
+
+在 ECMAScript 5 之前，无法指定属性是否应该是可枚举的。 实际上，根本无法访问属性的内部特性。 ECMAScript 5 通过引入几种直接与属性特性交互的方法以及引入新属性来改变这一点。 现在可以创建与内置属性行为相同的 JavaScript 属性。 本节详细介绍了数据和访问器属性的特性，从它们共有的特性开始。
+
+### 6.1. 普通特性
+
+数据和访问器属性之间共享两个属性属性。 一个是 `[[Enumerable]]`，它决定了你是否可以迭代属性。 另一个是 `[[Configurable]]`，它决定是否可以更改属性。 您可以使用 `delete` 删除可配置的属性，也可以随时可更改可配置的属性。 （这也意味着可配置属性可以从数据数据更改为访问器属性，反之亦然。）默认情况下，您在对象上声明的所有属性都是可枚举和可配置的。
+
+如果要更改属性特性，可以使用 `Object.defineProperty()` 方法。 此方法接受三个参数：要配置的对象，属性名称和包含要设置的属性的特性描述符对象。 描述符具有与内部属性同名但没有方括号的属性。 因此，您使用 `enumerable` 设置 `[[Enumerable]]`，使用 `configurable` 设置 `[[Configurable]]`。 例如，假设您要使对象属性不可枚举且不可配置：
+
+```javascript
+var person1 = {
+    name: "Nicholas"
+};
+
+Object.defineProperty(person1, "name", {
+    enumerable: false
+});
+
+console.log("name" in person1); // true
+console.log(person1.propertyIsEnumerable("name")); // false
+
+var properties = Object.keys(person1);
+console.log(properties.length); // 0
+
+Object.defineProperty(person1, "name", {
+    configurable: false
+});
+
+// try to delete the Property
+delete person1.name;
+console.log("name" in person1); // true
+console.log(person1.name); // "Nicholas"
+
+Object.defineProperty(person1, "name", { // error!!!
+    configurable: true
+});
+```
+
+`name` 属性定义为通常，但随后会对其进行修改以将其 `[[Enumerable]]` 属性设置为 `false`。 `propertyIsEnumerable()` 方法现在返回 `false`，因为它引用了 `[[Enumerable]]` 的新值。之后，`name` 被更改为不可配置。 从现在开始，删除 `name` 的尝试失败，因为无法更改属性，因此 `person1` 上仍存在 `name`。 再次在 `name` 上调用 `Object.defineProperty()` 也不会导致对该属性的进一步更改。 实际上，`name` 被锁定为 `person1` 上的属性。
+
+代码的最后一部分尝试将 `name` 重新定义为可再次配置。 但是，这会引发错误，因为您无法再次配置不可配置的属性。 尝试将数据属性更改为访问者属性（反之亦然）也会在这种情况下引发错误。
+
+当 JavaScript 以严格模式运行时，尝试删除不可配置的属性会导致错误。 在非严格模式下，会静默失败。
