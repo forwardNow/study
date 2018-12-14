@@ -111,3 +111,53 @@ console.log(person1.name); // undefined
 在此示例中，将从 `person1` 中删除 `name` 属性。 操作完成后，`in` 运算符返回 `false`。 另请注意，尝试访问不存在的属性只会返回 `undefined`。图 3-2 显示了 `delete` 如何影响对象。
 
 ![Figure 3-2: When you delete the name property, it completely disappears from person1.](./images/3-2.png)
+
+## 4. 枚举
+
+默认情况下，添加到对象的所有属性都是可枚举的，这意味着您可以使用 `for-in` 循环对它们进行迭代。 可枚举属性的内部 `[[Enumerable]]` 属性设置为 `true`。 `for-in` 循环枚举对象上的所有可枚举属性，将属性名称分配给变量。 例如，以下循环输出对象的属性名称和值：
+
+```javascript
+var property;
+for (property in object) {
+    console.log("Name: " + property);
+    console.log("Value: " + object[property]);
+}
+```
+
+每次通过 `for-in` 循环时，属性变量都会填充对象上的下一个可枚举属性，直到所有这些属性挨个填充完毕。 此时，循环结束，代码执行继续。 此示例使用括号表示法检索对象属性的值并将其输出到控制台，这是 JavaScript 中括号表示法的主要用例之一。
+
+如果您只需要稍后在程序中使用的对象属性列表，ECMAScript 5 引入了 `Object.keys()` 方法来检索可枚举属性名称的数组，如下所示：
+
+```javascript
+var properties = Object.keys(object);
+
+// if you want to mimic for-in behavior
+var i, len;
+
+for (i=0, len=properties.length; i < len; i++){
+    console.log("Name: " + properties[i]);
+    console.log("Value: " + object[properties[i]]);
+}
+```
+
+此示例使用 `Object.keys()` 从对象检索可枚举属性。 然后使用 for 循环迭代属性并输出名称和值。 通常，在需要操作属性名称数组的情况下使用 `Object.keys()` ，在不需要数组时使用 `for-in`。
+
+在 `for-in` 循环中返回的可枚举属性与 `Object.keys()` 返回的属性之间存在差异。 `for-in` 循环还枚举原型属性，而 Object.keys() 仅返回自有（实例）属性。 第 4 章讨论了原型和自身属性之间的差异。
+
+请记住，并非所有属性都是可枚举的。 实际上，对象上的大多数原生方法都将 `[[Enumerable]]` 属性设置为 `false`。 您可以使用 `propertyIsEnumerable()` 方法检查属性是否可枚举，该方法存在于每个对象上：
+
+```javascript
+var person1 = {
+    name: "Nicholas"
+};
+
+console.log("name" in person1); // true
+console.log(person1.propertyIsEnumerable("name")); // true
+
+var properties = Object.keys(person1);
+
+console.log("length" in properties); // true
+console.log(properties.propertyIsEnumerable("length")); // false
+```
+
+这里，`name` 属性是可枚举的，因为它是在 `person1` 上定义的自定义属性。 另一方面，`properties` 数组的 `length` 属性不可枚举，因为它是 `Array.prototype` 上的内置属性。 您会发现默认情况下很多原生属性都不可枚举。
