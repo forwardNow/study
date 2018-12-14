@@ -161,3 +161,36 @@ console.log(properties.propertyIsEnumerable("length")); // false
 ```
 
 这里，`name` 属性是可枚举的，因为它是在 `person1` 上定义的自定义属性。 另一方面，`properties` 数组的 `length` 属性不可枚举，因为它是 `Array.prototype` 上的内置属性。 您会发现默认情况下很多原生属性都不可枚举。
+
+## 5. 属性类型
+
+有两种不同类型的属性：数据属性和访问器属性。 数据属性包含一个值，如本章前面的示例中的 `name` 属性。 `[[Put]]` 方法的默认行为是创建数据属性，本章到目前为止的每个示例都使用了数据属性。 访问器属性不包含值，而是定义为函数，在读取属性时调用的函数（称为 `getter`），以及在写入属性时调用的函数（称为 `setter`）。 访问者属性只需要一个 `getter` 或 `setter`，尽管他们可以同时拥有。
+
+使用对象字面量定义访问器属性有一种特殊语法：
+
+```javascript
+var person1 = {
+    _name: "Nicholas",
+
+    get name() {
+        console.log("Reading name");
+        return this._name;
+    },
+
+    set name(value) {
+        console.log("Setting name to %s", value);
+        this._name = value;
+    }
+};
+
+console.log(person1.name); // "Reading name" then "Nicholas"
+
+person1.name = "Greg";
+console.log(person1.name); // "Setting name to Greg" then "Greg"
+```
+
+此示例定义名为 `name` 的访问者属性。 有一个名为 `_name` 的数据属性，它包含属性的实际值。 （前导下划线是一个常见的约定，表示该属性被认为是私有的，但实际上它仍然是公共的。）为 `name` 定义 `getter` 和 `setter` 的语法看起来很像一个函数，但没有 `function` 关键字。 在访问者属性名称之前使用特殊关键字 `get` 和 `set`，后面紧跟括号和函数体。 预期 `getter` 将返回一个值，而 `setter` 将接收作为参数分配给该属性的值。
+
+尽管此示例使用 `_name` 存储属性数据，但您可以轻松地将数据存储在变量中，甚至存储在另一个对象中。 此示例仅添加日志记录到属性的行为; 如果您只将数据存储在另一个属性中，通常没有理由使用访问者属性 —— 只需使用属性本身。 当您希望赋值来触发某种行为时，或者在读取值时需要计算所需的返回值时，访问器属性最有用。
+
+您不需要同时定义 `getter` 和 `setter`; 你可以选择一个或两个。 如果只定义一个 `getter`，那么该属性将变为只读，并且尝试写入该属性将在非严格模式下静默失败并在严格模式下抛出错误。 如果仅定义 `setter`，则该属性将变为只写，并且尝试读取该值都将在 strict 和 nonstrict 模式下以静默方式失败。
