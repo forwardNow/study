@@ -230,3 +230,146 @@ person.sayName(); // outputs "Nicholas"
 ```
 
 请注意，数据属性和方法的语法完全相同 - 标识符后跟冒号和值的。`sayName` 属性的值恰好是一个函数。 然后，您可以直接从对象中调用方法，如 `person.sayName("Nicholas")`。
+
+### 5.1. `this` 对象
+
+您可能已经注意到上一个示例中的一些奇怪内容。 `sayName()` 方法直接引用 `person.name`，这会在方法和对象之间产生紧密的耦合。 由于许多原因，这是有问题的。 首先，如果更改变量名称，还需要记住在方法中更改对该名称的引用。 其次，这种紧密耦合使得难以对不同的对象使用相同的功能。 幸运的是，JavaScript 解决了这个问题。
+
+JavaScript 中的每个作用域都有一个 `this` 对象，它表示函数的调用对象。 在全局作用域中，它表示全局对象（Web 浏览器中的 `window`）。 调用对象的方法时，默认情况下，该值等于该对象。 因此，您可以改为引用 `this`，而不是直接引用方法中的对象。 例如，您可以重写以前的示例中的代码来使用它：
+
+```javascript
+var person = {
+    name: "Nicholas",
+    sayName: function() {
+        console.log(this.name);
+    }
+};
+
+person.sayName();       // outputs "Nicholas"
+```
+
+此代码与早期版本的工作方式相同，但这次，`sayName()` 引用 `this` 而不是 `person`。 这意味着您可以轻松更改变量的名称，甚至可以在不同的对象上重用该函数。
+
+```javascript
+function sayNameForAll() {
+    console.log(this.name);
+}
+
+var person1 = {
+    name: "Nicholas",
+    sayName: sayNameForAll
+};
+
+var person2 = {
+    name: "Greg",
+    sayName: sayNameForAll
+};
+
+var name = "Michael";
+
+person1.sayName(); // outputs "Nicholas"
+person2.sayName(); // outputs "Greg"
+sayNameForAll();   // outputs "Michael"
+```
+
+在此示例中，首先定义名为 `sayName` 的函数。 然后，创建两个对象字面量，将 `sayName` 属性值设置为 `sayNameForAll` 函数。 函数只是引用值，因此您可以将它们作为属性值分配给任意数量的对象。 当在 `person1` 上调用 `sayName()` 时，它输出 `Nicholas`; 当在 `person2` 上调用时，它输出 “`Greg`”。 那是因为在调用函数时 `this` 会被设置好了，所以 `this.name` 是准确的。
+
+此示例的最后一部分定义了一个名为 `name` 的全局变量。 当直接调用 `sayNameForAll()` 时，它输出 “`Michael`”，因为全局变量被视为全局对象的属性。
+
+### 5.2. 改变 `this`
+
+使用和操作函数的 `this` 的能力是 JavaScript 中良好的面向对象编程的关键。 函数可以在许多不同的上下文中使用，并且它们需要能够在每种情况下工作。 尽管通常 `this` 会自动分配，但您可以更改其值以实现不同的目标。 有三种函数方法可以让您更改它的值。 （请记住，函数是对象，对象可以有方法，因此函数也可以。）
+
+#### 5.2.1. `call()`
+
+操作它的第一个函数方法是 `call()`，它使用特定的值和特定参数执行函数。  `call()` 的第一个参数是执行函数时 `this` 的值。 所有后续参数都是传递给函数的参数。 例如，假设您更新 `sayNameForAll()` 以获取参数：
+
+```javascript
+function sayNameForAll(label) {
+    console.log(label + ":" + this.name);
+}
+
+var person1 = {
+    name: "Nicholas"
+};
+
+var person2 = {
+    name: "Greg"
+};
+
+var name = "Michael";
+
+sayNameForAll.call(this, "global"); // outputs "global:Michael"
+sayNameForAll.call(person1, "person1"); // outputs "person1:Nicholas"
+sayNameForAll.call(person2, "person2"); // outputs "person2:Greg"
+```
+
+在此示例中，`sayNameForAll()` 接受一个用作输出值标签的参数。 然后调用该函数三次。 请注意，函数名后面没有括号，因为它是作为对象而不是作为要执行的代码来访问的。 第一个函数调用使用全局 `this` 并传入参数 `"global"` 来输出 `"global:Michael"`。 相同的函数再被调用两次，对于 `person1` 和 `person2` 分别调用一次。 因为正在使用 `call()` 方法，所以您不需要将函数直接添加到每个对象上 - 您可以显式指定此值，而不是让 JavaScript s引擎自动执行此操作。
+
+#### 5.2.2. `apply()`
+
+您可以用来操作它的第二个函数方法是 `apply()`。 `apply()` 方法与 `call()` 完全相同，只是它只接受两个参数：`this` 的值和一个数组或类数组对象（这意味着你可以使用 `arguments` 作为第二个参数）。 因此，不用像 `call()` 一样挨个传递每个参数，而是可以轻松地将数组传递给 `apply()` 作为第二个参数。 除此之外，`call()` 和 `apply()` 的行为相同。 此示例显示了 `apply()` 方法的操作：
+
+```javascript
+function sayNameForAll(label) {
+    console.log(label + ":" + this.name);
+}
+
+var person1 = {
+    name: "Nicholas"
+};
+
+var person2 = {
+    name: "Greg"
+};
+
+var name = "Michael";
+
+sayNameForAll.apply(this, ["global"]); // outputs "global:Michael"
+sayNameForAll.apply(person1, ["person1"]); // outputs "person1:Nicholas"
+sayNameForAll.apply(person2, ["person2"]); // outputs "person2:Greg"
+```
+
+此代码采用前面的示例，并使用 `apply()` 替换 `call()`，结果完全一样。 您使用的方法通常取决于数据的类型。 如果您已有数据数组，请使用 `apply()`; 如果你只有个别变量，请使用 `call()`。
+
+#### 5.2.3. `bind()`
+
+更改它的第三个函数方法是 `bind()`。 ECMAScript 5 中添加了此方法，其行为与其他两种方法完全不同。 `bind()` 的第一个参数是新函数的 this 值。 所有其他参数表示应在新函数中永久设置的命名参数。 您仍然可以传入以后未永久设置的任何参数。
+
+```javascript
+function sayNameForAll(label) {
+    console.log(label + ":" + this.name);
+}
+
+var person1 = {
+    name: "Nicholas"
+};
+
+var person2 = {
+    name: "Greg"
+};
+
+// ① create a function just for person1
+var sayNameForPerson1 = sayNameForAll.bind(person1);
+sayNameForPerson1("person1"); // outputs "person1:Nicholas"
+
+// ② create a function just for person2
+var sayNameForPerson2 = sayNameForAll.bind(person2, "person2");
+sayNameForPerson2(); // outputs "person2:Greg"
+
+// ③ attaching a method to an object doesn't change 'this'
+person2.sayName = sayNameForPerson1;
+person2.sayName("person2"); // outputs "person2:Nicholas"
+```
+
+① 中没有为 `sayNameForPerson1()` 绑定任何参数，因此您仍需要传入输出的标签。② 中， 函数 `sayNameForPerson2()` 不仅将 `person2` 绑定到 `this`，还将第一个参数绑定为 `"person2"`。 这意味着您可以调用 `sayNameForPerson2()` 而不传入任何其他参数。 ③ 本示例的最后一部分将 `sayNameForPerson1()` 添加到 `person2` 上，属性名为 `sayName`。 该函数是绑定的，因此即使 `sayNameForPerson1` 现在是 `person2` 上的函数，它的值也不会改变。 该方法仍然输出 `person1.name` 的值。
+
+## 6. 总结
+
+JavaScript 函数的独特之处在于它们也是对象，这意味着它们可以像任何其他对象值一样被访问、复制、覆盖、操作。 JavaScript 函数和其他对象之间的最大区别是一个特殊的内部属性 `[[Call]]`，它包含函数的执行指令。 `typeof` 运算符在对象上查找此内部属性，如果找到它，则返回 `"function"`。
+
+有两种函数字面量形式：声明和表达。 函数声明包含函数关键字右侧的函数名称，并被提升到定义它们的上下文的顶部。 函数表达式可用于变量可使用的任何地方，例如赋值表达式，函数参数或另一个函数的返回值。
+
+因为函数是对象，所以有一个 `Function` 构造函数。 您可以使用 `Function` 构造函数创建新函数，但这通常不建议使用，因为它会使您的代码更难理解和调试更加困难。 也就是说，在运行之前不知道函数的真实形式的情况下，您可能会不时地使用它。
+
+您需要很好地掌握函数，以了解面向对象编程在 JavaScript 中的工作原理。 因为 JavaScript 没有类的概念，所以您必须使用函数和其他对象来实现聚合和继承。
