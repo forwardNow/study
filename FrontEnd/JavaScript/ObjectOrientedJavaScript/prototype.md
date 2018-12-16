@@ -118,3 +118,33 @@ console.log(name); // "Nicholas"
 构造函数允许您配置具有相同属性的对象实例，但仅构造函数不会消除代码冗余。 在目前为止的示例代码中，每个实例都有自己的 `sayName()` 方法，即使 `sayName()` 没有更改。 这意味着如果你有一个对象的 100 个实例，那么就有 100 个函数副本完成同样的事情，只是使用不同的数据。
 
 如果所有实例共享一个方法，那么它将更高效，然后该方法可以使用 `this.name` 来检索适当的数据。 这就是使用原型的时机。
+
+## 2. 原型
+
+您可以将原型视为对象的配方。 几乎每个函数（除了一些内置函数）都有一个在创建新实例期间使用的 `prototype` 属性。 该原型在所有对象实例之间共享，并且这些实例可以访问原型的属性。 例如，`hasOwnProperty()` 方法是在 `Object` 的原型上定义的，但它可以从任何对象访问，就好像它是一个自己的属性一样，如下例所示：
+
+```javascript
+var book = {
+    title: "The Principles of Object-Oriented JavaScript"
+};
+
+console.log("title" in book); // true
+console.log(book.hasOwnProperty("title")); // true
+console.log("hasOwnProperty" in book); // true
+console.log(book.hasOwnProperty("hasOwnProperty")); // false
+console.log(Object.prototype.hasOwnProperty("hasOwnProperty")); // true
+```
+
+即使书上没有 `hasOwnProperty()` 的定义，该方法仍然可以通过 `book.hasOwnProperty()` 访问，因为该定义确实存在于 `Object.prototype` 上。 请记住，`in` 运算符对原型属性和自己的属性都返回 `true`。
+
+您可以使用以下函数确定属性是否在原型上：
+
+```javascript
+function hasPrototypeProperty(object, name) {
+return name in object && !object.hasOwnProperty(name);
+}
+console.log(hasPrototypeProperty(book, "title")); // false
+console.log(hasPrototypeProperty(book, "hasOwnProperty")); // true
+```
+
+如果属性在对象中但 `hasOwnProperty()` 返回 `false`，则属性在原型上。
