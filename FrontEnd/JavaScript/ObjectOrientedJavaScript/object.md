@@ -421,3 +421,73 @@ console.log(descriptor.value); // "Nicholas"
 ```
 
 这里，名为 `name` 的属性被定义为对象字面量的一部分。 对 `Object.getOwnPropertyDescriptor()` 的调用返回一个具有可枚举、可配置、可写、值的对象，即使这些对象未通过 `Object.defineProperty()` 显式定义。
+
+## 7. 禁止修改对象
+
+对象与属性一样，具有控制其行为的内部属性。 其中一个属性是 `[[Extensible]]`，它是一个布尔值，指示是否可以修改对象本身。 默认情况下，您创建的所有对象都是可扩展的，这意味着可以随时将新属性添加到对象中。 你在本章中已经多次看过这个。 通过将`[[Extensible]]` 设置为 `false`，可以防止将新属性添加到对象。 有三种不同的方法可以实现这一目标。
+
+### 7.1. 禁止扩展（Preventing Extensions）
+
+创建不可扩展对象的一种方法是使用 `Object.preventExtensions()`。 此方法接受单个参数，该参数是您要使其不可扩展的对象。 在对象上使用此方法后，您将永远无法再次向其添加任何新属性。 您可以使用 `Object.isExtensible()` 检查 `[[Extensible]]` 的值。 以下代码显示了两种方法的示例。
+
+```javascript
+var person1 = {
+    name: "Nicholas"
+};
+
+console.log(Object.isExtensible(person1)); // true
+
+Object.preventExtensions(person1);
+console.log(Object.isExtensible(person1)); // false
+
+person1.sayName = function() {
+    console.log(this.name);
+};
+
+console.log("sayName" in person1); // false
+```
+
+在创建 `person1` 之后，此示例在使对象的 `[[Extensible]]` 属性不可更改之前检查该对象的 `[[Extensible]]` 属性。 既然 `person1` 是不可扩展的，那么 `sayName()` 方法永远不会添加到它中。
+
+尝试将属性添加到不可扩展的对象将在严格模式下引发错误。 在非严格模式下，操作静默失败。 您应始终对不可扩展的对象使用严格模式，以便在不正确使用不可扩展的对象时知道。
+
+### 7.2. 密封对象（Sealing Objects）
+
+创建不可扩展对象的第二种方法是密封对象。 密封对象是不可扩展的，并且其所有属性都是不可配置的。 这意味着您不仅不能向对象添加新属性，而且还无法删除属性或更改其类型（从数据到访问器，反之亦然）。 如果对象已密封，则只能读取和写入其属性。
+
+您可以在对象上使用 `Object.seal()` 方法来密封它。 发生这种情况时，`[[Extensible]]` 属性设置为 `false`，并且所有属性的 `[[Configurable]]` 属性都设置为 `false`。 您可以使用 `Object.isSealed()` 检查对象是否已密封，如下所示：
+
+```javascript
+var person1 = {
+    name: "Nicholas"
+};
+
+console.log(Object.isExtensible(person1)); // true
+console.log(Object.isSealed(person1)); // false
+
+Object.seal(person1);
+console.log(Object.isExtensible(person1)); // false
+console.log(Object.isSealed(person1)); // true
+
+person1.sayName = function() {
+    console.log(this.name);
+};
+
+console.log("sayName" in person1); // false
+
+person1.name = "Greg";
+console.log(person1.name); // "Greg"
+
+delete person1.name;
+console.log("name" in person1); // true
+console.log(person1.name); // "Greg"
+
+var descriptor = Object.getOwnPropertyDescriptor(person1, "name");
+console.log(descriptor.configurable); // false
+```
+
+此代码密封 `person1`，因此您无法添加或删除属性。 由于所有密封对象都是不可扩展的，因此在 `person1` 上使用时，`Object.isExtensible()` 返回 `false`，并且尝试添加名为 `sayName()` 的方法将静默失败。 此外，虽然 `person1.name` 已成功更改为新值，但尝试删除它会失败。
+
+如果您熟悉 Java 或 C++，那么密封对象也应该是熟悉的。 基于其中一种语言的类创建新对象实例时，无法向该对象添加任何新属性。 但是，如果属性包含对象，则可以修改该对象。 实际上，密封对象是 JavaScript 在不使用类的情况下为您提供相同的控制方式。
+
+确保对密封对象使用严格模式，这样当有人试图错误地使用该对象时，您将收到错误。
