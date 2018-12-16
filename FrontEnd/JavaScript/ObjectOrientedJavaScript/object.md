@@ -402,3 +402,22 @@ Object.defineProperties(person1, {
 ```
 
 此示例将 `_name` 定义为数据属性，将 `name` 定义为访问器属性。 您可以使用 `Object.defineProperties()` 定义任意数量的属性; 您甚至可以同时更改现有属性并创建新属性。 效果与多次调用 `Object.defineProperty()` 相同。
+
+### 6.5. 检索属性特性
+
+如果需要获取属性特性，可以使用 `Object.getOwnPropertyDescriptor()` 在 JavaScript 中执行此操作。 顾名思义，此方法仅适用于自有属性。 此方法接受两个参数：要处理的对象和要检索的属性名称。 如果属性存在，则应该获取到具有四个特性的描述符对象：可配置，可枚举，以及适用于属性类型的其他两个属性。 即使您没有专门设置特性，您仍将收到包含该属性特性的适当值的对象。 例如，此代码创建一个属性并检查其特性：
+
+```javascript
+var person1 = {
+    name: "Nicholas"
+};
+
+var descriptor = Object.getOwnPropertyDescriptor(person1, "name");
+
+console.log(descriptor.enumerable); // true
+console.log(descriptor.configurable); // true
+console.log(descriptor.writable); // true
+console.log(descriptor.value); // "Nicholas"
+```
+
+这里，名为 `name` 的属性被定义为对象字面量的一部分。 对 `Object.getOwnPropertyDescriptor()` 的调用返回一个具有可枚举、可配置、可写、值的对象，即使这些对象未通过 `Object.defineProperty()` 显式定义。
