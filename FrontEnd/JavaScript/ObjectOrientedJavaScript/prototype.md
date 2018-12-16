@@ -148,3 +148,63 @@ console.log(hasPrototypeProperty(book, "hasOwnProperty")); // true
 ```
 
 如果属性在对象中但 `hasOwnProperty()` 返回 `false`，则属性在原型上。
+
+### 2.1. `[[Prototype]]` 属性
+
+实例通过名为 `[[Prototype]]` 的内部属性跟踪其原型。 此属性是指向实例正在使用的原型对象的指针。 使用 `new` 创建新对象时，构造函数的 `prototype` 属性将分配给该新对象的 `[[Prototype]]` 属性。 图 4-1 显示了 `[[Prototype]]` 属性如何让对象类型的多个实例引用相同的原型，这可以减少代码重复。
+
+![Figure 4-1: The [[Prototype]] properties for person1 and person2 point to the same prototype.](./images/4-1.png)
+
+您可以通过在对象上使用 `Object.getPrototypeOf()` 方法来读取 `[[Prototype]]` 属性的值。 例如，以下代码检查通用空对象的 `[[Prototype]]`。
+
+```javascript
+var object = {};
+var prototype = Object.getPrototypeOf(object);
+
+console.log(prototype === Object.prototype); // true
+```
+
+对于像这样的任何通用对象，`[[Prototype]]` 始终是对 `Object.prototype` 的引用。
+
+一些 JavaScript 引擎还支持所有对象上名为 `__proto__` 的属性。 此属性允许您读取和写入 `[[Prototype]]` 属性。 Firefox、Safari、Chrome、Node.j 都支持此属性，而 `__proto__` 有望进入 ECMAScript 6 标准。
+
+您还可以使用 `isPrototypeOf()` 方法测试一个对象是否是另一个对象的原型，该方法包含在所有对象中：
+
+```javascript
+var object = {};
+
+console.log(Object.prototype.isPrototypeOf(object));    // true
+```
+
+因为 `object` 只是一个通用对象，它的原型应该是 `Object.prototype`，这意味着 `isPrototypeOf()` 应该返回 `true`。
+
+在对象上读取属性时，JavaScript 引擎首先查找具有该名称的自有属性。 如果引擎找到了正确命名的属性，则返回该值。 如果目标对象上不存在具有该名称的自有属性，则 JavaScript 会搜索 `[[Prototype]]` 对象。 如果存在具有该名称的 `prototype` 属性，则返回该属性的值。 如果搜索结束而未找到具有正确名称的属性，则返回 `undefined`。
+
+请考虑以下内容，其中首先创建一个没有任何属性的对象：
+
+```javascript
+var object = {};
+
+console.log(object.toString()); // "[object Object]"
+
+object.toString = function() {
+    return "[object Custom]";
+};
+
+console.log(object.toString()); // "[object Custom]"
+
+// delete own property
+delete object.toString;
+
+console.log(object.toString()); // "[object Object]"
+
+// no effect - delete only works on own properties
+delete object.toString;
+console.log(object.toString());    // "[object Object]"
+```
+
+在此示例中，`toString()` 方法来自原型并默认返回 `"[object Object]"`。 如果您随后定义了一个名为 `toString()` 的属性，则只要再次对该对象调用 `toString()`，就会使用该属性。 自己的属性会影响 `prototype` 属性，因此不再使用同名的 `prototype` 属性。 仅当从对象中删除了自己的属性时，才会再次使用 `prototype` 属性。 （请记住，您无法从实例中删除原型属性，因为 `delete` 运算符仅对自己的属性起作用。）图 4-2 显示了此示例中发生的情况。
+
+此示例还突出显示了一个重要概念：您无法从实例为原型属性赋值。 正如您在图 4-2 的中间部分所看到的，为 `toString` 赋值会在实例上创建一个新的属性，而原型上的属性不会受到影响。
+
+![figure 4-2: An object with no own properties (top) has only the methods of its prototype. Adding a toString() property to the object (middle) replaces the prototype property until you delete it (bottom).](./images/4-2.png)
