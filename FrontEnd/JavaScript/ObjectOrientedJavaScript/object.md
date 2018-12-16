@@ -491,3 +491,44 @@ console.log(descriptor.configurable); // false
 如果您熟悉 Java 或 C++，那么密封对象也应该是熟悉的。 基于其中一种语言的类创建新对象实例时，无法向该对象添加任何新属性。 但是，如果属性包含对象，则可以修改该对象。 实际上，密封对象是 JavaScript 在不使用类的情况下为您提供相同的控制方式。
 
 确保对密封对象使用严格模式，这样当有人试图错误地使用该对象时，您将收到错误。
+
+### 7.3. 冻结对象（Freezing Objects）
+
+创建不可扩展对象的最后一种方法是冻结它。 如果对象被冻结，则无法添加或删除属性，也无法更改属性的类型，也无法对任何数据属性进行写操作。 本质上，冻结对象是一个密封对象，而其中数据属性也是只读的。 冷冻的对象不会被解冻，因此它们保持冻结之前的状态。 您可以使用 `Object.freeze()` 冻结对象，并使用 `Object.isFrozen()` 确定对象是否已冻结。 例如：
+
+```javascript
+var person1 = {
+    name: "Nicholas"
+};
+
+console.log(Object.isExtensible(person1)); // true
+console.log(Object.isSealed(person1)); // false
+console.log(Object.isFrozen(person1)); // false
+
+Object.freeze(person1);
+console.log(Object.isExtensible(person1)); // false
+console.log(Object.isSealed(person1)); // true
+console.log(Object.isFrozen(person1)); // true
+
+person1.sayName = function() {
+    console.log(this.name);
+};
+
+console.log("sayName" in person1); // false
+
+person1.name = "Greg";
+console.log(person1.name); // "Nicholas"
+
+delete person1.name;
+console.log("name" in person1); // true
+console.log(person1.name); // "Nicholas"
+
+var descriptor = Object.getOwnPropertyDescriptor(person1, "name");
+console.log(descriptor.configurable); // false
+console.log(descriptor.writable); // false
+```
+
+在此示例中，`person1` 被冻结。 冻结对象也被认为是不可扩展和密封的，因此 `Object.isExtensible()` 返回 `false`，`Object.isSealed()` 返回 `true`。 `name` 属性不能更改，因此即使为其赋值 `"Greg"`，操作也会失败，后续的 `name` 检查仍会返回 `"Nicholas"`。
+
+冻结对象只是特定时间点对象的快照。 它们的用途有限，应该很少使用。 与所有不可扩展的对象一样，您应该对冻结对象使用严格模式。
+
