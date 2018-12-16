@@ -291,3 +291,80 @@ console.log(person1.name); // "Nicholas"
 在此代码中，除了读取值之外，您无法对 `name` 属性执行任何操作; 其他所有操作都被锁定。 如果您要更改现有属性，请记住只有您指定的特性才会更改。
 
 当您尝试更改值时，不可写属性会在严格模式下抛出错误。 在非严格模式下，操作将静默失败。
+
+### 6.3. 访问器属性特性
+
+访问者属性还有两个附加特性。 因为访问器属性没有存储值，所以不需要 `[[Value]]` 或 `[[Writable]]`。 相反，访问器具有 `[[Get]]` 和 `[[Set]]`，它们分别包含 `getter` 和 `setter` 函数。 与 `getter` 和 `setter` 的对象字面量形式一样，您只需定义其中一个特性即可创建属性。
+
+如果您尝试同时使用数据特性和访问器特性创建属性，则会出现错误。
+
+使用访问器属性特性而不是对象字面量来定义访问器属性的优点是，您可以在现有对象上定义这些属性。 如果要使用对象字面量，则必须在创建对象时定义访问器属性。
+
+与数据特性一样，您还可以指定访问器属性是可配置的还是可枚举的。 考虑一下前面的这个例子：
+
+```javascript
+var person1 = {
+    _name: "Nicholas",
+
+    get name() {
+        console.log("Reading name");
+        return this._name;
+    },
+
+    set name(value) {
+        console.log("Setting name to %s", value);
+        this._name = value;
+    }
+};
+```
+
+此代码也可以编写如下：
+
+```javascript
+var person1 = {
+    _name: "Nicholas"
+};
+
+Object.defineProperty(person1, "name", {
+    get: function() {
+        console.log("Reading name");
+        return this._name;
+    },
+    set: function(value) {
+        console.log("Setting name to %s", value);
+        this._name = value;
+    },
+    enumerable: true,
+    configurable: true
+});
+```
+
+请注意，传递给 `Object.defineProperty()` 的对象上的 `get` 和 `set` 键是包含函数的数据属性。 您不能在此处使用对象字面量的访问器格式。
+
+设置其他属性（`[[Enumerable]]` 和 `[[Configurable]]`）可以更改访问者属性的工作方式。 例如，您可以创建一个不可配置，不可数，不可写的属性，如下所示：
+
+```javascript
+var person1 = {
+    _name: "Nicholas"
+};
+
+Object.defineProperty(person1, "name", {
+    get: function() {
+        console.log("Reading name");
+        return this._name;
+    }
+});
+
+console.log("name" in person1); // true
+console.log(person1.propertyIsEnumerable("name")); // false
+
+delete person1.name;
+console.log("name" in person1); // true
+
+person1.name = "Greg";
+console.log(person1.name); // "Nicholas"
+```
+
+在此代码中，`name` 属性是一个只有 `getter` 的访问器属性。 没有 `setter` 或任何其他显式设置为 `true` 的特性，因此可以读取但不能更改该值。
+
+与通过对象字面量定义的访问器属性一样，当您尝试更改没有 `setter` 的访问器属性会在严格模式下引发错误。 在非严格模式下，操作无提示失败。 尝试读取仅定义了 `setter` 的访问者属性始终返回 `undefined`。
