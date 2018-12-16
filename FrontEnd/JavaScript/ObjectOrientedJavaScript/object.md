@@ -239,3 +239,55 @@ Object.defineProperty(person1, "name", { // error!!!
 代码的最后一部分尝试将 `name` 重新定义为可再次配置。 但是，这会引发错误，因为您无法再次配置不可配置的属性。 尝试将数据属性更改为访问者属性（反之亦然）也会在这种情况下引发错误。
 
 当 JavaScript 以严格模式运行时，尝试删除不可配置的属性会导致错误。 在非严格模式下，会静默失败。
+
+### 6.2. 数据属性特性
+
+数据属性具有访问器没有的两个附加特性。 第一个是 `[[Value]]`，它保存属性值。 在对象上创建属性时，将自动填充此特性。 所有属性值都存储在 `[[Value]]` 中，即使该值是函数。
+
+第二个特性是 `[[Writable]]`，它是一个布尔值，表示属性是否可以写入。 默认情况下，除非另行指定，否则所有属性都是可写的。
+
+使用这两个附加特性，即使属性尚不存在，也可以使用 `Object.defineProperty()` 完全定义数据属性。 考虑以下代码：
+
+```javascript
+var person1 = {
+    name: "Nicholas"
+};
+```
+
+你在本章中看过这个片段; 它将 `name` 属性添加到 `person1` 并设置其值。 您可以使用以下（更详细）代码获得相同的结果：
+
+```javascript
+var person1 = {};
+
+ Object.defineProperty(person1, "name", {
+    value: "Nicholas",
+    enumerable: true,
+    configurable: true,
+    writable: true
+});
+```
+
+调用 `Object.defineProperty()` 时，它首先检查属性是否存在。 如果该属性不存在，则添加描述符中指定的属性。 在这种情况下，`name` 不是 `person1` 的属性。
+
+使用 `Object.defineProperty()` 定义新属性时，指定所有特性非常重要，否则布尔属性会自动默认为 `false`。 例如，以下代码创建一个不可枚举，不可配置且不可写的 `name` 属性，因为它在 `Object.defineProperty()` 的调用中没有显式地使任何特性为 `true`。
+
+```javascript
+var person1 = {};
+
+Object.defineProperty(person1, "name", {
+    value: "Nicholas"
+});
+
+console.log("name" in person1); // true
+console.log(person1.propertyIsEnumerable("name")); // false
+
+delete person1.name;
+console.log("name" in person1); // true
+
+person1.name = "Greg";
+console.log(person1.name); // "Nicholas"
+```
+
+在此代码中，除了读取值之外，您无法对 `name` 属性执行任何操作; 其他所有操作都被锁定。 如果您要更改现有属性，请记住只有您指定的特性才会更改。
+
+当您尝试更改值时，不可写属性会在严格模式下抛出错误。 在非严格模式下，操作将静默失败。
