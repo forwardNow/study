@@ -368,3 +368,37 @@ console.log(person1.name); // "Nicholas"
 在此代码中，`name` 属性是一个只有 `getter` 的访问器属性。 没有 `setter` 或任何其他显式设置为 `true` 的特性，因此可以读取但不能更改该值。
 
 与通过对象字面量定义的访问器属性一样，当您尝试更改没有 `setter` 的访问器属性会在严格模式下引发错误。 在非严格模式下，操作无提示失败。 尝试读取仅定义了 `setter` 的访问者属性始终返回 `undefined`。
+
+### 6.4. 定义多个属性
+
+如果使用 `Object.defineProperties()` 而不是 `Object.defineProperty()` ，可以同时在对象上定义多个属性。 此方法接受两个参数：要处理的对象和包含所有属性信息的对象。 第二个参数的键是属性名称，值是定义这些属性的特性的描述符对象。 例如，以下代码定义了两个属性：
+
+```javascript
+var person1 = {};
+
+Object.defineProperties(person1, {
+    // data property to store data
+    _name: {
+        value: "Nicholas",
+        enumerable: true,
+        configurable: true,
+        writable: true
+    },
+
+    // accessor property
+    name: {
+        get: function() {
+            console.log("Reading name");
+            return this._name;
+        },
+        set: function(value) {
+            console.log("Setting name to %s", value);
+            this._name = value;
+        },
+        enumerable: true,
+        configurable: true
+    }
+});
+```
+
+此示例将 `_name` 定义为数据属性，将 `name` 定义为访问器属性。 您可以使用 `Object.defineProperties()` 定义任意数量的属性; 您甚至可以同时更改现有属性并创建新属性。 效果与多次调用 `Object.defineProperty()` 相同。
