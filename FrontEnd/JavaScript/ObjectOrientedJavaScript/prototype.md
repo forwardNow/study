@@ -384,3 +384,37 @@ person2.sayHi(); // outputs "Hi"
 在此示例中，有两个 `Person` 实例。 第一个（`person1`）被冻结，而第二个是普通对象。 当你将 `sayHi()` 添加到原型时，`person1` 和 `person2` 都获得了一种新的方法，看似与 `person1` 的冻结状态相矛盾。 `[[Prototype]]` 属性被认为是实例的自己的属性，虽然属性本身被冻结，但值（对象）不是。
 
 实际上，在使用 JavaScript 进行开发时，您可能不会经常以这种方式使用原型。 但是，了解对象与其原型之间存在的关系非常重要，而像这样的奇怪示例有助于阐明这些概念。
+
+### 2.4. 内置对象的原型
+
+此时，您可能想知道原型是否也允许您修改 JavaScript 引擎中标准的内置对象。 答案是肯定的。 所有内置对象都有构造函数，因此，它们具有可以更改的原型。 例如，添加一个在所有数组上使用的新方法只需要简单地修改 `Array.prototype`。
+
+```javascript
+Array.prototype.sum = function() {
+    return this.reduce(function(previous, current) {
+         return previous + current;
+    });
+};
+
+var numbers = [ 1, 2, 3, 4, 5, 6 ];
+var result = numbers.sum();
+
+console.log(result); // 21
+```
+
+此示例在 `Array.prototype` 上创建一个名为 `sum()` 的方法，该方法只是将数组中的所有项目相加并返回结果。 `numbers` 数组可以通过原型自动访问该方法。 在 `sum()` 中，`this` 指向 `numbers`，它是 `Array` 的一个实例，因此该方法可以自由使用其他数组方法，如 `reduce()` 。
+
+您可能还记得，字符串、数字和布尔值都具有内置的原始包装类型，用于访问原始值，就像它们是对象一样。 如果您在此示例中修改原始包装类型原型，则实际上可以为这些原始值添加更多功能：
+
+```javascript
+String.prototype.capitalize = function() {
+    return this.charAt(0).toUpperCase() + this.substring(1);
+};
+
+var message = "hello world!";
+console.log(message.capitalize());  // "Hello world!"
+```
+
+此代码为字符串创建一个名为 `capitalize()` 的新方法。 `String` 类型是字符串的原始包装器，修改其原型意味着所有字符串都会自动获得这些更改。
+
+虽然修改内置对象以试验功能可能既有趣又有趣，但在生产环境中这样做并不是一个好主意。 开发人员期望内置对象以某种方式运行并具有某些方法。 故意改变内置对象违反了这些期望，并使其他开发人员不确定对象应该如何工作。
