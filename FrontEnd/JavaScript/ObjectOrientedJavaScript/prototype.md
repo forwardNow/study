@@ -326,3 +326,61 @@ console.log(person2.constructor === Object); // false
 ![Figure 4-3: An instance and its constructor are linked via the prototype.](./images/4-3.png)
 
 这样的关系意味着实例和原型之间的任何中断也会在实例和构造函数之间造成中断。
+
+### 2.3. 改变原型
+
+因为特定类型的所有实例都引用了共享原型，所以您可以随时将所有这些对象一起扩充。 请记住，`[[Prototype]]` 属性只包含一个指向原型的指针，对原型的任何更改都可以立即在引用它的任何实例上使用。 这意味着您可以随时在原型中添加新成员，并将这些更改反映在现有实例上，如下例所示：
+
+```javascript
+function Person(name) {
+    this.name = name;
+}
+
+Person.prototype = {
+    constructor: Person,
+
+    sayName: function() {
+        console.log(this.name);
+    },
+
+    toString: function() {
+        return "[Person " + this.name + "]";
+    }
+};
+
+var person1 = new Person("Nicholas");
+var person2 = new Person("Greg");
+
+console.log("sayHi" in person1); // false
+console.log("sayHi" in person2); // false
+
+// add a new method
+Person.prototype.sayHi = function() {
+    console.log("Hi");
+};
+
+person1.sayHi(); // outputs "Hi"
+person2.sayHi(); // outputs "Hi"
+```
+
+在此代码中，`Person` 类型仅以两个方法开始， `sayName()` 和 `toString()`。创建了两个 `Person` 实例，然后将 `sayHi()` 方法添加到原型中。 在那之后，两个实例现在都可以访问 `sayHi()` 。 每次访问该属性时都会搜索命名属性，因此体验是无缝的。
+
+随时修改原型的能力对密封和冷冻对象有一些有趣的影响。 在对象上使用 `Object.seal()` 或 `Object.freeze()` 时，您只能处理对象实例和自己的属性。您无法在冻结对象上添加新的属性或更改现有的属性，但您仍然可以在原型上添加属性并继续扩展这些对象，如下面的清单所示。
+
+```javascript
+var person1 = new Person("Nicholas");
+var person2 = new Person("Greg");
+
+Object.freeze(person1);
+
+Person.prototype.sayHi = function() {
+    console.log("Hi");
+};
+
+person1.sayHi(); // outputs "Hi"
+person2.sayHi(); // outputs "Hi"
+```
+
+在此示例中，有两个 `Person` 实例。 第一个（`person1`）被冻结，而第二个是普通对象。 当你将 `sayHi()` 添加到原型时，`person1` 和 `person2` 都获得了一种新的方法，看似与 `person1` 的冻结状态相矛盾。 `[[Prototype]]` 属性被认为是实例的自己的属性，虽然属性本身被冻结，但值（对象）不是。
+
+实际上，在使用 JavaScript 进行开发时，您可能不会经常以这种方式使用原型。 但是，了解对象与其原型之间存在的关系非常重要，而像这样的奇怪示例有助于阐明这些概念。
