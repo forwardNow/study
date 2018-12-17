@@ -19,3 +19,15 @@ console.log(prototype === Object.prototype);        // true
 ```
 
 这里，`book` 有一个等于 `Object.prototype` 的原型。 不需要额外的代码来实现这一点，因为这是创建新对象时的默认行为。 这种关系意味着该书自动从 `Object.prototype` 接收方法。
+
+## 2. `Object.prototype` 上的方法
+
+过去几章中使用的几种方法实际上是在 `Object.prototype` 上定义的，因此被所有其他对象继承。 那些方法是：
+
+* `hasOwnProperty()` : 确定是否存在具有给定名称的自有属性
+* `propertyIsEnumerable()` : 确定自己的属性是否可枚举
+* `isPrototypeOf()` : 确定对象是否是另一个对象的原型
+* `valueOf()` : 返回对象的值表示形式
+* `toString()` : 返回对象的字符串表示形式
+
+这五种方法通过继承出现在所有对象上。 当您需要在 JavaScript 中使对象一致地工作时，最后两个是很重要的，有时您可能想要自己定义它们。
