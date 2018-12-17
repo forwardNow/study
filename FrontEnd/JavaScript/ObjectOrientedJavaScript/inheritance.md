@@ -46,3 +46,35 @@ console.log(now > earlier); // true
 在此示例中，`now` 是表示当前时间的日期，而 `earlier` 是过去的固定日期。 当使用大于运算符（`>`）时，在执行比较之前，会在两个对象上调用 `valueOf()` 方法。 您甚至可以从另一个日期中减去一个日期，因为 `valueOf()` 返回纪元开始的毫秒数。
 
 如果要将对象用于运算符，则始终可以定义自己的 `valueOf()` 方法。 如果确实定义了 `valueOf()` 方法，请记住，您不是要更改运算符的工作方式，而是仅使用运算符默认行为的值。
+
+### 2.2. `toString()`
+
+每当 `valueOf()` 返回引用值而不是原始值时，`toString()` 方法被称为回退。 每当 JavaScript 期待一个字符串时，它也会隐式调用原始值。 例如，当一个字符串用作加运算符的一个操作数时，另一个操作数将自动转换为字符串。 如果另一个操作数是原始值，则将其转换为字符串表示形式（例如，`true` 变为 `"true"`），但如果它是引用值，则调用 `valueOf()` 。 如果 `valueOf()` 返回引用值，则调用 `toString()` 并使用返回的值。 例如：
+
+```javascript
+var book = {
+    title: "The Principles of Object-Oriented JavaScript"
+};
+
+var message = "Book = " + book;
+
+console.log(message); // "Book = [object Object]"
+```
+
+此代码通过将 `"Book ="` 与 `book` 结合来构造字符串。 由于 `book` 是一个对象，因此调用其 `toString()` 方法。 该方法继承自 `Object.prototype`，并在大多数 `JavaScript` 引擎中返回默认值 `"[object Object]"`。 如果您对该值感到满意，则无需更改对象的 `toString()` 方法。 但是，有时候定义自己的 `toString()` 方法会很有用，这样字符串转换就会返回一个提供更多信息的值。 例如，假设您希望以前的脚本记录该书的标题：
+
+```javascript
+var book = {
+    title: "The Principles of Object-Oriented JavaScript",
+    toString: function() {
+        return "[Book " + this.title + "]"
+    }
+};
+
+var message = "Book = " + book;
+
+// "Book = [Book The Principles of Object-Oriented JavaScript]"
+console.log(message);
+```
+
+此代码为 · 定义了一个自定义 `toString()` 方法，该方法返回比继承版本更有用的值。 您通常不需要担心定义自定义 `toString()` 方法，但最好知道必要时可以这样做。
