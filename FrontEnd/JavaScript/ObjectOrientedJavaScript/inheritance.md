@@ -20,7 +20,7 @@ console.log(prototype === Object.prototype);        // true
 
 这里，`book` 有一个等于 `Object.prototype` 的原型。 不需要额外的代码来实现这一点，因为这是创建新对象时的默认行为。 这种关系意味着该书自动从 `Object.prototype` 接收方法。
 
-## 2. `Object.prototype` 上的方法
+### 1.1. `Object.prototype` 上的方法
 
 过去几章中使用的几种方法实际上是在 `Object.prototype` 上定义的，因此被所有其他对象继承。 那些方法是：
 
@@ -32,7 +32,7 @@ console.log(prototype === Object.prototype);        // true
 
 这五种方法通过继承出现在所有对象上。 当您需要在 JavaScript 中使对象一致地工作时，最后两个是很重要的，有时您可能想要自己定义它们。
 
-### 2.1. `valueOf()`
+#### 1.1.1. `valueOf()`
 
 只要在对象上使用运算符，就会调用 `valueOf()` 方法。 默认情况下，`valueOf()` 只返回对象实例。 原始包装器类型覆盖 `valueOf()` ，以便它返回 `String` 的字符串，`Boolean` 的布尔值和 `Number` 的数字。 同样，`Date` 对象的 `valueOf()` 方法以毫秒为单位返回纪元时间（就像 `Date.prototype.getTime()`  一样）。 这使您可以编写比较日期的代码，例如：
 
@@ -47,7 +47,7 @@ console.log(now > earlier); // true
 
 如果要将对象用于运算符，则始终可以定义自己的 `valueOf()` 方法。 如果确实定义了 `valueOf()` 方法，请记住，您不是要更改运算符的工作方式，而是仅使用运算符默认行为的值。
 
-### 2.2. `toString()`
+#### 1.1.2. `toString()`
 
 每当 `valueOf()` 返回引用值而不是原始值时，`toString()` 方法被称为回退。 每当 JavaScript 期待一个字符串时，它也会隐式调用原始值。 例如，当一个字符串用作加运算符的一个操作数时，另一个操作数将自动转换为字符串。 如果另一个操作数是原始值，则将其转换为字符串表示形式（例如，`true` 变为 `"true"`），但如果它是引用值，则调用 `valueOf()` 。 如果 `valueOf()` 返回引用值，则调用 `toString()` 并使用返回的值。 例如：
 
@@ -78,3 +78,50 @@ console.log(message);
 ```
 
 此代码为 · 定义了一个自定义 `toString()` 方法，该方法返回比继承版本更有用的值。 您通常不需要担心定义自定义 `toString()` 方法，但最好知道必要时可以这样做。
+
+### 1.2. 修改 `Object.prototype`
+
+默认情况下，所有对象都从 `Object.prototype` 继承，因此对 `Object .prototype` 的更改会影响所有对象。 那是一个非常危险的情况。 在第 4 章中，建议您不要修改内置对象原型，并且对于 `Object.prototype` 该加倍小心。 看看会发生什么：
+
+```javascript
+Object.prototype.add = function(value) {
+    return this + value;
+};
+
+var book = {
+    title: "The Principles of Object-Oriented JavaScript"
+};
+
+console.log(book.add(5)); // "[object Object]5"
+console.log("title".add("end")); // "titleend"
+
+// in a web browser
+console.log(document.add(true)); // "[object HTMLDocument]true"
+console.log(window.add(5)); // "[object Window]true"
+```
+
+添加 `Object.prototype.add()` 会导致所有对象都有 `add()` 方法，无论它是否真的有意义。 这个问题不仅是开发人员的问题，也是 JavaScript 语言委员会的问题：它必须将新方法放在不同的位置，因为向 `Object.prototype` 添加方法会产生无法预料的后果。
+
+此问题的另一个方面涉及向 `Object.prototype` 添加可枚举属性。 在前面的示例中，`Object.prototype.add()` 是一个可枚举的属性，这意味着它将在您使用 `for-in` 循环时显示，例如：
+
+```javascript
+var empty = {};
+
+for (var property in empty) {
+    console.log(property);
+}
+```
+
+在这里，一个空对象仍然会输出 `"add"` 作为属性，因为它存在于原型上并且是可枚举的。 考虑到在 JavaScript 中使用 `for-in` 的频率，使用可枚举属性修改 `Object.prototype` 可能会影响很多代码。 因此，[Douglas Crockford](http://crockford.com/javascript/) 建议始终在 `for-in` 循环中使用 `hasOwnProperty()`，例如：
+
+```javascript
+var empty = {};
+
+for (var property in empty) {
+    if (empty.hasOwnProperty(property)) {
+        console.log(property);
+    }
+}
+```
+
+虽然这种方法对于可能不需要的原型属性是有效的，但它也限制了 `for-in` 仅用于自有属性的用途，这可能是你想要的，也可能不是你想要的。 最灵活的最佳选择是不修改 `Object.prototype`。
