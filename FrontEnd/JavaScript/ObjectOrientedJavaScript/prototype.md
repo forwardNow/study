@@ -208,3 +208,121 @@ console.log(object.toString());    // "[object Object]"
 此示例还突出显示了一个重要概念：您无法从实例为原型属性赋值。 正如您在图 4-2 的中间部分所看到的，为 `toString` 赋值会在实例上创建一个新的属性，而原型上的属性不会受到影响。
 
 ![figure 4-2: An object with no own properties (top) has only the methods of its prototype. Adding a toString() property to the object (middle) replaces the prototype property until you delete it (bottom).](./images/4-2.png)
+
+### 2.2. 通过构造函数使用原型
+
+原型的共享特性使它们非常适合为给定类型的所有对象定义一次方法。 因为方法往往对所有实例都做同样的事情，所以没有理由每个实例都需要自己的方法集。
+
+将方法放在原型上然后使用它来访问当前实例会更高效。 例如，考虑以下新的 `Person` 构造函数：
+
+```javascript
+function Person(name) {
+    this.name = name;
+}
+
+Person.prototype.sayName = function() {
+    console.log(this.name);
+};
+
+var person1 = new Person("Nicholas");
+var person2 = new Person("Greg");
+
+console.log(person1.name); // "Nicholas"
+console.log(person2.name); // "Greg"
+
+person1.sayName(); // outputs "Nicholas"
+person2.sayName(); // outputs "Greg"
+```
+
+在这个版本的 `Person` 构造函数中，`sayName()` 是在原型而不是在构造函数中定义的。 对象实例与本章前面的示例完全相同，即使 `sayName()` 现在是原型属性而不是自己的属性。 因为 `person1` 和 `person2` 都是对 `sayName()` 调用的基本引用，所以 `this` 值分别赋值 `person1` 和 `person2`。
+
+您还可以在原型上存储其他类型的数据，但在使用引用值时要小心。 由于这些值是跨实例共享的，因此您可能不希望一个实例能够更改另一个实例将访问的值。 此示例显示了当您不注意引用值指向的位置时可能发生的情况：
+
+```javascript
+function Person(name) {
+    this.name = name;
+}
+
+Person.prototype.sayName = function() {
+    console.log(this.name);
+};
+
+Person.prototype.favorites = [];
+
+var person1 = new Person("Nicholas");
+var person2 = new Person("Greg");
+
+person1.favorites.push("pizza");
+person2.favorites.push("quinoa");
+
+console.log(person1.favorites);     // "pizza,quinoa"
+console.log(person2.favorites);     // "pizza,quinoa"
+```
+
+`favorites` 属性在原型上定义，这意味着 `person1.favorites` 和 `person2.favorites` 指向同一个数组。 您添加到任何一个人的 `favorites` 中的任何值都将是原型中该数组中的元素。 这可能不是您实际需要的行为，因此请务必非常小心您在原型上定义的内容。
+
+即使您可以逐个向原型添加属性，但许多开发人员使用更简洁的模式，即使用对象字面量替换原型：
+
+```javascript
+function Person(name) {
+    this.name = name;
+}
+
+Person.prototype = {
+    sayName: function() {
+        console.log(this.name);
+    },
+
+    toString: function() {
+        return "[Person " + this.name + "]";
+    }
+};
+```
+
+此代码在原型上定义了两个方法，`sayName()` 和 `toString()` 。 这种模式已经变得非常流行，因为它不需要多次输入 `Person.prototype`。 但是，有一个副作用需要注意：
+
+```javascript
+var person1 = new Person("Nicholas");
+
+console.log(person1 instanceof Person); // true
+console.log(person1.constructor === Person); // false
+console.log(person1.constructor === Object); // true
+```
+
+使用对象字面量覆盖原型会更改 `constructor` 属性，导致它指向 `Object` 而不是 `Person`。发生这种情况是因为 `constructor` 属性存在于原型上，而不存在于对象实例上。 创建函数时，将使用与函数相等的 `constructor` 属性创建其原型属性。 此模式完全覆盖原型对象，这意味着 `constructor` 属性将被赋予 `Person.prototype` 新创建的（通用）对象。 要避免这种情况，请在覆盖原型时将 `constructor` 属性恢复为正确的值：
+
+```javascript
+function Person(name) {
+    this.name = name;
+}
+
+Person.prototype = {
+    constructor: Person,
+
+    sayName: function() {
+        console.log(this.name);
+    },
+    toString: function() {
+        return "[Person " + this.name + "]";
+    }
+};
+
+var person1 = new Person("Nicholas");
+var person2 = new Person("Greg");
+
+console.log(person1 instanceof Person); // true
+console.log(person1.constructor === Person); // true
+console.log(person1.constructor === Object); // false
+
+console.log(person2 instanceof Person); // true
+console.log(person2.constructor === Person); // true
+console.log(person2.constructor === Object); // false
+```
+
+在此示例中，专门在原型上指定 `constructor` 属性。 最好将它作为原型的第一个属性，这样你就不会忘记包含它。
+
+也许构造函数，原型和实例之间关系中最有趣的方面是实例和构造函数之间没有直接的链接。 但是，实例和原型之间以及原型和构造函数之间存在直接联系。 图 4-3 说明了这种关系。
+
+![Figure 4-3: An instance and its constructor are linked via the prototype.](./images/4-3.png)
+
+这样的关系意味着实例和原型之间的任何中断也会在实例和构造函数之间造成中断。
