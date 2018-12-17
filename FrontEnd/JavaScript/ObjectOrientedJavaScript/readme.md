@@ -9,3 +9,4 @@
 3. [函数](./function.md)
 4. [理解对象](./object.md)
 5. [构造器和原型](./prototype.md)
+6. [继承](./inheritance.md)
