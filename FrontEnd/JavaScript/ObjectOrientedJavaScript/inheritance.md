@@ -125,3 +125,70 @@ for (var property in empty) {
 ```
 
 虽然这种方法对于可能不需要的原型属性是有效的，但它也限制了 `for-in` 仅用于自有属性的用途，这可能是你想要的，也可能不是你想要的。 最灵活的最佳选择是不修改 `Object.prototype`。
+
+## 2. 对象继承
+
+最简单的继承类型是在对象之间。 您所要做的就是指定哪个对象应该是新对象的 `[[Prototype]]`。 对象字面量将 `[[Prototype]]` 隐式设置为 `Object.prototype`，但您也可以使用 `Object.create()` 方法显式指定 `[[Prototype]]`。
+
+`Object.create()` 方法接受两个参数。 第一个参数指定新对象的 `[[Prototype]]` 的值。 可选的第二个参数指定属性描述符对象，跟 `Object.defineProperties()` 使用的相同格式的（参见第 3 章）。 考虑以下：
+
+```javascript
+var book = {
+    title: "The Principles of Object-Oriented JavaScript"
+};
+// is the same as
+var book = Object.create(Object.prototype, {
+    title: {
+        configurable: true,
+        enumerable: true,
+        value: "The Principles of Object-Oriented JavaScript",
+        writable: true
+    }
+});
+```
+
+这段代码中的两个声明实际上是相同的。 第一个声明使用对象字面量来定义具有名为 `title` 的单个属性的对象。 该对象自动从 `Object.prototype` 继承，并且该属性默认设置为可配置、可枚举、可写。 第二个声明做同样的事，但使用 `Object.create()` 显式声明。 每个声明中生成的 `book` 对象的行为完全相同。 但是您可能永远不会直接编写从 `Object.prototype` 继承的代码，因为默认情况下会得到它。 继承其他对象更有趣：
+
+```javascript
+var person1 = {
+    name: "Nicholas",
+    sayName: function() {
+        console.log(this.name);
+    }
+};
+
+var person2 = Object.create(person1, {
+    name: {
+        configurable: true,
+        enumerable: true,
+        value: "Greg",
+        writable: true
+    }
+});
+
+person1.sayName(); // outputs "Nicholas"
+person2.sayName(); // outputs "Greg"
+
+console.log(person1.hasOwnProperty("sayName")); // true
+console.log(person1.isPrototypeOf(person2)); // true
+console.log(person2.hasOwnProperty("sayName")); // false
+```
+
+此代码使用 `name` 属性和 `sayName()` 方法创建一个对象 `person1`。 `person2` 对象继承自 `person1`，因此它继承了 `name` 和 `sayName()` 。 但是，`person2` 是通过 `Object.create()` 定义的，它还为 `person2` 定义了自己的 `name` 属性。 这个属性屏蔽了同名的 `prototype` 属性，并在该对象上可以使用。 因此，`person1.sayName()` 输出 `"Nicholas"`，而 `person2.sayName()`  输出 `"Greg"`。 请记住，`sayName()` 仍然只存在于 `person1` 上，并且由 `person2` 继承。
+
+此示例中 `person2` 的继承链比 `person1` 更长。 `person2` 对象继承自 `person1` 对象，`person1` 对象继承自 `Object.prototype`。 见图 5-1。
+
+![Figure 5-1: The prototype chain for person2 includes person1 and Object.prototype.](./images/5-1.png)
+
+在对象上访问属性时，JavaScript 引擎会经历搜索过程。 如果在实例上找到该属性（即，如果它是自己的属性），则使用该属性值。 如果在实例上找不到该属性，则继续搜索 `[[Prototype]]`。 如果仍未找到该属性，则搜索继续到该对象原型的 `[[Prototype]]`，依此类推，直到到达链的末尾。 该链通常以 `Object.prototype` 结尾，其 `[[Prototype]]` 设置为 `null`。
+
+您还可以通过 `Object.create()` 创建其值为 `null` 的 `[[Prototype]]` 的对象，例如：
+
+```javascript
+var nakedObject = Object.create(null);
+
+console.log("toString" in nakedObject); // false
+console.log("valueOf" in nakedObject); // false
+```
+
+此示例中的 `nakedObject` 是没有原型链的对象。 这意味着对象上不存在诸如 `toString()` 和 `valueOf()` 之类的内置方法。 实际上，此对象是一个完全空白的白板，没有预定义的属性，这使得它非常适合创建查找哈希，而不会与继承的属性名称发生潜在的命名冲突。 像这样的对象没有太多其他用途，你不能像使用 `Object.prototype` 那样使用它。 例如，无论何时在 `nakedObject` 上使用运算符，您都会遇到“无法将对象转换为原始值”的错误。但是，这是 JavaScript 语言的一个有趣的怪癖，您可以创建一个无原型的对象。
