@@ -80,3 +80,79 @@ var person = (function() {
 }());
 ```
 
+在显示模块模式中，`age`、`getAge()` 和 `growOlder()` 都在 IIFE 内定义。 然后将 `getAge()` 和 `growOlder()` 函数分配给返回的对象，在 IIFE 之外有效地“揭示”它们。 此代码与使用传统模块模式的早期示例基本相同; 但是，有些人更喜欢这种模式，因为它将所有变量和函数声明保持在一起。
+
+### 1.2. 构造函数的私有成员
+
+模块模式非常适合定义具有私有属性的单个对象，但是对于需要自己的私有属性的自定义类型呢？ 您可以在构造函数内部使用与模块模式类似的模式来创建特定于实例的私有数据。 例如：
+
+```javascript
+function Person(name) {
+
+    // define a variable only accessible inside of the Person constructor
+    var age = 25;
+
+    this.name = name;
+
+    this.getAge = function() {
+        return age;
+    };
+
+    this.growOlder = function() {
+        age++;
+    };
+
+}
+
+var person = new Person("Nicholas");
+
+console.log(person.name); // "Nicholas"
+console.log(person.getAge()); // 25
+
+person.age = 100;
+console.log(person.getAge()); // 25
+
+person.growOlder();
+console.log(person.getAge()); // 26
+```
+
+在此代码中，`Person` 构造函数具有局部变量 `age`。 该变量用作 `getAge()` 和 `growOlder()` 方法的一部分。 当您创建 `Person` 的实例时，该实例将获取其自己的 `age` 变量、`getAge()` 方法、`growOlder()` 方法。 在许多方面，这类似于模块模式，其中构造函数创建局部范围并返回此对象。 正如第 4 章所讨论的那样，在对象实例上放置方法的效率低于在原型上放置方法的效率，但是当您需要私有的特定于实例的数据时，这是唯一可行的方法。
+
+如果您希望在所有实例之间共享私有数据（就像它在原型上一样），您可以使用看起来像模块模式但使用构造函数的混合方法：
+
+```javascript
+var Person = (function() {
+
+    // everyone shares the same age
+    var age = 25;
+
+    function InnerPerson(name) {
+        this.name = name;
+    }
+
+    InnerPerson.prototype.getAge = function() {
+        return age;
+    };
+
+    InnerPerson.prototype.growOlder = function() {
+        age++;
+    };
+
+    return InnerPerson;
+}());
+
+var person1 = new Person("Nicholas");
+var person2 = new Person("Greg");
+
+console.log(person1.name);      // "Nicholas"
+console.log(person1.getAge());  // 25
+
+console.log(person2.name);      // "Greg"
+console.log(person2.getAge());  // 25
+
+person1.growOlder();
+console.log(person1.getAge());   // 26
+console.log(person2.getAge());   // 26
+```
+
+在此代码中，`InnerPerson` 构造函数在 IIFE 中定义。 变量 `age` 在构造函数外部定义，但用于两个原型方法。 然后返回 `InnerPerson` 构造函数，并成为全局范围中的 `Person` 构造函数。 `Person` 的所有实例最终都会共享 `age` 变量，因此使用一个实例更改值会自动影响另一个实例。
