@@ -294,3 +294,53 @@ Square.prototype.toString = function() {
 在此版本的代码中，`Square.prototype` 被一个从 `Rectangle.prototype` 继承的新对象覆盖，并且不需要调用 `Rectangle` 构造函数。 这意味着您不必担心调用构造函数时不传参数而导致错误。 此代码的行为与前面的代码完全相同。 原型链保持不变，因此 `Square` 的所有实例都继承自 `Rectangle.prototype`，并且构造函数以相同的步骤恢复。
 
 始终确保在向其添加属性之前覆盖原型，否则在发生覆盖时将丢失添加的方法。
+
+## 4. 构造函数窃取
+
+因为继承是通过 JavaScript 中的原型链完成的，所以您不需要调用对象的超类构造函数。 如果您确实想从子类构造函数中调用超类构造函数，那么您需要利用 JavaScript 函数的工作方式。
+
+在第 2 章中，您了解了 `call()` 和 `apply()` 方法，这些方法允许使用不同的 `this` 值调用函数。 这正是构造函数窃取的工作方式。 您只需使用 `call()` 或 `apply()` 从子类构造函数中调用超类构造函数即可传入新创建的对象。 实际上，您正在窃取自己对象的超类构造函数，如下例所示：
+
+```javascript
+function Rectangle(length, width) {
+    this.length = length;
+    this.width = width;
+}
+
+Rectangle.prototype.getArea = function() {
+    return this.length * this.width;
+};
+
+Rectangle.prototype.toString = function() {
+    return "[Rectangle " + this.length + "x" + this.width + "]";
+};
+
+// inherits from Rectangle
+function Square(size) {
+    Rectangle.call(this, size, size);
+    // optional: add new properties or override existing ones here
+}
+
+Square.prototype = Object.create(Rectangle.prototype, {
+    constructor: {
+        configurable: true,
+        enumerable: true,
+        value: Square,
+        writable: true
+    }
+});
+
+Square.prototype.toString = function() {
+    return "[Square " + this.length + "x" + this.width + "]";
+};
+
+var square = new Square(6);
+
+console.log(square.length); // 6
+console.log(square.width); // 6
+console.log(square.getArea()); // 36
+```
+
+在 `Square` 构造函数调用 `Rectangle` 构造函数并传入 `this` 和两次 `size`（一次为长度，一次为宽度）。 这样做会在新对象上创建 `length` 和 `width` 属性，并使每个属性等于 `size`。 这可以避免在子类构造函数中再次定义超类构造函数中已经定义的实例属性。 您可以在应用超类构造函数后添加新属性或覆盖现有属性。
+
+当您需要在自定义类型之间完成继承时，这个两步过程非常有用。 您将始终需要修改构造函数的原型，并且您可能还需要从子类构造函数中调用超类构造函数。 通常，您将修改方法继承的原型并使用构造函数窃取属性。 这种方法通常被称为伪传统继承，因为它模仿基于类的语言的传统继承。
