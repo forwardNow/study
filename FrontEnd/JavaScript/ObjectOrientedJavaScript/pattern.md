@@ -156,3 +156,252 @@ console.log(person2.getAge());   // 26
 ```
 
 在此代码中，`InnerPerson` 构造函数在 IIFE 中定义。 变量 `age` 在构造函数外部定义，但用于两个原型方法。 然后返回 `InnerPerson` 构造函数，并成为全局范围中的 `Person` 构造函数。 `Person` 的所有实例最终都会共享 `age` 变量，因此使用一个实例更改值会自动影响另一个实例。
+
+## 2. 混入（mixins）
+
+尽管在 JavaScript 中经常使用伪传统继承和原型继承，但还有一种通过 mixins 实现的伪继承。 当一个对象获取另一个对象的属性而不修改原型链时，就会发生混合。 第一个对象（接收者）实际上通过直接复制这些属性来接收第二个对象（供应商）的属性。 传统上，您使用如下函数创建 mixins：
+
+```javascript
+function mixin(receiver, supplier) {
+    for (var property in supplier) {
+        if (supplier.hasOwnProperty(property)) {
+            receiver[property] = supplier[property]
+        }
+    }
+
+    return receiver;
+}
+```
+
+`mixin()` 函数接受两个参数：接收者和供应者。 该功能的目标是将供应者的所有可枚举属性复制到接收者上。 您可以使用 for-in 循环来完成此操作，该循环遍历供应者中的属性，然后将该属性的值分配给接收者上的同名属性。 请记住，这是一个浅拷贝（shallow copy），因此如果属性包含一个对象，则供应者和接收者都将指向同一个对象。 此模式经常用于向已存在于其他对象上的 JavaScript 对象添加新行为。
+
+例如，您可以通过 mixins 而不是继承向对象添加事件支持。 首先，假设您已经定义了使用事件的自定义类型：
+
+```javascript
+function EventTarget(){
+}
+
+EventTarget.prototype = {
+
+    constructor: EventTarget,
+
+    addListener: function(type, listener){
+
+        // create an array if it doesn't exist
+        if (!this.hasOwnProperty("_listeners")) {
+            this._listeners = [];
+        }
+
+        if (typeof this._listeners[type] == "undefined"){
+            this._listeners[type] = [];
+        }
+
+        this._listeners[type].push(listener);
+    },
+
+    fire: function(event){
+
+        if (!event.target){
+            event.target = this;
+        }
+
+        if (!event.type){  // falsy
+            throw new Error("Event object missing 'type' property.");
+        }
+
+        if (this._listeners && this._listeners[event.type] instanceof Array){
+            var listeners = this._listeners[event.type];
+            for (var i=0, len=listeners.length; i < len; i++){
+                listeners[i].call(this, event);
+            }
+        }
+    },
+
+    removeListener: function(type, listener){
+        if (this._listeners && this._listeners[type] instanceof Array){
+            var listeners = this._listeners[type];
+            for (var i=0, len=listeners.length; i < len; i++){
+                if (listeners[i] === listener){
+                    listeners.splice(i, 1);
+                    break;
+                }
+            }
+        }
+    }
+}
+```
+
+`EventTarget` 类型为任何对象提供基本事件处理。 您可以直接在对象上添加和删除侦听器以及触发事件。 事件侦听器存储在 `_listeners` 属性上，该属性仅在首次调用 `addListener()` 时创建（这使得混合更容易）。 你可以像这样使用 `EventTarget` 的实例：
+
+```javascript
+var target = new EventTarget();
+
+target.addListener("message", function(event) {
+    console.log("Message is " + event.data);
+});
+
+target.fire({
+    type: "message",
+    data: "Hello world!"
+});
+```
+
+支持事件对 JavaScript 中的对象很有用。 如果您想拥有一个也支持事件的不同类型的对象，您可以选择几个选项。 首先，您可以创建 `EventTarget` 的新实例，然后添加所需的属性：
+
+```javascript
+var person = new EventTarget();
+
+person.name = "Nicholas";
+
+person.sayName = function() {
+    console.log(this.name);
+    this.fire({ type: "namesaid", name: name });
+};
+```
+
+在此代码中，将创建一个名为 `person` 的新变量作为 `EventTarget` 的实例，然后添加与人员相关的属性。 不幸的是，这意味着 `person` 实际上是 `EventTarget` 的一个实例，而不是 `Object` 或自定义类型。 您还需要手动添加一堆新属性。 最好采用更有条理的方式来做到这一点。
+
+解决此问题的第二种方法是使用伪传统继承：
+
+```javascript
+function Person(name) {
+    this.name = name;
+}
+
+Person.prototype = Object.create(EventTarget.prototype);
+Person.prototype.constructor = Person;
+
+Person.prototype.sayName = function() {
+    console.log(this.name);
+    this.fire({ type: "namesaid", name: name });
+};
+
+var person = new Person("Nicholas");
+console.log(person instanceof Person);      // true
+console.log(person instanceof EventTarget); // true
+```
+
+在这种情况下，有一个继承自 `EventTarget` 的新 `Person` 类型。 您可以向 `Person` 的原型添加您需要的任何其他方法。 然而，这并不像它可能那样简洁，你可以说这种关系没有意义：一个人是一种事件目标？ 通过使用 mixins，您可以减少将这些新属性分配给原型所需的代码量：
+
+```javascript
+function Person(name) {
+    this.name = name;
+}
+
+mixin(Person.prototype, new EventTarget());
+
+mixin(Person.prototype, {
+    constructor: Person,
+
+    sayName: function() {
+        console.log(this.name);
+        this.fire({ type: "namesaid", name: name });
+    }
+});
+
+var person = new Person("Nicholas");
+
+console.log(person instanceof Person);      // true
+console.log(person instanceof EventTarget); // false
+```
+
+这里，`Person.prototype` 与 `EventTarget` 的新实例混合在一起以获取事件行为。 然后，将 `Person.prototype` 与 `constructor` 、`sayName()` 混合以完成原型的组合。 在此示例中，`Person` 的实例不是 `EventTarget` 的实例，因为没有继承。
+
+当然，您可能会决定在想要使用对象的属性时，根本不需要伪传统继承的构造函数。 在这种情况下，您可以在创建新对象时直接使用 mixins：
+
+```javascript
+var person = mixin(new EventTarget(), {
+
+    name: "Nicholas",
+
+    sayName: function() {
+        console.log(this.name);
+        this.fire({ type: "namesaid", name: name });
+    }
+});
+```
+
+在此示例中，`EventTarget` 的新实例与一些新属性混合在一起，以创建 `person` 对象，而不会影响 `person` 的原型链。
+
+关于以这种方式使用 mixins 要记住的一件事是提供者的访问器属性会成为接收者的数据属性，这意味着你一不小心就会覆盖它们。 这是因为接收器的属性是通过赋值而不是 `Object.defineProperty()` 创建的。 例如：
+
+```javascript
+var person = mixin(new EventTarget(), {
+
+    get name() {
+        return "Nicholas"
+    },
+
+    sayName: function() {
+        console.log(this.name);
+        this.fire({ type: "namesaid", name: name });
+    }
+
+});
+
+console.log(person.name); // "Nicholas"
+
+person.name = "Greg";
+console.log(person.name); // "Greg"
+```
+
+在此代码中，`name` 被定义为仅具有 `getter` 的访问器属性。 这意味着为 `name` 属性赋值应该没有效果。 但是，因为访问器属性成为 `person` 对象上的数据属性，所以可以使用新值覆盖 `name`。 在调用 `mixin()` 期间，`name` 的值从提供者处读取并分配给接收者上名为 `name` 的属性。 在此过程中，任何时候都没有定义新的访问器，使接收者上的 `name` 属性成为数据属性。
+
+如果您希望将访问器属性作为访问器属性进行复制，则需要使用不同的 `mixin()` 函数，例如：
+
+```javascript
+function mixin(receiver, supplier) {
+    Object.keys(supplier).forEach(function(property) {
+        var descriptor = Object.getOwnPropertyDescriptor(supplier, property);
+        Object.defineProperty(receiver, property, descriptor);
+    return receiver;
+}
+
+var person = mixin(new EventTarget(), {
+
+    get name() {
+        return "Nicholas"
+    },
+
+    sayName: function() {
+        console.log(this.name);
+        this.fire({ type: "namesaid", name: name });
+    }
+});
+
+console.log(person.name);       // "Nicholas"
+
+person.name = "Greg";
+console.log(person.name);       // "Nicholas"
+```
+
+这个版本的 `mixin()` 使用 `Object.keys()` 来获取提供者上所有可枚举的自有属性的数组。 `forEach()` 方法用于迭代这些属性。 检索提供者上每个属性的属性描述符，然后通过 `Object.defineProperty()` 将其添加到接收者。 这可确保将所有相关属性信息传输到接收者，而不仅仅是值。 这意味着 `person` 对象具有名为 `name` 的访问器属性，因此不能覆盖它。
+
+当然，这个版本的 `mixin()` 仅适用于 ECMAScript 5 JavaScript 引擎。 如果您的代码需要适用于较旧的引擎，则应将两个 `mixin()` 方法合并为一个函数：
+
+```javascript
+function mixin(receiver, supplier) {
+
+    if (Object.getOwnPropertyDescriptor) {
+
+        Object.keys(supplier).forEach(function(property) {
+            var descriptor = Object.getOwnPropertyDescriptor(supplier, property);
+            Object.defineProperty(receiver, property, descriptor);
+        });
+
+    } else {
+
+        for (var property in supplier) {
+            if (supplier.hasOwnProperty(property)) {
+                receiver[property] = supplier[property]
+            }
+        }
+    }
+
+    return receiver;
+}
+```
+
+这里，`mixin()` 检查 `Object.getOwnPropertyDescriptor()` 是否存在以确定 JavaScript 引擎是否支持 ECMAScript 5。如果支持，它继续使用 ECMAScript 5 版本。 否则，使用 ECMAScript 3 版本。 此功能在现代和旧版 JavaScript 引擎中都可以安全使用，因为它们将应用最合适的 mixin 策略。
+
+请记住，`Object.keys()` 仅返回可枚举的属性。 如果您还想复制包括不可枚举的属性在内的自有属性，请改用 `Object.getOwnPropertyNames()` 。
