@@ -405,3 +405,61 @@ function mixin(receiver, supplier) {
 这里，`mixin()` 检查 `Object.getOwnPropertyDescriptor()` 是否存在以确定 JavaScript 引擎是否支持 ECMAScript 5。如果支持，它继续使用 ECMAScript 5 版本。 否则，使用 ECMAScript 3 版本。 此功能在现代和旧版 JavaScript 引擎中都可以安全使用，因为它们将应用最合适的 mixin 策略。
 
 请记住，`Object.keys()` 仅返回可枚举的属性。 如果您还想复制包括不可枚举的属性在内的自有属性，请改用 `Object.getOwnPropertyNames()` 。
+
+## 3. 作用域安全的构造函数
+
+因为所有构造函数都只是函数，所以可以在不使用 `new` 运算符的情况下调用它们，从而影响它的值。 这样做会产生意外的结果，因为 `this` 最终会在非严格模式下强制转换为全局对象，或者构造函数在严格模式下抛出错误。 在第 4 章中，您遇到了以下示例：
+
+```javascript
+function Person(name) {
+    this.name = name;
+}
+
+Person.prototype.sayName = function() {
+    console.log(this.name);
+};
+
+var person1 = Person("Nicholas"); // note: missing "new"
+
+console.log(person1 instanceof Person); // false
+console.log(typeof person1); // "undefined"
+console.log(name); // "Nicholas"
+```
+
+在这种情况下，`name` 被创建为全局变量，因为 `Person` 构造函数在没有 `new` 的情况下被调用。 请记住，此代码在非严格模式下运行，因为省略 `new` 会在严格模式下抛出错误。 构造函数以大写字母开头的事实通常表明它应该以 `new` 开头，但是如果你想允许这个用例并让函数在没有 `new` 的情况下工作呢？ 许多内置构造函数（例如 `Array` 和 `RegExp`）也可以在没有 `new` 的情况下工作，因为它们被编写为作用域安全的构造函数。 可以使用或不使用 `new` 调用作用域安全的构造函数，并在任一情况下返回相同类型的对象。
+
+当使用函数调用 `new` 时，由 `this` 表示的新创建的对象已经是构造函数表示的自定义类型的实例。 因此，您可以使用 `instanceof` 来确定函数调用中是否使用了 `new`：
+
+```javascript
+function Person(name) {
+    if (this instanceof Person) {
+        // called with "new"
+    } else {
+        // called without "new"
+    }
+}
+```
+
+使用这样的模式，您可以根据是否使用 `new` 调用函数来控制函数的功能。 您可能希望以不同的方式处理每种情况，但您通常希望该功能以相同的方式运行（通常，以防止意外遗漏 `new` ）。 `Person` 的作用域安全版本如下所示：
+
+```javascript
+function Person(name) {
+    if (this instanceof Person) {
+        this.name = name;
+    } else {
+        return new Person(name);
+    }
+}
+```
+
+对于此构造函数，在使用 `new` 时将始终指定 `name` 属性。 如果未使用 `new`，则通过 `new` 递归调用构造函数以创建对象的正确实例。 这样，以下内容是等效的：
+
+```javascript
+var person1 = new Person("Nicholas");
+var person2 = Person("Nicholas");
+
+console.log(person1 instanceof Person);     // true
+console.log(person2 instanceof Person);     // true
+```
+
+在不使用 `new` 运算符的情况下创建新对象正变得越来越普遍，以此来遏制因省略 `new` 而导致的错误。 JavaScript 本身有几种具有作用域安全构造函数的引用类型，例如 `Object`、`Array`、`RegExp`、`Error`。
