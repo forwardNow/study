@@ -192,3 +192,105 @@ console.log("valueOf" in nakedObject); // false
 ```
 
 此示例中的 `nakedObject` 是没有原型链的对象。 这意味着对象上不存在诸如 `toString()` 和 `valueOf()` 之类的内置方法。 实际上，此对象是一个完全空白的白板，没有预定义的属性，这使得它非常适合创建查找哈希，而不会与继承的属性名称发生潜在的命名冲突。 像这样的对象没有太多其他用途，你不能像使用 `Object.prototype` 那样使用它。 例如，无论何时在 `nakedObject` 上使用运算符，您都会遇到“无法将对象转换为原始值”的错误。但是，这是 JavaScript 语言的一个有趣的怪癖，您可以创建一个无原型的对象。
+
+## 3. 构造函数继承
+
+JavaScript 中的对象继承也是构造函数继承的基础。 回忆一下第 4 章，几乎每个函数都有一个可以修改或替换的原型属性。 该 `prototype` 属性被自动分配为一个新的通用对象，它继承自 `Object.prototype` 并具有一个名为 `constructor` 的自有属性。 实际上，JavaScript 引擎会为您执行以下操作：
+
+```javascript
+// you write this
+function YourConstructor() {
+    // initialization
+}
+
+// JavaScript engine does this for you behind the scenes
+YourConstructor.prototype = Object.create(Object.prototype, {
+    constructor: {
+        configurable: true,
+        enumerable: true,
+        value: YourConstructor
+        writable: true
+    }
+});
+```
+
+因此，在不做任何额外操作的情况下，此代码将构造函数的 `prototype` 属性设置为从 `Object.prototype` 继承的对象，这意味着 `YourConstructor` 的任何实例也都从 `Object.prototype` 继承。 `YourConstructor` 是 `Object` 的子类型，`Object` 是 `YourConstructor` 的超型。
+
+因为 `prototype` 属性是可写的，所以可以通过覆盖它来更改原型链。 请考虑以下示例：
+
+```javascript
+function Rectangle(length, width) {
+    this.length = length;
+    this.width = width;
+}
+
+Rectangle.prototype.getArea = function() {
+    return this.length * this.width;
+};
+
+Rectangle.prototype.toString = function() {
+    return "[Rectangle " + this.length + "x" + this.width + "]";
+};
+
+// inherits from Rectangle
+function Square(size) {
+    this.length = size;
+    this.width = size;
+}
+
+Square.prototype = new Rectangle();
+Square.prototype.constructor = Square;
+
+Square.prototype.toString = function() {
+    return "[Square " + this.length + "x" + this.width + "]";
+};
+
+var rect = new Rectangle(5, 10);
+var square = new Square(6);
+
+console.log(rect.getArea()); // 50
+console.log(square.getArea()); // 36
+
+console.log(rect.toString()); // "[Rectangle 5x10]"
+console.log(square.toString()); // "[Square 6x6]"
+
+console.log(rect instanceof Rectangle); // true
+console.log(rect instanceof Object); // true
+
+console.log(square instanceof Square); // true
+console.log(square instanceof Rectangle); // true
+console.log(square instanceof Object); // true
+```
+
+在此代码中，有两个构造函数：`Rectangle` 和 `Square`。 `Square` 构造函数的原型属性用 `Rectangle` 实例覆盖。 此时没有参数传递给 `Rectangle`，因为它们不需要使用，如果传递了实参，则 `Square` 的所有实例将共享相同的尺寸。 要以这种方式更改原型链，您始终需要确保构造函数不会在未提供参数时抛出错误（许多构造函数包含可能需要参数的初始化逻辑）并且构造函数不会更改任何类型的全局状态，例如跟踪已创建的实例数。 在覆盖原始值之后，将在 `Square.prototype` 上恢复构造函数属性。
+
+之后，`rect` 被创建为 `Rectangle` 的一个实例，`square` 被创建为 `Square` 的一个实例。 两个对象都有 `getArea()` 方法，因为它继承自 `Rectangle.prototype`。 `square` 变量被认为是 `Square` 的实例以及 `Rectangle` 和 `Object` 的实例，因为 `instanceof` 使用原型链来确定对象类型。 见图 5-2。
+
+![Figure 5-2: The prototype chains for square and rect show that both inherit from Rectangle.prototype and Object.prototype, but only square inherits from Square.prototype.](./images/5-2.png)
+
+但是，`Square.prototype` 实际上并不需要用 `Rectangle` 对象覆盖; `Rectangle` 构造函数没有 `Square` 所需的任何操作。 实际上，唯一相关的部分是 `Square.prototype` 需要以某种方式链接到 `Rectangle.prototype` 以便继承发生。 这意味着您可以再次使用 `Object.create()` 来简化此示例。
+
+```javascript
+// inherits from Rectangle
+function Square(size) {
+    this.length = size;
+    this.width = size;
+}
+
+Square.prototype = Object.create(Rectangle.prototype, {
+    constructor: {
+        configurable: true,
+        enumerable: true,
+        value: Square,
+        writable: true
+    }
+});
+
+Square.prototype.toString = function() {
+    return "[Square " + this.length + "x" + this.width + "]";
+};
+```
+
+在此版本的代码中，`Square.prototype` 被一个从 `Rectangle.prototype` 继承的新对象覆盖，并且不需要调用 `Rectangle` 构造函数。 这意味着您不必担心调用构造函数时不传参数而导致错误。 此代码的行为与前面的代码完全相同。 原型链保持不变，因此 `Square` 的所有实例都继承自 `Rectangle.prototype`，并且构造函数以相同的步骤恢复。
+
+始终确保在向其添加属性之前覆盖原型，否则在发生覆盖时将丢失添加的方法。
