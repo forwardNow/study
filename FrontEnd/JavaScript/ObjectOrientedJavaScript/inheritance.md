@@ -344,3 +344,44 @@ console.log(square.getArea()); // 36
 在 `Square` 构造函数调用 `Rectangle` 构造函数并传入 `this` 和两次 `size`（一次为长度，一次为宽度）。 这样做会在新对象上创建 `length` 和 `width` 属性，并使每个属性等于 `size`。 这可以避免在子类构造函数中再次定义超类构造函数中已经定义的实例属性。 您可以在应用超类构造函数后添加新属性或覆盖现有属性。
 
 当您需要在自定义类型之间完成继承时，这个两步过程非常有用。 您将始终需要修改构造函数的原型，并且您可能还需要从子类构造函数中调用超类构造函数。 通常，您将修改方法继承的原型并使用构造函数窃取属性。 这种方法通常被称为伪传统继承，因为它模仿基于类的语言的传统继承。
+
+## 5. 访问超类方法
+
+在前面的示例中，`Square` 类型具有自己的 `toString()` 方法，该方法会屏蔽原型上的 `toString()` 。 使用子类中的新功能覆盖超类方法是相当常见的，但是如果您仍然想要访问超类型方法呢？ 在其他语言中，您可以说 `super.toString()` ，但 JavaScript 没有类似的东西。 相反，您可以直接访问超类型原型上的方法，并通过 `call()` 或 `apply()` 将 `this` 的值改为子类的实例。 例如：
+
+```javascript
+function Rectangle(length, width) {
+    this.length = length;
+    this.width = width;
+}
+
+Rectangle.prototype.getArea = function() {
+    return this.length * this.width;
+};
+
+Rectangle.prototype.toString = function() {
+    return "[Rectangle " + this.length + "x" + this.height + "]";
+};
+
+// inherits from Rectangle
+function Square(size) {
+    Rectangle.call(this, size, size);
+}
+
+ Square.prototype = Object.create(Rectangle.prototype, {
+    constructor: {
+        configurable: true,
+        enumerable: true,
+        value: Square,
+        writable: true
+    }
+});
+
+// call the supertype method
+Square.prototype.toString = function() {
+    var text = Rectangle.prototype.toString.call(this);
+    return text.replace("Rectangle", "Square");
+};
+```
+
+在此版本的代码中，`Square.prototype.toString()` 通过使用 `call()` 调用 `Rectangle.prototype.toString()` 。 该方法只需要在返回结果文本之前将 `"Rectangle"` 替换为 `"Square"`。 对于这样一个简单的操作，这种方法看起来有点冗长，但它是访问超类型方法的唯一方法。
