@@ -4,7 +4,12 @@
 
 ## 1. 前端
 
-### 1.1. JavaScript
+### 1.1. 规范
+
+* API
+  * [Open API 3.0 【翻译】](./FrontEnd/其他/OpenAPI/readme.md)
+
+### 1.2. JavaScript
 
 * ECMAScript
   * [ES5](./blog/2018/08/15.ES5.md)
@@ -21,7 +26,7 @@
 * 原理相关
   * [JavaScript运行机制：Event Loop](./blog/2018/09/02.EventLoop.md)
 
-### 1.2. CSS
+### 1.3. CSS
 
 * 代码风格
   * [css代码风格](./blog/2018/08/09.css代码风格.md)
@@ -33,7 +38,7 @@
 * 图标
   * [阿里巴巴矢量图标库](./FrontEnd/CSS/阿里巴巴矢量图标库.md)
 
-### 1.3. HTML
+### 1.4. HTML
 
 * svg
   * [《SVG精髓》](./FrontEnd/HTML/SVG精髓)
@@ -42,7 +47,7 @@
 * video
   * [网页视频播放](./blog/2018/07/04.视频播放（包括IE8）.md)
 
-### 1.4. 框架
+### 1.5. 框架及库
 
 * Vue.js
   * [Vue2.x](./FrontEnd/框架/Vue2.x/readme.md)
@@ -52,10 +57,8 @@
   * [Angular6](./FrontEnd/框架/Angular6)
 * React.js
   * [React](./FrontEnd/框架/React)
-
-### 1.5. 库
-
-* [《RxJS》](./FrontEnd/库/RxJS/readme.md)
+* RxJS
+  * [《30 天精通 RxJS 系列》](./FrontEnd/库/RxJS/readme.md)
 
 ### 1.6. 包管理器
 
