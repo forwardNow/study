@@ -1,0 +1,23 @@
+#%RAML 1.0
+---
+title: 安全业务审批系统
+baseUri: http://127.0.0.1:8083
+version: v1
+
+/system:
+  description: 系统设置
+  /org:
+    description: 机构管理
+    /list:
+      description: 查询多条记录
+      post:
+        responses: # declare a response
+          200: # HTTP status code
+            body: # declare content of response
+              application/json: # media type
+                # structural definition of a response (schema or type)
+                type: object
+                properties:
+                  message: string
+                example: # example how a response looks like
+                  message: "Hello world"
