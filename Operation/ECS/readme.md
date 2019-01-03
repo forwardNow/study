@@ -87,7 +87,7 @@ ClientAliveCountMax 3
 
 ```shell
 # 启动
-nginx
+nginx -c /etc/nginx/nginx.conf
 
 # 停止
 nginx -s stop
@@ -110,6 +110,12 @@ server {
 
 ```shell
 chmod o+x /root
+```
+
+查看端口：
+
+```shell
+netstat -ntpl
 ```
 
 ## 6. 安装 node
@@ -250,4 +256,58 @@ $ forever start /nodeapp/index.js
 $ forever restart /nodeapp/index.js
 $ forever stop /nodeapp/index.js
 $ forever list
+```
+
+## 12. 修改镜像源
+
+>如果用 yum 下载不来，则需要修改为国内镜像源
+
+```shell
+# 备份
+$ mv /etc/yum.repos.d/CentOS-Base.repo /etc/yum.repos.d/CentOS-Base.repo.backup
+
+# 目录
+$ cd /etc/yum.repos.d/
+
+# 下载 163 的 yum 源配置文件
+$ wget http://mirrors.163.com/.help/CentOS7-Base-163.repo
+
+# 生成缓存
+$ yum makecache
+
+# 更新
+$ yum -y update
+```
+
+## 13. 安装 SVN 客户端
+
+>参考：[How to Install Subversion (SVN) 1.8.19 on CentOS/RHEL 7/6/5](https://tecadmin.net/install-subversion-1-8-on-centos-rhel/)
+
+```shell
+# 添加镜像源
+$ vim /etc/yum.repos.d/wandisco-svn.repo
+
+[WandiscoSVN]
+name=Wandisco SVN Repo
+baseurl=http://opensource.wandisco.com/centos/$releasever/svn-1.8/RPMS/$basearch/
+enabled=1
+gpgcheck=0
+
+# 安装
+$ yum clean all
+$ yum install subversion
+
+$ svn --version
+```
+
+### 13.1. 使用
+
+```shell
+# checkout
+$ cd /root/svn/
+$ svn checkout svn://192.168.1.32/repo/vue-admin
+
+# 更新
+$ cd /root/svn/vue-admin
+$ svn up
 ```
