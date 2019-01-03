@@ -36,7 +36,7 @@ npm i -g raml2html
 
 文件扩展名：`.raml`
 
-### 示例
+### 3.1. 示例
 
 ```raml
 #%RAML 1.0
@@ -47,3 +47,7 @@ version: v1
 
 /module:
 ```
+
+## 4. 总结
+
+发展不是很好，没有 swagger 火。
