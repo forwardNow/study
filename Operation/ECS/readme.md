@@ -18,6 +18,13 @@ Welcome to Alibaba Cloud Elastic Compute Service !
 
 [阿里云服务器公网ip无法访问解决办法](https://yq.aliyun.com/articles/87135)
 
+## 查看 Linux 套件版本
+
+```shell
+$ cat /etc/redhat-release
+CentOS Linux release 7.6.1810 (Core)
+```
+
 ## 3. 安装 zsh 和 oh my zsh
 
 安装 zsh
@@ -116,7 +123,13 @@ chmod o+x /root
 
 ```shell
 netstat -ntpl
+
+lsof -i:80
 ```
+
+### Cent os 7 安装 Nginx
+
+查看：[CentOS7中使用yum安装Nginx的方法](https://www.cnblogs.com/songxingzhu/p/8568432.html)
 
 ## 6. 安装 node
 
