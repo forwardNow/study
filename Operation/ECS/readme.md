@@ -18,14 +18,14 @@ Welcome to Alibaba Cloud Elastic Compute Service !
 
 [阿里云服务器公网ip无法访问解决办法](https://yq.aliyun.com/articles/87135)
 
-## 查看 Linux 套件版本
+## 3. 查看 Linux 套件版本
 
 ```shell
 $ cat /etc/redhat-release
 CentOS Linux release 7.6.1810 (Core)
 ```
 
-## 3. 安装 zsh 和 oh my zsh
+## 4. 安装 zsh 和 oh my zsh
 
 安装 zsh
 
@@ -56,7 +56,7 @@ yum install -y git
 sh -c "$(wget https://raw.github.com/robbyrussell/oh-my-zsh/master/tools/install.sh -O -)"
 ```
 
-## 4. 修改 ssh 配置避免频繁掉线
+## 5. 修改 ssh 配置避免频繁掉线
 
 ```shell
 [root@iz8rrzrale48hez ssh]# cd /etc/ssh
@@ -76,7 +76,7 @@ ClientAliveCountMax 3
 [root@iz8rrzrale48hez ssh]# service sshd reload
 ```
 
-## 5. 安装并配置 Nginx
+## 6. 安装并配置 Nginx
 
 安装
 
@@ -127,11 +127,11 @@ netstat -ntpl
 lsof -i:80
 ```
 
-### Cent os 7 安装 Nginx
+### 6.1. Cent os 7 安装 Nginx
 
 查看：[CentOS7中使用yum安装Nginx的方法](https://www.cnblogs.com/songxingzhu/p/8568432.html)
 
-## 6. 安装 node
+## 7. 安装 node
 
 ```shell
 # 安装，但版本太低
@@ -149,7 +149,7 @@ n stable
 npm install -g npm
 ```
 
-## 7. 安装 MongoDB
+## 8. 安装 MongoDB
 
 安装
 
@@ -167,7 +167,7 @@ npm install -g npm
 [2]  + running    node app.js
 ```
 
-## 8. 使用 `setsid` 命令运行后台任务
+## 9. 使用 `setsid` 命令运行后台任务
 
 使用 ssh 远程连接到 CentOS 执行的后台任务，一旦关闭 ssh ，后台任务就会自动停止。
 
@@ -184,7 +184,7 @@ npm install -g npm
 ➜  ~ netstat -tunlp | grep 27017
 ```
 
-## 9. 安装 vsftp
+## 10. 安装 vsftp
 
 ```shell
 # 安装
@@ -219,7 +219,7 @@ tcp6      0      0 :::21     :::*     LISTEN      30085/vsftpd
 
 [修改匿名用户的权限](https://juejin.im/post/5ad56f6ef265da238f1309d4)
 
-## 10. 安装 SSL 证书
+## 11. 安装 SSL 证书
 
 证书位置
 
@@ -256,7 +256,7 @@ tcp6      0      0 :::21     :::*     LISTEN      30085/vsftpd
     }
 ```
 
-## 11. 后台运行 node app
+## 12. 后台运行 node app
 
 参考：[https://wellingguzman.com/notes/run-node-app-in-background-linux](https://wellingguzman.com/notes/run-node-app-in-background-linux)
 
@@ -271,7 +271,7 @@ $ forever stop /nodeapp/index.js
 $ forever list
 ```
 
-## 12. 修改镜像源
+## 13. 修改镜像源
 
 >如果用 yum 下载不来，则需要修改为国内镜像源
 
@@ -292,7 +292,7 @@ $ yum makecache
 $ yum -y update
 ```
 
-## 13. 安装 SVN 客户端
+## 14. 安装 SVN 客户端
 
 >参考：[How to Install Subversion (SVN) 1.8.19 on CentOS/RHEL 7/6/5](https://tecadmin.net/install-subversion-1-8-on-centos-rhel/)
 
@@ -313,7 +313,7 @@ $ yum install subversion
 $ svn --version
 ```
 
-### 13.1. 使用
+### 14.1. 使用
 
 ```shell
 # checkout
