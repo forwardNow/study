@@ -93,9 +93,12 @@
 
 * [Node.js](./BackEnd/node/readme.md)
 
-### 2.2. MongoDB
+### 2.2. 数据库
 
-* [MongoDB](./BackEnd/MongoDB/readme.md)
+* MongoDB
+  * [MongoDB](./BackEnd/MongoDB/readme.md)
+* MySQL
+  * [Node.js 操作 MySQL](./BackEnd/MySQL)
 
 ### 2.3. API
 
