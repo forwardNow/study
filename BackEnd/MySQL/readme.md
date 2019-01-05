@@ -3,4 +3,4 @@
 索引：
 
 * [安装与卸载 MySQL](./install.md)
-* [操作](./ope.md)
+* [Node.js ORM sequelize 的使用](./sequelize.md)
