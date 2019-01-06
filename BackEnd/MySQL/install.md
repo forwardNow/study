@@ -93,7 +93,7 @@ $ brew services restart mysql
 
 ```shell
 # 登陆
-$ mysql -uroot -pwuqinfei@qq.com
+$ mysql -uroot
 
 mysql>ALTER USER root@localhost IDENTIFIED WITH mysql_native_password BY 'wuqinfei@qq.com';
 ```
