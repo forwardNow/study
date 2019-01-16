@@ -1,4 +1,4 @@
- # webpack 4.x
+# webpack 4.x
 
 > webpack 是基于 node 开发的命令行软件，webpack.config.js 文件中可使用任何 node 的 API
 
@@ -6,7 +6,7 @@
 
 约定大于配置，以保持一致性与减小配置复杂度，如：
 
-```
+```text
 ${root}/
   dist/
     main.js   # 默认输出文件
@@ -56,12 +56,12 @@ module.exports = {
 ### 2.4. 打包
 
 ```shell
-$ npm run dev
+npm run dev
 ```
 
 ## 3. webpack-dev-server
 
->将 /src 中的 JS 打包到内存
+>将 `/src` 中的 JS 打包到内存
 
 ### 3.1. 安装
 
@@ -83,7 +83,6 @@ $ npm install webpack-dev-server -D
   }
 }
 ```
-
 
 #### 3.2.2. 运行
 
