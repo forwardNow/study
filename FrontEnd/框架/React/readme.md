@@ -7,3 +7,4 @@
 3. [webpack4.x](./webpack4.x.md)
 4. [React的使用](./React的使用.md)
 5. [JSX](./JSX.md)
+6. [组件](./组件.md)
