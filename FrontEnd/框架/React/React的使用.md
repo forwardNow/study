@@ -106,6 +106,25 @@ $ npm install --save @babel/runtime
 }
 ```
 
+配置 `.eslintrc.json` 文件，使其支持 jsx 语法：
+
+```json
+{
+    "extends": "airbnb-base",
+    "env": {
+      "browser": true,
+      "node": true
+    },
+    "parserOptions": {
+      "ecmaVersion": 6,
+      "sourceType": "module",
+      "ecmaFeatures": {
+          "jsx": true
+      }
+    }
+}
+```
+
 ### 2.3. 使用
 
 #### 2.3.1. JS 表达式
