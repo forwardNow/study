@@ -101,7 +101,7 @@ const div = <div title={ title }>
 
 ### 3.3. 关键词
 
-关键字前面加 `html` 前缀：
+设置元素属性时，有些属性名是 JS 中的关键词（如 `class`），需要在关键字前面加 `html` 前缀：
 
 * `class` 属性为 `htmlClass`
 * `for` 属性为 `htmlFor`
