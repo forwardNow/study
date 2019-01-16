@@ -139,16 +139,18 @@ const title = '我是 DIV';
 
 // JSX 数组
 const list = [
-  <p>1</p>,
-  <p>2</p>,
+  <p key='1'>1</p>,
+  <p key='2'>2</p>,
 ];
 
-const div =
-  <div title={ title }>
+const list2 = [3, 4].map(item => <p key={ item }>{ item }</p>);
+
+const div = <div title={ title }>
     { msg }
     { list }
-  </div>
-;
+    { list2 }
+    { [5, 6].map(item => <p key={ item }>{item}</p>) }
+  </div>;
 ```
 
 注意：
@@ -167,5 +169,3 @@ const div =
 #### 2.3.3. 关键词
 
 关键字前面加 `html` 前缀，例如 `class` 属性为 `htmlClass`，`for` 属性为 `htmlFor`
-
-## 样式
