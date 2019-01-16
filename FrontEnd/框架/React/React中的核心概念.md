@@ -1,4 +1,4 @@
- # React中的核心概念
+# React中的核心概念
 
 ## 1. 虚拟 DOM （Virtual Document Object Model）
 
@@ -65,4 +65,3 @@ let virtualA = {
 ### 2.3. element diff
 
 在进行组件对比的过程中，如果两个组件类型相同，会进行元素级别的对比，叫做 element diff。
-
