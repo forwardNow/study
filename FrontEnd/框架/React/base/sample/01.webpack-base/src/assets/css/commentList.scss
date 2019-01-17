@@ -1,0 +1,8 @@
+.title {
+  color: red;
+}
+
+:global(.clearfix::after) {
+  display: table;
+  clear: both;
+}
