@@ -32,3 +32,7 @@ npm i less --save-dev
 这将在项目文件夹中安装最新的 `lessc` 正式版，并将其添加到项目的 `package.json` 中的 `devDependencies` 字段中。
 
 ### 1.3. lessc 的 beta 版本
+
+周期性的，随着新功能的开发，lessc 版本将发布到 npm，标记为 beta。 这些版本不会作为 `@latest` 官方发行版发布，并且通常会在版本中发布 beta 版（使用 `lessc -v` 获取当前版本）。
+
+由于补丁版本不会中断，我们将立即发布补丁版本，alpha / beta / candidate 版本将作为次要或主要版本升级发布（我们努力从 1.4.0 开始遵循[语义版本控制](http://semver.org/)）。
