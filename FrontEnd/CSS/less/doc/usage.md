@@ -114,3 +114,40 @@ lessc --depends
 
 ### 2.1. 设置选项
 
+您可以通过在脚本标记之前在 less 对象上设置选项来以编程方式设置选项 - 这会影响所有初始链接标记和 less 的编程使用。
+
+```html
+<script>
+  less = {
+    env: "development",
+    async: false,
+    fileAsync: false,
+    poll: 1000,
+    functions: {},
+    dumpLineNumbers: "comments",
+    relativeUrls: false,
+    rootpath: ":/a.com/"
+  };
+</script>
+<script src="less.js"></script>
+```
+
+另一种方法是在脚本标记上指定选项，例如
+
+```html
+<script>
+  less = {
+    env: "development"
+  };
+</script>
+<script src="less.js" data-env="development"></script>
+```
+
+或者为了简洁起见，可以将它们设置为脚本和链接标记上的属性：
+
+```html
+<script src="less.js" data-poll="1000" data-relative-urls="false"></script>
+<link data-dump-line-numbers="all" data-global-vars='{ "myvar": "#ddffee", "mystr": "\"quoted\"" }' rel="stylesheet/less" type="text/css" href="less/styles.less">
+```
+
+### 2.2. 浏览器支持
