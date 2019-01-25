@@ -59,11 +59,11 @@ lessc [option option=parameter ...] <source> [destination]
 lessc bootstrap.less bootstrap.css
 ```
 
-## 2. lessc 的选项
+### 1.5. lessc 的选项
 
 对于所有其他选项，请参阅 [Less 选项](http://lesscss.org/usage/#less-options)。
 
-### 2.1. silent
+#### 1.5.1. silent
 
 ```shell
 lessc -s lessc --silent
@@ -71,14 +71,14 @@ lessc -s lessc --silent
 
 停止显示任何警告。
 
-### 2.2. version
+#### 1.5.2. version
 
 ```shell
 lessc -v
 lessc --version
 ```
 
-### 2.3. help
+#### 1.5.3. help
 
 ```shell
 lessc --help
@@ -87,7 +87,7 @@ lessc -h
 
 打印包含可用选项和退出的帮助消息。
 
-### 2.4. makefile
+#### 1.5.4. makefile
 
 ```shell
 lessc -M
@@ -95,3 +95,22 @@ lessc --depends
 ```
 
 输出生成文件 import 的依赖文件列表。
+
+## 2. 浏览器端用法
+
+在浏览器中使用 Less.js 是最简单的入门方式，便于使用 Less 进行开发，但在生产中，当性能和可靠性很重要时，我们建议使用 Node.js 或许多第三方工具之一进行预编译。
+
+首先，将 `.less` 样式表与 `rel` 属性设置为“`stylesheet/less`”链接：
+
+```html
+<link rel="stylesheet/less" type="text/css" href="styles.less" />
+```
+
+接下来，下载 [less.js](https://github.com/less/less.js/archive/master.zip) 并将其包含在页面 `<head>` 元素的 `<script></script>` 标记中：
+
+```html
+<script src="less.js" type="text/javascript"></script>
+```
+
+### 2.1. 设置选项
+
