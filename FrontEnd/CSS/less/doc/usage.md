@@ -301,3 +301,55 @@ lessc --strict-units=on
 在这种情况下，事情显然是不对的 - 长度乘以长度给出一个区域，但 css 不支持指定区域。 因此我们假设用户意味着其中一个值是值，而不是长度单位，我们输出 `2px`。
 
 使用严格的单位，我们假设这是计算中的错误并抛出错误。
+
+### 3.6. Global Variables
+
+```shell
+lessc --global-var="color1=red"
+
+{ globalVars: { color1: 'red' } }
+```
+
+此选项定义可由文件引用的变量。 声明放在基础 Less 文件的顶部，这意味着可以使用它，但如果在文件中定义了此变量，也可以覆盖它。
+
+### 3.7. Modify Variables
+
+```shell
+lessc --modify-var="color1=red"
+
+{ modifyVars: { color1: 'red' } }
+```
+
+与全局变量选项相反，这会将声明放在基本文件的末尾，这意味着它将覆盖 Less 文件中定义的任何内容。
+
+### 3.8. URL Arguments
+
+```shell
+lessc --url-args="cache726357"
+
+{ urlArgs: 'cache726357' }
+```
+
+此选项允许您指定要转到每个 URL 的参数。 例如，这可以用于缓存清除。
+
+### 3.9. Lint
+
+运行 Less 解析器，只报告错误而不输出任何内容。
+
+### 3.10. 允许从不安全的HTTPS主机导入
+
+```shell
+lessc --insecure
+
+{ insecure: true }
+```
+
+### 3.11. Source Map Options
+
+```shell
+lessc --source-map
+
+{ sourceMap: {} }
+```
+
+告诉 less 生成 Source Map
