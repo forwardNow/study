@@ -36,3 +36,25 @@ npm i less --save-dev
 周期性的，随着新功能的开发，lessc 版本将发布到 npm，标记为 beta。 这些版本不会作为 `@latest` 官方发行版发布，并且通常会在版本中发布 beta 版（使用 `lessc -v` 获取当前版本）。
 
 由于补丁版本不会中断，我们将立即发布补丁版本，alpha / beta / candidate 版本将作为次要或主要版本升级发布（我们努力从 1.4.0 开始遵循[语义版本控制](http://semver.org/)）。
+
+### 1.4. 服务器端和命令行用法
+
+包含在此存储库中的二进制文件 `bin/lessc` 可与 Linux、OS X、Windows 上的 Node.js 一起使用。
+
+使用：`lessc [option option=parameter ...] <source> [destination]`
+
+#### 1.4.1. 命令行用法
+
+```shell
+lessc [option option=parameter ...] <source> [destination]
+```
+
+如果 `source` 设置为 `-`（减号），则从 stdin 读取输入。
+
+**示例**：
+
+将 `bootstrap.less` 编译为 `bootstrap.css`
+
+```shell
+lessc bootstrap.less bootstrap.css
+```
