@@ -157,3 +157,122 @@ Less.js 支持所有现代浏览器（Chrome、Firefox、Safari、IE11+、Edge�
 有理由在生产中使用客户端 Less，例如，如果您想允许用户调整将影响主题的变量，并且您希望实时向他们显示 - 在这种情况下，用户不担心在看到之前等待样式更新。
 
 ### 2.3. 提示
+
+* 确保在脚本之前包含样式表。
+* 链接多个 `.less` 样式表时，每个样式表都是独立编译的。 因此，您在样式表中定义的任何变量、混合或名称空间都无法访问。
+
+## 3. Less.js 选项
+
+### 3.1. Include Paths
+
+```shell
+lessc --include-path=PATH1;PATH2
+
+{ paths: ['PATH1', 'PATH2'] }
+```
+
+如果 `@import` 规则中的文件不存在于该确切位置，则 Less 将在传递给此选项的位置查找该文件。 例如，您可以使用它来指定要在 Less 文件中简单且相对地引用的库的路径。
+
+类似于指定 path 环境变量。
+
+### 3.2. Rootpath
+
+```shell
+lessc -rp=resources/
+lessc --rootpath=resources/
+
+{ rootpath: 'resources/' }
+```
+
+允许您为 css 中的每个生成的 import 和 URL 添加路径。 这不会影响处理的 Less import语句，只会影响输出 css 中的那些语句。
+
+例如，如果 css 使用的所有图像都位于名为 `resources` 的文件夹中，则可以使用此选项将其添加到 URL 中，然后将该文件夹的名称配置为可配置。
+
+### 3.3. 重写网址
+
+```shell
+lessc -ru=off
+lessc --rewrite-urls=off
+{ rewriteUrls: 'off' }
+
+lessc -ru=all
+lessc --rewrite-urls=all
+{ rewriteUrls: 'all' }
+
+lessc -ru=local
+lessc --rewrite-urls=local
+{ rewriteUrls: 'local' }
+```
+
+默认情况下，URL保持原样（`'off'`），因此如果您在引用图像的子目录中导入文件，则将在 css 中输出完全相同的URL。 此选项允许您重写导入文件中的 URL，以便 URL 始终相对于已传递给 Less 的基本文件。 例如。
+
+```text
+${root}/
+  main.less
+  global/
+    fonts.less
+    myfont/
+      myfont.woff2
+```
+
+```less
+/* main.less */
+@import "global/fonts.less";
+```
+
+```less
+/* global/fonts.less */
+@font-face {
+  font-family: 'MyFont';
+  src: url('myfont/myfont.woff2') format('woff2');
+  src: url('./myfont/myfont.woff2') format('woff2');
+}
+```
+
+设置 `rewriteUrls: 'off'`，`main.less` 输出为：
+
+```css
+/* main.less */
+
+/* global/fonts.less */
+@font-face {
+  font-family: 'MyFont';
+  src:
+    url('myfont/myfont.woff2') format('woff2'),
+    url('./myfont/myfont.ttf') format('ttf');
+}
+```
+
+设置 `rewriteUrls: 'all'`，`main.less` 输出为：
+
+```css
+/* main.less */
+
+/* global/fonts.less */
+@font-face {
+  font-family: 'MyFont';
+  src:
+    url('./global/myfont/myfont.woff2') format('woff2'),
+    url('./global/myfont/myfont.ttf') format('ttf');
+}
+```
+
+设置 `rewriteUrls: 'local'`，`main.less` 输出为：
+
+```css
+/* main.less */
+
+/* global/fonts.less */
+@font-face {
+  font-family: 'MyFont';
+  src:
+    url('myfont/myfont.woff2') format('woff2'),
+    url('./global/myfont/myfont.ttf') format('ttf');
+}
+```
+
+如果你将 Less 与 [CSS 模块](https://github.com/css-modules/css-modules) 结合起来使用类似的解析语义（如 Node.js），这可能很有用。
+
+您可能还需要考虑使用 data-uri 函数而不是此选项，它会将图像嵌入到 css 中。
+
+### 3.4. Math
