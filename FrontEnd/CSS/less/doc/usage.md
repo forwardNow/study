@@ -51,10 +51,47 @@ lessc [option option=parameter ...] <source> [destination]
 
 如果 `source` 设置为 `-`（减号），则从 stdin 读取输入。
 
-**示例**：
+#### 1.4.2. 示例
 
 将 `bootstrap.less` 编译为 `bootstrap.css`
 
 ```shell
 lessc bootstrap.less bootstrap.css
 ```
+
+## 2. lessc 的选项
+
+对于所有其他选项，请参阅 [Less 选项](http://lesscss.org/usage/#less-options)。
+
+### 2.1. silent
+
+```shell
+lessc -s lessc --silent
+```
+
+停止显示任何警告。
+
+### 2.2. version
+
+```shell
+lessc -v
+lessc --version
+```
+
+### 2.3. help
+
+```shell
+lessc --help
+lessc -h
+```
+
+打印包含可用选项和退出的帮助消息。
+
+### 2.4. makefile
+
+```shell
+lessc -M
+lessc --depends
+```
+
+输出生成文件 import 的依赖文件列表。
