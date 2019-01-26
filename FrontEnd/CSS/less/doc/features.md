@@ -535,3 +535,42 @@ nav ul {
   transform: scale(2) rotate(15deg);
 }
 ```
+
+## 6. Mixins
+
+“混合”其他选择器的属性。
+
+您可以混合使用类选择器和 id 选择器，例如
+
+```less
+.a, #b {
+  color: red;
+}
+.mixin-class {
+  .a();
+}
+.mixin-id {
+  #b();
+}
+```
+
+编译为：
+
+```css
+.a, #b {
+  color: red;
+}
+.mixin-class {
+  color: red;
+}
+.mixin-id {
+  color: red;
+}
+```
+
+目前和历史上，mixin 调用中的括号是可选的，但是可选括号是不推荐使用的，并且将来的版本中将需要它们。
+
+```less
+.a();
+.a;  // currently works, but deprecated; don't use
+```
