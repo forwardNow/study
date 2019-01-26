@@ -719,3 +719,72 @@ button:hover {
   color: #900 !important;
 }
 ```
+
+### 6.6. Mixin 的参数
+
+如何将参数传递给 mixins
+
+Mixins 也可以接受参数，这些参数是混合时传递给选择器块的变量。
+
+```less
+.border-radius(@radius) {
+  -webkit-border-radius: @radius;
+     -moz-border-radius: @radius;
+          border-radius: @radius;
+}
+```
+
+以下是我们如何将其混合到各种规则集中：
+
+```less
+#header {
+  .border-radius(4px);
+}
+.button {
+  .border-radius(6px);
+}
+```
+
+参数 mixin 也可以为其参数设置默认值：
+
+```less
+.border-radius(@radius: 5px) {
+  -webkit-border-radius: @radius;
+     -moz-border-radius: @radius;
+          border-radius: @radius;
+}
+```
+
+我们现在可以像这样调用它：
+
+```less
+#header {
+  .border-radius();
+}
+```
+
+它将包括 5px 边界半径。
+
+您还可以使用不带参数的参数化 mixins。 如果要从 CSS 输出中隐藏规则集，但希望将其属性包含在其他规则集中，这将非常有用：
+
+```less
+.wrap() {
+  text-wrap: wrap;
+  white-space: -moz-pre-wrap;
+  white-space: pre-wrap;
+  word-wrap: break-word;
+}
+
+pre { .wrap() }
+```
+
+编译为：
+
+```css
+pre {
+  text-wrap: wrap;
+  white-space: -moz-pre-wrap;
+  white-space: pre-wrap;
+  word-wrap: break-word;
+}
+```
