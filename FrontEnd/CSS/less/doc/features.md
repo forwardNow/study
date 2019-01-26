@@ -144,3 +144,76 @@ body {
   color: green;
 }
 ```
+
+### 2.4. 惰性求值
+
+变量在使用之前不必声明。
+
+合法的 Less 片段：
+
+```less
+.lazy-eval {
+  width: @var;
+}
+
+@var: @a;
+@a: 9%;
+```
+
+```less
+.lazy-eval {
+  width: @var;
+  @a: 9%;
+}
+
+@var: @a;
+@a: 100%;
+```
+
+都会编译成：
+
+```css
+.lazy-eval {
+  width: 9%;
+}
+```
+
+定义变量两次时，使用变量的最后一个定义，从当前作用域向上搜索。 这与 css 本身类似，其中定义中的最后一个属性决定该属性的值。
+
+比如：
+
+```less
+@var: 0;
+.class {
+  @var: 1;
+  .brass {
+    @var: 2;
+    three: @var;
+    @var: 3;
+  }
+  one: @var;
+}
+```
+
+编译为：
+
+```css
+.class {
+  one: 1;
+}
+.class .brass {
+  three: 3;
+}
+```
+
+从本质上讲，每个范围都有一个“最终”值，类似于浏览器中的属性，就像使用自定义属性的此示例：
+
+```less
+.header {
+  --color: white;
+  color: var(--color);  // the color is black
+  --color: black;
+}
+```
+
+这意味着，与其他 CSS 预处理语言不同，Less 变量的行为与 CSS 非常相似。
