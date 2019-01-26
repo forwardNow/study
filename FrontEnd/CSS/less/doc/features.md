@@ -1369,3 +1369,141 @@ html.lt-ie9 header {
     }
   };
 ```
+
+## 9. `@import` 规则
+
+从其他样式表导入样式
+
+在标准CSS中，`@import` 必须在所有其他类型的规则之前。 但 Less 并不关心你放置 `@import` 语句的位置。
+
+```less
+.foo {
+  background: #900;
+}
+@import "this-is-valid.less";
+```
+
+### 9.1. 文件扩展名
+
+`@import` 语句可能会被 Less 以不同的方式处理，具体取决于文件扩展名：
+
+* 如果文件具有 `.css` 扩展名，则将其视为 CSS，并将 `@import` 语句保留为原样（请参阅下面的 `inline` 选项）。
+* 如果它有任何其他扩展名，它将被视为 Less 并导入。
+* 如果它没有扩展名，则会附加 `.less`，它将作为导入的 Less 文件包含在内。
+
+```less
+@import "foo";      // foo.less is imported
+@import "foo.less"; // foo.less is imported
+@import "foo.php";  // foo.php imported as a Less file
+@import "foo.css";  // statement left in place, as-is
+```
+
+可以使用以下选项覆盖此行为。
+
+### 9.2. import 选项
+
+Less 提供了 CSS `@import` 的几个扩展，以提供比使用外部文件更多的灵活性。
+
+语法：`@import (keyword) "filename";`
+
+已实现以下导入选项：
+
+* `reference`: 使用 Less 文件但不输出
+* `inline`: 在输出中包含源文件但不处理它
+* `less`: 无论文件扩展名是什么，都将文件视为Less文件
+* `css`: 无论文件扩展名是什么，都将文件视为CSS文件
+* `once`: 仅包含文件一次（这是默认行为）
+* `multiple`: 多次包含该文件
+* `optional`: 在找不到文件时继续编译
+
+每个 `@import` 允许多个关键字，您必须使用逗号分隔关键字：
+
+```less
+@import (optional, reference) "foo.less";
+```
+
+### 9.3. reference
+
+使用 `@import(reference)` 导入外部文件，未被直接引用的样式不会添加到已编译的输出。
+
+示例：`@import (reference) "foo.less";`
+
+这允许您通过执行以下操作从 bootstrap 等库中仅提取特定的目标样式：
+
+```less
+.navbar:extend(.navbar all) {}
+```
+
+并且您将仅从 bootstrap 中提取 `.navbar` 相关样式。
+
+### 9.4. inline
+
+使用 `@import (inline)` 包含外部文件，但不处理它们。
+
+示例：`@import (inline) "not-less-compatible.css";`
+
+当 CSS 文件可能不兼容时，您将使用此选项; 这是因为虽然 Less 支持大多数已知标准 CSS，但它不支持某些地方的注释，并且不支持所有已知的 CSS hack 而不修改 CSS。
+
+因此，您可以使用它将文件包含在输出中，以便所有 CSS 都在一个文件中。
+
+### 9.5. less
+
+使用 `@import (less)` 将导入的文件视为 Less，无论文件扩展名如何。
+
+示例：
+
+```less
+@import (less) "foo.css";
+```
+
+### 9.6. css
+
+使用 `@import (css)` 将导入的文件视为常规 CSS，无论文件扩展名如何。 这意味着 import 语句将保持原样。
+
+```less
+@import (css) "foo.less";
+```
+
+编译为：
+
+```css
+@import "foo.less";
+```
+
+### 9.7. once
+
+`@import` 语句的默认行为。 这意味着文件仅导入一次，并且将忽略该文件的后续导入语句。
+
+```less
+@import (once) "foo.less";
+@import (once) "foo.less"; // this statement will be ignored
+```
+
+### 9.8. multiple
+
+使用 `@import (multiple)` 允许导入具有相同名称的多个文件。 这是一次相反的行为。
+
+```less
+// file: foo.less
+.a {
+  color: green;
+}
+// file: main.less
+@import (multiple) "foo.less";
+@import (multiple) "foo.less";
+```
+
+编译为：
+
+```css
+.a {
+  color: green;
+}
+.a {
+  color: green;
+}
+```
+
+### 9.9. optional
+
+使用 `@import (optional)` 仅允许在文件存在时导入文件。 没有 `optional` 关键字 Less 会抛出 FileError 并在导入无法找到的文件时停止编译。
