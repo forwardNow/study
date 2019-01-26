@@ -574,3 +574,32 @@ nav ul {
 .a();
 .a;  // currently works, but deprecated; don't use
 ```
+
+### 6.1. 不输出 Mixin
+
+如果你想创建一个 mixin，但你不希望 mixin 在你的 CSS 输出中，请在 mixin 定义之后加上括号。
+
+```less
+.mixin-1 {
+  color: black;
+}
+.mixin-2() {
+  background: white;
+}
+.class {
+  .mixin-1();
+  .mixin-2();
+}
+```
+
+编译为：
+
+```css
+.mixin-1 {
+  color: black;
+}
+.class {
+  color: black;
+  background: white;
+}
+```
