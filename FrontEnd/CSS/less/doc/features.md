@@ -665,3 +665,27 @@ button:hover {
   #my-library.my-mixin();
 }
 ```
+
+### 6.4. 受保护的命名空间
+
+如果命名空间具有保护，则仅在保护条件返回 `true` 时才使用由其定义的 mixins。 命名空间保护的计算方式与 mixin 的保护完全相同，因此以下两个 mixin 的工作方式相同：
+
+```less
+#namespace when (@mode = huge) {
+  .mixin() { /* */ }
+}
+
+#namespace {
+  .mixin() when (@mode = huge) { /* */ }
+}
+```
+
+假定所有嵌套命名空间和 mixin 的默认函数具有相同的值。 以下 mixin 从未被计算过，其中一个包含条件的结果肯定为假：
+
+```less
+#sp_1 when (default()) {
+  #sp_2 when (default()) {
+    .mixin() when not(default()) { /* */ }
+  }
+}
+```
