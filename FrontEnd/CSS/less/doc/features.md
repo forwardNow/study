@@ -48,3 +48,72 @@ a:hover {
   background: @link-color;
 }
 ```
+
+### 2.2. 变量替换
+
+上面的示例着重于使用变量来控制 CSS 规则中的值，但它们也可以在其他地方使用，例如选择器名称、属性名称、URL、`@import` 语句。
+
+#### 2.2.1. 选择器名称
+
+```less
+// Variables
+@my-selector: banner;
+
+// Usage
+.@{my-selector} {
+  margin: 0 auto;
+}
+```
+
+编译为：
+
+```css
+.banner {
+  margin: 0 auto;
+}
+```
+
+#### 2.2.2. URL
+
+```less
+// Variables
+@images: "../img";
+
+// Usage
+body {
+  color: #444;
+  background: url("@{images}/white-sand.png");
+}
+```
+
+#### 2.2.3. Import 语句
+
+语法：`@import "@{themes}/tidal-wave.less";`
+
+```less
+// Variables
+@themes: "../../src/themes";
+
+// Usage
+@import "@{themes}/tidal-wave.less";
+```
+
+#### 2.2.4. 属性名称
+
+```less
+@property: color;
+
+.widget {
+  @{property}: #0ee;
+  background-@{property}: #999;
+}
+```
+
+编译为：
+
+```css
+.widget {
+  color: #0ee;
+  background-color: #999;
+}
+```
