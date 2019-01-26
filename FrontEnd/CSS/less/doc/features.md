@@ -485,3 +485,53 @@ nav ul {
 ```
 
 略。
+
+## 5. 合并
+
+合并功能允许将来自多个属性的值聚合到单个属性下的逗号或空格分隔列表中。 `merge` 对于背景和变换等属性很有用。
+
+为了避免任何无意的连接，`merge` 需要在每个连接挂起声明上使用显式的 `+` 或 `+_` 标志。
+
+### 5.1. 逗号
+
+使用逗号附加属性值
+
+```less
+.mixin() {
+  box-shadow+: inset 0 0 10px #555;
+}
+.myclass {
+  .mixin();
+  box-shadow+: 0 0 20px black;
+}
+```
+
+编译为：
+
+```css
+.myclass {
+  box-shadow: inset 0 0 10px #555, 0 0 20px black;
+}
+```
+
+### 5.2. 空格
+
+使用空格附加属性值
+
+```less
+.mixin() {
+  transform+_: scale(2);
+}
+.myclass {
+  .mixin();
+  transform+_: rotate(15deg);
+}
+```
+
+编译为：
+
+```css
+.myclass {
+  transform: scale(2) rotate(15deg);
+}
+```
