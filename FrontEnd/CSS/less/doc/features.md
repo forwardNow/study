@@ -829,3 +829,36 @@ pre {
   padding-2: 2;
 }
 ```
+
+### 6.8. 使用具名参数
+
+调用 mixin 可以通过其名称而不仅仅是位置来提供参数值。 任何参数都可以通过其名称指定，并且它们不必具有任何特殊顺序：
+
+```less
+.mixin(@color: black; @margin: 10px; @padding: 20px) {
+  color: @color;
+  margin: @margin;
+  padding: @padding;
+}
+.class1 {
+  .mixin(@margin: 20px; @color: #33acfe);
+}
+.class2 {
+  .mixin(#efca44; @padding: 40px);
+}
+```
+
+编译为：
+
+```css
+.class1 {
+  color: #33acfe;
+  margin: 20px;
+  padding: 20px;
+}
+.class2 {
+  color: #efca44;
+  margin: 10px;
+  padding: 40px;
+}
+```
