@@ -1093,3 +1093,117 @@ div {
   width: 100%;
 }
 ```
+
+### 6.10. Mixin 保护
+
+当您想要匹配表达式而不是简单值或参数数量时，保护很有用。 如果您熟悉函数式编程，则可能已经遇到过它们。
+
+在尝试尽可能接近 CSS 的声明性质时，Less 选择通过受保护的 mixins 而不是 if / else 语句实现条件执行，这是 `@media` 查询功能规范的一部分。
+
+```less
+.mixin(@a) when (lightness(@a) >= 50%) {
+  background-color: black;
+}
+.mixin(@a) when (lightness(@a) < 50%) {
+  background-color: white;
+}
+.mixin(@a) {
+  color: @a;
+}
+```
+
+关键是 when 关键字，它引入了一个保护序列（这里只有一个保护）。 现在，如果我们运行以下代码：
+
+```less
+.class1 { .mixin(#ddd) }
+.class2 { .mixin(#555) }
+```
+
+编译为：
+
+```css
+.class1 {
+  background-color: black;
+  color: #ddd;
+}
+.class2 {
+  background-color: white;
+  color: #555;
+}
+```
+
+#### 6.10.1. 比较操作符
+
+保护中可用的比较运算符的完整列表是：`>`，`>=`，`=`，`=<`，`<`。 此外，关键字 `true` 是唯一的真值，使这两个 mixin 等效：
+
+```less
+.truth(@a) when (@a) { ... }
+.truth(@a) when (@a = true) { ... }
+```
+
+除关键字 `true` 之外的任何值都是假值：
+
+```less
+.class {
+  .truth(40); // Will not match any of the above definitions.
+}
+```
+
+请注意，您还可以相互比较参数，或使用非参数：
+
+```less
+@media: mobile;
+
+.mixin(@a) when (@media = mobile) { ... }
+.mixin(@a) when (@media = desktop) { ... }
+
+.max(@a; @b) when (@a > @b) { width: @a }
+.max(@a; @b) when (@a < @b) { width: @b }
+```
+
+#### 6.10.2. 逻辑操作符
+
+您可以使用逻辑运算符。 语法基于 CSS 媒体查询。
+
+`and`，同时满足多个保护才为匹配：
+
+```less
+.mixin(@a) when (isnumber(@a)) and (@a > 0) { ... }
+```
+
+`,`，只要有一个满足则匹配：
+
+```less
+.mixin(@a) when (@a > 10), (@a < -10) { ... }
+```
+
+`not`，否操纵：
+
+```less
+.mixin(@b) when not (@b > 0) { ... }
+```
+
+#### 6.10.3. 参数值类型检查
+
+通过 `is` 函数检查参数值的类型：
+
+```less
+.mixin(@a; @b: 0) when (isnumber(@b)) { ... }
+.mixin(@a; @b: black) when (iscolor(@b)) { ... }
+```
+
+基础的类型检查函数：
+
+* `iscolor`
+* `isnumber`
+* `isstring`
+* `iskeyword`
+* `isurl`
+
+如果您想检查某个值是否在某个特定单位中而不是数字，您可以使用以下方法之一：
+
+* `ispixel`
+* `ispercentage`
+* `isem`
+* `isunit`
+
