@@ -456,3 +456,32 @@ a + a {
   border-top: 0;
 }
 ```
+
+## 4. 继承
+
+继承是一个 Less 伪类，它将放置的选择器与它引用的选择器相匹配。
+
+```less
+.inline {
+  color: red;
+}
+
+nav ul {
+  &:extend(.inline);
+  background: blue;
+}
+```
+
+编译为：
+
+```css
+nav ul {
+  background: blue;
+}
+.inline,
+nav ul {
+  color: red;
+}
+```
+
+略。
