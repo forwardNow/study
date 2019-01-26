@@ -12,6 +12,8 @@
 
 ### 2.1. 概述
 
+>通过 `@my-var` 定义和引用变量
+
 在样式表中看到相同的值重复数十甚至数百次，这种情况并不罕见：
 
 ```css
@@ -50,6 +52,8 @@ a:hover {
 ```
 
 ### 2.2. 变量替换
+
+>通过 `@{my-var}` 往属性名、字符串类型的值中插入变量值
 
 上面的示例着重于使用变量来控制 CSS 规则中的值，但它们也可以在其他地方使用，例如选择器名称、属性名称、URL、`@import` 语句。
 
@@ -115,5 +119,28 @@ body {
 .widget {
   color: #0ee;
   background-color: #999;
+}
+```
+
+### 2.3. 可变的变量
+
+>`@var-name: color;`，通过 `@@var-name` 引用 `@color` 变量。
+
+```less
+@primary: green;
+@color: primary;
+
+.section {
+  .element {
+    color: @@color;
+  }
+}
+```
+
+编译为：
+
+```css
+.section .element {
+  color: green;
 }
 ```
