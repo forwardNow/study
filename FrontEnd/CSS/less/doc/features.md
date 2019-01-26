@@ -281,3 +281,62 @@ body {
 ```
 
 由于惰性计算（延迟计算），这很好用 -  `@base-color` 被覆盖，`@dark-color` 是深红色。
+
+## 3. 父选择器
+
+使用 `＆` 引用父选择器.
+
+`＆` 运算符表示嵌套规则的父选择器，在将修改类或伪类应用于现有选择器时最常用：
+
+```less
+a {
+  color: blue;
+  &:hover {
+    color: green;
+  }
+}
+```
+
+编译为：
+
+```css
+a {
+  color: blue;
+}
+
+a:hover {
+  color: green;
+}
+```
+
+请注意，如果没有 `＆`，上面的示例将导致 `:hover` 规则（与 `<a>` 标签内的 hovered 元素匹配的后代选择器），这不是我们通常希望嵌套的 `:hover`。
+
+“父选择器”运算符具有多种用途。 基本上，只要您需要嵌套规则的选择器以默认的其他方式组合。 例如，`＆` 的另一个典型用法是产生重复的类名：
+
+```less
+.button {
+  &-ok {
+    background-image: url("ok.png");
+  }
+  &-cancel {
+    background-image: url("cancel.png");
+  }
+  &-custom {
+    background-image: url("custom.png");
+  }
+}
+```
+
+编译为：
+
+```css
+.button-ok {
+  background-image: url("ok.png");
+}
+.button-cancel {
+  background-image: url("cancel.png");
+}
+.button-custom {
+  background-image: url("custom.png");
+}
+```
