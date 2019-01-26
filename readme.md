@@ -29,11 +29,11 @@
 ### 1.3. CSS
 
 * 预编译器
-  * [Less 官方文档[翻译]](./FrontEnd/CSS/less/doc/readme.md)
+  * [Less 官方文档【翻译】](./FrontEnd/CSS/less/doc/readme.md)
 * 代码风格
   * [css代码风格](./blog/2018/08/09.css代码风格.md)
 * 布局
-  * [弹性布局-语法[翻译]](./blog/2018/06/01.弹性布局-语法.md)：非常好的flex相关属性教程
+  * [弹性布局-语法【翻译】](./blog/2018/06/01.弹性布局-语法.md)：非常好的flex相关属性教程
   * [弹性布局-实例](./blog/2018/06/02.弹性布局-实例.md)
 * 标准
   * [《CSS揭秘》](./FrontEnd/CSS/CSS揭秘)
