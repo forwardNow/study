@@ -788,3 +788,44 @@ pre {
   word-wrap: break-word;
 }
 ```
+
+### 6.7. 具有多个参数的 Mixins
+
+参数可以是分号或逗号分隔。 建议使用分号。 符号逗号具有双重含义：它可以解释为 mixin 参数分隔符或 css 列表分隔符。
+
+使用逗号作为 mixin 分隔符使得无法将逗号分隔列表创建为参数。 另一方面，如果编译器在 mixin 调用或声明中看到至少一个分号，则它假定参数由分号分隔，并且所有逗号都属于 css 列表：
+
+* 两个参数，每个参数包含以逗号分隔的列表：`.name(1, 2, 3; something, else)`
+* 三个参数，每个包含一个数字：`.name(1, 2, 3)`
+* 使用空分号创建 mixin 调用，其中一个参数包含逗号分隔的 css 列表：`.name(1, 2, 3;)`
+* 逗号分隔的默认值：`.name(@param1: red, blue;)`
+
+定义具有相同名称和参数数量的多个 mixin 是合法的。 Less 将使用所有可应用的属性。 如果你使用 mixin 并只传递一个参数，例如 `.mixin(green);`，则调用所有只需要传递一个必需参数  mixins ：
+
+```less
+.mixin(@color) {
+  color-1: @color;
+}
+.mixin(@color; @padding: 2) {
+  color-2: @color;
+  padding-2: @padding;
+}
+.mixin(@color; @padding; @margin: 2) {
+  color-3: @color;
+  padding-3: @padding;
+  margin: @margin @margin @margin @margin;
+}
+.some .selector div {
+  .mixin(#008000);
+}
+```
+
+编译为：
+
+```css
+.some .selector div {
+  color-1: #008000;
+  color-2: #008000;
+  padding-2: 2;
+}
+```
