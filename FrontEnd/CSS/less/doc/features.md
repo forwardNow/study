@@ -217,3 +217,49 @@ body {
 ```
 
 这意味着，与其他 CSS 预处理语言不同，Less 变量的行为与 CSS 非常相似。
+
+### 2.5. 属性规则作为变量
+
+>v3.0.0
+
+您可以使用 `$prop` 语法轻松处理变量等属性。 有时，这可以使您的代码更轻一些。
+
+```less
+.widget {
+  color: #efefef;
+  background-color: $color;
+}
+```
+
+编译为：
+
+```css
+.widget {
+  color: #efefef;
+  background-color: #efefef;
+}
+```
+
+请注意，与变量一样，Less 将选择当前/父作用域中的最后一个属性作为“最终”值。
+
+```less
+.block {
+  color: red;
+  .inner {
+    background-color: $color;
+  }
+  color: blue;
+}
+```
+
+编译为：
+
+```css
+.block {
+  color: red;
+  color: blue;
+}
+.block .inner {
+  background-color: blue;
+}
+```
