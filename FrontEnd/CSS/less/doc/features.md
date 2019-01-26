@@ -908,3 +908,71 @@ pre {
    // @arguments is bound to all arguments
 }
 ```
+
+### 6.7. 模式匹配
+
+有时，您可能希望根据传递给它的参数更改 mixin 的行为。 让我们从基本的东西开始：
+
+```less
+.mixin(@s; @color) { ... }
+
+.class {
+  .mixin(@switch; #888);
+}
+```
+
+现在让我们假设我们希望 `.mixin` 的行为不同，根据 `@switch` 的值，我们可以定义 `.mixin`：
+
+```less
+.mixin(dark; @color) {
+  color: darken(@color, 10%);
+}
+.mixin(light; @color) {
+  color: lighten(@color, 10%);
+}
+.mixin(@_; @color) {
+  display: block;
+}
+```
+
+现在，如果我们运行：
+
+```less
+@switch: light;
+
+.class {
+  .mixin(@switch; #888);
+}
+```
+
+我们将获得以下 CSS：
+
+```css
+.class {
+  color: #a2a2a2;
+  display: block;
+}
+```
+
+传递给 `.mixin` 的颜色减轻了。 如果 `@switch` 的值是 `dark`，则结果将是较暗的颜色。
+
+发生了这些事情：
+
+* 第一个 mixin 定义不匹配，因为它期望 `dark` 作为第一个参数。
+* 第二个 mixin 定义匹配，因为它预期 `light`。
+* 第二个 mixin 定义匹配，因为它期望任何值。
+
+仅使用匹配的 mixin 定义。 变量匹配并绑定到任何值。 除变量之外的任何内容仅与值等于自身的值匹配。
+
+我们也可以匹配数量，这是一个例子：
+
+```less
+.mixin(@a) {
+  color: @a;
+}
+.mixin(@a; @b) {
+  color: fade(@a; @b);
+}
+```
+
+现在如果我们用一个参数调用 `.mixin`，我们将得到第一个定义的输出，但是如果我们用两个参数调用它，我们将获得第二个定义，即 `@a` 淡化为 `@b`。
