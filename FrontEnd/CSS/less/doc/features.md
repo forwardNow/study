@@ -603,3 +603,28 @@ nav ul {
   background: white;
 }
 ```
+
+### 6.2. Mixins 中的选择器
+
+Mixins 可以包含的不仅仅是属性，它们也可以包含选择器。
+
+```less
+.my-hover-mixin() {
+  &:hover {
+    border: 1px solid red;
+  }
+}
+button {
+  .my-hover-mixin();
+}
+```
+
+编译为：
+
+```css
+button:hover {
+  border: 1px solid red;
+}
+```
+
+### 名称空间
