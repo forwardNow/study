@@ -627,4 +627,41 @@ button:hover {
 }
 ```
 
-### 名称空间
+### 6.3. 名称空间
+
+如果要在更复杂的选择器中混合属性，可以堆叠多个 id 或类。
+
+```less
+#outer() {
+  .inner {
+    color: red;
+  }
+}
+
+.c {
+  #outer > .inner();
+}
+```
+
+引用名称空间中的 mixin：
+
+```less
+// all do the same thing
+#outer > .inner();
+#outer .inner();
+#outer.inner();
+```
+
+使用命名空间后你的 mixins 减少了与其他库 mixin 或用户 mixin 的冲突，但它也可以是一种“组织” mixins 组的方法。
+
+```less
+#my-library {
+  .my-mixin() {
+    color: black;
+  }
+}
+// which can be used like this
+.class {
+  #my-library.my-mixin();
+}
+```
