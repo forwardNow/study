@@ -1207,3 +1207,165 @@ div {
 * `isem`
 * `isunit`
 
+### 6.11. Mixin 别名
+
+将 mixin 调用分配给变量
+
+可以将 Mixins 分配给变量以作为变量调用调用，或者可以将其用于映射查找。
+
+```less
+#theme.dark.navbar {
+  .colors(light) {
+    primary: purple;
+  }
+  .colors(dark) {
+    primary: black;
+    secondary: grey;
+  }
+}
+
+.navbar {
+  @colors: #theme.dark.navbar.colors(dark);
+  background: @colors[primary];
+  border: 1px solid @colors[secondary];
+}
+```
+
+编译为：
+
+```css
+.navbar {
+  background: black;
+  border: 1px solid grey;
+}
+```
+
+整个 mixin 调用可以是别名并称为变量调用。 如：
+
+```less
+#library() {
+  .rules() {
+    background: green;
+  }
+}
+.box {
+  @alias: #library.rules();
+  @alias();
+}
+```
+
+编译为：
+
+```css
+.box {
+  background: green;
+}
+```
+
+## 7. CSS 保护
+
+像Mixin 保护一样，保护也可以应用于 css 选择器，这是用于声明 mixin 然后立即调用它的语法糖。
+
+```less
+button when (@my-option = true) {
+  color: white;
+}
+```
+
+您还可以通过将此功能与 `＆` 功能相结合来实现 `if` 类型语句，从而允许您对多个保护进行分组。
+
+```less
+& when (@my-option = true) {
+  button {
+    color: white;
+  }
+  a {
+    color: blue;
+  }
+}
+```
+
+请注意，您还可以通过使用实际的 `if()` 函数和变量调用来实现类似的模式。 如：
+
+```less
+@dr: if(@my-option = true, {
+  button {
+    color: white;
+  }
+  a {
+    color: blue;
+  }
+});
+@dr();
+```
+
+## 8. 分离的规则集
+
+将一个规则集分配给变量
+
+分离的规则集是一组 css 属性、嵌套规则集、媒体声明、存储在变量中的任何其他内容。 您可以将其包含在规则集或其他结构中，并将其所有属性复制到那里。 您也可以将它用作 mixin 参数，并将其作为任何其他变量传递。
+
+简单示例：
+
+```less
+// declare detached ruleset
+@detached-ruleset: { background: red; }; // semi-colon is optional in 3.5.0+
+
+// use detached ruleset
+.top {
+    @detached-ruleset(); 
+}
+```
+
+编译为：
+
+```css
+.top {
+  background: red;
+}
+```
+
+调用分离的规则集时，必须加上小括号。
+
+当您想要定义一个在媒体查询中包装一段代码或不支持的浏览器类名抽象出来的 mixin 时，它非常有用。 规则集可以传递给 mixin，以便 mixin 可以包装内容，例如，
+
+```less
+.desktop-and-old-ie(@rules) {
+  @media screen and (min-width: 1200px) { @rules(); }
+  html.lt-ie9 &                         { @rules(); }
+}
+
+header {
+  background-color: blue;
+
+  .desktop-and-old-ie({
+    background-color: red;
+  });
+}
+```
+
+这里 `desktop-and-old-ie` mixin 定义了媒体查询和根类，以便您可以使用 mixin 来包装一段代码。 这将输出
+
+```css
+header {
+  background-color: blue;
+}
+@media screen and (min-width: 1200px) {
+  header {
+    background-color: red;
+  }
+}
+html.lt-ie9 header {
+  background-color: red;
+}
+```
+
+现在可以将规则集分配给变量或传递给 mixin，并且可以包含完整的 Less 功能集，例如，
+
+```less
+@my-ruleset: {
+    .my-selector {
+      background-color: black;
+    }
+  };
+```
