@@ -340,3 +340,63 @@ a:hover {
   background-image: url("custom.png");
 }
 ```
+
+### 3.1. 多个 `＆`
+
+`＆` 可能会在选择器中出现多次。 这使得可以重复引用父选择器而不重复其名称。
+
+```less
+.link {
+  & + & {
+    color: red;
+  }
+
+  & & {
+    color: green;
+  }
+
+  && {
+    color: blue;
+  }
+
+  &, &ish {
+    color: cyan;
+  }
+}
+```
+
+编译为：
+
+```css
+.link + .link {
+  color: red;
+}
+.link .link {
+  color: green;
+}
+.link.link {
+  color: blue;
+}
+.link, .linkish {
+  color: cyan;
+}
+```
+
+请注意 `＆` 表示所有父选择器（不仅仅是最近的祖先），因此以下示例：
+
+```less
+.grand {
+  .parent {
+    & > & {
+      color: red;
+    }
+}
+```
+
+编译为：
+
+```css
+.grand .parent > .grand .parent {
+  color: red;
+}
+```
