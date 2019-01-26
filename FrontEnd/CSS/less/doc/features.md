@@ -689,3 +689,33 @@ button:hover {
   }
 }
 ```
+
+### 6.5. `!important` 关键字
+
+在 mixin 调用之后使用 `!important` 关键字将其继承的所有属性标记为 `!important`：
+
+```less
+.foo (@bg: #f5f5f5, @color: #900) {
+  background: @bg;
+  color: @color;
+}
+.unimportant {
+  .foo();
+}
+.important {
+  .foo() !important;
+}
+```
+
+编译为：
+
+```css
+.unimportant {
+  background: #f5f5f5;
+  color: #900;
+}
+.important {
+  background: #f5f5f5 !important;
+  color: #900 !important;
+}
+```
