@@ -976,3 +976,120 @@ pre {
 ```
 
 现在如果我们用一个参数调用 `.mixin`，我们将得到第一个定义的输出，但是如果我们用两个参数调用它，我们将获得第二个定义，即 `@a` 淡化为 `@b`。
+
+### 6.8. 将 Mixins 作为函数使用
+
+从 mixin 调用中选择属性和变量
+
+属性/值 访问器。
+
+从 Less 3.5 开始，您可以使用属性/变量访问器以计算的 mixin 规则中选择一个值。 这可以允许您使用类似于函数的 mixin。
+
+```less
+.average(@x, @y) {
+  @result: ((@x + @y) / 2);
+}
+
+div {
+  // call a mixin and look up its "@return" value
+  padding: .average(16px, 50px)[@result];
+}
+```
+
+编译为：
+
+```css
+div {
+  padding: 33px;
+}
+```
+
+如果您有多个匹配的 mixin，则会计算和合并所有规则，并返回具有该标识符的最后一个匹配值。 这类似于 CSS中 的级联，它允许您“覆盖” mixin 值。
+
+```less
+// library.less
+#library() {
+  .mixin() {
+    prop: foo;
+  }
+}
+
+// customize.less
+@import "library";
+#library() {
+  .mixin() {
+    prop: bar;
+  }
+}
+
+.box {
+  my-value: #library.mixin[prop];
+}
+```
+
+输出为：
+
+```css
+.box {
+  my-value: bar;
+}
+```
+
+### 6.9. 递归 Mixins
+
+创建循环
+
+在 Less 中，mixin自我调用。 当与条件表达式和模式匹配结合使用时，这种递归 mixin 可用于创建各种迭代/循环结构。
+
+```less
+.loop(@counter) when (@counter > 0) {
+  .loop((@counter - 1));    // next iteration
+  width: (10px * @counter); // code for each iteration
+}
+
+div {
+  .loop(5); // launch the loop
+}
+```
+
+编译为：
+
+```css
+div {
+  width: 10px;
+  width: 20px;
+  width: 30px;
+  width: 40px;
+  width: 50px;
+}
+```
+
+使用递归循环生成 CSS 网格类的一般示例：
+
+```less
+.generate-columns(4);
+
+.generate-columns(@n, @i: 1) when (@i =< @n) {
+  .column-@{i} {
+    width: (@i * 100% / @n);
+  }
+  .generate-columns(@n, (@i + 1));
+}
+```
+
+编译为：
+
+```css
+.column-1 {
+  width: 25%;
+}
+.column-2 {
+  width: 50%;
+}
+.column-3 {
+  width: 75%;
+}
+.column-4 {
+  width: 100%;
+}
+```
