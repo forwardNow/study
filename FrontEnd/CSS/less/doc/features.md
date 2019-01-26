@@ -400,3 +400,31 @@ a:hover {
   color: red;
 }
 ```
+
+### 3.2. 改变选择器顺序
+
+将选择器添加到继承的（父）选择器可能很有用。 这可以通过将 `＆` 放置当前选择器之后来完成。例如，使用 Modernizr 时，您可能希望根据支持的功能指定不同的规则：
+
+```less
+.header {
+  .menu {
+    border-radius: 5px;
+    .no-borderradius & {
+      background-image: url('images/button-background.png');
+    }
+  }
+}
+```
+
+编译为：
+
+```css
+.header .menu {
+  border-radius: 5px;
+}
+.no-borderradius .header .menu {
+  background-image: url('images/button-background.png');
+}
+```
+
+在不支持圆角的情况下使用图片。
