@@ -1507,3 +1507,38 @@ Less 提供了 CSS `@import` 的几个扩展，以提供比使用外部文件更
 ### 9.9. optional
 
 使用 `@import (optional)` 仅允许在文件存在时导入文件。 没有 `optional` 关键字 Less 会抛出 FileError 并在导入无法找到的文件时停止编译。
+
+## 10. 插件
+
+添加自定义的函数。
+
+## 11. Map
+
+```less
+@sizes: {
+  mobile: 320px;
+  tablet: 768px;
+  desktop: 1024px;
+}
+
+.navbar {
+  display: block;
+
+  @media (min-width: @sizes[tablet]) {
+    display: inline-block;
+  }
+}
+```
+
+编译为：
+
+```css
+.navbar {
+  display: block;
+}
+@media (min-width: 768px) {
+  .navbar {
+    display: inline-block;
+  }
+}
+```
