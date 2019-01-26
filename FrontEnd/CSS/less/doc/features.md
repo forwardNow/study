@@ -263,3 +263,21 @@ body {
   background-color: blue;
 }
 ```
+
+### 2.6. 变量的默认值
+
+我们有时会收到默认变量的请求 - 只有在尚未设置变量时才使用变量。 此功能不是必需的，因为您可以通过后面的定义轻松覆盖变量。
+
+比如：
+
+```less
+// library
+@base-color: green;
+@dark-color: darken(@base-color, 10%);
+
+// use of library
+@import "library.less";
+@base-color: red;
+```
+
+由于惰性计算（延迟计算），这很好用 -  `@base-color` 被覆盖，`@dark-color` 是深红色。
