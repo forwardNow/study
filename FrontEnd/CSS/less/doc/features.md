@@ -789,7 +789,7 @@ pre {
 }
 ```
 
-### 6.7. 具有多个参数的 Mixins
+#### 6.6.1. 具有多个参数的 Mixins
 
 参数可以是分号或逗号分隔。 建议使用分号。 符号逗号具有双重含义：它可以解释为 mixin 参数分隔符或 css 列表分隔符。
 
@@ -830,7 +830,7 @@ pre {
 }
 ```
 
-### 6.8. 使用具名参数
+#### 6.6.2. 使用具名参数
 
 调用 mixin 可以通过其名称而不仅仅是位置来提供参数值。 任何参数都可以通过其名称指定，并且它们不必具有任何特殊顺序：
 
@@ -860,5 +860,51 @@ pre {
   color: #efca44;
   margin: 10px;
   padding: 40px;
+}
+```
+
+#### 6.6.3. `@arguments` 变量
+
+`@arguments` 在 mixins 中有一个特殊含义，它包含调用 mixin 时传递的所有参数。 如果您不想处理单个参数，这非常有用：
+
+```less
+.box-shadow(@x: 0; @y: 0; @blur: 1px; @color: #000) {
+  -webkit-box-shadow: @arguments;
+     -moz-box-shadow: @arguments;
+          box-shadow: @arguments;
+}
+.big-block {
+  .box-shadow(2px; 5px);
+}
+```
+
+编译为：
+
+```css
+.big-block {
+  -webkit-box-shadow: 2px 5px 1px #000;
+     -moz-box-shadow: 2px 5px 1px #000;
+          box-shadow: 2px 5px 1px #000;
+}
+```
+
+#### 6.6.4. 高级参数和 `@rest` 变量
+
+您可以使用 `...` 如果您希望 mixin 采用可变数量的参数。 在变量名之后使用它将把这些参数分配给变量。
+
+```less
+.mixin(...) {        // matches 0-N arguments
+.mixin() {           // matches exactly 0 arguments
+.mixin(@a: 1) {      // matches 0-1 arguments
+.mixin(@a: 1; ...) { // matches 0-N arguments
+.mixin(@a; ...) {    // matches 1-N arguments
+```
+
+此外：
+
+```less
+.mixin(@a; @rest...) {
+   // @rest is bound to arguments after @a
+   // @arguments is bound to all arguments
 }
 ```
