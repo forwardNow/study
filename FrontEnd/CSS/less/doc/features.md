@@ -428,3 +428,31 @@ a:hover {
 ```
 
 在不支持圆角的情况下使用图片。
+
+### 3.3. 组合相乘
+
+`＆` 还可用于在逗号分隔列表中生成选择器的每个可能的排列：
+
+```less
+p, a {
+  border-top: 2px dotted #366;
+  & + & {
+    border-top: 0;
+  }
+}
+```
+
+编译为：
+
+```css
+p,
+a {
+  border-top: 2px dotted #366;
+}
+p + p,
+p + a,
+a + p,
+a + a {
+  border-top: 0;
+}
+```
