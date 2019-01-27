@@ -88,3 +88,7 @@ React 文档假设您熟悉 JavaScript 语言中的编程。 您不必是专家�
 您也可以在 Twitter 上关注 [@reactjs 帐户](https://twitter.com/reactjs)，但如果您只阅读博客，则不会错过任何必要的内容。
 
 并非每个 React 版本都有自己的博客文章，但您可以在 [React 仓库的 CHANGELOG.md 文件](https://github.com/facebook/react/blob/master/CHANGELOG.md)中以及 [Releases](https://github.com/facebook/react) 页面上找到每个版本的详细更改日志。
+
+## 4. 版本化文档
+
+本文档始终反映最新的稳定版 React。 从 React 16 开始，您可以在单独的页面上找到旧版本的文档。 请注意，过去版本的文档在发布时保存快照，并且不会持续更新。
