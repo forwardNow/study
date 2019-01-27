@@ -1,0 +1,36 @@
+# React Router 4.0
+
+## 1. 安装
+
+插件：
+
+* `react-router`： 路由的基础包
+* `react-router-dom`： 基于基础包的封装，在浏览器端使用路由，只需要安装这个包即可。
+
+```shell
+npm install react-router-dom
+
+yar add react-router-dom
+```
+
+说明：
+
+* 4.0 版本中，不需要路由配置文件，一切皆组件
+* react-router：提供核心功能，如 Router、Route、Switch 等
+* react-router-dom：提供了 BrowserRouter、HashRouter、Route、Link、NavLink
+
+## 2. react-router-dom 的用法
+
+### 2.1. 核心用法
+
+* HashRouter、BrowserRouter
+* Route：path、exact、component、render
+* NavLink、Link
+* Switch
+* Redirect
+
+### 2.2. HashRouter 和 BrowserRouter 的区别
+
+HashRouter：基于 URL hash 的变化进行路由，如 `http://127.0.0.1/#/login`
+
+HashRouter：基于 HTML5 的 history 进行路由，如 `http://127.0.0.1/login`
