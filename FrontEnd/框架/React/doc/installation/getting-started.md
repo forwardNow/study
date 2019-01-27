@@ -92,3 +92,7 @@ React 文档假设您熟悉 JavaScript 语言中的编程。 您不必是专家�
 ## 4. 版本化文档
 
 本文档始终反映最新的稳定版 React。 从 React 16 开始，您可以在单独的页面上找到旧版本的文档。 请注意，过去版本的文档在发布时保存快照，并且不会持续更新。
+
+## 5. 有什么遗失？
+
+如果文档中缺少某些内容或者您发现某些内容令人困惑，请[提交文档存储库的问题](https://github.com/reactjs/reactjs.org/issues/new)以及您的改进建议或 [@reactjs 帐户](https://twitter.com/reactjs)的推文。 我们喜欢听到您的声音！
