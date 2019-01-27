@@ -80,3 +80,11 @@ React 文档假设您熟悉 JavaScript 语言中的编程。 您不必是专家�
 ### 2.11. 词汇表和常见问题
 
 [词汇表](https://reactjs.org/docs/glossary.html) 包含您在 React 文档中看到的最常用术语的概述。 还有一个 FAQ 部分专门针对常见主题的简短问题和答案，包括[创建 AJAX 请求](https://reactjs.org/docs/faq-ajax.html)、[组件状态](https://reactjs.org/docs/faq-state.html)、[文件结构](https://reactjs.org/docs/faq-structure.html)。
+
+## 3. 保持了解
+
+[React 博客](https://reactjs.org/blog/)是 React 团队更新的官方来源。 任何重要的内容，包括发行说明或弃用通知，都将首先发布在那里。
+
+您也可以在 Twitter 上关注 [@reactjs 帐户](https://twitter.com/reactjs)，但如果您只阅读博客，则不会错过任何必要的内容。
+
+并非每个 React 版本都有自己的博客文章，但您可以在 [React 仓库的 CHANGELOG.md 文件](https://github.com/facebook/react/blob/master/CHANGELOG.md)中以及 [Releases](https://github.com/facebook/react) 页面上找到每个版本的详细更改日志。
