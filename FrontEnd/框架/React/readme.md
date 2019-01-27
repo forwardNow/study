@@ -4,7 +4,8 @@
 
 * 官方文档（v16.7.0）
   * 安装
-    * [入门]((./doc/installation/getting-started.md))
+    * [入门](./doc/installation/getting-started.md)
+    * [将 React 添加到网站](./doc/installation/add-react-to-a-website.md)
 * 基础
   1. [介绍](./base/介绍.md)
   2. [React中的核心概念](./base/React中的核心概念.md)
