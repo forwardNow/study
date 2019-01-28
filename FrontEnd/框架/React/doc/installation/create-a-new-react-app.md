@@ -65,3 +65,15 @@ Create React App 不处理后端逻辑或数据库; 它只是创建一个前端�
 * [nwb](https://github.com/insin/nwb) 特别适合发布 npm 的 React 组件。 它也可以用于创建 React 应用程序。
 * [Parcel](https://parceljs.org/) 是一个快速，零配置的 Web 应用程序打包器，可与 React 配合使用。
 * [Razzle](https://github.com/jaredpalmer/razzle) 是一个服务器渲染框架，不需要任何配置，但提供比 Next.js 更多的灵活性。
+
+## 3. 从头开始创建工具链
+
+JavaScript 构建工具链通常包括：
+
+* 包管理器（package manager），例如 Yarn 或 npm。 它可以让您利用庞大的第三方软件包生态系统，轻松安装或更新它们。
+* 打包器（bundler），例如 webpack 或 Parcel。 它允许您编写模块化代码并将其打包到小包中以优化加载时间。
+* 像 Babel 这样的编译器（compiler）。 它允许您编写现代 JavaScript 代码，且仍可在旧版浏览器中使用的。
+
+如果您希望从头开始设置自己的 JavaScript 工具链，请查看本指南，重新创建一些 Create React App 功能。
+
+不要忘记确保您的自定义工具链已正确设置用于生产。
