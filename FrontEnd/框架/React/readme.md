@@ -10,6 +10,7 @@
     * [CDN 链接](./doc/installation/cdn-links.md)
   * 主要概念
     * [hello world](./doc/main/hello-world.md)
+    * [介绍 JSX](./doc/main/introducing-jsx.md)
 * 基础
   1. [介绍](./base/介绍.md)
   2. [React中的核心概念](./base/React中的核心概念.md)
