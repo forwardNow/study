@@ -6,6 +6,7 @@
   * 安装
     * [入门](./doc/installation/getting-started.md)
     * [将 React 添加到网站](./doc/installation/add-react-to-a-website.md)
+    * [创建一个新的 React 应用程序](./doc/installation/create-a-new-react-app.md)
 * 基础
   1. [介绍](./base/介绍.md)
   2. [React中的核心概念](./base/React中的核心概念.md)
