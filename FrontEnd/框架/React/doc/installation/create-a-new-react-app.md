@@ -50,3 +50,9 @@ Create React App 不处理后端逻辑或数据库; 它只是创建一个前端�
 [Next.js](https://nextjs.org/) 是一个流行的轻量级框架，用于使用 React 构建的静态和服务器呈现的应用程序。 它包括开箱即用的样式和路由解决方案，并假设您使用 Node.js 作为服务器环境。
 
 从[官方指南](https://nextjs.org/learn/)中学习 Next.js。
+
+### 2.3. Gatsby
+
+[Gatsby](https://www.gatsbyjs.org/) 是使用 React 创建静态网站的最佳方式。 它允许您使用 React 组件，但输出预渲染的 HTML 和 CSS 以确保最快的加载时间。
+
+从[官方指南](https://www.gatsbyjs.org/docs/)和[入门套件库](https://www.gatsbyjs.org/docs/gatsby-starters/)中学习 Gatsby。
