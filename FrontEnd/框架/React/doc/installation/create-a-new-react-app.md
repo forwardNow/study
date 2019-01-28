@@ -56,3 +56,12 @@ Create React App 不处理后端逻辑或数据库; 它只是创建一个前端�
 [Gatsby](https://www.gatsbyjs.org/) 是使用 React 创建静态网站的最佳方式。 它允许您使用 React 组件，但输出预渲染的 HTML 和 CSS 以确保最快的加载时间。
 
 从[官方指南](https://www.gatsbyjs.org/docs/)和[入门套件库](https://www.gatsbyjs.org/docs/gatsby-starters/)中学习 Gatsby。
+
+### 2.4. 更灵活的工具链
+
+以下工具链提供更多灵活性和选择。 我们向更有经验的用户推荐他们：
+
+* [Neutrino](https://neutrinojs.org/) 将 webpack 的强大功能与预设的简单性相结合，并包含 React 应用程序和 React 组件的预设。
+* [nwb](https://github.com/insin/nwb) 特别适合发布 npm 的 React 组件。 它也可以用于创建 React 应用程序。
+* [Parcel](https://parceljs.org/) 是一个快速，零配置的 Web 应用程序打包器，可与 React 配合使用。
+* [Razzle](https://github.com/jaredpalmer/razzle) 是一个服务器渲染框架，不需要任何配置，但提供比 Next.js 更多的灵活性。
