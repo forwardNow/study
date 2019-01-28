@@ -44,3 +44,9 @@ npm start
 Create React App 不处理后端逻辑或数据库; 它只是创建一个前端构建管道，因此您可以将它与任何您想要的后端一起使用。 在底层，它使用 [Babel](http://babeljs.io/) 和 [webpack](https://webpack.js.org/)，但你不需要了解它们。
 
 当您准备部署到生产环境时，运行 `npm run build` 将在 `build` 文件夹中创建应用程序的优化版本。 您可以从 [README](https://github.com/facebookincubator/create-react-app#create-react-app-) 和[用户指南](https://github.com/facebookincubator/create-react-app/blob/master/packages/react-scripts/template/README.md#table-of-contents)中了解有关 Create React App 的更多信息。
+
+### 2.2. Next.js
+
+[Next.js](https://nextjs.org/) 是一个流行的轻量级框架，用于使用 React 构建的静态和服务器呈现的应用程序。 它包括开箱即用的样式和路由解决方案，并假设您使用 Node.js 作为服务器环境。
+
+从[官方指南](https://nextjs.org/learn/)中学习 Next.js。
