@@ -31,3 +31,6 @@ React 是一个 JavaScript 库，因此我们假设您对 JavaScript 语言有�
 
 >注意：本指南偶尔会使用示例中的一些较新的 JavaScript 语法。 如果您在过去几年中没有使用过 JavaScript，那么[这三点](https://gist.github.com/gaearon/683e676101005de0add59e8bb345340c)应该可以帮到您。
 
+## 3. 让我们开始吧！
+
+继续向下滚动，您将在网站页脚之前找到指南下一章的链接。
