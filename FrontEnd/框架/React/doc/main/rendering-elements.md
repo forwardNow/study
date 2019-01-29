@@ -62,3 +62,15 @@ setInterval(tick, 1000);
 它每秒从 `setInterval()` 的回调中调用 `ReactDOM.render()` 。
 
 >注意：实际上，大多数 React 应用程序只调用一次 `ReactDOM.render()`。 在接下来的部分中，我们将了解如何将此类代码封装到有状态的组件中。我们建议您不要跳过任何主题，因为它们是相互依赖的。
+
+## 3. React 仅更新必要的内容
+
+React DOM 将元素及其子元素与前一元素进行比较，并仅应用必要的 DOM 更新，使 DOM 呈现你期望的状态。
+
+您可以通过使用浏览器工具检查最后一个示例来验证：
+
+![https://reactjs.org/granular-dom-updates-c158617ed7cc0eac8f58330e49e48224.gif](https://reactjs.org/granular-dom-updates-c158617ed7cc0eac8f58330e49e48224.gif)
+
+即使我们在每个 tick 上创建描述整个 UI 树的元素，但只有内容已更改的文本节点才会被React DOM 更新。
+
+在我们的经验中，考虑 UI 在任何给定的时刻应该呈现，而不是随着时间的推移去如何改变它，可以消除一整类错误。
