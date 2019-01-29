@@ -12,6 +12,7 @@
     * [hello world](./doc/main/hello-world.md)
     * [介绍 JSX](./doc/main/introducing-jsx.md)
     * [渲染元素](./doc/main/rendering-elements.md)
+    * [组件和属性](./doc/main/components-and-props.md)
 * 基础
   1. [介绍](./base/介绍.md)
   2. [React中的核心概念](./base/React中的核心概念.md)
