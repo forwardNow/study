@@ -74,3 +74,34 @@ ReactDOM.render(
 >React 将以小写字母开头的组件视为 DOM 标记。 例如，`<div />` 表示 HTML div 标记，但 `<Welcome />` 表示组件，并且要求 `Welcome` 在存在当前作用域内。
 >
 >您可以在[此处](https://reactjs.org/docs/jsx-in-depth.html#user-defined-components-must-be-capitalized)阅读有关此约定背后的原因的更多信息。
+
+## 3. 组合组件
+
+组件可以引用其他组件。 这使我们可以对任意级别的细节使用相同的组件抽象。 按钮、表单、对话框、屏幕：在 React 应用程序中，所有这些通常表示为组件。
+
+例如，我们可以创建一个多次呈现 `Welcome` 的 `App` 组件：
+
+```jsx
+function Welcome(props) {
+  return <h1>Hello, {props.name}</h1>;
+}
+
+function App() {
+  return (
+    <div>
+      <Welcome name="Sara" />
+      <Welcome name="Cahal" />
+      <Welcome name="Edite" />
+    </div>
+  );
+}
+
+ReactDOM.render(
+  <App />,
+  document.getElementById('root')
+);
+```
+
+[在 CodePen 上试一试](https://reactjs.org/redirect-to-codepen/components-and-props/composing-components)
+
+通常，新的 React 应用程序在最顶层有一个 `App` 组件。 但是，如果将 React 集成到现有应用程序中，则可以使用像 `Button` 这样的小组件自下而上开始逐步应用到视图层次结构的顶部。
