@@ -219,3 +219,29 @@ function Comment(props) {
 [在 CodePen 上试一试](https://reactjs.org/redirect-to-codepen/components-and-props/extracting-components-continued)
 
 提取组件起初可能看起来像是笨拙的工作，但是在更大的应用程序中使用可重用组件可以获得回报。 一个好的经验法则是，如果您的 UI 的一部分被多次使用（`Button`, `Panel`, `Avatar`），或者它自身足够复杂（`App`，`FeedStory`，`Comment`），那么让它成为可重用的组件是一个很好的选择。。
+
+## 5. props 是只读的
+
+无论是将组件声明为函数还是类，它都不能修改自己的 props。 考虑这个 `sum` 函数：
+
+```jsx
+function sum(a, b) {
+  return a + b;
+}
+```
+
+这些函数称为 [“Pure function”](https://en.wikipedia.org/wiki/Pure_function)，因为它们不会尝试更改其输入，并且始终为相同的输入返回相同的结果。
+
+相反，这个函数是不纯的，因为它改变了自己的输入：
+
+```jsx
+function withdraw(account, amount) {
+  account.total -= amount;
+}
+```
+
+React 非常灵活，但它有一个严格的规则：
+
+**所有 React 组件必须在其 props 方面表现得像纯粹的函数一样**。
+
+当然，应用程序 UI 是动态的，并随着时间的推移而变化。 在下一节中，我们将介绍一种新的“State”概念。 State 允许 React 组件随着时间的推移更改其输出以响应用户操作、网络响应、其他任何内容，而不违反此规则。
