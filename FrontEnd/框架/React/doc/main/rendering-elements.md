@@ -34,3 +34,31 @@ ReactDOM.render(element, document.getElementById('root'));
 在 [CodePen](https://reactjs.org/redirect-to-codepen/rendering-elements/render-an-element) 上试一试
 
 它在页面上显示“Hello，world”。
+
+## 2. 更新已渲染的元素
+
+React 元素是不可变的。 创建元素后，您无法更改其子元素或属性。 元素就像电影中的单个帧：它代表特定时间点的 UI。
+
+根据我们迄今为止的知识，更新 UI 的唯一方法是创建一个新元素，并将其传递给 `ReactDOM.render()`。
+
+考虑这个滴答作响的时钟示例：
+
+```jsx
+function tick() {
+  const element = (
+    <div>
+      <h1>Hello, world!</h1>
+      <h2>It is {new Date().toLocaleTimeString()}.</h2>
+    </div>
+  );
+  ReactDOM.render(element, document.getElementById('root'));
+}
+
+setInterval(tick, 1000);
+```
+
+[在 CodePen 上试一试](https://reactjs.org/redirect-to-codepen/rendering-elements/update-rendered-element)
+
+它每秒从 `setInterval()` 的回调中调用 `ReactDOM.render()` 。
+
+>注意：实际上，大多数 React 应用程序只调用一次 `ReactDOM.render()`。 在接下来的部分中，我们将了解如何将此类代码封装到有状态的组件中。我们建议您不要跳过任何主题，因为它们是相互依赖的。
