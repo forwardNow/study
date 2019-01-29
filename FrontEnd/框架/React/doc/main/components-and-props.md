@@ -105,3 +105,117 @@ ReactDOM.render(
 [在 CodePen 上试一试](https://reactjs.org/redirect-to-codepen/components-and-props/composing-components)
 
 通常，新的 React 应用程序在最顶层有一个 `App` 组件。 但是，如果将 React 集成到现有应用程序中，则可以使用像 `Button` 这样的小组件自下而上开始逐步应用到视图层次结构的顶部。
+
+## 4. 提取组件
+
+不要害怕将组件拆分成更小的组件。
+
+例如，考虑这个 `Comment` 组件：
+
+```jsx
+function Comment(props) {
+  return (
+    <div className="Comment">
+      <div className="UserInfo">
+        <img className="Avatar"
+          src={props.author.avatarUrl}
+          alt={props.author.name}
+        />
+        <div className="UserInfo-name">
+          {props.author.name}
+        </div>
+      </div>
+      <div className="Comment-text">
+        {props.text}
+      </div>
+      <div className="Comment-date">
+        {formatDate(props.date)}
+      </div>
+    </div>
+  );
+}
+```
+
+[在 CodePen 上试一试](https://reactjs.org/redirect-to-codepen/components-and-props/extracting-components)
+
+它通过 props 接收 `author`（对象）、`text`（字符串）、`date`（日期），并描述社交媒体网站上的评论。
+
+由于嵌套，这个组件可能很难改变，并且很难重用它的各个部分。 让我们从中提取一些组件。
+
+首先，我们将提取 `Avatar`：
+
+```jsx
+function Avatar(props) {
+  return (
+    <img className="Avatar"
+      src={props.user.avatarUrl}
+      alt={props.user.name}
+    />
+  );
+}
+```
+
+`Avatar` 不需要知道它将在评论中渲染的。 这就是为什么我们给它的 props 一个更通用的名称：`user` 而不是 `author`。
+
+我们建议从组件自己的角度命名 props，而不是使用它的上下文。
+
+我们现在可以简化一下 `Comment` 了：
+
+```jsx
+function Comment(props) {
+  return (
+    <div className="Comment">
+      <div className="UserInfo">
+        {/* 在这里放入 Avatar 组件 */}
+        <Avatar user={props.author} />
+        <div className="UserInfo-name">
+          {props.author.name}
+        </div>
+      </div>
+      <div className="Comment-text">
+        {props.text}
+      </div>
+      <div className="Comment-date">
+        {formatDate(props.date)}
+      </div>
+    </div>
+  );
+}
+```
+
+接下来，我们将提取一个 `UserInfo` 组件，该组件在用户名旁边渲染一个 `Avatar`：
+
+```jsx
+function UserInfo(props) {
+  return (
+    <div className="UserInfo">
+      <Avatar user={props.user} />
+      <div className="UserInfo-name">
+        {props.user.name}
+      </div>
+    </div>
+  );
+}
+```
+
+这让我们可以进一步简化 `Comment`：
+
+```jsx
+function Comment(props) {
+  return (
+    <div className="Comment">
+      <UserInfo user={props.author} />
+      <div className="Comment-text">
+        {props.text}
+      </div>
+      <div className="Comment-date">
+        {formatDate(props.date)}
+      </div>
+    </div>
+  );
+}
+```
+
+[在 CodePen 上试一试](https://reactjs.org/redirect-to-codepen/components-and-props/extracting-components-continued)
+
+提取组件起初可能看起来像是笨拙的工作，但是在更大的应用程序中使用可重用组件可以获得回报。 一个好的经验法则是，如果您的 UI 的一部分被多次使用（`Button`, `Panel`, `Avatar`），或者它自身足够复杂（`App`，`FeedStory`，`Comment`），那么让它成为可重用的组件是一个很好的选择。。
