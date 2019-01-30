@@ -94,3 +94,84 @@ class Clock extends React.Component {
 `Clock` 现在被定义为一个类而不是一个函数。
 
 每次更新发生时都会调用 `render` 方法，但只要我们将 `<Clock />` 渲染到同一个 DOM 节点中，就只会使用一个 `Clock` 类的实例。 这使我们可以使用其他功能，如本地状态和生命周期方法。
+
+## 2. 将本地状态添加到类中
+
+我们将通过三个步骤将 `date` 从 props 移至 state：
+
+1. 在 `render()` 方法中，将 `this.props.date` 替换为 `this.state.date`：
+
+    ```jsx
+    class Clock extends React.Component {
+      render() {
+        return (
+          <div>
+            <h1>Hello, world!</h1>
+            <h2>It is {this.state.date.toLocaleTimeString()}.</h2>
+          </div>
+        );
+      }
+    }
+    ```
+
+2. 添加一个类构造函数，用于指定初始 `this.state`：
+
+    ```jsx
+    class Clock extends React.Component {
+      // 注意我们如何将 props 传递给基础构造函数
+      // 类组件应始终使用 props 调用基础构造函数。
+      constructor(props) {
+        super(props);
+        this.state = {date: new Date()};
+      }
+
+      render() {
+        return (
+          <div>
+            <h1>Hello, world!</h1>
+            <h2>It is {this.state.date.toLocaleTimeString()}.</h2>
+          </div>
+        );
+      }
+    }
+    ```
+
+3. 从 `<Clock />` 元素中删除 `date` 属性：
+
+    ```jsx
+    ReactDOM.render(
+      <Clock />,
+      document.getElementById('root')
+    );
+    ```
+
+稍后我们将定时器代码添加回组件本身。
+
+结果如下：
+
+```jsx
+class Clock extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {date: new Date()};
+  }
+
+  render() {
+    return (
+      <div>
+        <h1>Hello, world!</h1>
+        <h2>It is {this.state.date.toLocaleTimeString()}.</h2>
+      </div>
+    );
+  }
+}
+
+ReactDOM.render(
+  <Clock />,
+  document.getElementById('root')
+);
+```
+
+[在 CodePen 上试一试](http://codepen.io/gaearon/pen/KgQpJd?editors=0010)
+
+接下来，我们将使 `Clock` 设置自己的定时器并每秒更新一次。
