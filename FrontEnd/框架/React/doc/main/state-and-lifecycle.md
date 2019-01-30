@@ -175,3 +175,120 @@ ReactDOM.render(
 [在 CodePen 上试一试](http://codepen.io/gaearon/pen/KgQpJd?editors=0010)
 
 接下来，我们将使 `Clock` 设置自己的定时器并每秒更新一次。
+
+## 3. 将生命周期方法添加到类中
+
+在具有许多组件的应用程序中，释放组件在销毁时所占用的资源非常重要。
+
+我们想在第一次将 `Clock` 渲染成 DOM 时设置一个计时器。 这在 React 中称为“mounting”（安装/挂载）。
+
+我们还希望在删除 `Clock` 生成的 DOM 时清除该计时器。 这在 React 中称为“unmounting”（卸载）。
+
+我们可以在组件类上声明特殊方法，以便在组件安装和卸载时运行一些代码：
+
+```jsx
+class Clock extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {date: new Date()};
+  }
+
+  componentDidMount() {
+
+  }
+
+  componentWillUnmount() {
+
+  }
+
+  render() {
+    return (
+      <div>
+        <h1>Hello, world!</h1>
+        <h2>It is {this.state.date.toLocaleTimeString()}.</h2>
+      </div>
+    );
+  }
+}
+```
+
+这些方法称为“生命周期方法”。
+
+`componentDidMount()` 方法在将组件输出渲染成 DOM 之后运行。 这是设置计时器的好地方：
+
+```jsx
+componentDidMount() {
+  this.timerID = setInterval(
+    () => this.tick(),
+    1000
+  );
+}
+```
+
+请注意我们如何在 `this` 保存计时器 ID。
+
+由于 `this.props` 是由 React 本身设置的，而 `this.state` 具有特殊含义，但如果您需要存储不参与数据流的内容（如计时器 ID），您可以手动向该类添加其他字段）。
+
+我们将在 `componentWillUnmount()` 生命周期方法中拆除计时器：
+
+```jsx
+componentWillUnmount() {
+  clearInterval(this.timerID);
+}
+```
+
+最后，我们将实现一个名为 `tick()` 的方法，`Clock` 组件将每秒运行一次。
+
+它将使用 `this.setState()` 来安排组件本地状态的更新：
+
+```jsx
+class Clock extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {date: new Date()};
+  }
+
+  componentDidMount() {
+    this.timerID = setInterval(
+      () => this.tick(),
+      1000
+    );
+  }
+
+  componentWillUnmount() {
+    clearInterval(this.timerID);
+  }
+
+  tick() {
+    this.setState({
+      date: new Date()
+    });
+  }
+
+  render() {
+    return (
+      <div>
+        <h1>Hello, world!</h1>
+        <h2>It is {this.state.date.toLocaleTimeString()}.</h2>
+      </div>
+    );
+  }
+}
+
+ReactDOM.render(
+  <Clock />,
+  document.getElementById('root')
+);
+```
+
+[在 CodePen 上试一试](http://codepen.io/gaearon/pen/amqdNA?editors=0010)
+
+现在时钟每秒都会滴答作响。
+
+让我们快速回顾一下发生了什么以及调用这些方法的顺序：
+
+1. 当 `<Clock />` 传递给 `ReactDOM.render()` 时，React 调用 `Clock` 组件的构造函数。 由于 `Clock` 需要显示当前时间，因此它会使用包含当前时间的对象初始化 `this.state`。 我们稍后会更新这个状态。
+2. 然后 React 调用 `Clock` 组件的 `render()` 方法。 这就是 React 如何了解应该在屏幕上显示的内容。 React 然后更新 DOM 以匹配 `Clock` 的渲染输出。
+3. 当 `Clock` 的输出插入 DOM 时，React 调用 `componentDidMount()` 生命周期方法。 在其中，`Clock` 组件要求浏览器设置一个计时器，以便每秒调用一次组件的 `tick()` 方法。
+4. 浏览器每秒调用 `tick()` 方法。 在其中，`Clock` 组件通过使用包含当前时间的对象调用 `setState()` 来调度 UI 更新。 感谢 `setState()` 调用，React 知道状态已经改变，并再次调用 `render()` 方法来了解屏幕上应该是什么。 这次，`render()` 方法中的 `this.state.date` 将不同，因此渲染输出将包含更新的时间。 React 相应地更新 DOM。
+5. 如果从 DOM 中删除了 `Clock` 组件，则 React 会调用 `componentWillUnmount()` 生命周期方法，以便停止计时器。
