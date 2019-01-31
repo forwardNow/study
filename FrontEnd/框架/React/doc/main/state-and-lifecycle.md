@@ -353,3 +353,35 @@ this.setState(function(state, props) {
 ### 4.3. 合并 state 更新
 
 当您调用 `setState()` 时，React 会将您提供的对象合并到当前状态。
+
+例如，您的 state 可能包含几个独立变量：
+
+```jsx
+constructor(props) {
+  super(props);
+  this.state = {
+    posts: [],
+    comments: []
+  };
+}
+```
+
+然后，您可以使用单独的 `setState()` 调用独立更新它们：
+
+```jsx
+componentDidMount() {
+  fetchPosts().then(response => {
+    this.setState({
+      posts: response.posts
+    });
+  });
+
+  fetchComments().then(response => {
+    this.setState({
+      comments: response.comments
+    });
+  });
+}
+```
+
+是浅合并，因此 `this.setState（{comments}）` 使 `this.state.posts` 保持不变，但完全取代 `this.state.comments` 。
