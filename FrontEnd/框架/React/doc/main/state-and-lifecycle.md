@@ -385,3 +385,60 @@ componentDidMount() {
 ```
 
 是浅合并，因此 `this.setState（{comments}）` 使 `this.state.posts` 保持不变，但完全取代 `this.state.comments` 。
+
+## 5. 向下的数据流
+
+父组件或子组件都不能知道某个组件是有状态还是无状态，并且它们不应该关心它是被定义为函数还是类。
+
+这就是 state 通常被称为本地或封装的原因。 除了拥有它的组件可以设置它，其他的任何组件都不能访问它。
+
+组件可以选择将其 state 作为 props 传递给其子组件：
+
+```jsx
+<h2>It is {this.state.date.toLocaleTimeString()}.</h2>
+```
+
+这也适用于用户定义的组件：
+
+```jsx
+<FormattedDate date={this.state.date} />
+```
+
+`FormattedDate` 组件将在其 props 中接收 `date`，并且不知道它是来自 `Clock` 的状态还是 `props`，还是手动输入：
+
+```jsx
+function FormattedDate(props) {
+  return <h2>It is {props.date.toLocaleTimeString()}.</h2>;
+}
+```
+
+[在 CodePen 上试一试](http://codepen.io/gaearon/pen/zKRqNB?editors=0010)
+
+这通常称为“自上而下”或“单向”数据流。 任何 state 始终由某个特定组件拥有，并且从该 state 派生的任何数据或 UI 只能影响树中“低于”它们的组件。
+
+如果您将组件树想象为 props 的瀑布，每个组件的 state 就像一个额外的水源，它在任意点连接瀑布，但也向下流动。
+
+为了表明所有组件都是真正隔离的，我们可以创建一个呈现三个 `<Clock>` 的 `App` 组件：
+
+```jsx
+function App() {
+  return (
+    <div>
+      <Clock />
+      <Clock />
+      <Clock />
+    </div>
+  );
+}
+
+ReactDOM.render(
+  <App />,
+  document.getElementById('root')
+);
+```
+
+[在 CodePen 上试一试](http://codepen.io/gaearon/pen/vXdGmd?editors=0010)
+
+每个 `Clock` 都设置自己的计时器并独立更新。
+
+在 React 应用程序中，组件是有状态还是无状态被视为组件的实现细节，可能随时间而变化。 您可以在有状态组件中使用无状态组件，反之亦然。
