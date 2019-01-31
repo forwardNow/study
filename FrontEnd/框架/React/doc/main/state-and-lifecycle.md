@@ -292,3 +292,64 @@ ReactDOM.render(
 3. 当 `Clock` 的输出插入 DOM 时，React 调用 `componentDidMount()` 生命周期方法。 在其中，`Clock` 组件要求浏览器设置一个计时器，以便每秒调用一次组件的 `tick()` 方法。
 4. 浏览器每秒调用 `tick()` 方法。 在其中，`Clock` 组件通过使用包含当前时间的对象调用 `setState()` 来调度 UI 更新。 感谢 `setState()` 调用，React 知道状态已经改变，并再次调用 `render()` 方法来了解屏幕上应该是什么。 这次，`render()` 方法中的 `this.state.date` 将不同，因此渲染输出将包含更新的时间。 React 相应地更新 DOM。
 5. 如果从 DOM 中删除了 `Clock` 组件，则 React 会调用 `componentWillUnmount()` 生命周期方法，以便停止计时器。
+
+## 4. 正确使用 state
+
+关于 `setState()`，您应该了解三件事。
+
+### 4.1. 不要直接修改 state
+
+例如，这不会重新渲染组件：
+
+```jsx
+// Wrong
+this.state.comment = 'Hello';
+```
+
+相反，使用 `setState()`：
+
+```jsx
+// Correct
+this.setState({comment: 'Hello'});
+```
+
+您可以给 `this.state` 直接赋值的唯一位置是构造函数。
+
+### 4.2. state 更新可能是异步的
+
+React 可以将多个 `setState()` 调用批处理为单个更新以提高性能。
+
+因为 `this.props` 和 `this.state` 可能是异步更新，所以不应该依赖它们的值来计算下一个状态。
+
+例如，此代码可能无法更新计数器：
+
+```jsx
+// Wrong
+this.setState({
+  counter: this.state.counter + this.props.increment,
+});
+```
+
+要修复它，请使用第二种形式的 `setState()` 接受函数而不是对象。 该函数将接收先前的状态作为第一个参数，并将更新作为第二个参数应用于 props：
+
+```jsx
+// Correct
+this.setState((state, props) => ({
+  counter: state.counter + props.increment
+}));
+```
+
+我们使用了上面的箭头函数，但它也适用于常规函数：
+
+```jsx
+// Correct
+this.setState(function(state, props) {
+  return {
+    counter: state.counter + props.increment
+  };
+});
+```
+
+### 4.3. 合并 state 更新
+
+当您调用 `setState()` 时，React 会将您提供的对象合并到当前状态。
