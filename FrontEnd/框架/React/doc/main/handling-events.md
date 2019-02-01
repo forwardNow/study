@@ -129,3 +129,16 @@ class LoggingButton extends React.Component {
 ```
 
 此语法的问题是每次 `LoggingButton` 渲染时都会创建不同的回调。 在大多数情况下，这没有问题。 但是，如果将此回调作为 prop 传递给较低层级组件，则这些组件可能会进行额外的重新渲染。 我们通常建议在构造函数中使用绑定或使用类字段语法来避免这种性能问题。
+
+## 1. 将参数传递给事件处理程序
+
+在循环内部，通常需要将额外的参数传递给事件处理程序。 例如，如果 `id` 是行 ID，则以下任何一个都可以工作：
+
+```jsx
+<button onClick={(e) => this.deleteRow(id, e)}>Delete Row</button>
+<button onClick={this.deleteRow.bind(this, id)}>Delete Row</button>
+```
+
+以上两行是等效的，分别使用箭头函数和 `Function.prototype.bind`。
+
+在这两种情况下，表示 React 事件的 `e` 参数将作为 ID 之后的第二个参数传递。 使用箭头函数，我们必须显式传递它，但是使用 `bind`，任何其他参数都会自动转发。
