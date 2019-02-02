@@ -142,4 +142,38 @@ ReactDOM.render(
 
 因此，如果条件为 `true`，则 `&&` 之后的元素将出现在输出中。 如果是 `false`，React 将忽略并跳过它。
 
-## 内联 If-Else 与条件运算符
+## 3. 内联 If-Else 与条件运算符
+
+有条件地呈现内联元素的另一种方法是使用 JavaScript 条件运算符 [`condition ? true : false`](https://developer.mozilla.org/en/docs/Web/JavaScript/Reference/Operators/Conditional_Operator)。
+
+在下面的示例中，我们使用它来有条件地渲染一小块文本。
+
+```jsx
+render() {
+  const isLoggedIn = this.state.isLoggedIn;
+  return (
+    <div>
+      The user is <b>{isLoggedIn ? 'currently' : 'not'}</b> logged in.
+    </div>
+  );
+}
+```
+
+它也可以用于更大的表达式，尽管它不太明显发生了什么：
+
+```jsx
+render() {
+  const isLoggedIn = this.state.isLoggedIn;
+  return (
+    <div>
+      {isLoggedIn ? (
+        <LogoutButton onClick={this.handleLogoutClick} />
+      ) : (
+        <LoginButton onClick={this.handleLoginClick} />
+      )}
+    </div>
+  );
+}
+```
+
+就像在 JavaScript 中一样，您可以根据您和您的团队认为更具可读性的方式来进行条件渲染。 还要记住，只要条件变得过于复杂，就可能是[提取组件](https://reactjs.org/docs/components-and-props.html#extracting-components)的好时机。
