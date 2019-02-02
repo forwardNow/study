@@ -177,3 +177,57 @@ render() {
 ```
 
 就像在 JavaScript 中一样，您可以根据您和您的团队认为更具可读性的方式来进行条件渲染。 还要记住，只要条件变得过于复杂，就可能是[提取组件](https://reactjs.org/docs/components-and-props.html#extracting-components)的好时机。
+
+## 4. 防止组件渲染
+
+在极少数情况下，您可能希望组件隐藏自身，即使它是由另一个组件渲染的。 要执行此操作，请返回 `null` 而不是其渲染输出。
+
+在下面的示例中，将根据名为 `warn` 的 prop 的值呈现 `<WarningBanner />`。 如果 prop 的值为 `false`，则组件不会呈现：
+
+```jsx
+function WarningBanner(props) {
+  if (!props.warn) {
+    return null;
+  }
+
+  return (
+    <div className="warning">
+      Warning!
+    </div>
+  );
+}
+
+class Page extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {showWarning: true};
+    this.handleToggleClick = this.handleToggleClick.bind(this);
+  }
+
+  handleToggleClick() {
+    this.setState(state => ({
+      showWarning: !state.showWarning
+    }));
+  }
+
+  render() {
+    return (
+      <div>
+        <WarningBanner warn={this.state.showWarning} />
+        <button onClick={this.handleToggleClick}>
+          {this.state.showWarning ? 'Hide' : 'Show'}
+        </button>
+      </div>
+    );
+  }
+}
+
+ReactDOM.render(
+  <Page />,
+  document.getElementById('root')
+);
+```
+
+[在 CodePen 上试一试](https://codepen.io/gaearon/pen/Xjoqwm?editors=0010)
+
+从组件的 `render` 方法返回 `null` 不会影响组件生命周期方法的触发。 例如，仍将调用 `componentDidUpdate`。
