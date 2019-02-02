@@ -89,3 +89,42 @@ ReactDOM.render(
 ```
 
 [在 CodePen 上试一试](https://codepen.io/gaearon/pen/jrXYRR?editors=0011)
+
+## 3. Keys
+
+key 帮助 React 识别哪些项目已更改、已添加、已删除。 应该为数组内部的元素赋予 key，以使元素具有稳定的标识：
+
+```jsx
+const numbers = [1, 2, 3, 4, 5];
+const listItems = numbers.map((number) =>
+  <li key={number.toString()}>
+    {number}
+  </li>
+);
+```
+
+选择 key 的最佳方法是使用在其兄弟姐妹中唯一标识列表项的字符串。 大多数情况下，您会使用数据中的 ID 作为 key：
+
+```jsx
+const todoItems = todos.map((todo) =>
+  <li key={todo.id}>
+    {todo.text}
+  </li>
+);
+```
+
+当您没有渲染项目的稳定 ID 时，您的最后的手段是使用项目索引作为 key：
+
+```jsx
+const todoItems = todos.map((todo, index) =>
+  // Only do this if items have no stable IDs
+  <li key={index}>
+    {todo.text}
+  </li>
+);
+```
+
+如果项目的顺序可能发生变化，我们不建议使用索引 key。 这可能会对性能产生负面影响，并可能导致组件状态出现问题。 查看 Robin Pokorny 的文章，[深入解释使用索引作为 key 的负面影响](https://medium.com/@robinpokorny/index-as-a-key-is-an-anti-pattern-e0349aece318)。 如果您选择不为列表项分配显式 key，则 React 将默认使用索引作为键。
+
+这里有一个[深入的解释](https://reactjs.org/docs/reconciliation.html#recursing-on-children)，如果你有兴趣了解更多，为什么需要 key。
+
