@@ -145,3 +145,174 @@ function tryConvert(temperature, convert) {
 tryConvert('abc', toCelsius);      // ''
 tryConvert('10.22', toFahrenheit): // '50.396'
 ```
+
+## 3. 提升状态
+
+目前，两个 `TemperatureInput` 组件都独立地将其值保持在本地状态：
+
+```jsx
+class TemperatureInput extends React.Component {
+  constructor(props) {
+    super(props);
+    this.handleChange = this.handleChange.bind(this);
+    this.state = {temperature: ''};
+  }
+
+  handleChange(e) {
+    this.setState({temperature: e.target.value});
+  }
+
+  render() {
+    const temperature = this.state.temperature;
+    // ...  
+```
+
+但是，我们希望这两个输入彼此同步。 当我们更新摄氏度输入时，华氏度输入应反映转换后的温度，反之亦然。
+
+在 React 中，共享状态是通过将其移动到需要它的组件的最近共同祖先来完成的。 这称为“提升状态”。 我们将从 `TemperatureInput` 中删除本地状态，然后将其移动到 `Calculator` 中。
+
+如果 `Calculator` 拥有共享状态，它将成为两个输入中当前温度的“真实来源”。 它可以指示它们两者具有彼此一致的值。 由于两个 `TemperatureInput` 组件的 props 都来自同一个父 `Calculator` 组件，因此这两个输入将始终保持同步。
+
+让我们一步一步看看它是如何工作的。
+
+首先，我们将使用 `TemperatureInput` 组件中的 `this.props.temperature` 替换 `this.state.temperature`。 现在，让我们假装 `this.props.temperature` 已经存在，虽然我们将来需要从计算器传递它：
+
+```jsx
+render() {
+  // Before: const temperature = this.state.temperature;
+  const temperature = this.props.temperature;
+  // ...
+```
+
+我们知道 pros 是只读的。 当 `temperature` 存在于本地状态时，`TemperatureInput` 可以调用 `this.setState()` 来更改它。 但是，现在 `temperature` 来自父级的 prop，`TemperatureInput` 无法控制它。
+
+在 React 中，通常通过使组件“受控”来解决。 就像 DOM `<input>` 接受 `value` 和 `onChange` prop 一样，自定义 `TemperatureInput` 也可以接受来自其父 `Calculator` 的 `temperature` 和 `onTemperatureChange` prop。
+
+现在，当 `TemperatureInput` 想要更新其温度时，它会调用 `this.props.onTemperatureChange`：
+
+```jsx
+  handleChange(e) {
+    // Before: this.setState({temperature: e.target.value});
+    this.props.onTemperatureChange(e.target.value);
+    // ...
+```
+
+>注意：
+>
+>自定义组件中的 `temperature` 或 `onTemperatureChange` prop 名称没有特殊含义。 我们可以将它们称为其他任何东西，例如将它们命名为 `value` 和 `onChange`，这是一种常见的约定。
+
+`onTemperatureChange` prop 将与父 `Calculator` 组件的 `temperature` prop 一起提供。 它将通过修改自己的本地状态来处理更改，从而使用新值重新渲染两个输入。 我们将很快研究新的 `Calculator` 实现。
+
+在深入研究 `Calculator` 中的更改之前，让我们回顾一下对 `TemperatureInput` 组件的更改。 我们从中删除了本地状态，而不是读取 `this.state.temperature`，我们现在读取 `this.props.temperature`。 我们现在调用 `this.props.onTemperatureChange()`，而不是在我们想要进行更改时调用 `this.setState()`，它将由 `Calculator` 提供：
+
+```jsx
+class TemperatureInput extends React.Component {
+  constructor(props) {
+    super(props);
+    this.handleChange = this.handleChange.bind(this);
+  }
+
+  handleChange(e) {
+    this.props.onTemperatureChange(e.target.value);
+  }
+
+  render() {
+    const temperature = this.props.temperature;
+    const scale = this.props.scale;
+    return (
+      <fieldset>
+        <legend>Enter temperature in {scaleNames[scale]}:</legend>
+        <input value={temperature}
+               onChange={this.handleChange} />
+      </fieldset>
+    );
+  }
+}
+```
+
+现在让我们转向 `Calculator` 组件。
+
+我们将当前输入的 `temperature` 和 `scale` 存储在本地状态。 这是我们从输入中“提升”的状态，它将成为两者的“真理来源”。 它是我们为了渲染两个输入而需要知道的所有数据的最小表示。
+
+例如，如果我们在摄制输入中输入 37，则 `Calculator` 组件的状态将为：
+
+```jsx
+{
+  temperature: '37',
+  scale: 'c'
+}
+```
+
+如果我们稍后将华氏度字段编辑为 212，则 `Calculator` 的状态将为：
+
+```jsx
+{
+  temperature: '212',
+  scale: 'f'
+}
+```
+
+我们可以存储两个输入的值，但结果证明是不必要的。 存储最近更改的输入的值及其表示的 scale 就足够了。 然后我们可以根据当前的 `temperature` 和 `scale` 来推断其他输入的值。
+
+输入保持同步，因为它们的值是从相同的状态计算的：
+
+```jsx
+class Calculator extends React.Component {
+  constructor(props) {
+    super(props);
+    this.handleCelsiusChange = this.handleCelsiusChange.bind(this);
+    this.handleFahrenheitChange = this.handleFahrenheitChange.bind(this);
+    this.state = {temperature: '', scale: 'c'};
+  }
+
+  handleCelsiusChange(temperature) {
+    this.setState({scale: 'c', temperature});
+  }
+
+  handleFahrenheitChange(temperature) {
+    this.setState({scale: 'f', temperature});
+  }
+
+  render() {
+    const scale = this.state.scale;
+    const temperature = this.state.temperature;
+    const celsius = scale === 'f' ? tryConvert(temperature, toCelsius) : temperature;
+    const fahrenheit = scale === 'c' ? tryConvert(temperature, toFahrenheit) : temperature;
+
+    return (
+      <div>
+        <TemperatureInput
+          scale="c"
+          temperature={celsius}
+          onTemperatureChange={this.handleCelsiusChange} />
+
+        <TemperatureInput
+          scale="f"
+          temperature={fahrenheit}
+          onTemperatureChange={this.handleFahrenheitChange} />
+
+        <BoilingVerdict
+          celsius={parseFloat(celsius)} />
+
+      </div>
+    );
+  }
+}
+```
+
+[在 CodePen 上试一试](https://codepen.io/gaearon/pen/WZpxpz?editors=0010)
+
+现在，无论您编辑哪个输入，`Calculator` 中的 `this.state.temperature` 和 `this.state.scale` 都会更新。 其中一个输入按原样获取值，因此保留任何用户输入，并始终根据它重新计算另一个输入值。
+
+让我们回顾一下编辑输入时会发生什么：
+
+* React 在 DOM `<input>` 上调用指定为 `onChange` 的函数。 在我们的例子中，这是 `TemperatureInput` 组件中的 `handleChange` 方法。
+* `TemperatureInput` 组件中的 `handleChange` 方法使用新的所需值调用 `this.props.onTemperatureChange()`。 它的 prop，包括 `onTemperatureChange`，由其父组件 `Calculator` 提供。
+* 当它先前渲染时，`Calculator` 指定摄氏温度 `TemperatureInput` 的 `onTemperatureChange` 是 `Calculator` 的 `handleCelsiusChange` 方法，而华氏温度输入的 `onTemperatureChange` 是 `Calculator` 的 `handleFahrenheitChange` 方法。 因此，根据我们编辑的输入，调用这两个 `Calculator` 方法中的任何一个。
+* 在这些方法中，`Calculator` 组件要求 React 通过使用新输入值和我们刚刚编辑的输入的当前比例调用 `this.setState()` 来重新渲染自身。
+* React 调用 `Calculator` 组件的 `render` 方法来了解 UI 应该是什么样子。 根据当前 temperature 和有效 scale 重新计算两个输入的值。 这里进行温度转换。
+* React 使用 `Calculator` 指定的新 prop 调用各个 `TemperatureInput` 组件的 `render` 方法。 它了解他们的 UI 应该是什么样子。
+* React 调用 `BoilingVerdict` 组件的 `render` 方法，将摄氏温度作为其 prop 传递。
+* React DOM 使用沸腾判定更新 DOM 并匹配所需的输入值。 我们刚刚编辑的输入接收其当前值，另一个输入更新为转换后的温度。
+
+每次更新都会执行相同的步骤，因此输入保持同步。
