@@ -316,3 +316,15 @@ class Calculator extends React.Component {
 * React DOM 使用沸腾判定更新 DOM 并匹配所需的输入值。 我们刚刚编辑的输入接收其当前值，另一个输入更新为转换后的温度。
 
 每次更新都会执行相同的步骤，因此输入保持同步。
+
+## 4. 总结
+
+对于在 React 应用程序中发生变化的任何数据，应该有一个“真实来源”。 通常，首先将状态添加到需要渲染的组件中。 然后，如果其他组件也需要它，您可以将它提升到最近的共同祖先。 您应该依赖自上而下的数据流，而不是尝试在不同组件之间同步状态。
+
+提升状态涉及编写比双向绑定方法更多的“样板”代码，但作为一项好处，查找和隔离错误所需的工作量更少。 由于任何一个状态“存在”某个组件中，并且该组件单独可以改变它，因此大大减少了错误的表面积。 此外，您可以实现任何自定义逻辑来拒绝或转换用户输入。
+
+如果某些东西可以来自 props 或 state，它可能不应该处于 state。 例如，我们不存储 `celsiusValue` 和 `fahrenheitValue`，而是存储最后编辑的 `temperature` 及其 `scale`。 可以始终在 `render()` 方法中根据它们计算其他输入的值。 这使我们可以清除或应用到其他字段而不会丢失用户输入的任何精度。
+
+当您在 UI 中看到错误时，可以使用 React Developer Tools 检查道具并向上移动树，直到找到负责更新状态的组件。 这使您可以将错误跟踪到其源：
+
+![https://reactjs.org/react-devtools-state-ef94afc3447d75cdc245c77efb0d63be.gif](https://reactjs.org/react-devtools-state-ef94afc3447d75cdc245c77efb0d63be.gif)
