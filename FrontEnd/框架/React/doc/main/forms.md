@@ -178,3 +178,13 @@ class FlavorForm extends React.Component {
 >您可以将数组传递给 `value` 属性，从而允许您在 `select` 标记中选择多个选项：
 >
 >`<select multiple={true} value={['B', 'C']}>`
+
+## 4. `<input type="file">`
+
+在 HTML 中，`<input type ="file">`允许用户从其设备存储中选择一个或多个文件，以便上传到服务器或通过 [File API](https://developer.mozilla.org/en-US/docs/Web/API/File/Using_files_from_web_applications) 用 JavaScript 进行操作。
+
+```html
+<input type="file" />
+```
+
+因为它的值是只读的，所以它是 React 中一个不受控制的组件。 它将在文档后面与其他不受控制的组件一起讨论。
