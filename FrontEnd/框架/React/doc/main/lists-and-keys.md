@@ -128,3 +128,76 @@ const todoItems = todos.map((todo, index) =>
 
 这里有一个[深入的解释](https://reactjs.org/docs/reconciliation.html#recursing-on-children)，如果你有兴趣了解更多，为什么需要 key。
 
+## 4. 使用 key 提取组件
+
+key 仅在数组的上下文中有意义。
+
+例如，如果提取 `ListItem` 组件，则应将 key 保留在数组中的 `<ListItem />` 元素上，而不是 `ListItem` 本身中的 `<li>` 元素上。
+
+示例：不正确的 key 用法
+
+```jsx
+function ListItem(props) {
+  const value = props.value;
+  return (
+    // Wrong! There is no need to specify the key here:
+    <li key={value.toString()}>
+      {value}
+    </li>
+  );
+}
+
+function NumberList(props) {
+  const numbers = props.numbers;
+  const listItems = numbers.map((number) =>
+    // Wrong! The key should have been specified here:
+    <ListItem value={number} />
+  );
+  return (
+    <ul>
+      {listItems}
+    </ul>
+  );
+}
+
+const numbers = [1, 2, 3, 4, 5];
+ReactDOM.render(
+  <NumberList numbers={numbers} />,
+  document.getElementById('root')
+);
+```
+
+示例：正确的 key 用法
+
+```jsx
+function ListItem(props) {
+  // Correct! There is no need to specify the key here:
+  return <li>{props.value}</li>;
+}
+
+function NumberList(props) {
+  const numbers = props.numbers;
+  const listItems = numbers.map((number) =>
+    // Correct! Key should be specified inside the array.
+    <ListItem key={number.toString()}
+              value={number} />
+  );
+  return (
+    <ul>
+      {listItems}
+    </ul>
+  );
+}
+
+const numbers = [1, 2, 3, 4, 5];
+ReactDOM.render(
+  <NumberList numbers={numbers} />,
+  document.getElementById('root')
+);
+```
+
+[在 CodePen 上试一试](https://codepen.io/gaearon/pen/ZXeOGM?editors=0010)
+
+一个好的经验法则是 `map()` 调用中的元素需要 key。
+
+
