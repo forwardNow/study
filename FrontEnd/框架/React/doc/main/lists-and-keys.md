@@ -241,3 +241,56 @@ ReactDOM.render(
 ```
 
 [在 CodePen 上试一试](https://codepen.io/gaearon/pen/NRZYGN?editors=0010)
+
+key 用作 React 的提示，但它们不会传递给您的组件。 如果组件中需要相同的值，请将其明确地作为具有不同名称的 prop 传递：
+
+```jsx
+const content = posts.map((post) =>
+  <Post
+    key={post.id}
+    id={post.id}
+    title={post.title} />
+);
+```
+
+通过上面的示例，`Post` 组件可以读取 `props.id`，但不能读取 `props.key`。
+
+## 6. 在 JSX 中嵌入 `map()`
+
+在上面的例子中，我们声明了一个单独的 `listItems` 变量并将其包含在 JSX 中：
+
+```jsx
+function NumberList(props) {
+  const numbers = props.numbers;
+  const listItems = numbers.map((number) =>
+    <ListItem key={number.toString()}
+              value={number} />
+
+  );
+  return (
+    <ul>
+      {listItems}
+    </ul>
+  );
+}
+```
+
+JSX 允许在花括号中嵌入任何表达式，因此我们可以内联 `map()` 结果：
+
+```jsx
+function NumberList(props) {
+  const numbers = props.numbers;
+  return (
+    <ul>
+      {numbers.map((number) =>
+        <ListItem key={number.toString()}
+                  value={number} />
+      )}
+    </ul>
+  );
+}
+```
+
+[在 CodePen 上试一试](https://codepen.io/gaearon/pen/BLvYrB?editors=0010)
+
+有时这会产生更清晰的代码，但这种风格也会被滥用。 就像在 JavaScript 中一样，由您来决定是否值得提取变量以提高可读性。 请记住，如果 `map()` 体太嵌套，则可能是提取组件的好时机。
