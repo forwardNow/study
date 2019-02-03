@@ -188,3 +188,77 @@ class FlavorForm extends React.Component {
 ```
 
 因为它的值是只读的，所以它是 React 中一个不受控制的组件。 它将在文档后面与其他不受控制的组件一起讨论。
+
+## 5. 处理多个 `<input>`
+
+当您需要处理多个受控 `input` 元素时，可以为每个元素添加 `name` 属性，并让处理函数根据 `event.target.name` 的值选择要执行的操作。
+
+例如：
+
+```jsx
+class Reservation extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      isGoing: true,
+      numberOfGuests: 2
+    };
+
+    this.handleInputChange = this.handleInputChange.bind(this);
+  }
+
+  handleInputChange(event) {
+    const target = event.target;
+    const value = target.type === 'checkbox' ? target.checked : target.value;
+    const name = target.name;
+
+    this.setState({
+      [name]: value
+    });
+  }
+
+  render() {
+    return (
+      <form>
+        <label>
+          Is going:
+          <input
+            name="isGoing"
+            type="checkbox"
+            checked={this.state.isGoing}
+            onChange={this.handleInputChange} />
+        </label>
+        <br />
+        <label>
+          Number of guests:
+          <input
+            name="numberOfGuests"
+            type="number"
+            value={this.state.numberOfGuests}
+            onChange={this.handleInputChange} />
+        </label>
+      </form>
+    );
+  }
+}
+```
+
+[在 CodePen 上试一试](https://codepen.io/gaearon/pen/wgedvV?editors=0010)
+
+请注意我们如何使用 ES6 [计算属性名称](https://developer.mozilla.org/en/docs/Web/JavaScript/Reference/Operators/Object_initializer#Computed_property_names)语法来更新与给定输入名称对应的状态键：
+
+```javascript
+this.setState({
+  [name]: value
+});
+```
+
+它相当于这个 ES5 代码：
+
+```javascript
+var partialState = {};
+partialState[name] = value;
+this.setState(partialState);
+```
+
+此外，由于 `setState()` 自动将部分状态合并到当前状态，因此我们只需要使用更改的部分调用它。
