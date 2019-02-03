@@ -17,6 +17,7 @@
     * [处理事件](./doc/main/handling-events.md)
     * [条件渲染](./doc/main/conditional-rendering.md)
     * [列表和 key](./doc/main/lists-and-keys.md)
+    * [表单](./doc/main/forms.md)
 * 基础
   1. [介绍](./base/介绍.md)
   2. [React中的核心概念](./base/React中的核心概念.md)
