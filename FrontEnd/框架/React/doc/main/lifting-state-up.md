@@ -108,3 +108,40 @@ class Calculator extends React.Component {
 我们现在有两个输入，但是当您在其中一个输入温度时，另一个不会更新。 这与我们的要求相矛盾：我们希望让它们保持同步。
 
 我们也无法从 `Calculator` 中显示 `BoilingVerdict`。 `Calculator` 不知道当前温度，因为它隐藏在 `TemperatureInput` 内。
+
+## 2. 编写转换函数
+
+首先，我们将编写两个函数来将摄氏度转化为华氏度以及从华氏度转换为摄氏度：
+
+```jsx
+function toCelsius(fahrenheit) {
+  return (fahrenheit - 32) * 5 / 9;
+}
+
+function toFahrenheit(celsius) {
+  return (celsius * 9 / 5) + 32;
+}
+```
+
+这两个函数转换数字。 我们将编写另一个函数，它将字符串温度和转换器函数作为参数并返回一个字符串。 我们将使用它来根据其他输入计算一个输入的值。
+
+它在无效温度上返回一个空字符串，并将输出四舍五入到小数点后三位：
+
+```jsx
+function tryConvert(temperature, convert) {
+  const input = parseFloat(temperature);
+  if (Number.isNaN(input)) {
+    return '';
+  }
+  const output = convert(input);
+  const rounded = Math.round(output * 1000) / 1000;
+  return rounded.toString();
+}
+```
+
+比如：
+
+```jsx
+tryConvert('abc', toCelsius);      // ''
+tryConvert('10.22', toFahrenheit): // '50.396'
+```
