@@ -66,3 +66,52 @@ handleChange(event) {
   this.setState({value: event.target.value.toUpperCase()});
 }
 ```
+
+## 2. `<textarea>`
+
+在 HTML 中，`<textarea>` 元素通过其子节点定义其文本：
+
+```jsx
+<textarea>
+  Hello there, this is some text in a text area
+</textarea>
+```
+
+在React中，`<textarea>` 使用 `value` 属性。 这样，使用 `<textarea>` 的表单可以与使用单行输入的表单非常相似地编写：
+
+```jsx
+class EssayForm extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      value: 'Please write an essay about your favorite DOM element.'
+    };
+
+    this.handleChange = this.handleChange.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
+  }
+
+  handleChange(event) {
+    this.setState({value: event.target.value});
+  }
+
+  handleSubmit(event) {
+    alert('An essay was submitted: ' + this.state.value);
+    event.preventDefault();
+  }
+
+  render() {
+    return (
+      <form onSubmit={this.handleSubmit}>
+        <label>
+          Essay:
+          <textarea value={this.state.value} onChange={this.handleChange} />
+        </label>
+        <input type="submit" value="Submit" />
+      </form>
+    );
+  }
+}
+```
+
+请注意，`this.state.value` 在构造函数中初始化，因此文本区域以其中的一些文本开头。
