@@ -71,7 +71,7 @@ handleChange(event) {
 
 在 HTML 中，`<textarea>` 元素通过其子节点定义其文本：
 
-```jsx
+```html
 <textarea>
   Hello there, this is some text in a text area
 </textarea>
@@ -115,3 +115,66 @@ class EssayForm extends React.Component {
 ```
 
 请注意，`this.state.value` 在构造函数中初始化，因此文本区域以其中的一些文本开头。
+
+## 3. `<select>`
+
+在HTML中，`<select>` 创建一个下拉列表。 例如，此 HTML 创建一个口味下拉列表：
+
+```html
+<select>
+  <option value="grapefruit">Grapefruit</option>
+  <option value="lime">Lime</option>
+  <option selected value="coconut">Coconut</option>
+  <option value="mango">Mango</option>
+</select>
+```
+
+请注意，由于 `selected` 属性，初始化时 `Coconut` 选项被选中。 React，不是使用 `selected` 属性，使用 `<select>` 标记上的 `value` 属性。 这在受控组件中更方便，因为您只需要在一个位置更新它。 例如：
+
+```jsx
+class FlavorForm extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {value: 'coconut'};
+
+    this.handleChange = this.handleChange.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
+  }
+
+  handleChange(event) {
+    this.setState({value: event.target.value});
+  }
+
+  handleSubmit(event) {
+    alert('Your favorite flavor is: ' + this.state.value);
+    event.preventDefault();
+  }
+
+  render() {
+    return (
+      <form onSubmit={this.handleSubmit}>
+        <label>
+          Pick your favorite flavor:
+          <select value={this.state.value} onChange={this.handleChange}>
+            <option value="grapefruit">Grapefruit</option>
+            <option value="lime">Lime</option>
+            <option value="coconut">Coconut</option>
+            <option value="mango">Mango</option>
+          </select>
+        </label>
+        <input type="submit" value="Submit" />
+      </form>
+    );
+  }
+}
+```
+
+[在 CodePen 上试一试](https://codepen.io/gaearon/pen/JbbEzX?editors=0010)
+
+总的来说，这使得 `<input type =“text”>`、`<textarea>`、`<select>` 都非常相似 - 它们都接受一个可用于实现受控组件的 `value` 属性。
+
+>注意
+>
+>您可以将数组传递给 `value` 属性，从而允许您在 `select` 标记中选择多个选项：
+>
+>`<select multiple={true} value={['B', 'C']}>`
