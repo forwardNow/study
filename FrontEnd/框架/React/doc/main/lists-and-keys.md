@@ -200,4 +200,44 @@ ReactDOM.render(
 
 一个好的经验法则是 `map()` 调用中的元素需要 key。
 
+## 5. key 必须在兄弟元素中独一无二
 
+数组中使用的 key 在其兄弟姐妹中应该是唯一的。 但是，它们不需要全局唯一。 当我们生成两个不同的数组时，我们可以使用相同的 key：
+
+```jsx
+function Blog(props) {
+  const sidebar = (
+    <ul>
+      {props.posts.map((post) =>
+        <li key={post.id}>
+          {post.title}
+        </li>
+      )}
+    </ul>
+  );
+  const content = props.posts.map((post) =>
+    <div key={post.id}>
+      <h3>{post.title}</h3>
+      <p>{post.content}</p>
+    </div>
+  );
+  return (
+    <div>
+      {sidebar}
+      <hr />
+      {content}
+    </div>
+  );
+}
+
+const posts = [
+  {id: 1, title: 'Hello World', content: 'Welcome to learning React!'},
+  {id: 2, title: 'Installation', content: 'You can install React from npm.'}
+];
+ReactDOM.render(
+  <Blog posts={posts} />,
+  document.getElementById('root')
+);
+```
+
+[在 CodePen 上试一试](https://codepen.io/gaearon/pen/NRZYGN?editors=0010)
