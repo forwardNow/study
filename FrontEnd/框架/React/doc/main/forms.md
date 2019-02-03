@@ -262,3 +262,17 @@ this.setState(partialState);
 ```
 
 此外，由于 `setState()` 自动将部分状态合并到当前状态，因此我们只需要使用更改的部分调用它。
+
+## 6. 受控组件的 value 为 null
+
+在受控组件上指定 value prop 会阻止用户更改输入，除非您特意这么做。 如果您已指定值但输入仍可编辑，则可能将值设置为 `undefined` 或 `null`。
+
+以下代码演示了这一点。 （输入首先被锁定，但在短暂延迟后变为可编辑。）
+
+```jsx
+ReactDOM.render(<input value="hi" />, mountNode);
+
+setTimeout(function() {
+  ReactDOM.render(<input value={null} />, mountNode);
+}, 1000);
+```
