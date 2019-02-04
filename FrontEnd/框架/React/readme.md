@@ -20,6 +20,7 @@
     * [表单](./doc/main/forms.md)
     * [提升状态](./doc/main/lifting-state-up.md)
     * [组合与继承](./doc/main/composition-vs-inheritance.md)
+    * [在 React 中思考](./doc/main/thinking-in-react.md)
 * 基础
   1. [介绍](./base/介绍.md)
   2. [React中的核心概念](./base/React中的核心概念.md)
