@@ -73,3 +73,86 @@ function App() {
 [在 CodePen 上试一试](https://codepen.io/gaearon/pen/gwZOJp?editors=0010)
 
 像 `<Contacts />` 和 `<Chat />` 这样的 React 元素只是对象，因此您可以像任何其他数据一样将它们作为 props 传递。 这种方法可能会提醒您其他库中的“插槽”，但对于您可以在 React 中作为 props 传递的内容没有限制。
+
+## 2. 特殊（Specialization）
+
+有时我们认为组件是其他组件的“特殊情况”。 例如，我们可以说 `WelcomeDialog` 是 `Dialog` 的一个特例。
+
+在 React 中，这也是通过组合实现的，其中更“特定”的组件渲染更“通用”的组件并使用 `props` 配置它：
+
+```jsx
+function Dialog(props) {
+  return (
+    <FancyBorder color="blue">
+      <h1 className="Dialog-title">
+        {props.title}
+      </h1>
+      <p className="Dialog-message">
+        {props.message}
+      </p>
+    </FancyBorder>
+  );
+}
+
+function WelcomeDialog() {
+  return (
+    <Dialog
+      title="Welcome"
+      message="Thank you for visiting our spacecraft!" />
+
+  );
+}
+```
+
+[在 CodePen 上试一试](https://codepen.io/gaearon/pen/kkEaOZ?editors=0010)
+
+对于定义为类的组件，组合同样有效：
+
+```jsx
+function Dialog(props) {
+  return (
+    <FancyBorder color="blue">
+      <h1 className="Dialog-title">
+        {props.title}
+      </h1>
+      <p className="Dialog-message">
+        {props.message}
+      </p>
+      {props.children}
+    </FancyBorder>
+  );
+}
+
+class SignUpDialog extends React.Component {
+  constructor(props) {
+    super(props);
+    this.handleChange = this.handleChange.bind(this);
+    this.handleSignUp = this.handleSignUp.bind(this);
+    this.state = {login: ''};
+  }
+
+  render() {
+    return (
+      <Dialog title="Mars Exploration Program"
+              message="How should we refer to you?">
+        <input value={this.state.login}
+               onChange={this.handleChange} />
+
+        <button onClick={this.handleSignUp}>
+          Sign Me Up!
+        </button>
+      </Dialog>
+    );
+  }
+
+  handleChange(e) {
+    this.setState({login: e.target.value});
+  }
+
+  handleSignUp() {
+    alert(`Welcome aboard, ${this.state.login}!`);
+  }
+}
+```
+
+[在 CodePen 上试一试](https://codepen.io/gaearon/pen/gwZbYa?editors=0010)
