@@ -22,3 +22,31 @@ React 的许多重要部分之一就是它如何让你在构建应用程序时�
   {category: "Electronics", price: "$199.99", stocked: true, name: "Nexus 7"}
 ];
 ```
+
+## 2. 第 1 步：将 UI 分解为组件层次结构
+
+您要做的第一件事是在模拟中的每个组件（和子组件）周围绘制框，并为它们提供所有名称。 如果您正在与设计师合作，他们可能已经这样做了，所以请与他们交谈！ 他们的 Photoshop 图层名称最终可能是您的 React 组件的名称！
+
+但是你怎么知道组件应该是什么呢？ 只需使用相同的技术来决定是否应该创建新的函数或对象。 一种这样的技术是[单一责任原则](https://en.wikipedia.org/wiki/Single_responsibility_principle)，即理想情况下，一个组件应该只做一件事。 如果它最终增长，它应该被分解成更小的子组件。
+
+由于您经常向用户显示 JSON 数据模型，因此您会发现如果您的模型构建正确，您的 UI（以及您的组件结构）将很好地映射。 这是因为 UI 和数据模型倾向于遵循相同的信息体系结构，这意味着将 UI 分离到组件中的工作通常是微不足道的。 只需将其分解为完全代表数据模型的一部分即可。
+
+![https://reactjs.org/static/thinking-in-react-components-eb8bda25806a89ebdc838813bdfa3601-82965.png](https://reactjs.org/static/thinking-in-react-components-eb8bda25806a89ebdc838813bdfa3601-82965.png)
+
+你会在这里看到我们的简单应用程序中有五个组件。 我们将每个组件所代表的数据用斜体显示出来。
+
+1. **FilterableProductTable**（橙色）：包含整个示例
+2. **SearchBar**（蓝色）：接收所有*用户输入*
+3. **ProductTable**（绿色）：根据用户输入显示和过滤*数据集合*
+4. **ProductCategoryRow**（青绿色）：显示每个*类别*的标题
+5. **ProductRow**（红色）：为每个*产品*显示一行
+
+如果你看一下 `ProductTable`，你会发现表头（包含“Name”和“Price”标签）不是它自己的组件。 这是一个偏好的问题，并且无论如何都有争论。 对于此示例，我们将其作为 `ProductTable` 的一部分保留，因为它是渲染数据集合的一部分，这是 `ProductTable` 的职责。 但是，如果这个标题变得复杂（即如果我们要添加可供选择的排序），那么将它作为自己的 `ProductTableHeader` 组件肯定是有意义的。
+
+现在我们已经在 mock 中识别了组件，让我们将它们排列成层次结构。 这很简单。 出现在模拟中另一个组件中的组件应在层次结构中显示为子项：
+
+* `FilterableProductTable`
+  * `SearchBar`
+  * `ProductTable`
+    * `ProductCategoryRow`
+    * `ProductRow`
