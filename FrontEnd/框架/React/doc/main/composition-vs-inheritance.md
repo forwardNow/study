@@ -156,3 +156,11 @@ class SignUpDialog extends React.Component {
 ```
 
 [在 CodePen 上试一试](https://codepen.io/gaearon/pen/gwZbYa?editors=0010)
+
+## 3. 那么继承怎么样？
+
+在 Facebook，我们在数千个组件中使用 React，并且我们没有找到任何建议创建组件继承层次结构的用例。
+
+props 和组合为您提供了以明确和安全的方式自定义组件外观和行为所需的所有灵活性。 请记住，组件可以接受任意 props，包括原始值、React元素、函数。
+
+如果要在组件之间重用非 UI 功能，我们建议将其提取到单独的 JavaScript 模块中。 组件可以导入它并使用该函数、对象、类，而无需扩展它。
