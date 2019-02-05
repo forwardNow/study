@@ -391,3 +391,188 @@ ReactDOM.render(
 
 您可以开始了解应用程序的行为：将 `filterText` 设置为 `"ball"` 并刷新您的应用程序。 您将看到数据表已正确更新。
 
+## 6. 第 5 步：添加反向数据流
+
+```jsx
+class ProductCategoryRow extends React.Component {
+  render() {
+    const category = this.props.category;
+    return (
+      <tr>
+        <th colSpan="2">
+          {category}
+        </th>
+      </tr>
+    );
+  }
+}
+
+class ProductRow extends React.Component {
+  render() {
+    const product = this.props.product;
+    const name = product.stocked ?
+      product.name :
+      <span style={{color: 'red'}}>
+        {product.name}
+      </span>;
+
+    return (
+      <tr>
+        <td>{name}</td>
+        <td>{product.price}</td>
+      </tr>
+    );
+  }
+}
+
+class ProductTable extends React.Component {
+  render() {
+    const filterText = this.props.filterText;
+    const inStockOnly = this.props.inStockOnly;
+
+    const rows = [];
+    let lastCategory = null;
+
+    this.props.products.forEach((product) => {
+      if (product.name.indexOf(filterText) === -1) {
+        return;
+      }
+      if (inStockOnly && !product.stocked) {
+        return;
+      }
+      if (product.category !== lastCategory) {
+        rows.push(
+          <ProductCategoryRow
+            category={product.category}
+            key={product.category} />
+        );
+      }
+      rows.push(
+        <ProductRow
+          product={product}
+          key={product.name}
+        />
+      );
+      lastCategory = product.category;
+    });
+
+    return (
+      <table>
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Price</th>
+          </tr>
+        </thead>
+        <tbody>{rows}</tbody>
+      </table>
+    );
+  }
+}
+
+class SearchBar extends React.Component {
+  constructor(props) {
+    super(props);
+    this.handleFilterTextChange = this.handleFilterTextChange.bind(this);
+    this.handleInStockChange = this.handleInStockChange.bind(this);
+  }
+  
+  handleFilterTextChange(e) {
+    this.props.onFilterTextChange(e.target.value);
+  }
+  
+  handleInStockChange(e) {
+    this.props.onInStockChange(e.target.checked);
+  }
+  
+  render() {
+    return (
+      <form>
+        <input
+          type="text"
+          placeholder="Search..."
+          value={this.props.filterText}
+          onChange={this.handleFilterTextChange}
+        />
+        <p>
+          <input
+            type="checkbox"
+            checked={this.props.inStockOnly}
+            onChange={this.handleInStockChange}
+          />
+          {' '}
+          Only show products in stock
+        </p>
+      </form>
+    );
+  }
+}
+
+class FilterableProductTable extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      filterText: '',
+      inStockOnly: false
+    };
+
+    this.handleFilterTextChange = this.handleFilterTextChange.bind(this);
+    this.handleInStockChange = this.handleInStockChange.bind(this);
+  }
+
+  handleFilterTextChange(filterText) {
+    this.setState({
+      filterText: filterText
+    });
+  }
+  
+  handleInStockChange(inStockOnly) {
+    this.setState({
+      inStockOnly: inStockOnly
+    })
+  }
+
+  render() {
+    return (
+      <div>
+        <SearchBar
+          filterText={this.state.filterText}
+          inStockOnly={this.state.inStockOnly}
+          onFilterTextChange={this.handleFilterTextChange}
+          onInStockChange={this.handleInStockChange}
+        />
+        <ProductTable
+          products={this.props.products}
+          filterText={this.state.filterText}
+          inStockOnly={this.state.inStockOnly}
+        />
+      </div>
+    );
+  }
+}
+
+
+const PRODUCTS = [
+  {category: 'Sporting Goods', price: '$49.99', stocked: true, name: 'Football'},
+  {category: 'Sporting Goods', price: '$9.99', stocked: true, name: 'Baseball'},
+  {category: 'Sporting Goods', price: '$29.99', stocked: false, name: 'Basketball'},
+  {category: 'Electronics', price: '$99.99', stocked: true, name: 'iPod Touch'},
+  {category: 'Electronics', price: '$399.99', stocked: false, name: 'iPhone 5'},
+  {category: 'Electronics', price: '$199.99', stocked: true, name: 'Nexus 7'}
+];
+
+ReactDOM.render(
+  <FilterableProductTable products={PRODUCTS} />,
+  document.getElementById('container')
+);
+```
+
+到目前为止，我们已经构建了一个应用程序，可以正确呈现 props 和 state 向下流动的层次结构。 现在是时候以另一种方式支持数据流动：层次结构深处的表单组件需要更新 `FilterableProductTable` 中的状态。
+
+React 使这个数据流明确，以便于理解程序的工作方式，但它确实需要比传统的双向数据绑定更多的输入。
+
+如果您尝试键入或选中示例当前版本中的框，您将看到 React 忽略您的输入。 这是故意的，因为我们将输入的值 prop 设置为始终等于从 `FilterableProductTable` 传入的状态。
+
+让我们考虑一下我们想要发生什么。 我们希望确保每当用户更改表单时，我们都会更新状态以反映用户输入。 由于组件应该只更新它们自己的状态，`FilterableProductTable` 会将回调传递给 `SearchBar`，只要状态应该更新，它就会触发。 我们可以在输入上使用 `onChange` 事件来通知它。 `FilterableProductTable` 传递的回调将调用 `setState()`，并且应用程序将更新。
+
+虽然这听起来很复杂，但它实际上只是几行代码。 而且您的数据在整个应用程序中的流动非常明确。
