@@ -214,3 +214,180 @@ React 中有两种类型的“模型”数据：props 和 state。 理解两者�
 
 * 用户输入的搜索文本
 * 复选框的值
+
+## 5. 第 4 步：确定你的 state 应该存放的地方
+
+```html
+<div id="container">
+    <!-- This element's contents will be replaced with your component. -->
+</div>
+<style>
+body {
+  padding: 5px;
+}
+</style>
+```
+
+```jsx
+class ProductCategoryRow extends React.Component {
+  render() {
+    const category = this.props.category;
+    return (
+      <tr>
+        <th colSpan="2">
+          {category}
+        </th>
+      </tr>
+    );
+  }
+}
+
+class ProductRow extends React.Component {
+  render() {
+    const product = this.props.product;
+    const name = product.stocked ?
+      product.name :
+      <span style={{color: 'red'}}>
+        {product.name}
+      </span>;
+
+    return (
+      <tr>
+        <td>{name}</td>
+        <td>{product.price}</td>
+      </tr>
+    );
+  }
+}
+
+class ProductTable extends React.Component {
+  render() {
+    const filterText = this.props.filterText;
+    const inStockOnly = this.props.inStockOnly;
+
+    const rows = [];
+    let lastCategory = null;
+
+    this.props.products.forEach((product) => {
+      if (product.name.indexOf(filterText) === -1) {
+        return;
+      }
+      if (inStockOnly && !product.stocked) {
+        return;
+      }
+      if (product.category !== lastCategory) {
+        rows.push(
+          <ProductCategoryRow
+            category={product.category}
+            key={product.category} />
+        );
+      }
+      rows.push(
+        <ProductRow
+          product={product}
+          key={product.name}
+        />
+      );
+      lastCategory = product.category;
+    });
+
+    return (
+      <table>
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Price</th>
+          </tr>
+        </thead>
+        <tbody>{rows}</tbody>
+      </table>
+    );
+  }
+}
+
+class SearchBar extends React.Component {
+  render() {
+    const filterText = this.props.filterText;
+    const inStockOnly = this.props.inStockOnly;
+
+    return (
+      <form>
+        <input
+          type="text"
+          placeholder="Search..."
+          value={filterText} />
+        <p>
+          <input
+            type="checkbox"
+            checked={inStockOnly} />
+          {' '}
+          Only show products in stock
+        </p>
+      </form>
+    );
+  }
+}
+
+class FilterableProductTable extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      filterText: '',
+      inStockOnly: false
+    };
+  }
+
+  render() {
+    return (
+      <div>
+        <SearchBar
+          filterText={this.state.filterText}
+          inStockOnly={this.state.inStockOnly}
+        />
+        <ProductTable
+          products={this.props.products}
+          filterText={this.state.filterText}
+          inStockOnly={this.state.inStockOnly}
+        />
+      </div>
+    );
+  }
+}
+
+
+const PRODUCTS = [
+  {category: 'Sporting Goods', price: '$49.99', stocked: true, name: 'Football'},
+  {category: 'Sporting Goods', price: '$9.99', stocked: true, name: 'Baseball'},
+  {category: 'Sporting Goods', price: '$29.99', stocked: false, name: 'Basketball'},
+  {category: 'Electronics', price: '$99.99', stocked: true, name: 'iPod Touch'},
+  {category: 'Electronics', price: '$399.99', stocked: false, name: 'iPhone 5'},
+  {category: 'Electronics', price: '$199.99', stocked: true, name: 'Nexus 7'}
+];
+
+ReactDOM.render(
+  <FilterableProductTable products={PRODUCTS} />,
+  document.getElementById('container')
+);
+```
+
+好的，所以我们已经确定了最小的 app 状态集。 接下来，我们需要确定哪个组件拥有此状态。
+
+请记住：React 是关于组件层次结构中的单向数据流。 可能不会立即清楚哪个组件应该拥有哪个状态。 对于新手来说，这通常是最具挑战性的部分，因此请按照以下步骤来弄清楚：
+
+对于您的应用程序中的每个 state：
+
+* 弄清楚每个组件通过 state 渲染的内容。
+* 找到公共所有者组件（在层次结构中需要状态的所有组件上方的单个组件）。
+* 公共所有者或层次结构中较高层的其他组件应该拥有该状态。
+* 如果找不到拥有状态的组件，只需创建一个新组件来保存状态，并将其添加到公共所有者组件上方的层次结构中的某个位置。
+
+让我们为我们的应用程序应用这个策略：
+
+* `ProductTable` 需要根据状态过滤产品列表，`SearchBar` 需要显示搜索文本和检查状态。
+* 公共所有者组件是 `FilterableProductTable`。
+* 从概念上讲，过滤器文本和检查值存在于 `FilterableProductTable` 中是有意义的
+
+很酷，所以我们决定我们的 state 存在于 `FilterableProductTable`。 首先，将一个实例属性 `this.state = {filterText：''，inStockOnly：false}` 添加到 `FilterableProductTable` 的构造函数中，以反映应用程序的初始状态。 然后，将 `filterText` 和 `inStockOnly` 传递给 `ProductTable` 和 `SearchBar` 作为 prop。 最后，使用这些 props 过滤 `ProductTable` 中的行，并在 `SearchBar` 中设置表单域的值。
+
+您可以开始了解应用程序的行为：将 `filterText` 设置为 `"ball"` 并刷新您的应用程序。 您将看到数据表已正确更新。
+
