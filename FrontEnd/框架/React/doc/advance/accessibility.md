@@ -100,3 +100,29 @@ function ListItem({ item }) {
 ```
 
 有关详细信息，请参阅[Fragments 文档](https://reactjs.org/docs/fragments.html)。
+
+## 4. 无障碍表格
+
+### 4.1. 标签
+
+每个 HTML 表单控件（例如 `<input>` 和 `<textarea>`）都需要标记为可访问。 我们也需要向屏幕阅读器提供公开的描述性标签。
+
+以下资源向我们展示了如何执行此操作：
+
+* [The W3C shows us how to label elements](https://www.w3.org/WAI/tutorials/forms/labels/)
+* [WebAIM shows us how to label elements](http://webaim.org/techniques/forms/controls)
+* [The Paciello Group explains accessible names](https://www.paciellogroup.com/blog/2017/04/what-is-an-accessible-name/)
+
+虽然这些标准 HTML 实践可以直接在 React 中使用，但请注意 `for` 特性在 JSX 中写为 `htmlFor`：
+
+```jsx
+<label htmlFor="namedInput">Name:</label>
+<input id="namedInput" type="text" name="name"/>
+```
+
+### 4.2. 向用户告知错误
+
+所有用户都需要了解错误情况。 以下链接向我们展示了如何向屏幕阅读器公开错误文本：
+
+* [The W3C demonstrates user notifications](https://www.w3.org/WAI/tutorials/forms/notifications/)
+* [WebAIM looks at form validation](http://webaim.org/techniques/formvalidation/)
