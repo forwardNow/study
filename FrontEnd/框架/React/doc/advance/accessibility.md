@@ -126,3 +126,106 @@ function ListItem({ item }) {
 
 * [The W3C demonstrates user notifications](https://www.w3.org/WAI/tutorials/forms/notifications/)
 * [WebAIM looks at form validation](http://webaim.org/techniques/formvalidation/)
+
+## 5. 聚焦控制
+
+确保您的 Web 应用程序只用键盘就可以完全操作：
+
+* [WebAIM talks about keyboard accessibility](http://webaim.org/techniques/keyboard/)
+
+### 5.1. 键盘焦点和焦点轮廓
+
+键盘焦点是指 DOM 中选择用于接受键盘输入的当前元素。 我们在任何地方都看到它作为焦点轮廓，类似于下图所示：
+
+![https://reactjs.org/static/keyboard-focus-dec0e6bcc1f882baf76ebc860d4f04e5-9d63d.png](https://reactjs.org/static/keyboard-focus-dec0e6bcc1f882baf76ebc860d4f04e5-9d63d.png)
+
+只有使用 CSS 才能删除此轮廓，例如通过设置 `outline: 0`，如果要将其替换为另一个焦点轮廓实现。
+
+### 5.2. 跳转到所需内容的机制
+
+提供一种机制，允许用户跳过应用程序中过去的导航部分，因为这可以帮助并加快键盘导航速度。
+
+跳过链接或跳过导航链接是隐藏的导航链接（只有在键盘用户与页面交互时才会显示）。 使用内部页面锚点和一些样式很容易实现它们：
+
+* [WebAIM - Skip Navigation Links](http://webaim.org/techniques/skipnav/)
+
+还可以使用地标元素和 role（例如 `<main>` 和 `<aside>`）来划分页面区域，因为辅助技术允许用户快速导航到这些部分。
+
+在此处阅读有关使用这些元素以增强可访问性的更多信息：
+
+* [Accessible Landmarks](http://www.scottohara.me/blog/2018/03/03/landmarks.html)
+
+### 5.3. 以编程方式管理焦点
+
+我们的 React 应用程序在运行时不断修改 HTML DOM，有时会导致键盘焦点丢失或设置为意外元素。 为了修复这个问题，我们需要以编程方式将键盘焦点向右移动。 例如，通过将键盘焦点重置为在关闭模式窗口后打开模态窗口的按钮。
+
+MDN Web Docs介绍了这一点，并描述了我们如何构建[可通过键盘导航的 JavaScript 小部件](https://developer.mozilla.org/en-US/docs/Web/Accessibility/Keyboard-navigable_JavaScript_widgets)。
+
+要在 React 中设置焦点，我们可以将 [Refs 用于 DOM 元素](https://reactjs.org/docs/refs-and-the-dom.html)。
+
+使用这个，我们首先在组件类的 JSX 中创建一个元素的引用：
+
+```jsx
+class CustomTextInput extends React.Component {
+  constructor(props) {
+    super(props);
+    // Create a ref to store the textInput DOM element
+    this.textInput = React.createRef();
+  }
+  render() {
+  // Use the `ref` callback to store a reference to the text input DOM
+  // element in an instance field (for example, this.textInput).
+    return (
+      <input
+        type="text"
+        ref={this.textInput}
+      />
+    );
+  }
+}
+```
+
+然后我们可以在需要时在组件的其他位置让它获取焦点：
+
+```jsx
+focus() {
+  // Explicitly focus the text input using the raw DOM API
+  // Note: we're accessing "current" to get the DOM node
+  this.textInput.current.focus();
+}
+```
+
+有时，父组件需要将焦点设置为子组件中的元素。 我们可以通过子组件将 DOM 引用[暴露给父组件](https://reactjs.org/docs/refs-and-the-dom.html#exposing-dom-refs-to-parent-components)来实现这一点，子组件将父组件的 ref 转发给子组件的 DOM 节点。
+
+```jsx
+function CustomTextInput(props) {
+  return (
+    <div>
+      <input ref={props.inputRef} />
+    </div>
+  );
+}
+
+class Parent extends React.Component {
+  constructor(props) {
+    super(props);
+    this.inputElement = React.createRef();
+  }
+  render() {
+    return (
+      <CustomTextInput inputRef={this.inputElement} />
+    );
+  }
+}
+
+// Now you can set focus when required.
+this.inputElement.current.focus();
+```
+
+使用 HOC（Higher-Order Components，高阶组件，高阶组件是接受组件作为参数并返回组件的函数）扩展组件时，建议使用 React 的 `forwardRef` 函数将 `ref` 转发到包装组件。 如果第三方 HOC 未实现 ref 转发，则上述模式仍可用作后备。
+
+一个很好的焦点管理示例是 [react-aria-modal](https://github.com/davidtheclark/react-aria-modal)。 这是完全可访问的模态窗口的一个相对罕见的例子。 它不仅将初始焦点设置在取消按钮上（防止键盘用户意外激活成功动作）并将键盘焦点陷入模态内，还将焦点重置回最初触发模态的元素。
+
+>注意：
+>
+>虽然这是一个非常重要的可访问性功能，但它也是一种应该谨慎使用的技术。 在受到干扰时使用它来修复键盘焦点流，而不是试图预测用户想要如何使用应用程序。
