@@ -361,3 +361,15 @@ class BlurExample extends React.Component {
 ![https://reactjs.org/blur-popover-close-28ce2067489843caf05fe7ce22494542.gif](https://reactjs.org/blur-popover-close-28ce2067489843caf05fe7ce22494542.gif)
 
 这是许多情况的一个示例，其中仅依赖于指针和鼠标事件将破坏键盘用户的功能。 始终使用键盘进行测试将立即突出显示问题区域，然后可以使用键盘识别事件处理程序修复问题区域。
+
+## 7. 更复杂的小部件
+
+更复杂的用户体验并不意味着更难以访问。 尽管通过尽可能接近 HTML 的编码最容易实现无障碍，但即使是最复杂的小部件也可以被编码得无障碍。
+
+在这里，我们需要了解 [ARIA 角色](https://www.w3.org/TR/wai-aria/#roles)以及 [ARIA 状态和属性](https://www.w3.org/TR/wai-aria/#states_and_properties)。 这些工具箱充满了 JSX 完全支持的 HTML 属性，使我们能够构建完全可访问、功能强大的 React 组件。
+
+每种类型的小部件都有一个特定的设计模式，并且预计将由用户和用户代理以某种方式运行：
+
+* [WAI-ARIA Authoring Practices - Design Patterns and Widgets](https://www.w3.org/TR/wai-aria-practices/#aria_ex)
+* [Heydon Pickering - ARIA Examples](http://heydonworks.com/practical_aria_examples/)
+* [Inclusive Components](https://inclusive-components.design/)
