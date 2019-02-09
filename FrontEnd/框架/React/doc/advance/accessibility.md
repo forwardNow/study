@@ -373,3 +373,37 @@ class BlurExample extends React.Component {
 * [WAI-ARIA Authoring Practices - Design Patterns and Widgets](https://www.w3.org/TR/wai-aria-practices/#aria_ex)
 * [Heydon Pickering - ARIA Examples](http://heydonworks.com/practical_aria_examples/)
 * [Inclusive Components](https://inclusive-components.design/)
+
+## 8. 其他考虑因素
+
+### 8.1. 设置语言
+
+指示页面文本的人类语言，因为屏幕阅读器软件使用它来选择正确的语音设置：
+
+* [WebAIM - Document Language](http://webaim.org/techniques/screenreader/#language)
+
+### 8.2. 设置文档标题
+
+设置文档 `<title>` 以正确描述当前页面内容，因为这可确保用户始终了解当前页面上下文：
+
+* [WCAG - Understanding the Document Title Requirement](https://www.w3.org/TR/UNDERSTANDING-WCAG20/navigation-mechanisms-title.html)
+
+我们可以使用 [React Document Title Component](https://github.com/gaearon/react-document-title) 在 React 中设置它。
+
+### 8.3. 色彩对比
+
+确保您网站上的所有可读文本都具有足够的色彩对比度，以保持低视力用户的最大可读性：
+
+* [WCAG - Understanding the Color Contrast Requirement](https://www.w3.org/TR/UNDERSTANDING-WCAG20/visual-audio-contrast-contrast.html)
+* [Everything About Color Contrast And Why You Should Rethink It](https://www.smashingmagazine.com/2014/10/color-contrast-tips-and-tools-for-accessibility/)
+* [A11yProject - What is Color Contrast](http://a11yproject.com/posts/what-is-color-contrast/)
+
+手动为您网站中的所有案例计算正确的颜色组合可能会很繁琐，因此您可以[使用 Colorable 计算整个可访问的调色板](http://jxnblk.com/colorable/)。
+
+下面提到的 aXe 和 WAVE 工具也包括颜色对比度测试，并将报告对比度误差。
+
+如果您想扩展对比度测试能力，可以使用以下工具：
+
+* [WebAIM - Color Contrast Checker](http://webaim.org/resources/contrastchecker/)
+* [The Paciello Group - Color Contrast Analyzer](https://www.paciellogroup.com/resources/contrastanalyser/)
+
