@@ -229,3 +229,135 @@ this.inputElement.current.focus();
 >注意：
 >
 >虽然这是一个非常重要的可访问性功能，但它也是一种应该谨慎使用的技术。 在受到干扰时使用它来修复键盘焦点流，而不是试图预测用户想要如何使用应用程序。
+
+## 6. 鼠标和指针事件
+
+确保仅使用键盘也可以访问通过鼠标或指针事件暴露的所有功能。 仅依赖于指针设备将导致许多键盘用户无法使用您的应用程序的情况。
+
+为了说明这一点，让我们看一下由点击事件引起的破坏可访问性的示例。 这是外部单击模式，用户可以通过单击元素外部来禁用打开的弹出框。
+
+![https://reactjs.org/outerclick-with-mouse-5523b05b22210c5a2fa0bd1f01339cb3.gif](https://reactjs.org/outerclick-with-mouse-5523b05b22210c5a2fa0bd1f01339cb3.gif)
+
+这通常通过将 `click` 事件附加到关闭 popover 的 `window` 对象来实现：
+
+```jsx
+class OuterClickExample extends React.Component {
+constructor(props) {
+    super(props);
+
+    this.state = { isOpen: false };
+    this.toggleContainer = React.createRef();
+
+    this.onClickHandler = this.onClickHandler.bind(this);
+    this.onClickOutsideHandler = this.onClickOutsideHandler.bind(this);
+  }
+
+  componentDidMount() {
+    window.addEventListener('click', this.onClickOutsideHandler);
+  }
+
+  componentWillUnmount() {
+    window.removeEventListener('click', this.onClickOutsideHandler);
+  }
+
+  onClickHandler() {
+    this.setState(currentState => ({
+      isOpen: !currentState.isOpen
+    }));
+  }
+
+  onClickOutsideHandler(event) {
+    if (this.state.isOpen && !this.toggleContainer.current.contains(event.target)) {
+      this.setState({ isOpen: false });
+    }
+  }
+
+  render() {
+    return (
+      <div ref={this.toggleContainer}>
+        <button onClick={this.onClickHandler}>Select an option</button>
+        {this.state.isOpen ? (
+          <ul>
+            <li>Option 1</li>
+            <li>Option 2</li>
+            <li>Option 3</li>
+          </ul>
+        ) : null}
+      </div>
+    );
+  }
+}
+```
+
+这对于具有指针设备（例如鼠标）的用户可能正常工作，但是当单独使用键盘操作时，由于 `window` 对象从未接收到 `click` 事件，因此当选项卡到下一个元素时会导致功能损坏。 这可能会导致功能模糊，从而阻止用户使用您的应用程序。
+
+![https://reactjs.org/outerclick-with-keyboard-eca0ca825c8c5e2aa609cee72ef47e27.gif](https://reactjs.org/outerclick-with-keyboard-eca0ca825c8c5e2aa609cee72ef47e27.gif)
+
+通过使用适当的事件处理程序，例如 `onBlur` 和 `onFocus`，可以实现相同的功能：
+
+```jsx
+class BlurExample extends React.Component {
+  constructor(props) {
+    super(props);
+
+    this.state = { isOpen: false };
+    this.timeOutId = null;
+
+    this.onClickHandler = this.onClickHandler.bind(this);
+    this.onBlurHandler = this.onBlurHandler.bind(this);
+    this.onFocusHandler = this.onFocusHandler.bind(this);
+  }
+
+  onClickHandler() {
+    this.setState(currentState => ({
+      isOpen: !currentState.isOpen
+    }));
+  }
+
+  // We close the popover on the next tick by using setTimeout.
+  // This is necessary because we need to first check if
+  // another child of the element has received focus as
+  // the blur event fires prior to the new focus event.
+  onBlurHandler() {
+    this.timeOutId = setTimeout(() => {
+      this.setState({
+        isOpen: false
+      });
+    });
+  }
+
+  // If a child receives focus, do not close the popover.
+  onFocusHandler() {
+    clearTimeout(this.timeOutId);
+  }
+
+  render() {
+    // React assists us by bubbling the blur and
+    // focus events to the parent.
+    return (
+      <div onBlur={this.onBlurHandler}
+           onFocus={this.onFocusHandler}>
+
+        <button onClick={this.onClickHandler}
+                aria-haspopup="true"
+                aria-expanded={this.state.isOpen}>
+          Select an option
+        </button>
+        {this.state.isOpen ? (
+          <ul>
+            <li>Option 1</li>
+            <li>Option 2</li>
+            <li>Option 3</li>
+          </ul>
+        ) : null}
+      </div>
+    );
+  }
+}
+```
+
+此代码向指针设备和键盘用户公开功能。 另请注意添加的 `aria-*` props 以支持屏幕阅读器用户。 为简单起见，尚未实现用于启用弹出框选项的箭头键交互的键盘事件。
+
+![https://reactjs.org/blur-popover-close-28ce2067489843caf05fe7ce22494542.gif](https://reactjs.org/blur-popover-close-28ce2067489843caf05fe7ce22494542.gif)
+
+这是许多情况的一个示例，其中仅依赖于指针和鼠标事件将破坏键盘用户的功能。 始终使用键盘进行测试将立即突出显示问题区域，然后可以使用键盘识别事件处理程序修复问题区域。
