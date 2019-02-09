@@ -407,3 +407,105 @@ class BlurExample extends React.Component {
 * [WebAIM - Color Contrast Checker](http://webaim.org/resources/contrastchecker/)
 * [The Paciello Group - Color Contrast Analyzer](https://www.paciellogroup.com/resources/contrastanalyser/)
 
+## 9. 开发和测试工具
+
+我们可以使用许多工具来帮助创建可访问的 Web 应用程序。
+
+### 9.1. 键盘
+
+到目前为止，最简单也是最重要的检查之一是测试是否可以单独使用键盘来访问整个网站。 这样做：
+
+1. 拔出你的鼠标。
+2. 使用 `Tab` 和 `Shift + Tab` 进行浏览。
+3. 使用 `Enter` 激活元素。
+4. 如果需要，使用键盘箭头键与某些元素进行交互，例如菜单和下拉菜单。
+
+### 9.2. 开发支持
+
+我们可以直接在 JSX 代码中检查一些辅助功能。 通常 IDE 都支持 JSX 的 ARIA 角色、状态、属性。 我们还可以访问以下工具：
+
+#### 9.2.1. `eslint-plugin-jsx-a11y`
+
+ESLint 的 [eslint-plugin-jsx-a11y](https://github.com/evcohen/eslint-plugin-jsx-a11y) 插件提供了有关 JSX 中可访问性问题的 AST linting 反馈。 许多 IDE 允许您将这些发现直接集成到代码分析和源代码窗口中。
+
+Create React App 有这个插件，其中一部分规则已激活。 如果要启用更多可访问性规则，可以使用以下内容在项目的根目录中创建 `.eslintrc` 文件：
+
+```json
+{
+  "extends": ["react-app", "plugin:jsx-a11y/recommended"],
+  "plugins": ["jsx-a11y"]
+}
+```
+
+### 9.3. 在浏览器中测试辅助功能
+
+存在许多可以在浏览器中的网页上运行辅助功能审核的工具。 请将它们与此处提到的其他可访问性检查结合使用，因为它们只能测试 HTML 的技术可访问性。
+
+#### 9.3.1. aXe, aXe-core 和 react-axe
+
+Deque Systems 为您的应用程序提供自动和端到端可访问性测试的 [aXe-core](https://github.com/dequelabs/axe-core)。 该模块包括 Selenium 的集成。
+
+[无障碍引擎](https://www.deque.com/products/axe/)或 aXe 是一个基于 `aXe-core` 构建的无障碍检查器浏览器扩展。
+
+您还可以使用 [react-axe](https://github.com/dylanb/react-axe) 模块在开发和调试时直接向控制台报告这些无障碍性结果。
+
+#### 9.3.2. WebAIM WAVE
+
+[Web 无障碍评估工具](http://wave.webaim.org/extension/) 是另一种辅助功能浏览器扩展。
+
+#### 9.3.3. 无障碍检查器和无障碍树
+
+无障碍树是 DOM 树的一个子集，它包含应该暴露给无障碍技术的每个 DOM 元素的可访问对象，例如屏幕阅读器。
+
+在某些浏览器中，我们可以轻松查看无障碍树中每个元素的无障碍信息：
+
+* [Using the Accessibility Inspector in Firefox](https://developer.mozilla.org/en-US/docs/Tools/Accessibility_inspector)
+* [Activate the Accessibility Inspector in Chrome](https://gist.github.com/marcysutton/0a42f815878c159517a55e6652e3b23a)
+* [Using the Accessibility Inspector in OS X Safari](https://developer.apple.com/library/content/documentation/Accessibility/Conceptual/AccessibilityMacOSX/OSXAXTestingApps.html)
+
+### 9.4. 屏幕阅读器
+
+使用屏幕阅读器进行测试应构成可访问性测试的一部分。
+
+请注意，浏览器/屏幕阅读器组合很重要。 建议您在最适合您选择的屏幕阅读器的浏览器中测试您的应用程序。
+
+### 9.5. 常用的屏幕阅读器
+
+#### 9.5.1. Firefox 中的 NVDA
+
+[NonVisual Desktop Access](https://www.nvaccess.org/) 或 NVDA 是一种广泛使用的开源 Windows 屏幕阅读器。
+
+有关如何最好地使用 NVDA，请参阅以下指南：
+
+* [WebAIM - Using NVDA to Evaluate Web Accessibility](http://webaim.org/articles/nvda/)
+* [Deque - NVDA Keyboard Shortcuts](https://dequeuniversity.com/screenreaders/nvda-keyboard-shortcuts)
+
+#### 9.5.2. Safari 中的 VoiceOver
+
+VoiceOver 是 Apple 设备上的集成屏幕阅读器。
+
+有关如何激活和使用 VoiceOver 的信息，请参阅以下指南：
+
+* [WebAIM - Using VoiceOver to Evaluate Web Accessibility](http://webaim.org/articles/voiceover/)
+* [Deque - VoiceOver for OS X Keyboard Shortcuts](https://dequeuniversity.com/screenreaders/voiceover-keyboard-shortcuts)
+* [Deque - VoiceOver for iOS Shortcuts](https://dequeuniversity.com/screenreaders/voiceover-ios-shortcuts)
+
+#### 9.5.3. IE 中的 JAWS
+
+[Job Access With Speech](http://www.freedomscientific.com/Products/Blindness/JAWS) 或 JAWS，是 Windows 上经常使用的屏幕阅读器。
+
+有关如何最好地使用 JAWS，请参阅以下指南：
+
+* [WebAIM - Using JAWS to Evaluate Web Accessibility](http://webaim.org/articles/jaws/)
+* [Deque - JAWS Keyboard Shortcuts](https://dequeuniversity.com/screenreaders/jaws-keyboard-shortcuts)
+
+### 9.6. 其他屏幕阅读器
+
+#### 9.6.1. Chrome 浏览器中的 ChromeVox
+
+[ChromeVox](http://www.chromevox.com/) 是 Chromebook 上的集成屏幕阅读器，可作为 Google Chrome 的[扩展程序](https://chrome.google.com/webstore/detail/chromevox/kgejglhpjiefppelpmljglcjbhoiplfn?hl=en)使用。
+
+有关如何最佳使用 ChromeVox 的信息，请参阅以下指南：
+
+* [Google Chromebook Help - Use the Built-in Screen Reader](https://support.google.com/chromebook/answer/7031755?hl=en)
+* [ChromeVox Classic Keyboard Shortcuts Reference](http://www.chromevox.com/keyboard_shortcuts.html)
