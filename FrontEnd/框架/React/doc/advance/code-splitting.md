@@ -205,3 +205,24 @@ const App = () => (
   </Router>
 );
 ```
+
+## 6. 命名导出
+
+`React.lazy` 目前仅支持默认导出。 如果要导入的模块使用命名导出，则可以创建一个中间模块，将其重新导出为默认模块。 这可以确保 treeshaking 继续工作，并且您不会拉入未使用的组件。
+
+```jsx
+// ManyComponents.js
+export const MyComponent = /* ... */;
+export const MyUnusedComponent = /* ... */;
+```
+
+```jsx
+// MyComponent.js
+export { MyComponent as default } from "./ManyComponents.js";
+```
+
+```jsx
+// MyApp.js
+import React, { lazy } from 'react';
+const MyComponent = lazy(() => import("./MyComponent.js"));
+```
