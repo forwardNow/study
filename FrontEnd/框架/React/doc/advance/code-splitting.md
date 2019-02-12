@@ -47,3 +47,33 @@ console.log(add(16, 26)); // 42
 为了避免非常大的捆绑包，最好先解决问题并开始“拆分”你的捆绑。 [Code-Splitting](https://webpack.js.org/guides/code-splitting/) 是 Webpack 和 Browserify 等捆绑器支持的功能（通过 [factor-bundle](https://github.com/browserify/factor-bundle)），可以创建多个可在运行时动态加载的包。
 
 拆分您的应用的代码可以帮助您“懒惰”加载用户当前需要的东西，这可以明显提高您的应用程序的性能。 虽然您没有减少应用程序中的总代码量，但您已经避免加载用户可能永远不需要的代码，并减少了初始加载期间所需的代码量。
+
+## 3. `import()`
+
+将代码拆分引入应用程序的最佳方法是使用动态 `import()` 语法。
+
+Before:
+
+```jsx
+import { add } from './math';
+
+console.log(add(16, 26));
+```
+
+After:
+
+```jsx
+import("./math").then(math => {
+  console.log(math.add(16, 26));
+});
+```
+
+>注意：
+>
+>动态 `import()` 语法是 ECMAScript（JavaScript）提议，目前不是语言标准的一部分。 预计在不久的将来会被接受。
+
+当 Webpack 遇到这种语法时，它会自动启动代码拆分您的应用程序。 如果您正在使用 Create React App，则已为您配置，您可以立即开始使用它。 它也支持 Next.js 中的开箱即用。
+
+如果你自己设置 Webpack，你可能想要阅读 Webpack 的[代码分割指南](https://webpack.js.org/guides/code-splitting/)。 您的 Webpack 配置应该看起来像[这样](https://gist.github.com/gaearon/ca6e803f5c604d37468b0091d9959269)。
+
+使用 Babel 时，您需要确保 Babel 可以解析动态导入语法，但不会对其进行转换。 为此你需要 [babel-plugin-syntax-dynamic-import](https://yarnpkg.com/en/package/babel-plugin-syntax-dynamic-import)。
