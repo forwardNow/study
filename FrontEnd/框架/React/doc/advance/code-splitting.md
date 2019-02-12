@@ -118,7 +118,7 @@ function MyComponent() {
 
 `React.lazy` 采用必须调用动态 `import()` 的函数。 这必须返回一个 `Promise`，它解析为一个带有包含 React 组件的默认导出的模块。
 
-## 5. Suspense
+### 4.1. Suspense
 
 如果在 `MyComponent` 渲染时尚未加载包含 `OtherComponent` 的模块，我们必须在等待加载时显示一些后备内容 - 例如加载指示符。 这是使用 `Suspense` 组件完成的。
 
@@ -154,4 +154,27 @@ function MyComponent() {
     </div>
   );
 }
+```
+
+### 4.2. 错误边界
+
+如果其他模块无法加载（例如，由于网络故障），则会触发错误。 您可以处理这些错误以显示良好的用户体验并使用[错误边界](https://reactjs.org/docs/error-boundaries.html)管理恢复。 一旦创建了错误边界，就可以在惰性组件上方的任何位置使用它，以便在出现网络错误时显示错误状态。
+
+```jsx
+import MyErrorBoundary from './MyErrorBoundary';
+const OtherComponent = React.lazy(() => import('./OtherComponent'));
+const AnotherComponent = React.lazy(() => import('./AnotherComponent'));
+
+const MyComponent = () => (
+  <div>
+    <MyErrorBoundary>
+      <Suspense fallback={<div>Loading...</div>}>
+        <section>
+          <OtherComponent />
+          <AnotherComponent />
+        </section>
+      </Suspense>
+    </MyErrorBoundary>
+  </div>
+);
 ```
