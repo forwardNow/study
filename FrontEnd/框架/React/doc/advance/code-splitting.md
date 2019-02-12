@@ -117,3 +117,41 @@ function MyComponent() {
 当渲染此组件时，这将自动加载包含 `OtherComponent` 的包。
 
 `React.lazy` 采用必须调用动态 `import()` 的函数。 这必须返回一个 `Promise`，它解析为一个带有包含 React 组件的默认导出的模块。
+
+## 5. Suspense
+
+如果在 `MyComponent` 渲染时尚未加载包含 `OtherComponent` 的模块，我们必须在等待加载时显示一些后备内容 - 例如加载指示符。 这是使用 `Suspense` 组件完成的。
+
+```jsx
+const OtherComponent = React.lazy(() => import('./OtherComponent'));
+
+function MyComponent() {
+  return (
+    <div>
+      <Suspense fallback={<div>Loading...</div>}>
+        <OtherComponent />
+      </Suspense>
+    </div>
+  );
+}
+```
+
+`fallback` prop 接受在等待加载组件时要呈现的任何 React 元素。 您可以将 `Suspense` 组件放在惰性组件上方的任何位置。 您甚至可以使用单个 `Suspense` 组件包装多个惰性组件。
+
+```jsx
+const OtherComponent = React.lazy(() => import('./OtherComponent'));
+const AnotherComponent = React.lazy(() => import('./AnotherComponent'));
+
+function MyComponent() {
+  return (
+    <div>
+      <Suspense fallback={<div>Loading...</div>}>
+        <section>
+          <OtherComponent />
+          <AnotherComponent />
+        </section>
+      </Suspense>
+    </div>
+  );
+}
+```
