@@ -178,3 +178,30 @@ const MyComponent = () => (
   </div>
 );
 ```
+
+## 5. 基于路由的代码拆分
+
+决定在您的应用程序中引入代码拆分的位置可能有点棘手。 您希望确保选择将均匀分割捆绑包的位置，但不会破坏用户体验。
+
+一个好的起点是路由。 Web 上的大多数人都习惯于在转换过程中花费一些时间来加载。 您还倾向于一次重新呈现整个页面，因此您的用户不可能同时与页面上的其他元素进行交互。
+
+这是一个如何使用 [React Router](https://reacttraining.com/react-router/) 和 React.lazy 之类的库设置基于路由的代码拆分到您的应用程序的示例。
+
+```jsx
+import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
+import React, { Suspense, lazy } from 'react';
+
+const Home = lazy(() => import('./routes/Home'));
+const About = lazy(() => import('./routes/About'));
+
+const App = () => (
+  <Router>
+    <Suspense fallback={<div>Loading...</div>}>
+      <Switch>
+        <Route exact path="/" component={Home}/>
+        <Route path="/about" component={About}/>
+      </Switch>
+    </Suspense>
+  </Router>
+);
+```
