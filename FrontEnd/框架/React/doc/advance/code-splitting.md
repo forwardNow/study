@@ -77,3 +77,43 @@ import("./math").then(math => {
 如果你自己设置 Webpack，你可能想要阅读 Webpack 的[代码分割指南](https://webpack.js.org/guides/code-splitting/)。 您的 Webpack 配置应该看起来像[这样](https://gist.github.com/gaearon/ca6e803f5c604d37468b0091d9959269)。
 
 使用 Babel 时，您需要确保 Babel 可以解析动态导入语法，但不会对其进行转换。 为此你需要 [babel-plugin-syntax-dynamic-import](https://yarnpkg.com/en/package/babel-plugin-syntax-dynamic-import)。
+
+## 4. React.lazy
+
+>注意：
+>
+>`React.lazy` 和 Suspense 尚不可用于服务器端呈现。 如果要在服务器呈现的应用程序中进行代码拆分，我们建议使用[可加载组件](https://github.com/smooth-code/loadable-components)。 它有一个很好的[指南](https://github.com/smooth-code/loadable-components/blob/master/packages/server/README.md)，用于捆绑服务器端渲染。
+
+`React.lazy` 函数允许您将动态导入呈现为常规组件。
+
+Before:
+
+```jsx
+mport OtherComponent from './OtherComponent';
+
+function MyComponent() {
+  return (
+    <div>
+      <OtherComponent />
+    </div>
+  );
+}
+```
+
+After:
+
+```jsx
+const OtherComponent = React.lazy(() => import('./OtherComponent'));
+
+function MyComponent() {
+  return (
+    <div>
+      <OtherComponent />
+    </div>
+  );
+}
+```
+
+当渲染此组件时，这将自动加载包含 `OtherComponent` 的包。
+
+`React.lazy` 采用必须调用动态 `import()` 的函数。 这必须返回一个 `Promise`，它解析为一个带有包含 React 组件的默认导出的模块。
