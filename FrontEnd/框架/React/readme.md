@@ -2,7 +2,7 @@
 
 索引：
 
-* 官方文档（v16.7.0）
+* 官方文档（v16.7.0 - v16.8.2）
   * 安装
     * [入门](./doc/installation/getting-started.md)
     * [将 React 添加到网站](./doc/installation/add-react-to-a-website.md)
