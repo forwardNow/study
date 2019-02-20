@@ -63,17 +63,21 @@
 * RxJS
   * [《30 天精通 RxJS 系列》](./FrontEnd/库/RxJS/readme.md)
 
-### 1.6. 包管理器
+### 1.6. 平台
+
+* [APICloud](./FrontEnd/platform/apicloud/readme.md)
+
+### 1.7. 包管理器
 
 * [NPM](./BackEnd/npm/readme.md)
 * [yarn](./FrontEnd/Build/yarn.md)
 * [pnpm](./FrontEnd/Build/pnpm.md)
 
-### 1.7. 单元测试
+### 1.8. 单元测试
 
 * [Mocha.js 的使用](./blog/2018/10/09.mochajs的使用.md)
 
-### 1.8. 浏览器相关
+### 1.9. 浏览器相关
 
 * WebKit
   * [《WebKit 技术内幕》 —— 朱永盛](./FrontEnd/其他/WebKit技术内幕/readme.md)
@@ -84,7 +88,7 @@
   * [制作web浏览器【待完成】](./FrontEnd/其他/制作web浏览器/readme.md)
   * [浏览器的工作原理【待完成】](./blog/2018/08/11.浏览器的工作原理.md)
 
-### 1.9. 待分类
+### 1.10. 待分类
 
 * [前端发展趋势](./blog/2018/07/30.前端发展趋势.md)
 * [gitbook 的使用](./blog/2018/10/30.gitbook的使用.md)
