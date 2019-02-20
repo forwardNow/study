@@ -75,3 +75,52 @@ class ThemedButton extends React.Component {
   }
 }
 ```
+
+## 2. 在使用 context 之前
+
+context 主要用于当一些数据需要在不同的嵌套级别上被许多组件访问时。 谨慎应用它，因为它使组件重用更加困难。
+
+如果您只想避免逐层传递 prop，那么[组件组合](https://reactjs.org/docs/composition-vs-inheritance.html)通常比上下文更简单。
+
+例如，考虑一个传递用户的页面组件和avatarSize支持几个级别，以便深层嵌套的链接和头像组件可以读取它：
+
+例如，一个 `Page` 组件，向下层传递 `user`、`avatarSize` 属性，以便嵌套很深的的 `Link` 、 `Avatar` 组件可以读取它：
+
+```jsx
+<Page user={user} avatarSize={avatarSize} />
+// ... which renders ...
+<PageLayout user={user} avatarSize={avatarSize} />
+// ... which renders ...
+<NavigationBar user={user} avatarSize={avatarSize} />
+// ... which renders ...
+<Link href={user.permalink}>
+  <Avatar user={user} size={avatarSize} />
+</Link>
+```
+
+如果最终只有 `Avatar` 组件确实需要它，那么将 `user` 和 `avatarSize` prop 传递给多个级别可能会感到多余。 同样令人讨厌的是，当 `Avatar` 组件从顶部需要更多 prop 时，您也必须在所有中间级别添加它们。
+
+在没有上下文的情况下解决此问题的一种方法是传递 `Avatar` 组件本身，以便中间组件不需要知道 `user` prop：
+
+```jsx
+function Page(props) {
+  const user = props.user;
+  const userLink = (
+    <Link href={user.permalink}>
+      <Avatar user={user} size={props.avatarSize} />
+    </Link>
+  );
+  return <PageLayout userLink={userLink} />;
+}
+
+// Now, we have:
+<Page user={user} />
+// ... which renders ...
+<PageLayout userLink={...} />
+// ... which renders ...
+<NavigationBar userLink={...} />
+// ... which renders ...
+{props.userLink}
+```
+
+通过此更改，只有最顶层的 `Page` 组件需要了解 `Link` 和 `Avatar` 组件对 `user` 和 `avatarSize` 的使用。
