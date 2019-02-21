@@ -110,5 +110,8 @@ $ ./node_modules/.bin/tslint --project ./
   * [let 和 const](./example/src/02-variable-declarations/1.let&const.ts)
   * [解构](./example/src/02-variable-declarations/2.deconstruction.ts)
 * 接口
-  * [基本](./example/src/03-interfaces/1.basic.ts)
+  * [基础](./example/src/03-interfaces/1.basic.ts)
   * [高级](./example/src/03-interfaces/2.advance.ts)
+* 类
+  * [基础](./example/src/04-classes/1.basis.ts)
+  * [高级](./example/src/04-classes/2.advance.ts)

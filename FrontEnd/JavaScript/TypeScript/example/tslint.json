@@ -11,7 +11,9 @@
     ],
     // 对齐
     "align": [true, "parameters", "statements"],
-    "object-literal-sort-keys": false
+    // 对象 key 排序
+    "object-literal-sort-keys": false,
+    "max-classes-per-file": [false, 1]
   },
   "linterOptions": {
     // 排除的文件
