@@ -41,7 +41,7 @@ $ tsc --init
 
 `tsconfig.json` 的配置：
 
-```json
+```javascript
 {
   "compilerOptions": {
     // Base directory to resolve non-absolute module names
@@ -68,7 +68,7 @@ npm install tslint -D
 
 在项目根目录创建并配置 tslint.json：
 
-```json
+```javascript
 {
   "extends": ["tslint:recommended"],
   "rules":{
