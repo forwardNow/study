@@ -55,3 +55,49 @@ $ tsc --init
   }
 }
 ```
+
+## 3. TSLint
+
+安装：
+
+```shell
+npm install tslint typescript -D
+```
+
+安装 tslint （vscode）插件。
+
+在项目根目录创建并配置 tslint.json：
+
+```json
+{
+  "extends": ["tslint:recommended"],
+  "rules":{
+    "no-console":false,
+    // 缩进
+    "indent":[true, "spaces", 2],
+    // 空行不超过两行
+    "no-consecutive-blank-lines": [
+      true,
+      2
+    ],
+    // 对齐
+    "align": [true, "parameters", "statements"]
+  },
+  "linterOptions": {
+    // 排除的文件
+    "exclude": [
+      "config/**/*.js",
+      "node_modules/**"
+    ]
+  }
+}
+```
+
+执行 lint：
+
+>执行了这句命令，vscode 才会在编辑器内自动显示警告/错误信息。
+
+```shell
+# 在项目根目录执行。
+$ .\node_modules\.bin\tslint --project .\
+```
