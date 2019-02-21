@@ -101,3 +101,10 @@ npm install tslint -D
 # 在项目根目录执行。
 $ ./node_modules/.bin/tslint --project ./
 ```
+
+## 4. 说明与示例
+
+* 类型
+  * [基本类型](./example/src/01-basic-types/1.type.ts)
+* 变量
+  * [let 和 const](./example/src/02-variable-declarations/1.let&const.ts)
