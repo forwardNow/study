@@ -117,3 +117,5 @@ $ ./node_modules/.bin/tslint --project ./
   * [高级](./example/src/04-classes/2.advance.ts)
 * 函数
   * [基础](./example/src/05-functions/1.basis.ts)
+* 泛型
+  * [基础](./example/src/06-generics/1.basis.ts)
