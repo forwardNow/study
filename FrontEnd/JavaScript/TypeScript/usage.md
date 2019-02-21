@@ -6,12 +6,12 @@
 
 ```shell
 # 安装 TypeScript Compiler
-$ npm install -g typescript
-$ tsc -v
+$ npm install typescript -D
+$ ./node_modules/.bin/tsc -v
 Version 3.3.3
 
 # 安装库的 d.ts 文件, 如安装 node.d.ts 文件
-$ npm install --save -g @types/node
+$ npm install @types/node -D
 ```
 
 ## 2. 创建项目与配置
@@ -61,7 +61,7 @@ $ tsc --init
 安装：
 
 ```shell
-npm install tslint typescript -D
+npm install tslint -D
 ```
 
 安装 tslint （vscode）插件。
