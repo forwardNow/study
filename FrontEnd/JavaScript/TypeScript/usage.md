@@ -108,3 +108,5 @@ $ ./node_modules/.bin/tslint --project ./
   * [基本类型](./example/src/01-basic-types/1.type.ts)
 * 变量
   * [let 和 const](./example/src/02-variable-declarations/1.let&const.ts)
+  * [解构](./example/src/02-variable-declarations/2.deconstruction.ts)
+  
