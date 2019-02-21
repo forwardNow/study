@@ -99,5 +99,5 @@ npm install tslint -D
 
 ```shell
 # 在项目根目录执行。
-$ .\node_modules\.bin\tslint --project .\
+$ ./node_modules/.bin/tslint --project ./
 ```
