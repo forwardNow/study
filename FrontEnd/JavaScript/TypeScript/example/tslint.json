@@ -1,0 +1,22 @@
+{
+  "extends": ["tslint:recommended"],
+  "rules":{
+    "no-console":false,
+    // 缩进
+    "indent":[true, "spaces", 2],
+    // 空行不超过两行
+    "no-consecutive-blank-lines": [
+      true,
+      2
+    ],
+    // 对齐
+    "align": [true, "parameters", "statements"]
+  },
+  "linterOptions": {
+    // 排除的文件
+    "exclude": [
+      "config/**/*.js",
+      "node_modules/**"
+    ]
+  }
+}
