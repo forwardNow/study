@@ -111,3 +111,4 @@ $ ./node_modules/.bin/tslint --project ./
   * [解构](./example/src/02-variable-declarations/2.deconstruction.ts)
 * 接口
   * [基本](./example/src/03-interfaces/1.basic.ts)
+  * [高级](./example/src/03-interfaces/2.advance.ts)
