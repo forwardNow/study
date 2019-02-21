@@ -109,4 +109,5 @@ $ ./node_modules/.bin/tslint --project ./
 * 变量
   * [let 和 const](./example/src/02-variable-declarations/1.let&const.ts)
   * [解构](./example/src/02-variable-declarations/2.deconstruction.ts)
-  
+* 接口
+  * [基本](./example/src/03-interfaces/1.basic.ts)

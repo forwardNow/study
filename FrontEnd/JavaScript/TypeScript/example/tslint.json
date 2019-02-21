@@ -10,7 +10,8 @@
       2
     ],
     // 对齐
-    "align": [true, "parameters", "statements"]
+    "align": [true, "parameters", "statements"],
+    "object-literal-sort-keys": false
   },
   "linterOptions": {
     // 排除的文件
