@@ -182,3 +182,45 @@ const MyContext = React.createContext(defaultValue);
 >注意
 >
 >确定更改的方式可能会在将对象作为值传递时导致一些问题：请参阅[警告](https://reactjs.org/docs/context.html#caveats)。
+
+### 3.3. `Class.contextType`
+
+```jsx
+class MyClass extends React.Component {
+  componentDidMount() {
+    let value = this.context;
+    /* perform a side-effect at mount using the value of MyContext */
+  }
+  componentDidUpdate() {
+    let value = this.context;
+    /* ... */
+  }
+  componentWillUnmount() {
+    let value = this.context;
+    /* ... */
+  }
+  render() {
+    let value = this.context;
+    /* render something based on the value of MyContext */
+  }
+}
+MyClass.contextType = MyContext;
+```
+
+可以为类上的 `contextType` 属性分配由 `React.createContext()` 创建的 Context 对象。 这允许您使用 `this.context` 使用该 Context 类型的最近的当前值。 您可以在任何生命周期方法中引用它，包括 `render` 函数。
+
+>注意：
+>
+>您只能使用此 API 订阅单个上下文。 如果您需要阅读多个，请参阅[使用多个上下文](https://reactjs.org/docs/context.html#consuming-multiple-contexts)。
+>
+>如果您使用的是实验性[公共类字段语法](https://babeljs.io/docs/plugins/transform-class-properties/)，则可以使用静态类字段初始化 `contextType`。
+
+```jsx
+class MyClass extends React.Component {
+  static contextType = MyContext;
+  render() {
+    let value = this.context;
+    /* render something based on the value */
+  }
+}
+```
