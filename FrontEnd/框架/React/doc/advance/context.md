@@ -224,3 +224,19 @@ class MyClass extends React.Component {
   }
 }
 ```
+
+### 3.4. `Context.Consumer`
+
+```jsx
+<MyContext.Consumer>
+  {value => /* render something based on the context value */}
+</MyContext.Consumer>
+```
+
+订阅上下文更改的 React 组件。 这使您可以在函数组件中的订阅上下文。
+
+需要作为子组件的函数组件。 该函数接收当前上下文值并返回 React 节点。 传递给函数的 value 参数将等于树中上述此上下文的最近 Provider 的 `value` prop。 如果上面没有此上下文的 Provider，则 `value` 参数将等于传递给 `createContext()` 的 `defaultValue`。
+
+>注意
+>
+>有关“作为子组件的函数”模式的更多信息，请参阅[渲染 props](https://reactjs.org/docs/render-props.html)。
