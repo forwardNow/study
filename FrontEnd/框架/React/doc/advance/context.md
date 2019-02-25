@@ -124,3 +124,31 @@ function Page(props) {
 ```
 
 通过此更改，只有最顶层的 `Page` 组件需要了解 `Link` 和 `Avatar` 组件对 `user` 和 `avatarSize` 的使用。
+
+在许多情况下，这种控制反转可以使代码更加清晰，它减少需要要传递的 prop 的数量并对根组件进行更多控制。 但是，这不能在所有场景使用：将负责度转移到更高层级的组件，会使底层组件更灵活且难掌控。
+
+一个组件可以由多个子组件。您可以传递多个孩子，甚至可以为孩子们分别设置多个“插槽”，如下所示：
+
+```jsx
+function Page(props) {
+  const user = props.user;
+  const content = <Feed user={user} />;
+  const topBar = (
+    <NavigationBar>
+      <Link href={user.permalink}>
+        <Avatar user={user} size={props.avatarSize} />
+      </Link>
+    </NavigationBar>
+  );
+  return (
+    <PageLayout
+      topBar={topBar}
+      content={content}
+    />
+  );
+}
+```
+
+当需要解耦父子组件时，这种方式可以满足大多数情况。如果子组件在渲染之前需要与父组件通信，可以使用 props 属性。
+
+但是，有时需要树中的许多（不同的嵌套级别的）组件可以访问相同的数据。 上下文允许您将此类数据“广播”到下面的所有组件并对其进行更改。 上下文主要应用于，如管理当前 locale、theme、数据缓存。
