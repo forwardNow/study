@@ -164,3 +164,21 @@ const MyContext = React.createContext(defaultValue);
 创建 Context 对象。 当 React 呈现一个订阅此 Context 对象的组件时，它将从树中它上面最接近的匹配 `Provider` 读取当前上下文值。
 
 `defaultValue` 参数仅在组件在树中没有匹配的 `Provider` 时使用。 这可以帮助单独测试组件而不需要嵌入。 注意：将 `undefined` 作为 `Provider` 值传递不会导致组件使用 `defaultValue`。
+
+### 3.2. `Context.Provider`
+
+```jsx
+<MyContext.Provider value={/* some value */}>
+```
+
+每个 Context 对象都附带一个 Provider React 组件，允许使用组件来订阅上下文更改。
+
+接受 `value` prop，将其传递给此 Provider 的后代的消费组件。 一个提供商可以连接到许多消费者，也可以进行嵌套以覆盖树中更深层的值。
+
+作为提供者后代的所有消费者将在提供者的 `value` prop 发生变化时重新渲染。 从 Provider 到其后代使用者的传播不受 `shouldComponentUpdate` 方法的约束，因此即使祖先组件退出更新，也会更新使用者。
+
+通过使用与 `Object.is` 相同的算法比较新旧值来确定更改。
+
+>注意
+>
+>确定更改的方式可能会在将对象作为值传递时导致一些问题：请参阅[警告](https://reactjs.org/docs/context.html#caveats)。
