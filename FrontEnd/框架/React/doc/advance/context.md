@@ -152,3 +152,15 @@ function Page(props) {
 当需要解耦父子组件时，这种方式可以满足大多数情况。如果子组件在渲染之前需要与父组件通信，可以使用 props 属性。
 
 但是，有时需要树中的许多（不同的嵌套级别的）组件可以访问相同的数据。 上下文允许您将此类数据“广播”到下面的所有组件并对其进行更改。 上下文主要应用于，如管理当前 locale、theme、数据缓存。
+
+## 3. API
+
+### 3.1. `React.createContext`
+
+```jsx
+const MyContext = React.createContext(defaultValue);
+```
+
+创建 Context 对象。 当 React 呈现一个订阅此 Context 对象的组件时，它将从树中它上面最接近的匹配 `Provider` 读取当前上下文值。
+
+`defaultValue` 参数仅在组件在树中没有匹配的 `Provider` 时使用。 这可以帮助单独测试组件而不需要嵌入。 注意：将 `undefined` 作为 `Provider` 值传递不会导致组件使用 `defaultValue`。
