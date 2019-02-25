@@ -240,3 +240,104 @@ class MyClass extends React.Component {
 >注意
 >
 >有关“作为子组件的函数”模式的更多信息，请参阅[渲染 props](https://reactjs.org/docs/render-props.html)。
+
+## 4. 示例
+
+### 4.1. 动态上下文
+
+一个更复杂的示例，包含主题的动态值：
+
+**theme-context.js**：
+
+```jsx
+export const themes = {
+  light: {
+    foreground: '#000000',
+    background: '#eeeeee',
+  },
+  dark: {
+    foreground: '#ffffff',
+    background: '#222222',
+  },
+};
+
+export const ThemeContext = React.createContext(
+  themes.dark // default value
+);
+```
+
+**themed-button.js**:
+
+```jsx
+import {ThemeContext} from './theme-context';
+
+class ThemedButton extends React.Component {
+  render() {
+    let props = this.props;
+    let theme = this.context;
+    return (
+      <button
+        {...props}
+        style={{backgroundColor: theme.background}}
+      />
+    );
+  }
+}
+ThemedButton.contextType = ThemeContext;
+
+export default ThemedButton;
+```
+
+**app.js**：
+
+```jsx
+import {ThemeContext, themes} from './theme-context';
+import ThemedButton from './themed-button';
+
+// An intermediate component that uses the ThemedButton
+function Toolbar(props) {
+  return (
+    <ThemedButton onClick={props.changeTheme}>
+      Change Theme
+    </ThemedButton>
+  );
+}
+
+class App extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      theme: themes.light,
+    };
+
+    this.toggleTheme = () => {
+      this.setState(state => ({
+        theme:
+          state.theme === themes.dark
+            ? themes.light
+            : themes.dark,
+      }));
+    };
+  }
+
+  render() {
+    // The ThemedButton button inside the ThemeProvider
+    // uses the theme from state while the one outside uses
+    // the default dark theme
+    return (
+      <Page>
+        <ThemeContext.Provider value={this.state.theme}>
+          <Toolbar changeTheme={this.toggleTheme} />
+        </ThemeContext.Provider>
+        <Section>
+          <ThemedButton />
+        </Section>
+      </Page>
+    );
+  }
+}
+
+ReactDOM.render(<App />, document.root);
+```
+
+### 4.2. 从嵌套组件更新上下文
