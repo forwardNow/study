@@ -10,6 +10,7 @@ Vue.use(VueRouter);
 
 const router = new VueRouter({
   routes: [
+    { path: '/', redirect: '/home' },
     { path: '/home', component: HomeContainer },
     { path: '/member', component: MemberContainer },
     { path: '/shopcar', component: ShopcarContainer },

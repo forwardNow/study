@@ -1,5 +1,6 @@
 import Vue from 'vue';
 import { Header, Swipe, SwipeItem } from 'mint-ui';
+import VurResource from 'vue-resource';
 
 // MUI
 import 'mui/dist/css/mui.min.css';
@@ -10,10 +11,14 @@ import router from './router';
 
 import AppComponent from './App.vue';
 
+import './style.less';
+
 
 Vue.component(Swipe.name, Swipe);
 Vue.component(SwipeItem.name, SwipeItem);
 Vue.component(Header.name, Header);
+
+Vue.use(VurResource);
 
 new Vue({
   render(createElements) {
