@@ -1,6 +1,6 @@
 # Promise
 
-## 介绍
+## 1. 介绍
 
 Promise 的就是为了解决回调地狱问题的，并不能帮我们减少代码量。
 
@@ -58,3 +58,40 @@ promise.then(
   err => console.log(err),
 );
 ```
+
+## 2. 解决回调地狱
+
+```javascript
+const fs = require('fs');
+
+function readFile(filePath) {
+  new Promise((resolve, reject) => {
+    fs.readFile(filePath, 'utf-8', (err, data) => {
+      if (err) {
+        // throw err;
+        return reject(err);
+      }
+
+      return reject(data.toString());
+    });
+  });
+}
+
+readFile('./1.txt')
+  .then((content) => {
+    console.log(content);
+
+    return readFile('./2.txt');
+  })
+  .then((content) => {
+    console.log(content);
+
+    return readFile('./3.txt');
+  })
+  .then((content) => {
+    console.log(content);
+  })
+;
+```
+
+在上一个 `.then()` 的 `resolve()` 中返回一个新的 Promise 实例，可以将多个异步操作进行串联。
