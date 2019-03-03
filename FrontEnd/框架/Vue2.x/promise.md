@@ -156,3 +156,14 @@ readFile('./1.txt')
   .catch(err => console.log(err.message));
 ;
 ```
+
+## 4. jQuery 中 Promise
+
+>无兼容性
+
+```javascript
+jQuery.ajax({
+  url: './1.json',
+  type: 'GET'
+}).then(data => console.log(data));
+```
