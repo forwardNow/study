@@ -11,9 +11,10 @@
 
     <!-- 功能区域 -->
     <ul class="mui-table-view mui-grid-view mui-grid-9">
-      <li class="mui-table-view-cell mui-media mui-col-xs-4 mui-col-sm-3"><a href="#">
+      <li class="mui-table-view-cell mui-media mui-col-xs-4 mui-col-sm-3">
+        <router-link to="/home/newslist">
               <img src="../../common/assets/images/icon_1.png" alt="">
-              <div class="mui-media-body">新闻资讯</div></a></li>
+              <div class="mui-media-body">新闻资讯</div></router-link></li>
       <li class="mui-table-view-cell mui-media mui-col-xs-4 mui-col-sm-3"><a href="#">
               <img src="../../common/assets/images/icon_2.png" alt="">
               <div class="mui-media-body">图片分享</div></a></li>
@@ -47,7 +48,8 @@ export default {
   },
   methods: {
     getCarouselList() {
-      this.$http.get('http://localhost:3000/api/carousel').then(res => {
+      this.$http.get('http://localhost:3000/api/carousel')
+      .then((res) => {
         const {
           body: {
             errorCode,
@@ -60,6 +62,9 @@ export default {
         } else {
           Toast('轮播图加载失败！');
         }
+      })
+      .catch((res) => {
+        Toast('轮播图加载失败！');
       });
     }
   },
