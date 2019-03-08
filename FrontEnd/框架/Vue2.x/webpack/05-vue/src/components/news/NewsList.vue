@@ -5,8 +5,8 @@
           <a href="javascript:;">
             <img class="mui-media-object mui-pull-left" src="http://www.dcloud.io/hellomui/images/yuantiao.jpg">
             <div class="mui-media-body">
-              幸福
-              <p class="mui-ellipsis">能和心爱的人一起睡觉，是件幸福的事情；可是，打呼噜怎么办？</p>
+              <p class="mui-ellipsis title">栗战书：2019年全国人大将落实制定房地产税法</p>
+              <p class="brief">“集中力量落实好党中央确立的重大立法事项，包括审议民法典，制定房地产税法等”立法调研、起草，加紧工作，确保如期完成。</p>
               <p class="aside">
                 <span class="pub-date">2019-03-07</span>
                 <span class="click-times">0 次</span>
@@ -14,52 +14,34 @@
             </div>
           </a>
         </li>
-        <li class="mui-table-view-cell mui-media">
-          <a href="javascript:;">
-            <img class="mui-media-object mui-pull-left" src="http://www.dcloud.io/hellomui/images/shuijiao.jpg">
-            <div class="mui-media-body">
-              木屋
-              <p class="mui-ellipsis">想要这样一间小木屋，夏天挫冰吃瓜，冬天围炉取暖.</p>
-              <p class="aside">
-                <span class="pub-date">2019-03-07</span>
-                <span class="click-times">0 次</span>
-              </p>
-            </div>
-          </a>
-        </li>
-        <li class="mui-table-view-cell mui-media">
-          <a href="javascript:;">
-            <img class="mui-media-object mui-pull-left" src="http://www.dcloud.io/hellomui/images/muwu.jpg">
-            <div class="mui-media-body">
-              CBD
-              <p class="mui-ellipsis">烤炉模式的城，到黄昏，如同打翻的调色盘一般.</p>
-              <p class="aside">
-                <span class="pub-date">2019-03-07</span>
-                <span class="click-times">0 次</span>
-              </p>
-            </div>
-          </a>
-        </li>
-
       </ul>
   </div>
 </template>
 <style lang="less">
 .mui-table-view .mui-media-object {
-  max-width: 64px;
-  height: 64px;
-  line-height: 64px;
+  max-width: 100px;
+  height: 72px;
+  line-height: 72px;
 }
 
-.mui-ellipsis {
-  margin-top: 2px;
+.title {
+  font-size: 14px;
+  color: #333;
+}
+
+.brief {
+  height: 36px;
+  overflow: hidden;
+  font-size: 12px;
+  line-height: 18px;
   color: #666;
+  white-space: normal;
 }
 
 .aside {
   display: flex;
   justify-content: space-between;
-  margin-top: 6px;
+  margin-top: 2px;
   font-size: 12px;
   line-height: 1;
   color: #999;
