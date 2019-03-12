@@ -1,23 +1,62 @@
 <template>
   <div>
-    <ul class="mui-table-view">
-        <li class="mui-table-view-cell mui-media">
-          <a href="javascript:;">
-            <img class="mui-media-object mui-pull-left" src="http://www.dcloud.io/hellomui/images/yuantiao.jpg">
-            <div class="mui-media-body">
-              <p class="mui-ellipsis title">栗战书：2019年全国人大将落实制定房地产税法</p>
-              <p class="brief">“集中力量落实好党中央确立的重大立法事项，包括审议民法典，制定房地产税法等”立法调研、起草，加紧工作，确保如期完成。</p>
-              <p class="aside">
-                <span class="pub-date">2019-03-07</span>
-                <span class="click-times">0 次</span>
-              </p>
-            </div>
-          </a>
-        </li>
+    <ul class="mui-table-view news-list">
+      <li v-for="item in newsList" :key="item.id" class="mui-table-view-cell mui-media">
+        <router-link :to="`/home/newsinfo/${item.id}`">
+          <img class="mui-media-object mui-pull-left" :src="item.img_url">
+          <div class="mui-media-body">
+            <p class="mui-ellipsis title">{{ item.title }}</p>
+            <p class="brief">{{ item.brief }}</p>
+            <p class="aside">
+              <span class="pub-date">{{ item.add_time | dateFormat}}</span>
+              <span class="click-times">{{ item.click }} 次</span>
+            </p>
+          </div>
+        </router-link>
+      </li>
       </ul>
   </div>
 </template>
+<script>
+import { Toast } from 'mint-ui';
+
+export default {
+  created() {
+    this.getNewsList();
+  },
+  data() {
+    return {
+      newsList: [],
+    };
+  },
+  methods: {
+    getNewsList() {
+      this.$http.get('api/newslist')
+      .then((res) => {
+        const {
+          body: {
+            errorCode,
+            result,
+          }
+        } = res;
+
+        if (errorCode === 0) {
+          this.newsList = result.items;
+        } else {
+          Toast('新闻列表加载失败！');
+        }
+      })
+      .catch((res) => {
+        Toast('新闻列表加载失败！');
+      });
+    }
+  },
+}
+</script>
 <style lang="less">
+.news-list {
+}
+
 .mui-table-view .mui-media-object {
   max-width: 100px;
   height: 72px;
@@ -41,7 +80,7 @@
 .aside {
   display: flex;
   justify-content: space-between;
-  margin-top: 2px;
+  margin-top: 3px;
   font-size: 12px;
   line-height: 1;
   color: #999;

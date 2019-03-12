@@ -15,6 +15,7 @@
   "dependencies": {
     "express": "^4.16.4",
     "mint-ui": "^2.2.13",
+    "moment": "^2.24.0",
     "mui": "git+ssh://git@github.com/dcloudio/mui.git",
     "vue": "^2.5.17",
     "vue-resource": "^1.5.1",

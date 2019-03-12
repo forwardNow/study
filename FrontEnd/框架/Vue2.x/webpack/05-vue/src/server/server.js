@@ -1,8 +1,15 @@
 // 1.引入
 const express = require('express');
+const bodyParser = require('body-parser');
 
 // 2.创建服务（相对于 http.createServer）
 const app = express();
+
+// parse application/x-www-form-urlencoded
+app.use(bodyParser.urlencoded({ extended: false }));
+
+// parse application/json
+app.use(bodyParser.json());
 
 // allow custom header and CORS
 app.all('*', (req, res, next) => {
@@ -84,7 +91,54 @@ app.get('/api/newslist', (req, res) => {
           click: 4,
           img_url: 'http://localhost:3000/static/img/newslist/4.jpg',
         },
+        {
+          // https://mbd.baidu.com/newspage/data/landingsuper?context=%7B%22nid%22%3A%22news_10346392705095343949%22%7D&n_type=0&p_from=1
+          id: 5,
+          title: '外商投资法草案提请人代会审议 中国开放再出发',
+          add_time: '2019-03-05T14:15:24.000Z',
+          brief: '外商投资法草案8日提请十三届全国人大二次会议审议，中国外资领域新的基础性法律距正式出炉又近了一步。',
+          click: 5,
+          img_url: 'http://localhost:3000/static/img/newslist/5.jpg',
+        },
+        {
+          // https://mbd.baidu.com/newspage/data/landingsuper?context=%7B%22nid%22%3A%22news_9985505475360639147%22%7D&n_type=0&p_from=1
+          id: 6,
+          title: '武磊送西甲生涯首次助攻！失进球良机被提前换下 西班牙人6轮不败',
+          add_time: '2019-03-06T14:16:24.000Z',
+          brief: '北京时间3月9日凌晨4点，18/19赛季西甲第27轮打响焦点战，西班牙人客场1-1战平毕尔巴鄂竞技，上半场，武磊助攻费雷拉破门。',
+          click: 6,
+          img_url: 'http://localhost:3000/static/img/newslist/6.jpg',
+        },
+        {
+          // https://mbd.baidu.com/newspage/data/landingsuper?context=%7B%22nid%22%3A%22news_9843502006650620053%22%7D&n_type=0&p_from=1
+          id: 7,
+          title: '美官员：美国已准备好与朝鲜进行“重大交易”',
+          add_time: '2019-03-07T14:17:24.000Z',
+          brief: '美国愿和朝鲜进行更多对话!虽然第二次“金特会”无果而终，但美韩数名高官周四和周五接连释放出上述信息，给陷入停滞的美朝谈判带来新希望。',
+          click: 7,
+          img_url: 'http://localhost:3000/static/img/newslist/7.jpg',
+        },
+        {
+          // https://mbd.baidu.com/newspage/data/landingsuper?context=%7B%22nid%22%3A%22news_9499882907464084618%22%7D&n_type=0&p_from=1
+          id: 8,
+          title: '沈阳一企业要求应聘者登记是否离异或单亲，律师：涉侵犯隐私',
+          add_time: '2019-03-08T14:18:24.000Z',
+          brief: '当事人于女士提供的《登记表》 受访者供图应聘时填登记表，不但要填写婚姻情况，还要填写家庭情况是否离异或单亲，沈阳一广告公司被指涉嫌侵犯隐私。',
+          click: 8,
+          img_url: 'http://localhost:3000/static/img/newslist/8.jpg',
+        },
       ],
+    },
+  });
+});
+
+// 新闻详情
+app.get('/api/newsinfo/:id', (req, res) => {
+  res.status(200).json({
+    errorCode: 0,
+    reason: '处理成功',
+    result: {
+      content: req.params.id,
     },
   });
 });

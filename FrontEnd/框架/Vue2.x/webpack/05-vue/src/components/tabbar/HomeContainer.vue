@@ -48,7 +48,7 @@ export default {
   },
   methods: {
     getCarouselList() {
-      this.$http.get('http://localhost:3000/api/carousel')
+      this.$http.get('api/carousel')
       .then((res) => {
         const {
           body: {
