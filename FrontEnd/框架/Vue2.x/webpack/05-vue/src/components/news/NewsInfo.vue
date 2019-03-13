@@ -1,10 +1,11 @@
 <template>
   <div class=news-info>
-    <div class="title">新闻标题</div>
+    <div class="title">{{ newsInfo.title }}</div>
     <div class="sub-title">
-      <span>发表时间：</span>
-      <span>点击：0 次</span>
+      <span>发表时间：{{ newsInfo.add_time | dateFormat }}</span>
+      <span>点击：{{ newsInfo.click }}次</span>
     </div>
+    <div v-html="newsInfo.content"></div>
   </div>
 </template>
 <script>
@@ -15,7 +16,7 @@ export default {
   data() {
     return {
       id: this.$route.params.id,
-      content: null,
+      newsInfo: {},
     }
   },
   methods: {
@@ -30,7 +31,7 @@ export default {
           } = res;
 
           if (errorCode === 0) {
-            this.content = result.content;
+            this.newsInfo = result.newsInfo;
           } else {
             Toast('新闻详情加载失败！');
           }
@@ -42,15 +43,27 @@ export default {
   },
 }
 </script>
-<style lang="less" scoped>
+<style lang="less">
 .news-info {
-  padding: 0 4px;
+  p {
+    text-indent: 2em;
+  }
+
+  .author-icon img {
+    width: 40px;
+  }
+}
+</style>
+<style lang="less" scoped>
+
+.news-info {
+  padding: 0 0.5em;
 }
 
 .title {
   font-size: 18px;
   font-weight: bold;
-  line-height: 48px;
+  line-height: 1.6;
   text-align: center;
 }
 
