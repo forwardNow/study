@@ -42,6 +42,8 @@
 
 ### 1.4. HTML
 
+* html
+  * [《HTML5与CSS3基础教程(第8版)》](./FrontEnd/HTML/HTML5&CSS3/readme.md)
 * svg
   * [《SVG精髓》](./FrontEnd/HTML/SVG精髓)
 * canvas
