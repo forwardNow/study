@@ -84,6 +84,7 @@
 * WebKit
   * [《WebKit 技术内幕》 —— 朱永盛](./FrontEnd/其他/WebKit技术内幕/readme.md)
 * Chrome
+  * [灵活使用 console 让 JavaScript 调试更简单](blog/2019/04/04.console的用法.md)
   * [Chrome常用插件](./blog/2018/09/01.Chrome常用插件.md)
 * 其他
   * [表单提交：同步与异步](./blog/2018/08/31.同步与异步表单提交.md)
