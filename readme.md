@@ -4,12 +4,7 @@
 
 ## 1. 前端
 
-### 1.1. 规范
-
-* API
-  * [Open API 3.0 【翻译】](./FrontEnd/其他/OpenAPI/readme.md)
-
-### 1.2. JavaScript
+### 1.1. JavaScript
 
 * ECMAScript
   * [ES5](./blog/2018/08/15.ES5.md)
@@ -26,7 +21,7 @@
 * 原理相关
   * [JavaScript运行机制：Event Loop](./blog/2018/09/02.EventLoop.md)
 
-### 1.3. CSS
+### 1.2. CSS
 
 * 预编译器
   * [《Less 官方文档》【翻译】](./FrontEnd/CSS/less/doc/readme.md)
@@ -40,7 +35,7 @@
 * 图标
   * [阿里巴巴矢量图标库](./FrontEnd/CSS/阿里巴巴矢量图标库.md)
 
-### 1.4. HTML
+### 1.3. HTML
 
 * html
   * [《HTML5与CSS3基础教程(第8版)》](./FrontEnd/HTML/HTML5&CSS3/readme.md)
@@ -50,6 +45,11 @@
   * [canvas](./FrontEnd/HTML/canvas)
 * video
   * [网页视频播放](./blog/2018/07/04.视频播放（包括IE8）.md)
+
+### 1.4. 前端构建
+
+* webpack
+  * [《深入浅出 webpack 3.x》](./FrontEnd/Build/webpack3.x/readme.md)
 
 ### 1.5. 框架及库
 
@@ -69,17 +69,22 @@
 
 * [APICloud](./FrontEnd/platform/apicloud/readme.md)
 
-### 1.7. 包管理器
+### 1.7. 规范
+
+* API
+  * [Open API 3.0 【翻译】](./FrontEnd/其他/OpenAPI/readme.md)
+
+### 1.8. 包管理器
 
 * [NPM](./BackEnd/npm/readme.md)
 * [yarn](./FrontEnd/Build/yarn.md)
 * [pnpm](./FrontEnd/Build/pnpm.md)
 
-### 1.8. 单元测试
+### 1.9. 单元测试
 
 * [Mocha.js 的使用](./blog/2018/10/09.mochajs的使用.md)
 
-### 1.9. 浏览器相关
+### 1.10. 浏览器相关
 
 * WebKit
   * [《WebKit 技术内幕》 —— 朱永盛](./FrontEnd/其他/WebKit技术内幕/readme.md)
@@ -91,7 +96,7 @@
   * [制作web浏览器【待完成】](./FrontEnd/其他/制作web浏览器/readme.md)
   * [浏览器的工作原理【待完成】](./blog/2018/08/11.浏览器的工作原理.md)
 
-### 1.10. 待分类
+### 1.11. 待分类
 
 * [前端发展趋势](./blog/2018/07/30.前端发展趋势.md)
 * [gitbook 的使用](./blog/2018/10/30.gitbook的使用.md)
