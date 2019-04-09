@@ -12,3 +12,4 @@
   * [使用 DevServer](./1.6.使用DevServer.md)
   * [核心概念](./1.7.核心概念.md)
 * [第 2 章 配置](2.0.配置.md)
+  * [entry](2.1.entry.md)
