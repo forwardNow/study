@@ -402,3 +402,46 @@ const Person = {
 // 等价于
 Person[Symbol.hasInstance]('张三'); // true
 ```
+
+### 7.2. Symbol.isConcatSpreadable
+
+对象的 `Symbol.isConcatSpreadable` 属性：
+
+* 作为 `Array.prototype.concat()` 的参数时，是否会展开其成员
+* 值为 `undefined`、`true` 时会展开
+* 值为 `false` 时不展开
+
+```javascript
+let num1 = [1, 2];
+console.log(num1[Symbol.isConcatSpreadable]); // undefined
+['a', 'b'].concat(num1); // ["a", "b", 1, 2]
+
+
+let num2 = [1, 2];
+num2[Symbol.isConcatSpreadable] = false;
+console.log(['a', 'b'].concat(num2)); // ["a", "b", Array(2)]
+
+let argument = { 0: 'a', 1: 'b', length: 2 };
+console.log(argument[Symbol.isConcatSpreadable]); // undefined
+argument[Symbol.isConcatSpreadable] = true;
+['x', 'y'].concat(argument); // ["x", "y", "a", "b"]
+```
+
+`Symbol.isConcatSpreadable` 属性也可以定义在类里面。
+
+```javascript
+class MyArray extends Array {
+  constructor(args) {
+    super(args);
+    this[Symbol.isConcatSpreadable] = true;
+  }
+}
+class MyArray2 extends Array {
+  constructor(args) {
+    super(args);
+  }
+  get [Symbol.isConcatSpreadable] () {
+    return false;
+  }
+}
+```
