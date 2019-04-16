@@ -251,3 +251,78 @@ const shapeType = {
 ```
 
 上面代码中，除了将 `shapeType.triangle` 的值设为一个 Symbol，其他地方都不用修改。
+
+## 4. 属性名的遍历
+
+Symbol 作为属性名，该属性不会被以下语法或 API 遍历或返回：
+
+* `for...in`
+* `for...of`
+* `Object.keys()`
+* `Object.getOwnPropertyNames()`
+* `JSON.stringify()`
+
+但是，它也不是私有属性，`Object.getOwnPropertySymbols` 方法，可以获取指定对象的所有 Symbol 属性名。
+
+`Object.getOwnPropertySymbols` 方法
+
+* 返回一个数组
+* 成员是当前对象的所有用作属性名的 Symbol 值。
+
+```javascript
+const person = {};
+let idSymbol = Symbol('id');
+let secretSymbol = Symbol('secret');
+
+person[idSymbol] = '123456';
+person[secretSymbol] = 'wahh';
+
+const personSymbols = Object.getOwnPropertySymbols(person);
+
+personSymbols
+// [Symbol(id), Symbol(secret)]
+```
+
+另一个新的 API，`Reflect.ownKeys` 方法可以返回所有类型的键名，包括常规键名和 Symbol 键名。
+
+```javascript
+let person = {
+  [Symbol('id')]: '123456',
+  name: '张三',
+  gender: 0
+};
+
+Reflect.ownKeys(person)
+// ["name", "gender", Symbol(id)]
+```
+
+由于以 Symbol 值作为名称的属性，不会被常规方法遍历得到。我们可以利用这个特性，为对象定义一些非私有的、但又希望只用于内部的方法。
+
+```javascript
+let size = Symbol('size');
+
+class Collection {
+  constructor() {
+    this[size] = 0;
+  }
+
+  add(item) {
+    this[this[size]] = item;
+    this[size]++;
+  }
+
+  static sizeOf(instance) {
+    return instance[size];
+  }
+}
+
+let x = new Collection();
+Collection.sizeOf(x) // 0
+
+x.add('foo');
+Collection.sizeOf(x) // 1
+
+Object.keys(x) // ['0']
+Object.getOwnPropertyNames(x) // ['0']
+Object.getOwnPropertySymbols(x) // [Symbol(size)]
+```
