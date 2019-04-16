@@ -377,3 +377,7 @@ document.body.appendChild(iframe);
 // iframe 窗口生成的 Symbol 值，可以在主页面得到。
 iframe.contentWindow.Symbol.for('foo') === Symbol.for('foo'); // true
 ```
+
+## 6. 实例：模块的 Singleton 模式
+
+Singleton 模式指的是调用一个类，任何时候返回的都是同一个实例。
