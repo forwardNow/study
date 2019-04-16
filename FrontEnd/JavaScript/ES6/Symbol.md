@@ -381,3 +381,24 @@ iframe.contentWindow.Symbol.for('foo') === Symbol.for('foo'); // true
 ## 6. 实例：模块的 Singleton 模式
 
 Singleton 模式指的是调用一个类，任何时候返回的都是同一个实例。
+
+## 7. 内置的 Symbol 值
+
+除了定义自己使用的 Symbol 值以外，ES6 还提供了 11 个内置的 Symbol 值，指向语言内部使用的方法。
+
+### 7.1. Symbol.hasInstance
+
+对象的 `Symbol.hasInstance` 属性，指向一个内部方法。当其他对象使用 instanceof 运算符，判断是否为该对象的实例时，会调用这个方法。比如，`foo instanceof Foo` 在语言内部，实际调用的是 `Foo[Symbol.hasInstance](foo)`。
+
+```javascript
+const Person = {
+  [Symbol.hasInstance](name) {
+    return name === '张三';
+  }
+};
+
+'张三' instanceof Person; // true
+
+// 等价于
+Person[Symbol.hasInstance]('张三'); // true
+```
