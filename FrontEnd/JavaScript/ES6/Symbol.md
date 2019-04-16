@@ -116,3 +116,82 @@ if (sym) {
 Number(sym) // TypeError
 sym + 2 // TypeError
 ```
+
+## 2. 作为属性名的 Symbol
+
+Symbol 值可以作为标识符，用于对象的属性名：
+
+* 每一个 Symbol 值都是不相等的，就能保证不会出现同名的属性
+* 这对于一个对象由多个模块构成的情况非常有用，能防止某一个键被不小心改写或覆盖。
+
+```javascript
+let idSymbol = Symbol();
+
+// 第一种写法
+let person1 = {};
+person1[idSymbol] = '123456789012345678';
+
+// 第二种写法
+let person2 = {
+  [idSymbol]: '123456789012345678'
+};
+
+// 第三种写法
+let person3 = {};
+Object.defineProperty(person3, idSymbol, { value: '123456789012345678' });
+
+// 以上写法都得到同样结果
+console.log(person1[idSymbol]) // "123456789012345678"
+console.log(person2[idSymbol]) // "123456789012345678"
+console.log(person3[idSymbol]) // "123456789012345678"
+```
+
+注意，Symbol 值作为对象属性名时，不能用点运算符。
+
+同理，在对象的内部，使用 Symbol 值定义属性时，Symbol 值必须放在方括号之中。
+
+```javascript
+let getIdSymbol = Symbol();
+
+let person = {
+  [getIdSymbol]: function (name) { ... }
+};
+
+person[getIdSymbol]('张三');
+```
+
+Symbol 类型还可以用于定义一组常量，保证这组常量的值都是不相等的。
+
+```javascript
+const log = {};
+
+log.levels = {
+  DEBUG: Symbol('debug'),
+  INFO: Symbol('info'),
+  WARN: Symbol('warn')
+};
+console.log(log.levels.DEBUG, 'debug message');
+console.log(log.levels.INFO, 'info message');
+```
+
+下面是另外一个例子。
+
+```javascript
+const COLOR_RED    = Symbol();
+const COLOR_GREEN  = Symbol();
+
+function getComplement(color) {
+  switch (color) {
+    case COLOR_RED:
+      return COLOR_GREEN;
+    case COLOR_GREEN:
+      return COLOR_RED;
+    default:
+      throw new Error('Undefined color');
+    }
+}
+```
+
+常量使用 Symbol 值最大的好处，就是其他任何值都不可能有相同的值了，因此可以保证上面的 `switch` 语句会按设计的方式工作。
+
+还有一点需要注意，Symbol 值作为属性名时，该属性还是公开属性，不是私有属性。
