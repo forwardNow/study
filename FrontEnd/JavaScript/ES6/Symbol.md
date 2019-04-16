@@ -195,3 +195,59 @@ function getComplement(color) {
 常量使用 Symbol 值最大的好处，就是其他任何值都不可能有相同的值了，因此可以保证上面的 `switch` 语句会按设计的方式工作。
 
 还有一点需要注意，Symbol 值作为属性名时，该属性还是公开属性，不是私有属性。
+
+## 3. 实例：消除魔术字符串
+
+魔术字符串指的是：在代码之中多次出现、与代码形成强耦合的某一个具体的字符串或者数值。
+
+风格良好的代码，应该尽量消除魔术字符串，改由含义清晰的变量代替。
+
+```javascript
+// 字符串 'Triangle' 就是一个魔术字符串。
+// 它多次出现，与代码形成“强耦合”，不利于将来的修改和维护。
+function getArea(shape, options) {
+  let area = 0;
+
+  switch (shape) {
+    case 'Triangle':
+      area = 0.5 * options.width * options.height;
+      break;
+    /* ... more code ... */
+  }
+
+  return area;
+}
+
+getArea('Triangle', { width: 100, height: 100 });
+```
+
+常用的消除魔术字符串的方法，就是把它写成一个变量。
+
+```javascript
+// 把 'Triangle' 写成 shapeType 对象的 triangle 属性，这样就消除了强耦合。
+const shapeType = {
+  triangle: 'Triangle'
+};
+
+function getArea(shape, options) {
+  let area = 0;
+  switch (shape) {
+    case shapeType.triangle:
+      area = 0.5 * options.width * options.height;
+      break;
+  }
+  return area;
+}
+
+getArea(shapeType.triangle, { width: 100, height: 100 });
+```
+
+如果仔细分析，可以发现 `shapeType.triangle` 等于哪个值并不重要，只要确保不会跟其他 `shapeType` 属性的值冲突即可。因此，这里就很适合改用 Symbol 值。
+
+```javascript
+const shapeType = {
+  triangle: Symbol()
+};
+```
+
+上面代码中，除了将 `shapeType.triangle` 的值设为一个 Symbol，其他地方都不用修改。
