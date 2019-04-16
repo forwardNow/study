@@ -326,3 +326,54 @@ Object.keys(x) // ['0']
 Object.getOwnPropertyNames(x) // ['0']
 Object.getOwnPropertySymbols(x) // [Symbol(size)]
 ```
+
+## 5. Symbol.for()，Symbol.keyFor()
+
+`Symbol.for` 方法：
+
+* 接受一个字符串作为参数
+* 搜索指定名称的 Symbol 值
+* 如果有，就返回这个 Symbol 值
+* 如果无，就新建并返回一个以该字符串为名称的 Symbol 值。
+
+```javascript
+let s1 = Symbol.for('foo');
+let s2 = Symbol.for('foo');
+
+s1 === s2 // true
+```
+
+`Symbol.for()` vs `Symbol()`
+
+* 都会生成新的 Symbol 值
+* 前者会被登记在全局环境中供搜索，后者不会
+* 调用 `Symbol.for("cat")` 30 次，每次都会返回同一个 Symbol 值
+* 调用 `Symbol("cat")` 30 次，会返回 30 个不同的 Symbol 值
+
+```javascript
+Symbol.for("bar") === Symbol.for("bar"); // true
+
+// 由于 Symbol() 写法没有登记机制，所以每次调用都会返回一个不同的值。
+Symbol("bar") === Symbol("bar"); // false
+```
+
+`Symbol.keyFor` 方法返回一个已登记的 Symbol 类型值的 `key`。
+
+```javascript
+let s1 = Symbol.for("foo");
+Symbol.keyFor(s1) // "foo"
+
+let s2 = Symbol("foo");
+Symbol.keyFor(s2) // undefined
+```
+
+需要注意的是，`Symbol.for` 为 Symbol 值登记的名字，是全局环境的，可以在不同的 iframe 或 service worker 中取到同一个值。
+
+```javascript
+iframe = document.createElement('iframe');
+iframe.src = String(window.location);
+document.body.appendChild(iframe);
+
+// iframe 窗口生成的 Symbol 值，可以在主页面得到。
+iframe.contentWindow.Symbol.for('foo') === Symbol.for('foo'); // true
+```
