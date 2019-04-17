@@ -487,3 +487,21 @@ const myArray2 = myArray1.map(x => x);
 myArray2 instanceof MyArray2; // false
 myArray2 instanceof Array;    // true
 ```
+
+### 7.4. Symbol.match
+
+对象的 `Symbol.match` 属性，指向一个函数。当执行 `str.match(myObject)` 时，如果该属性存在，会调用它，返回该方法的返回值。
+
+```javascript
+String.prototype.match(regexp)
+// 等同于
+regexp[Symbol.match](this)
+
+class MyMatcher {
+  [Symbol.match](string) {
+    return 'hello world'.indexOf(string);
+  }
+}
+
+'e'.match(new MyMatcher()) // 1
+```
