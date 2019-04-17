@@ -445,3 +445,45 @@ class MyArray2 extends Array {
   }
 }
 ```
+
+### 7.3. Symbol.species
+
+对象的 `Symbol.species` 属性，指向一个构造函数。创建衍生对象时，会使用该属性。
+
+```javascript
+class MyArray extends Array {
+  // do something
+}
+
+const myArray1 = new MyArray(1, 2, 3);
+const myArray2 = myArray1.map(x => x);
+const myArray3 = myArray1.filter(x => true);
+
+myArray2 instanceof MyArray; // true
+myArray3 instanceof MyArray; // true
+myArray3 instanceof Array;   // true
+```
+
+`Symbol.species` 可改变衍生类的构造函数：
+
+```javascript
+// 默认
+class MyArray extends Array {
+  static get [Symbol.species]() {
+    return this;
+  }
+}
+
+// 改为
+class MyArray2 extends Array {
+  static get [Symbol.species]() {
+    return Array;
+  }
+}
+
+const myArray1 = new MyArray2(1, 2, 3);
+const myArray2 = myArray1.map(x => x);
+
+myArray2 instanceof MyArray2; // false
+myArray2 instanceof Array;    // true
+```
