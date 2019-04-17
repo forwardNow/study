@@ -505,3 +505,23 @@ class MyMatcher {
 
 'e'.match(new MyMatcher()) // 1
 ```
+
+### 7.5. Symbol.replace
+
+对象的 `Symbol.replace` 属性，指向一个方法，当该对象被 `String.prototype.replace` 方法调用时，会返回该方法的返回值。
+
+```javascript
+String.prototype.replace(searchValue, replaceValue)
+// 等同于
+searchValue[Symbol.replace](this, replaceValue)
+```
+
+```javascript
+const searchValue = {
+  [Symbol.replace](search, replace) {
+    return [search, replace];
+  },
+};
+
+'hello'.replace(searchValue, 'world'); //  ["hello", "world"]
+```
