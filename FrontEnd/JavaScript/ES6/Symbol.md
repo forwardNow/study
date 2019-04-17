@@ -386,6 +386,8 @@ Singleton 模式指的是调用一个类，任何时候返回的都是同一个�
 
 除了定义自己使用的 Symbol 值以外，ES6 还提供了 11 个内置的 Symbol 值，指向语言内部使用的方法。
 
+类似于 `toString` 方法，当对象作为特定的方法的参数时，会调用对象特定 Symbol 值参数的方法。
+
 ### 7.1. Symbol.hasInstance
 
 对象的 `Symbol.hasInstance` 属性，指向一个内部方法。当其他对象使用 instanceof 运算符，判断是否为该对象的实例时，会调用这个方法。比如，`foo instanceof Foo` 在语言内部，实际调用的是 `Foo[Symbol.hasInstance](foo)`。
@@ -544,4 +546,43 @@ class MySearch {
   }
 }
 'foobar'.search(new MySearch('foo')) // 0
+```
+
+### 7.7. Symbol.split
+
+对象的 `Symbol.split` 属性，指向一个方法，当该对象被 `String.prototype.split` 方法调用时，会返回该方法的返回值。
+
+```javascript
+String.prototype.split(separator, limit)
+// 等同于
+separator[Symbol.split](this, limit)
+```
+
+下面是一个例子。
+
+```javascript
+class MySplitter {
+  constructor(value) {
+    this.value = value;
+  }
+  [Symbol.split](string) {
+    let index = string.indexOf(this.value);
+    if (index === -1) {
+      return string;
+    }
+    return [
+      string.substr(0, index),
+      string.substr(index + this.value.length)
+    ];
+  }
+}
+
+'foobar'.split(new MySplitter('foo'))
+// ['', 'bar']
+
+'foobar'.split(new MySplitter('bar'))
+// ['foo', '']
+
+'foobar'.split(new MySplitter('baz'))
+// 'foobar'
 ```
