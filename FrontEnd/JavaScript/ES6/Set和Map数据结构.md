@@ -327,3 +327,80 @@ WeakSet 里面的引用，都不计入垃圾回收机制，所以就不存在这
 由于上面这个特点，WeakSet 的成员是不适合引用的，因为它会随时消失。另外，由于 WeakSet 内部有多少个成员，取决于垃圾回收机制有没有运行，运行前后很可能成员个数是不一样的，而垃圾回收机制何时运行是不可预测的，因此 ES6 规定 WeakSet 不可遍历。
 
 这些特点同样适用于本章后面要介绍的 WeakMap 结构。
+
+### 2.1. 语法
+
+WeakSet 是一个构造函数，可以使用 `new` 命令，创建 WeakSet 数据结构。
+
+```javascript
+const ws = new WeakSet();
+```
+
+作为构造函数，WeakSet 可以接受一个数组或类似数组的对象作为参数。
+
+实际上，任何具有 Iterable 接口的对象，都可以作为 WeakSet 的参数。
+
+该数组的所有成员，都会自动成为 WeakSet 实例对象的成员。
+
+```javascript
+const a = [[1, 2], [3, 4]];
+const ws = new WeakSet(a);
+// WeakSet {[1, 2], [3, 4]}
+```
+
+注意，是数组的成员成为 WeakSet 的成员，而不是数组本身。这意味着，数组的成员只能是对象。
+
+```javascript
+const b = [3, 4];
+const ws = new WeakSet(b);
+// Uncaught TypeError: Invalid value used in weak set(…)
+```
+
+WeakSet 结构有以下三个方法：
+
+* `WeakSet.prototype.add(value)`：向 WeakSet 实例添加一个新成员。
+* `WeakSet.prototype.delete(value)`：清除 WeakSet 实例的指定成员。
+* `WeakSet.prototype.has(value)`：返回一个布尔值，表示某个值是否在 WeakSet 实例之中。
+
+```javascript
+const ws = new WeakSet();
+const obj = {};
+const foo = {};
+
+ws.add(window);
+ws.add(obj);
+
+ws.has(window); // true
+ws.has(foo);    // false
+
+ws.delete(window);
+ws.has(window);    // false
+```
+
+WeakSet 没有 `size` 属性，没有办法遍历它的成员。
+
+```javascript
+ws.size // undefined
+ws.forEach // undefined
+
+ws.forEach(function(item){ console.log('WeakSet has ' + item)})
+// TypeError: undefined is not a function
+```
+
+WeakSet 不能遍历，是因为成员都是弱引用，随时可能消失，遍历机制无法保证成员的存在，很可能刚刚遍历结束，成员就取不到了。WeakSet 的一个用处，是储存 DOM 节点，而不用担心这些节点从文档移除时，会引发内存泄漏。
+
+```javascript
+// foos对实例的引用，不会被计入内存回收机制，
+// 所以删除实例的时候，不用考虑foos，也不会出现内存泄漏。
+const foos = new WeakSet()
+class Foo {
+  constructor() {
+    foos.add(this)
+  }
+  method () {
+    if (!foos.has(this)) {
+      throw new TypeError('Foo.prototype.method 只能在Foo的实例上调用！');
+    }
+  }
+}
+```
