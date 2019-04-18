@@ -154,3 +154,69 @@ function dedupe(array) {
 
 dedupe([1, 1, 2, 3]) // [1, 2, 3]
 ```
+
+### 1.3. 遍历操作
+
+Set 结构的实例有四个遍历方法，可以用于遍历成员：
+
+* `keys()`：返回键名的遍历器
+* `values()`：返回键值的遍历器
+* `entries()`：返回键值对的遍历器
+* `forEach()`：使用回调函数遍历每个成员
+
+需要特别指出的是，`Set` 的遍历顺序就是插入顺序。
+
+这个特性有时非常有用，比如使用 Set 保存一个回调函数列表，调用时就能保证按照添加顺序调用。
+
+#### 1.3.1. keys()，values()，entries()
+
+`keys` 方法、`values` 方法、`entries` 方法返回的都是遍历器对象。
+
+由于 Set 结构没有键名，只有键值（或者说键名和键值是同一个值），所以 `keys` 方法和 `values` 方法的行为完全一致：
+
+```javascript
+let set = new Set(['red', 'green', 'blue']);
+
+for (let item of set.keys()) {
+  console.log(item);
+}
+// red
+// green
+// blue
+
+for (let item of set.values()) {
+  console.log(item);
+}
+// red
+// green
+// blue
+
+// entries 方法返回的遍历器，同时包括键名和键值，
+// 所以每次输出一个数组，它的两个成员完全相等。
+for (let item of set.entries()) {
+  console.log(item);
+}
+// ["red", "red"]
+// ["green", "green"]
+// ["blue", "blue"]
+```
+
+Set 结构的实例默认可遍历，它的默认遍历器生成函数就是它的 `values` 方法：
+
+```javascript
+Set.prototype[Symbol.iterator] === Set.prototype.values
+// true
+```
+
+这意味着，可以省略 `values` 方法，直接用 `for...of` 循环遍历 Set：
+
+```javascript
+let set = new Set(['red', 'green', 'blue']);
+
+for (let x of set) {
+  console.log(x);
+}
+// red
+// green
+// blue
+```
