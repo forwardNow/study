@@ -243,3 +243,70 @@ numSet.forEach((value, key, set) => {
 这里需要注意，Set 结构的键名就是键值（两者是同一个值），因此第一个参数与第二个参数的值永远都是一样的。
 
 另外，`forEach` 方法还可以有第二个参数，表示绑定处理函数内部的 `this` 对象。
+
+#### 1.3.3. 遍历的应用
+
+扩展运算符（`...`）内部使用 `for...of` 循环，所以也可以用于 Set 结构。
+
+```javascript
+let set = new Set(['red', 'green', 'blue']);
+let arr = [...set];
+// ['red', 'green', 'blue']
+```
+
+扩展运算符和 Set 结构相结合，就可以去除数组的重复成员。
+
+```javascript
+let arr = [3, 5, 2, 2, 5, 5];
+let unique = [...new Set(arr)];
+// [3, 5, 2]
+```
+
+而且，数组的 `map` 和 `filter` 方法也可以间接用于 Set 了。
+
+```javascript
+et set = new Set([1, 2, 3]);
+set = new Set([...set].map(x => x * 2));
+// 返回Set结构：{2, 4, 6}
+
+let set = new Set([1, 2, 3, 4, 5]);
+set = new Set([...set].filter(x => (x % 2) == 0));
+// 返回Set结构：{2, 4}
+```
+
+因此使用 Set 可以很容易地实现并集（Union）、交集（Intersect）和差集（Difference）。
+
+```javascript
+let a = new Set([1, 2, 3]);
+let b = new Set([4, 3, 2]);
+
+// 并集
+let union = new Set([...a, ...b]);
+// Set {1, 2, 3, 4}
+
+// 交集
+let intersect = new Set([...a].filter(x => b.has(x)));
+// set {2, 3}
+
+// 差集
+let difference = new Set([...a].filter(x => !b.has(x)));
+// Set {1}
+```
+
+如果想在遍历操作中，同步改变原来的 Set 结构，目前没有直接的方法，但有两种变通方法。
+
+一种是利用原 Set 结构映射出一个新的结构，然后赋值给原来的 Set 结构；
+
+另一种是利用 `Array.from` 方法。
+
+```javascript
+// 方法一
+let set = new Set([1, 2, 3]);
+set = new Set([...set].map(val => val * 2));
+// set的值是2, 4, 6
+
+// 方法二
+let set = new Set([1, 2, 3]);
+set = new Set(Array.from(set, val => val * 2));
+// set的值是2, 4, 6
+```
