@@ -220,3 +220,26 @@ for (let x of set) {
 // green
 // blue
 ```
+
+#### 1.3.2. forEach()
+
+Set 结构的实例与数组一样，也拥有 `forEach` 方法，用于对每个成员执行某种操作，没有返回值。
+
+```javascript
+let numSet = new Set([1, 4, 9]);
+
+numSet.forEach((value, key, set) => {
+  console.log(key + ' : ' + value);
+})
+// 1 : 1
+// 4 : 4
+// 9 : 9
+```
+
+`forEach` 方法的参数就是一个处理函数。
+
+该函数的参数与数组的 `forEach` 一致，依次为键值、键名、集合本身（上例省略了该参数）。
+
+这里需要注意，Set 结构的键名就是键值（两者是同一个值），因此第一个参数与第二个参数的值永远都是一样的。
+
+另外，`forEach` 方法还可以有第二个参数，表示绑定处理函数内部的 `this` 对象。
