@@ -2,6 +2,8 @@
 
 ## 1. Set
 
+### 1.1. 基本用法
+
 ES6 提供了新的数据结构 Set。它类似于数组，但是成员的值都是唯一的，没有重复的值。
 
 `Set` 本身是一个构造函数，用来生成 Set 数据结构。
@@ -80,4 +82,75 @@ set.size // 1
 
 set.add({});
 set.size // 2
+```
+
+### 1.2. Set 实例的属性和方法
+
+Set 结构的实例有以下属性：
+
+* `Set.prototype.constructor`：构造函数，默认就是Set函数。
+* `Set.prototype.size`：返回Set实例的成员总数。
+
+Set 实例的方法分为两大类：
+
+* 操作方法（用于操作数据）
+* 遍历方法（用于遍历成员）
+
+操作方法：
+
+* `add(value)`：添加某个值，返回 Set 结构本身。
+* `delete(value)`：删除某个值，返回一个布尔值，表示删除是否成功。
+* `has(value)`：返回一个布尔值，表示该值是否为 `Set` 的成员。
+* `clear()`：清除所有成员，没有返回值。
+
+```javascript
+const s = new Set();
+
+// 注意2被加入了两次
+s.add(1).add(2).add(2);
+
+s.size // 2
+
+s.has(1) // true
+s.has(2) // true
+s.has(3) // false
+
+s.delete(2);
+s.has(2) // false
+```
+
+`Object` 结构和 `Set` 结构判断是否包含指定键名：
+
+```javascript
+// Object
+const object = {};
+
+if (key in object) {
+  // do something
+}
+
+
+// Set
+const set = new Set();
+
+if (set.has(key)) {
+  // do something
+}
+```
+
+`Array.from` 方法可以将 Set 结构转为数组。
+
+```javascript
+const items = new Set([1, 2, 3, 4, 5]);
+const array = Array.from(items);
+```
+
+去除数组重复成员的另一种方法：
+
+```javascript
+function dedupe(array) {
+  return Array.from(new Set(array));
+}
+
+dedupe([1, 1, 2, 3]) // [1, 2, 3]
 ```
