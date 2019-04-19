@@ -404,3 +404,139 @@ class Foo {
   }
 }
 ```
+
+## 3. Map
+
+### 3.1. 含义和基本用法
+
+JavaScript 的对象（Object），本质上是键值对的集合（Hash 结构），但键的类型只能是字符串：
+
+```javascript
+const data = {};
+const element = document.getElementById('myDiv');
+
+data[element] = 'metadata';
+data['[object HTMLDivElement]'] // "metadata"
+```
+
+为了解决这个问题，ES6 提供了 Map 数据结构。它类似于对象，也是键值对的集合，但是“键”的范围不限于字符串，各种类型的值（包括对象）都可以当作键。
+
+也就是说，Object 结构提供了“字符串—值”的对应，Map 结构提供了“值—值”的对应，是一种更完善的 Hash 结构实现。如果你需要“键值对”的数据结构，Map 比 Object 更合适。
+
+```javascript
+const map = new Map();
+const objectKey = {p: 'Hello World'};
+
+map.set(objectKey, 'content')
+map.get(objectKey) // "content"
+
+map.has(objectKey) // true
+map.delete(objectKey) // true
+map.has(objectKey) // false
+```
+
+作为构造函数，Map 也可以接受一个数组作为参数。该数组的成员是一个个表示键值对的数组。
+
+```javascript
+// 新建 Map 实例时，就指定了两个键name和title
+const map = new Map([
+  ['name', '张三'],
+  ['title', 'Author']
+]);
+
+map.size // 2
+map.has('name') // true
+map.get('name') // "张三"
+map.has('title') // true
+map.get('title') // "Author"
+```
+
+Map构造函数接受数组作为参数，实际上执行的是下面的算法。
+
+```javascript
+const items = [
+  ['name', '张三'],
+  ['title', 'Author']
+];
+
+const map = new Map();
+
+items.forEach(
+  ([key, value]) => map.set(key, value)
+);
+```
+
+事实上，不仅仅是数组，任何具有 Iterator 接口、且每个成员都是一个双元素的数组的数据结构（详见《Iterator》一章）都可以当作 `Map` 构造函数的参数。这就是说，`Set` 和 `Map` 都可以用来生成新的 Map。
+
+```javascript
+// 将 set 作为 Map 的参数
+const set = new Set([
+  ['name', '张三'],
+  ['age', 20]
+]);
+const m1 = new Map(set);
+m1.get('name') // "张三"
+
+// 将 map 作为 Map 的参数
+const m2 = new Map([
+  ['name', '张三'],
+  ['age', 20]
+]);
+const m3 = new Map(m2);
+m3.get('age') // 20
+```
+
+对同一个键多次赋值，后面的值将覆盖前面的值：
+
+```javascript
+const map = new Map();
+
+map
+.set(1, 'aaa')
+.set(1, 'bbb');
+
+map.get(1) // "bbb"
+```
+
+读取一个未知的键，则返回 `undefined`：
+
+```javascript
+new Map().get('猜猜我是谁？')
+// undefined
+```
+
+如果是引用类型，只有当引用值相等时，Map 结构才将其视为同一个键：
+
+```javascript
+const map = new Map();
+
+map.set(['a'], 555);
+map.get(['a']) // undefined
+```
+
+由上可知，Map 的键实际上是跟内存地址绑定的，只要内存地址不一样，就视为两个键。这就解决了同名属性碰撞（clash）的问题，我们扩展别人的库的时候，如果使用对象作为键名，就不用担心自己的属性与原作者的属性同名。
+
+如果 Map 的键是一个简单类型的值（数字、字符串、布尔值），则只要两个值严格相等，Map 将其视为一个键，比如：
+
+* `0` 和 `-0` 就是一个键
+* 布尔值 `true` 和字符串 `"true"` 则是两个不同的键
+* `undefined` 和 `null` 也是两个不同的键
+* 虽然 `NaN` 不严格相等于自身，但 Map 将其视为同一个键。
+
+```javascript
+let map = new Map();
+
+map.set(-0, 123);
+map.get(+0) // 123
+
+map.set(true, 1);
+map.set('true', 2);
+map.get(true) // 1
+
+map.set(undefined, 3);
+map.set(null, 4);
+map.get(undefined) // 3
+
+map.set(NaN, 123);
+map.get(NaN) // 123
+```
