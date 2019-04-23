@@ -960,3 +960,16 @@ wm.get(key)
 ```
 
 上面代码中，键值 `obj` 是正常引用。所以，即使在 WeakMap 外部消除了 `obj` 的引用，WeakMap 内部的引用依然存在。
+
+### 4.2. WeakMap 的语法
+
+WeakMap 与 Map 在 API 上的区别主要是两个，一是没有遍历操作（即没有 `keys()`、`values()`和`entries()`方法），也没有 `size` 属性。因为没有办法列出所有键名，某个键名是否存在完全不可预测，跟垃圾回收机制是否运行相关。这一刻可以取到键名，下一刻垃圾回收机制突然运行了，这个键名就没了，为了防止出现不确定性，就统一规定不能取到键名。二是无法清空，即不支持 `clear` 方法。因此，WeakMap 只有四个方法可用： `get()`、`set()`、`has()`、`delete()`。
+
+```javascript
+const wm = new WeakMap();
+
+// size、forEach、clear 方法都不存在
+wm.size // undefined
+wm.forEach // undefined
+wm.clear // undefined
+```
