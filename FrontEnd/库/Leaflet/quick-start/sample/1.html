@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+  <meta charset="UTF-8">
+  <title>Preparing your page</title>
+
+  <!-- 
+    1. Include Leaflet CSS file in the head section of your document:
+   -->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.4.0/dist/leaflet.css"/>
+
+  <!-- 
+    2. Include Leaflet JavaScript file after Leaflet’s CSS:
+  
+    Make sure you put this AFTER Leaflet's CSS
+  -->
+  <script src="https://unpkg.com/leaflet@1.4.0/dist/leaflet-src.js"></script>
+
+  <style>
+    /*
+    4. Make sure the map container has a defined height, for example by setting it in CSS:
+     */
+    #mapid { height: 300px; }
+  </style>
+</head>
+<body>
+  
+  <!-- 
+    3. Put a div element with a certain id where you want your map to be:
+   -->
+  <div id="mapid"></div>
+
+  <script>
+
+    // 实例化，并设置中心点和缩放比例
+    var mymap = L.map('mapid').setView([51.505, -0.09], 13);
+
+    // 设置瓦片图层
+    L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token={accessToken}', {
+      attribution: '吴钦飞（wuqinfei@qq.com）',
+      maxZoom: 18,
+      id: 'mapbox.streets',
+      accessToken: 'pk.eyJ1IjoiZm9yd2FyZG5vdyIsImEiOiJjanV0aTlvdWEwOGJ1NGVwZmFkOGF2MnZpIn0.iA2jdrEzF1ubS7stvXL4ug'
+    }).addTo(mymap);
+
+    // 添加标记
+    var marker = L.marker([51.5, -0.09]).addTo(mymap);
+
+    // 添加圆圈
+    var circle = L.circle([51.508, -0.11], {
+      color: 'red',
+      fillColor: '#f03',
+      fillOpacity: 0.5,
+      radius: 500
+    }).addTo(mymap);
+
+    // 添加多边形
+    var polygon = L.polygon([
+      [51.509, -0.08],
+      [51.503, -0.06],
+      [51.51, -0.047]
+    ]).addTo(mymap);
+
+    // 给标记、圆圈、多边形添加弹出窗口
+    marker.bindPopup("<b>Hello world!</b><br>I am a popup.").openPopup();
+    circle.bindPopup("I am a circle.");
+    polygon.bindPopup("I am a polygon.");
+
+    // 添加独立的弹出窗口图层
+    var popup = L.popup()
+      .setLatLng([51.5, -0.09])
+      .setContent("I am a standalone popup.")
+      .openOn(mymap);
+
+    // 事件处理
+    var popup = L.popup();
+
+    function onMapClick(e) {
+      popup
+        .setLatLng(e.latlng)
+        .setContent("You clicked the map at " + e.latlng.toString())
+        .openOn(mymap);
+    }
+
+    mymap.on('click', onMapClick);
+  </script>
+</body>
+</html>
