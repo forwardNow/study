@@ -12,6 +12,7 @@
   * [Leaflet 快速入门指南](./quick-start/quick-start.md)
   * [在手机上使用 Leaflet](./mobile/mobile.md)
   * [为标记自定义图标](./custom-icons/custom-icons.md)
+  * [在 Leaflet 中使用 GeoJSON](./geojson/geojson.md)
 
 参考：
 
