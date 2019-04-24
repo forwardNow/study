@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+  <meta charset="UTF-8">
+  <title>Markers With Custom Icons</title>
+
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.4.0/dist/leaflet.css"/>
+  <script src="https://unpkg.com/leaflet@1.4.0/dist/leaflet-src.js"></script>
+
+  <style>
+    #map { height: 300px; }
+  </style>
+</head>
+<body>
+  
+  <!-- 
+    3. Put a div element with a certain id where you want your map to be:
+   -->
+  <div id="map"></div>
+
+  <script>
+
+    // 实例化，并设置中心点和缩放比例
+    var map = L.map('map').setView([51.505, -0.09], 13);
+
+    // 设置瓦片图层
+    L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token={accessToken}', {
+      attribution: '吴钦飞（wuqinfei@qq.com）',
+      maxZoom: 18,
+      id: 'mapbox.streets',
+      accessToken: 'pk.eyJ1IjoiZm9yd2FyZG5vdyIsImEiOiJjanV0aTlvdWEwOGJ1NGVwZmFkOGF2MnZpIn0.iA2jdrEzF1ubS7stvXL4ug'
+    }).addTo(map);
+
+    var baseUrl = 'https://leafletjs.com/examples/custom-icons';
+
+    // 通过工厂函数 L.icon() 创建 icon 实例
+    var greenIcon = L.icon({
+      iconUrl: `${baseUrl}/leaf-green.png`,
+      shadowUrl: `${baseUrl}/leaf-shadow.png`,
+
+      iconSize:     [38, 95], // size of the icon
+      shadowSize:   [50, 64], // size of the shadow
+      iconAnchor:   [22, 94], // point of the icon which will correspond to marker's location
+      shadowAnchor: [4, 62],  // the same for the shadow
+      popupAnchor:  [-3, -76] // point from which the popup should open relative to the iconAnchor
+    });
+
+    // 创建自定义图标的 marker 并添加到地图
+    L.marker([51.5, -0.09], {icon: greenIcon}).addTo(map);
+
+
+    // 继承公共选项的 L.Icon 子类
+    var LeafIcon = L.Icon.extend({
+      options: {
+        shadowUrl: `${baseUrl}/leaf-shadow.png`,
+        iconSize:     [38, 95],
+        shadowSize:   [50, 64],
+        iconAnchor:   [22, 94],
+        shadowAnchor: [4, 62],
+        popupAnchor:  [-3, -76]
+      }
+    });
+
+    // 实例化
+    var greenIcon = new LeafIcon({iconUrl: `${baseUrl}/leaf-green.png`}),
+        redIcon = new LeafIcon({iconUrl: `${baseUrl}/leaf-red.png`}),
+        orangeIcon = new LeafIcon({iconUrl: `${baseUrl}/leaf-orange.png`});
+
+    // 创建自定义图标的标记，并添加到地图
+    L.marker([51.5, -0.09], {icon: greenIcon}).addTo(map).bindPopup("I am a green leaf.");
+    L.marker([51.495, -0.083], {icon: redIcon}).addTo(map).bindPopup("I am a red leaf.");
+    L.marker([51.49, -0.1], {icon: orangeIcon}).addTo(map).bindPopup("I am an orange leaf.");
+  </script>
+</body>
+</html>
