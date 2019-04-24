@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>Leaflet on Mobile</title>
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.4.0/dist/leaflet.css"/>
+  <style>
+    body {
+      padding: 0;
+      margin: 0;
+    }
+
+    html,
+    body,
+    #map {
+      width: 100vw;
+      height: 100%;
+    }
+</style>
+</head>
+<body>
+  
+  <div id="map"></div>
+
+  <script src="https://unpkg.com/leaflet@1.4.0/dist/leaflet-src.js"></script>
+  <script>
+    var map = L.map('map').fitWorld();
+
+    L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token={accessToken}', {
+      attribution: '吴钦飞（wuqinfei@qq.com）',
+      maxZoom: 18,
+      accessToken: 'pk.eyJ1IjoiZm9yd2FyZG5vdyIsImEiOiJjanV0aTlvdWEwOGJ1NGVwZmFkOGF2MnZpIn0.iA2jdrEzF1ubS7stvXL4ug',
+      id: 'mapbox.streets'
+    }).addTo(map);
+
+    // 定位到当前位置
+    map.locate({setView: true, maxZoom: 16});
+
+    function onLocationFound(e) {
+      var radius = e.accuracy / 2;
+
+      L.marker(e.latlng).addTo(map)
+        .bindPopup("You are within " + radius + " meters from this point").openPopup();
+
+      L.circle(e.latlng, radius).addTo(map);
+    }
+
+    map.on('locationfound', onLocationFound);
+
+    function onLocationError(e) {
+      alert(e.message);
+    }
+
+    map.on('locationerror', onLocationError);
+  </script>
+</body>
+</html>
