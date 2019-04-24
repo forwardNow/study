@@ -10,6 +10,7 @@
 * [Overview 概览](./overview.md)
 * 教程
   * [Leaflet 快速入门指南](./quick-start/quick-start.md)
+  * [Leaflet on Mobile 在手机上使用 Leaflet](./mobile/mobile.md)
 
 参考：
 
