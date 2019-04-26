@@ -263,3 +263,129 @@ const proxy = new Proxy(target, handler);
 proxy.foo
 // TypeError: Invariant check failed
 ```
+
+### 2.2. set()
+
+`set` 方法用来拦截某个属性的赋值操作，可接受四个参数：
+
+```javascript
+/**
+ *@param target {object} 目标对象
+ *@param propKey {string} 属性名
+ *@param value {*} 属性值
+ *@param receiver {object?} Proxy 实例本身
+ */
+set(target, propKey, value, receiver)
+```
+
+假定 `Person` 对象有一个 `age` 属性，该属性应该是一个不大于 200 的整数，那么可以使用 `Proxy` 保证 `age` 的属性值符合要求。
+
+```javascript
+let validator = {
+  set: function(obj, prop, value) {
+    if (prop === 'age') {
+      if (!Number.isInteger(value)) {
+        throw new TypeError('The age is not an integer');
+      }
+      if (value > 200) {
+        throw new RangeError('The age seems invalid');
+      }
+    }
+
+    // 对于满足条件的 age 属性以及其他属性，直接保存
+    obj[prop] = value;
+  }
+};
+
+let person = new Proxy({}, validator);
+
+person.age = 100;
+
+person.age // 100
+person.age = 'young' // 报错
+person.age = 300 // 报错
+```
+
+上面代码中，由于设置了存值函数 `set`，任何不符合要求的 `age` 属性赋值，都会抛出一个错误，这是数据验证的一种实现方法。利用 `set` 方法，还可以数据绑定，即每当对象发生变化时，会自动更新 DOM。
+
+有时，我们会在对象上面设置内部属性，属性名的第一个字符使用下划线开头，表示这些属性不应该被外部使用。结合 `get` 和 `set` 方法，就可以做到防止这些内部属性被外部读写。
+
+```javascript
+const handler = {
+  get (target, key) {
+    invariant(key, 'get');
+    return target[key];
+  },
+  set (target, key, value) {
+    invariant(key, 'set');
+    target[key] = value;
+    return true;
+  }
+};
+function invariant (key, action) {
+  if (key[0] === '_') {
+    throw new Error(`Invalid attempt to ${action} private "${key}" property`);
+  }
+}
+const target = {};
+const proxy = new Proxy(target, handler);
+proxy._prop
+// Error: Invalid attempt to get private "_prop" property
+proxy._prop = 'c'
+// Error: Invalid attempt to set private "_prop" property
+```
+
+上面代码中，只要读写的属性名的第一个字符是下划线，一律抛错，从而达到禁止读写内部属性的目的。
+
+下面是 `set` 方法第四个参数的例子。
+
+```javascript
+const handler = {
+  set: function(obj, prop, value, receiver) {
+    obj[prop] = receiver;
+  }
+};
+const proxy = new Proxy({}, handler);
+proxy.foo = 'bar';
+proxy.foo === proxy // true
+```
+
+注意，如果目标对象自身的某个属性，不可写且不可配置，那么 `set` 方法将不起作用。
+
+```javascript
+const obj = {};
+Object.defineProperty(obj, 'foo', {
+  value: 'bar',
+  writable: false,
+});
+
+const handler = {
+  set: function(obj, prop, value, receiver) {
+    obj[prop] = 'baz';
+  }
+};
+
+const proxy = new Proxy(obj, handler);
+proxy.foo = 'baz';
+proxy.foo // "bar"
+```
+
+上面代码中，`obj.foo` 属性不可写，Proxy 对这个属性的 `set` 代理将不会生效。
+
+注意，严格模式下，`set` 代理如果没有返回 `true`，就会报错。
+
+```javascript
+'use strict';
+const handler = {
+  set: function(obj, prop, value, receiver) {
+    obj[prop] = receiver;
+    // 无论有没有下面这一行，都会报错
+    return false;
+  }
+};
+const proxy = new Proxy({}, handler);
+proxy.foo = 'bar';
+// TypeError: 'set' on proxy: trap returned falsish for property 'foo'
+```
+
+上面代码中，严格模式下，`set` 代理返回 `false` 或者 `undefined`，都会报错。
