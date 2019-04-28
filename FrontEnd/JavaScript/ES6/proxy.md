@@ -389,3 +389,47 @@ proxy.foo = 'bar';
 ```
 
 上面代码中，严格模式下，`set` 代理返回 `false` 或者 `undefined`，都会报错。
+
+### 2.3. apply()
+
+`apply` 方法拦截函数的调用、`call` 和 `apply` 操作。
+
+接受三个参数：
+
+```javascript
+/**
+ * @param target {object} 目标对象
+ * @param object {object} 目标对象的上下文对象（this）
+ * @param args {array} 目标对象的参数数组
+ */
+apply(target, object, args)
+```
+
+如：
+
+```javascript
+var handler = {
+  apply (target, ctx, args) {
+    return Reflect.apply(...arguments);
+  }
+};
+```
+
+下面是一个例子。
+
+```javascript
+var target = function () {
+  return 'I am the target';
+};
+var handler = {
+  apply: function () {
+    return 'I am the proxy';
+  }
+};
+
+var p = new Proxy(target, handler);
+
+// 作为函数调用时（p()），就会被 apply 方法拦截，返回一个字符串。
+p()
+// "I am the proxy"
+```
