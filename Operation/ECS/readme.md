@@ -324,3 +324,41 @@ $ svn checkout svn://192.168.1.32/repo/vue-admin
 $ cd /root/svn/vue-admin
 $ svn up
 ```
+
+## 15. SVN
+
+>[https://blog.csdn.net/weixin_42231507/article/details/81149568](https://blog.csdn.net/weixin_42231507/article/details/81149568)
+
+```shell
+# 下载安装 subversion
+$ yum -y install subversion
+$ svnserve --version
+
+# 创建 svn 版本库，初始化相关配置文件
+$ mkdir -p /opt/svnrepos/code
+$ svnadmin create /opt/svnrepos/code
+
+# 查看版本库相关配置文件
+$ cd /opt/svnrepos/code
+$ ll
+
+$ sudo vi conf/svnserve.conf
+
+  anon-access = no
+  auth-access = write
+  password-db = /opt/svnrepos/passwd
+  authz-db = /opt/svnrepos/authz
+  realm = /opt/svnrepos/code/
+
+```
+
+解决svn "cannot set LC_CTYPE locale"的问题：
+
+```shell
+$ vi /etc/profile
+
+# 加入一行代码
+# export LC_ALL=C
+
+$ source /etc/profile
+```

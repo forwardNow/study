@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+  <meta charset="UTF-8">
+  <title>Using GeoJSON with Leaflet</title>
+
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.4.0/dist/leaflet.css"/>
+  <script src="https://unpkg.com/leaflet@1.4.0/dist/leaflet-src.js"></script>
+
+  <style>
+    #map { height: 300px; }
+  </style>
+</head>
+<body>
+  
+  <div id="map"></div>
+
+  <script>
+
+    // 实例化，并设置中心点和缩放比例
+    var map = L.map('map').setView([50, -100], 3);
+
+    // 设置瓦片图层
+    L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token={accessToken}', {
+      attribution: '吴钦飞（wuqinfei@qq.com）',
+      maxZoom: 18,
+      id: 'mapbox.streets',
+      accessToken: 'pk.eyJ1IjoiZm9yd2FyZG5vdyIsImEiOiJjanV0aTlvdWEwOGJ1NGVwZmFkOGF2MnZpIn0.iA2jdrEzF1ubS7stvXL4ug'
+    }).addTo(map);
+
+    // 事件处理
+
+    function onMapClick(e) {
+      console.log("You clicked the map at " + e.latlng.toString());
+    }
+
+    map.on('click', onMapClick);
+
+    // 点
+    var geojsonFeature = {
+      "type": "Feature",
+      "properties": {
+        "name": "Coors Field",
+        "amenity": "Baseball Stadium",
+        "popupContent": "This is where the Rockies play!"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [-104.99404, 39.75621]
+      }
+    };
+
+    L.geoJSON(geojsonFeature).addTo(map);
+
+    // 线条样式
+    var myLines = [
+      {
+        "type": "LineString",
+        "coordinates": [[-100, 40], [-105, 45], [-110, 55]]
+      },
+      {
+        "type": "LineString",
+        "coordinates": [[-105, 40], [-110, 45], [-115, 55]]
+      }
+    ];
+
+    var myStyle = {
+      "color": "#ff7800",
+      "weight": 5,
+      "opacity": 0.65
+    };
+
+    L.geoJSON(myLines, {
+      style: myStyle
+    }).addTo(map);
+  </script>
+</body>
+</html>

@@ -64,6 +64,8 @@
   * [Angular6](./FrontEnd/框架/Angular6)
 * RxJS
   * [《30 天精通 RxJS 系列》](./FrontEnd/库/RxJS/readme.md)
+* Leaflet（地图）
+  * [《官方文档》](./FrontEnd/库/Leaflet)
 
 ### 1.6. 平台
 
