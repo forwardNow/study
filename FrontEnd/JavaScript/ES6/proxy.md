@@ -523,3 +523,41 @@ for (let b in oproxy2) {
 ```
 
 上面代码中，`has` 拦截只对 `in` 运算符生效，对 `for...in` 循环不生效，导致不符合要求的属性没有被 `for...in` 循环所排除。
+
+### 2.5. construct()
+
+`construct` 方法用于拦截 `new` 命令，下面是拦截对象的写法。
+
+```javascript
+/**
+ * @param target {object} 目标对象
+ * @param args {array} 构造函数的参数对象
+ */
+construct(target, args)
+```
+
+```javascript
+var p = new Proxy(function () {}, {
+  construct: function(target, args) {
+    console.log('called: ' + args.join(', '));
+    return { value: args[0] * 10 };
+  }
+});
+
+(new p(1)).value
+// "called: 1"
+// 10
+```
+
+`construct` 方法返回的必须是一个对象，否则会报错。
+
+```javascript
+var p = new Proxy(function() {}, {
+  construct: function(target, argumentsList) {
+    return 1;
+  }
+});
+
+new p() // 报错
+// Uncaught TypeError: 'construct' on proxy: trap returned non-object ('1')
+```
