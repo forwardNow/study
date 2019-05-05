@@ -227,3 +227,35 @@ Reflect.has(myObject, 'foo') // true
 ```
 
 如果第一个参数不是对象，`Reflect.has` 和 `in` 运算符都会报错。
+
+### 2.4. Reflect.deleteProperty(obj, name)
+
+`Reflect.deleteProperty` 方法等同于 `delete obj[name]`，用于删除对象的属性。
+
+```javascript
+const myObj = { foo: 'bar' };
+
+// 旧写法
+delete myObj.foo;
+
+// 新写法
+Reflect.deleteProperty(myObj, 'foo');
+```
+
+该方法返回一个布尔值。如果删除成功，或者被删除的属性不存在，返回 `true`；删除失败，被删除的属性依然存在，返回 `false`。
+
+### 2.5. Reflect.construct(target, args)
+
+`Reflect.construct` 方法等同于 `new target(...args)`，这提供了一种不使用 `new`，来调用构造函数的方法。
+
+```javascript
+function Greeting(name) {
+  this.name = name;
+}
+
+// new 的写法
+const instance = new Greeting('张三');
+
+// Reflect.construct 的写法
+const instance = Reflect.construct(Greeting, ['张三']);
+```
