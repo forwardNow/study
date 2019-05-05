@@ -433,3 +433,93 @@ var p = new Proxy(target, handler);
 p()
 // "I am the proxy"
 ```
+
+### 2.4. has()
+
+`has` 方法用来拦截 `Has Property` 操作，即判断对象是否具有某个属性时，这个方法会生效。典型的操作就是 `in` 运算符。
+
+```javascript
+/**
+ * @param target {object} 目标对象
+ * @param propKey {string} 需查询的属性名
+ */
+has(target, propKey)
+```
+
+下面的例子使用 `has` 方法隐藏某些属性，不被 `in` 运算符发现。
+
+```javascript
+var handler = {
+  has (target, key) {
+    if (key[0] === '_') {
+      return false;
+    }
+    return key in target;
+  }
+};
+var target = { _prop: 'foo', prop: 'foo' };
+var proxy = new Proxy(target, handler);
+'_prop' in proxy // false
+```
+
+上面代码中，如果原对象的属性名的第一个字符是下划线，`proxy.has` 就会返回 `false`，从而不会被 `in` 运算符发现。
+
+如果原对象不可配置或者禁止扩展，这时 `has` 拦截会报错。
+
+```javascript
+var obj = { a: 10 };
+Object.preventExtensions(obj);
+
+var p = new Proxy(obj, {
+  has: function(target, prop) {
+    return false;
+  }
+});
+
+'a' in p // TypeError is thrown
+```
+
+上面代码中，`obj` 对象禁止扩展，结果使用 `has` 拦截就会报错。也就是说，如果某个属性不可配置（或者目标对象不可扩展），则 `has` 方法就不能“隐藏”（即返回 `false`）目标对象的该属性。
+
+值得注意的是，`has` 方法拦截的是 `Has Property` 操作，而不是 `Has Own Property` 操作，即 `has` 方法不判断一个属性是对象自身的属性，还是继承的属性。
+
+另外，虽然 `for...in` 循环也用到了 `in` 运算符，但是 `has` 拦截对 `for...in` 循环不生效。
+
+```javascript
+et stu1 = {name: '张三', score: 59};
+let stu2 = {name: '李四', score: 99};
+
+let handler = {
+  has(target, prop) {
+    if (prop === 'score' && target[prop] < 60) {
+      console.log(`${target.name} 不及格`);
+      return false;
+    }
+    return prop in target;
+  }
+}
+
+let oproxy1 = new Proxy(stu1, handler);
+let oproxy2 = new Proxy(stu2, handler);
+
+'score' in oproxy1
+// 张三 不及格
+// false
+
+'score' in oproxy2
+// true
+
+for (let a in oproxy1) {
+  console.log(oproxy1[a]);
+}
+// 张三
+// 59
+
+for (let b in oproxy2) {
+  console.log(oproxy2[b]);
+}
+// 李四
+// 99
+```
+
+上面代码中，`has` 拦截只对 `in` 运算符生效，对 `for...in` 循环不生效，导致不符合要求的属性没有被 `for...in` 循环所排除。
