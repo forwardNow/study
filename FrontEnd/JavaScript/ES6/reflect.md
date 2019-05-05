@@ -169,3 +169,26 @@ Reflect.get(myObject, 'baz', myReceiverObject) // 8
 Reflect.get(1, 'foo') // 报错
 Reflect.get(false, 'foo') // 报错
 ```
+
+### 2.2. Reflect.set(target, name, value, receiver)
+
+`Reflect.set` 方法设置 `target` 对象的 `name` 属性等于 `value`。
+
+```javascript
+var myObject = {
+  foo: 1,
+  set bar(value) {
+    return this.foo = value;
+  },
+}
+
+myObject.foo // 1
+
+Reflect.set(myObject, 'foo', 2);
+myObject.foo // 2
+
+Reflect.set(myObject, 'bar', 3)
+myObject.foo // 3
+```
+
+如果 `name` 属性设置了赋值函数，则赋值函数的 `this` 绑定 `receiver`。
