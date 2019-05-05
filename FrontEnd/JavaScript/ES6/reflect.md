@@ -192,3 +192,38 @@ myObject.foo // 3
 ```
 
 如果 `name` 属性设置了赋值函数，则赋值函数的 `this` 绑定 `receiver`。
+
+```javascript
+var myObject = {
+  foo: 4,
+  set bar(value) {
+    return this.foo = value;
+  },
+};
+
+var myReceiverObject = {
+  foo: 0,
+};
+
+Reflect.set(myObject, 'bar', 1, myReceiverObject);
+myObject.foo // 4
+myReceiverObject.foo // 1
+```
+
+### 2.3. Reflect.has(obj, name)
+
+`Reflect.has` 方法对应 `name in obj` 里面的 `in` 运算符。
+
+```javascript
+var myObject = {
+  foo: 1,
+};
+
+// 旧写法
+'foo' in myObject // true
+
+// 新写法
+Reflect.has(myObject, 'foo') // true
+```
+
+如果第一个参数不是对象，`Reflect.has` 和 `in` 运算符都会报错。
