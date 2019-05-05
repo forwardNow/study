@@ -608,3 +608,28 @@ proxy.foo = 'bar' // 不会生效
 上面代码中，`defineProperty` 方法返回 `false`，导致添加新属性总是无效。
 
 注意，如果目标对象不可扩展（non-extensible），则 `defineProperty` 不能增加目标对象上不存在的属性，否则会报错。另外，如果目标对象的某个属性不可写（writable）或不可配置（configurable），则 `defineProperty` 方法不得改变这两个设置。
+
+### 2.8. getOwnPropertyDescriptor()
+
+`getOwnPropertyDescriptor` 方法拦截 `Object.getOwnPropertyDescriptor()`，返回一个属性描述对象或者 `undefined`。
+
+```javascript
+var handler = {
+  getOwnPropertyDescriptor (target, key) {
+    if (key[0] === '_') {
+      return;
+    }
+    return Object.getOwnPropertyDescriptor(target, key);
+  }
+};
+var target = { _foo: 'bar', baz: 'tar' };
+var proxy = new Proxy(target, handler);
+Object.getOwnPropertyDescriptor(proxy, 'wat')
+// undefined
+Object.getOwnPropertyDescriptor(proxy, '_foo')
+// undefined
+Object.getOwnPropertyDescriptor(proxy, 'baz')
+// { value: 'tar', writable: true, enumerable: true, configurable: true }
+```
+
+上面代码中，`handler.getOwnPropertyDescriptor` 方法对于第一个字符为下划线的属性名会返回 `undefined`。
