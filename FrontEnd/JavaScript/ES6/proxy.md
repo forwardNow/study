@@ -633,3 +633,44 @@ Object.getOwnPropertyDescriptor(proxy, 'baz')
 ```
 
 上面代码中，`handler.getOwnPropertyDescriptor` 方法对于第一个字符为下划线的属性名会返回 `undefined`。
+
+### 2.9. getPrototypeOf()
+
+略。
+
+### 2.10. isExtensible()
+
+略。
+
+### 2.11. ownKeys()
+
+略。
+
+### 2.12. preventExtensions()
+
+略。
+
+### 2.13. setPrototypeOf()
+
+略。
+
+## 3. Proxy.revocable()
+
+`Proxy.revocable` 方法返回一个可取消的 Proxy 实例。
+
+```javascript
+let target = {};
+let handler = {};
+
+let {proxy, revoke} = Proxy.revocable(target, handler);
+
+proxy.foo = 123;
+proxy.foo // 123
+
+revoke();
+proxy.foo // TypeError: Revoked
+```
+
+`Proxy.revocable` 方法返回一个对象，该对象的 `proxy` 属性是 `Proxy` 实例，`revoke` 属性是一个函数，可以取消 `Proxy` 实例。上面代码中，当执行 `revoke` 函数之后，再访问 `Proxy` 实例，就会抛出一个错误。
+
+`Proxy.revocable` 的一个使用场景是，目标对象不允许直接访问，必须通过代理访问，一旦访问结束，就收回代理权，不允许再次访问。
