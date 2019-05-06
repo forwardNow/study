@@ -325,3 +325,23 @@ Object.setPrototypeOf(null, {})
 Reflect.setPrototypeOf(null, {})
 // TypeError: Reflect.setPrototypeOf called on non-object
 ```
+
+### 2.8. Reflect.apply(func, thisArg, args)
+
+`Reflect.apply` 方法等同于 `Function.prototype.apply.call(func, thisArg, args)`，用于绑定 `this` 对象后执行给定函数。
+
+一般来说，如果要绑定一个函数的 `this` 对象，可以这样写 `fn.apply(obj, args)`，但是如果函数定义了自己的 `apply` 方法，就只能写成 `Function.prototype.apply.call(fn, obj, args)`，采用 `Reflect` 对象可以简化这种操作。
+
+```javascript
+const ages = [11, 33, 12, 54, 18, 96];
+
+// 旧写法
+const youngest = Math.min.apply(Math, ages);
+const oldest = Math.max.apply(Math, ages);
+const type = Object.prototype.toString.call(youngest);
+
+// 新写法
+const youngest = Reflect.apply(Math.min, Math, ages);
+const oldest = Reflect.apply(Math.max, Math, ages);
+const type = Reflect.apply(Object.prototype.toString, youngest, []);
+```
