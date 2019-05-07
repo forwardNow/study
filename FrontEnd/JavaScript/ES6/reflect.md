@@ -405,3 +405,24 @@ var theDescriptor = Reflect.getOwnPropertyDescriptor(myObject, 'hidden');
 ```
 
 `Reflect.getOwnPropertyDescriptor` 和 `Object.getOwnPropertyDescriptor` 的一个区别是，如果第一个参数不是对象，`Object.getOwnPropertyDescriptor(1, 'foo')` 不报错，返回 `undefined`，而 `Reflect.getOwnPropertyDescriptor(1, 'foo')` 会抛出错误，表示参数非法。
+
+### 2.11. Reflect.isExtensible (target)
+
+`Reflect.isExtensible` 方法对应 `Object.isExtensible`，返回一个布尔值，表示当前对象是否可扩展。
+
+```javascript
+const myObject = {};
+
+// 旧写法
+Object.isExtensible(myObject) // true
+
+// 新写法
+Reflect.isExtensible(myObject) // true
+```
+
+如果参数不是对象，`Object.isExtensible` 会返回 `false`，因为非对象本来就是不可扩展的，而 `Reflect.isExtensible` 会报错。
+
+```javascript
+Object.isExtensible(1) // false
+Reflect.isExtensible(1) // 报错
+```
