@@ -345,3 +345,43 @@ const youngest = Reflect.apply(Math.min, Math, ages);
 const oldest = Reflect.apply(Math.max, Math, ages);
 const type = Reflect.apply(Object.prototype.toString, youngest, []);
 ```
+
+### 2.9. Reflect.defineProperty(target, propertyKey, attributes)
+
+`Reflect.defineProperty` 方法基本等同于 `Object.defineProperty`，用来为对象定义属性。未来，后者会被逐渐废除，请从现在开始就使用 `Reflect.defineProperty` 代替它。
+
+```javascript
+function MyDate() {
+  /*…*/
+}
+
+// 旧写法
+Object.defineProperty(MyDate, 'now', {
+  value: () => Date.now()
+});
+
+// 新写法
+Reflect.defineProperty(MyDate, 'now', {
+  value: () => Date.now()
+});
+```
+
+如果 `Reflect.defineProperty` 的第一个参数不是对象，就会抛出错误，比如 `Reflect.defineProperty(1, 'foo')`。
+
+这个方法可以与 `Proxy.defineProperty` 配合使用。
+
+```javascript
+const p = new Proxy({}, {
+  defineProperty(target, prop, descriptor) {
+    console.log(descriptor);
+    return Reflect.defineProperty(target, prop, descriptor);
+  }
+});
+
+p.foo = 'bar';
+// {value: "bar", writable: true, enumerable: true, configurable: true}
+
+p.foo // "bar"
+```
+
+上面代码中，`Proxy.defineProperty` 对属性赋值设置了拦截，然后使用 `Reflect.defineProperty` 完成了赋值。
