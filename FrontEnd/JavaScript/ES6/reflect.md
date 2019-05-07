@@ -426,3 +426,30 @@ Reflect.isExtensible(myObject) // true
 Object.isExtensible(1) // false
 Reflect.isExtensible(1) // 报错
 ```
+
+### 2.12. Reflect.preventExtensions(target)
+
+`Reflect.preventExtensions` 对应 `Object.preventExtensions` 方法，用于让一个对象变为不可扩展。它返回一个布尔值，表示是否操作成功。
+
+```javascript
+var myObject = {};
+
+// 旧写法
+Object.preventExtensions(myObject) // Object {}
+
+// 新写法
+Reflect.preventExtensions(myObject) // true
+```
+
+如果参数不是对象，`Object.preventExtensions` 在 ES5 环境报错，在 ES6 环境返回传入的参数，而 `Reflect.preventExtensions` 会报错。
+
+```javascript
+// ES5 环境
+Object.preventExtensions(1) // 报错
+
+// ES6 环境
+Object.preventExtensions(1) // 1
+
+// 新写法
+Reflect.preventExtensions(1) // 报错
+```
