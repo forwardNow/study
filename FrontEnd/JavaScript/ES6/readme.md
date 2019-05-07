@@ -18,3 +18,4 @@
 12. [Set 和 Map 数据结构](./Set和Map数据结构.md)
 13. [Proxy](./proxy.md)
 14. [Reflect](./reflect.md)
+15. [Promise](./promise.md)
