@@ -385,3 +385,23 @@ p.foo // "bar"
 ```
 
 上面代码中，`Proxy.defineProperty` 对属性赋值设置了拦截，然后使用 `Reflect.defineProperty` 完成了赋值。
+
+### 2.10. Reflect.getOwnPropertyDescriptor(target, propertyKey)
+
+`Reflect.getOwnPropertyDescriptor` 基本等同于 `Object.getOwnPropertyDescriptor`，用于得到指定属性的描述对象，将来会替代掉后者。
+
+```javascript
+var myObject = {};
+Object.defineProperty(myObject, 'hidden', {
+  value: true,
+  enumerable: false,
+});
+
+// 旧写法
+var theDescriptor = Object.getOwnPropertyDescriptor(myObject, 'hidden');
+
+// 新写法
+var theDescriptor = Reflect.getOwnPropertyDescriptor(myObject, 'hidden');
+```
+
+`Reflect.getOwnPropertyDescriptor` 和 `Object.getOwnPropertyDescriptor` 的一个区别是，如果第一个参数不是对象，`Object.getOwnPropertyDescriptor(1, 'foo')` 不报错，返回 `undefined`，而 `Reflect.getOwnPropertyDescriptor(1, 'foo')` 会抛出错误，表示参数非法。
