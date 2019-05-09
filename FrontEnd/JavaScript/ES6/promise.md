@@ -546,3 +546,65 @@ someAsyncThing()
 ```
 
 上面代码中，第二个 `catch` 方法用来捕获前一个 `catch` 方法抛出的错误。
+
+## 5. Promise.prototype.finally()
+
+`finally` 方法用于指定不管 Promise 对象最后状态如何，都会执行的操作。该方法是 ES2018 引入标准的。
+
+```javascript
+promise
+  .then(result => {···})
+  .catch(error => {···})
+  .finally(() => {···});
+```
+
+上面代码中，不管 `promise` 最后的状态，在执行完 `then` 或 `catch` 指定的回调函数以后，都会执行 `finally` 方法指定的回调函数。
+
+下面是一个例子，服务器使用 Promise 处理请求，然后使用 `finally` 方法关掉服务器。
+
+```javascript
+server.listen(port)
+  .then(function () {
+    // ...
+  })
+  .finally(server.stop);
+```
+
+`finally` 方法的回调函数不接受任何参数，这意味着没有办法知道，前面的 Promise 状态到底是 `fulfilled` 还是 `rejected`。这表明，`finally` 方法里面的操作，应该是与状态无关的，不依赖于 Promise 的执行结果。
+
+`finally` 本质上是 `then` 方法的特例。
+
+```javascript
+
+function callback() {
+  console.log('hello');
+}
+
+promise
+  .finally(() => callback);
+
+// 等同于
+promise
+  .then(
+    result => callback,
+    error => callback,
+  );
+```
+
+上面代码中，如果不使用 `finally` 方法，同样的语句需要为成功和失败两种情况各写一次。有了 `finally` 方法，则只需要写一次。
+
+它的实现也很简单。
+
+```javascript
+Promise.prototype.finally = function (callback) {
+  let P = this.constructor;
+  return this.then(
+    value  => P.resolve(callback()).then(() => value),
+    reason => P.resolve(callback()).then(() => { throw reason })
+  );
+};
+```
+
+上面代码中，不管前面的 Promise 是 `fulfilled` 还是 `rejected`，都会执行回调函数 `callback`。
+
+从上面的实现还可以看到，`finally` 方法总是会返回原来的值。
