@@ -608,3 +608,109 @@ Promise.prototype.finally = function (callback) {
 上面代码中，不管前面的 Promise 是 `fulfilled` 还是 `rejected`，都会执行回调函数 `callback`。
 
 从上面的实现还可以看到，`finally` 方法总是会返回原来的值。
+
+## 6. Promise.all()
+
+>类比 `Array.prototype.every`，接收一个 Promise 实例的数组，所有的实例都成功则成功。
+
+`Promise.all` 方法用于将多个 Promise 实例，包装成一个新的 Promise 实例。
+
+```javascript
+const p = Promise.all([p1, p2, p3]);
+
+p
+  .then(([p1Res, p2Res, p3Res]) => { /*...*/ })
+  .catch((firstErr) => { /*...*/ })
+```
+
+上面代码中，`Promise.all` 方法接受一个数组作为参数：
+
+* `p1`、`p2`、`p3` 都是 Promise 实例，如果不是，就会先调用下面讲到的 `Promise.resolve` 方法，将参数转为 Promise 实例，再进一步处理。
+* `Promise.all` 方法的参数可以不是数组，但必须具有 Iterator 接口，且返回的每个成员都是 Promise 实例。
+
+`p` 的状态由`p1`、`p2`、`p3`决定，分成两种情况：
+
+* 只有 `p1`、`p2`、`p3`的状态都变成 `fulfilled`，`p` 的状态才会变成 `fulfilled`，此时`p1`、`p2`、`p3`的返回值组成一个数组，传递给 `p` 的回调函数。
+* 只要 `p1`、`p2`、`p3`之中有一个被 `rejected`，`p` 的状态就变成 `rejected`，此时第一个被 `reject` 的实例的返回值，会传递给 `p` 的回调函数。
+
+下面是一个具体的例子。
+
+```javascript
+// 生成一个Promise对象的数组
+const promises = [2, 3, 5, 7, 11, 13].map(function(id) {
+  return getJSON(`/post/${id}.json`);
+});
+
+Promise.all(promises)
+  .then(function(posts) {
+    // ...
+  }).catch(function(reason){
+    // ...
+  });
+```
+
+上面代码中，`promises` 是包含 6 个 Promise 实例的数组，只有这 6 个实例的状态都变成 `fulfilled`，或者其中有一个变为 `rejected`，才会调用 `Promise.all` 方法后面的回调函数。
+
+下面是另一个例子。
+
+```javascript
+const databasePromise = connectDatabase();
+
+const booksPromise = databasePromise
+  .then(findAllBooks);
+
+const userPromise = databasePromise
+  .then(getCurrentUser);
+
+Promise.all([
+  booksPromise,
+  userPromise,
+])
+  .then(([books, user]) => pickTopRecommendations(books, user));
+```
+
+上面代码中，`booksPromise` 和 `userPromise` 是两个异步操作，只有等到它们的结果都返回了，才会触发 `pickTopRecommendations` 这个回调函数。
+
+注意，如果作为参数的 Promise 实例，自己定义了 `catch` 方法，那么它一旦被 `rejected`，并不会触发 `Promise.all()` 的 `catch` 方法。
+
+```javascript
+const p1 = new Promise((resolve, reject) => {
+  resolve('hello');
+})
+  .then(result => result)
+  .catch(e => e);
+
+const p2 = new Promise((resolve, reject) => {
+  throw new Error('报错了');
+})
+  .then(result => result)
+  .catch(e => e);
+
+Promise.all([p1, p2])
+  .then(result => console.log(result))
+  .catch(e => console.log(e));
+// 执行 fullfilled 回调：
+// ["hello", Error: 报错了]
+```
+
+上面代码中，`p1` 会 `resolved`，`p2` 首先会 `rejected`，但是 `p2` 有自己的 `catch` 方法，该方法返回的是一个新的 Promise 实例，`p2` 指向的实际上是这个实例。该实例执行完 `catch` 方法后，也会变成 `resolved`，导致 `Promise.all()` 方法参数里面的两个实例都会 `resolved`，因此会调用 `then` 方法指定的回调函数，而不会调用 `catch` 方法指定的回调函数。
+
+如果 `p2` 没有自己的 `catch` 方法，就会调用 `Promise.all()` 的 `catch` 方法。
+
+```javascript
+const p1 = new Promise((resolve, reject) => {
+  resolve('hello');
+})
+  .then(result => result);
+
+const p2 = new Promise((resolve, reject) => {
+  throw new Error('报错了');
+})
+  .then(result => result);
+
+Promise.all([p1, p2])
+  .then(result => console.log(result))
+  .catch(e => console.log(e));
+// 执行 rejected 回调：
+// Error: 报错了
+```
