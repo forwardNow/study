@@ -851,3 +851,38 @@ console.log('one');
 ```
 
 上面代码中，`setTimeout(fn, 0)` 在下一轮“事件循环”开始时执行， `Promise.resolve()` 在本轮“事件循环”结束时执行，`console.log('one')` 则是立即执行，因此最先输出。
+
+## 9. Promise.reject()
+
+`Promise.reject(reason)` 方法也会返回一个新的 Promise 实例，该实例的状态为 `rejected`。
+
+```javascript
+const p = Promise.reject('出错了');
+// 等同于
+const p = new Promise((resolve, reject) => reject('出错了'))
+
+p.then(null, function (s) {
+  console.log(s)
+});
+// 出错了
+```
+
+上面代码生成一个 Promise 对象的实例 `p`，状态为 `rejected`，回调函数会立即执行。
+
+注意，`Promise.reject()` 方法的参数，会原封不动地作为 `reject` 的理由，变成后续方法的参数。这一点与 `Promise.resolve` 方法不一致。
+
+```javascript
+const thenableObj = {
+  then(resolve, reject) {
+    reject('出错了');
+  }
+};
+
+Promise.reject(thenableObj)
+  .catch(e => {
+    console.log(e === thenableObj)
+  })
+// true
+```
+
+上面代码中，`Promise.reject` 方法的参数是一个 `thenable` 对象，执行以后，后面 `catch` 方法的参数不是 `reject` 抛出的“`"出错了"`”这个字符串，而是 `thenableObj` 对象。
