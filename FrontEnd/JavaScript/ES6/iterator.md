@@ -1,6 +1,6 @@
-# 1. Iterator 和 for...of 循环
+# Iterator 和 for...of 循环
 
-## 1.1. Iterator（遍历器）的概念
+## 1. Iterator（遍历器）的概念
 
 JavaScript 表示“集合”的数据结构有四种：
 
@@ -112,7 +112,7 @@ interface IterationResult {
 }
 ```
 
-## 1.2. 默认 Iterator 接口
+## 2. 默认 Iterator 接口
 
 Iterator 接口的目的，就是为所有数据结构，提供了一种统一的访问机制，即 `for...of` 循环（详见下文）。当使用 `for...of` 循环遍历某种数据结构时，该循环会自动去寻找 Iterator 接口。
 
@@ -331,3 +331,21 @@ while (!$result.done) {
 ```
 
 上面代码中，`ITERABLE` 代表某种可遍历的数据结构，`$iterator` 是它的遍历器对象。遍历器对象每次移动指针（`next` 方法），都检查一下返回值的 `done` 属性，如果遍历还没结束，就移动遍历器对象的指针到下一步（`next` 方法），不断循环。
+
+## 3. 调用 Iterator 接口的场合
+
+有一些场合会默认调用 Iterator 接口（即 `Symbol.iterator` 方法），除了下文会介绍的 `for...of` 循环，还有几个别的场合。
+
+### 3.1. 解构赋值
+
+对数组和 Set 结构进行解构赋值时，会默认调用 `Symbol.iterator` 方法。
+
+```javascript
+let set = new Set().add('a').add('b').add('c');
+
+let [x,y] = set;
+// x='a'; y='b'
+
+let [first, ...rest] = set;
+// first='a'; rest=['b','c'];
+```
