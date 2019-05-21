@@ -349,3 +349,26 @@ let [x,y] = set;
 let [first, ...rest] = set;
 // first='a'; rest=['b','c'];
 ```
+
+### 3.2. 扩展运算符
+
+扩展运算符（`...`）也会调用默认的 Iterator 接口。
+
+```javascript
+// 例一
+var str = 'hello';
+[...str] //  ['h','e','l','l','o']
+
+// 例二
+let arr = ['b', 'c'];
+['a', ...arr, 'd']
+// ['a', 'b', 'c', 'd']
+```
+
+上面代码的扩展运算符内部就调用 Iterator 接口。
+
+实际上，这提供了一种简便机制，可以将任何部署了 Iterator 接口的数据结构，转为数组。也就是说，只要某个数据结构部署了 Iterator 接口，就可以对它使用扩展运算符，将其转为数组。
+
+```javascript
+let arr = [...iterable];
+```
