@@ -661,3 +661,59 @@ for (let pair of arr.entries()) {
 // [1, 'b']
 // [2, 'c']
 ```
+
+### 7.4. 类似数组的对象
+
+类似数组的对象包括好几类。下面是 `for...of` 循环用于字符串、DOM NodeList 对象、`arguments` 对象的例子。
+
+```javascript
+// 字符串
+let str = "hello";
+
+for (let s of str) {
+  console.log(s); // h e l l o
+}
+
+// DOM NodeList对象
+let paras = document.querySelectorAll("p");
+
+for (let p of paras) {
+  p.classList.add("test");
+}
+
+// arguments对象
+function printArgs() {
+  for (let x of arguments) {
+    console.log(x);
+  }
+}
+printArgs('a', 'b');
+// 'a'
+// 'b'
+```
+
+对于字符串来说，`for...of` 循环还有一个特点，就是会正确识别 32 位 UTF-16 字符。
+
+```javascript
+for (let x of 'a\uD83D\uDC0A') {
+  console.log(x);
+}
+// 'a'
+// '\uD83D\uDC0A'
+```
+
+并不是所有类似数组的对象都具有 Iterator 接口，一个简便的解决方法，就是使用 `Array.from` 方法将其转为数组。
+
+```javascript
+let arrayLike = { length: 2, 0: 'a', 1: 'b' };
+
+// 报错
+for (let x of arrayLike) {
+  console.log(x);
+}
+
+// 正确
+for (let x of Array.from(arrayLike)) {
+  console.log(x);
+}
+```
