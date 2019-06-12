@@ -534,3 +534,68 @@ ES6 借鉴 C++、Java、C# 和 Python 语言，引入了 `for...of` 循环，作
 一个数据结构只要部署了 `Symbol.iterator` 属性，就被视为具有 iterator 接口，就可以用 `for...of` 循环遍历它的成员。也就是说，`for...of` 循环内部调用的是数据结构的 `Symbol.iterator` 方法。
 
 `for...of` 循环可以使用的范围包括数组、`Set` 和 `Map` 结构、某些类似数组的对象（比如 `arguments` 对象、DOM NodeList 对象）、后文的 Generator 对象，以及字符串。
+
+### 7.1. 数组
+
+数组原生具备 `iterator` 接口（即默认部署了 `Symbol.iterator` 属性），`for...of` 循环本质上就是调用这个接口产生的遍历器，可以用下面的代码证明。
+
+```javascript
+const arr = ['red', 'green', 'blue'];
+
+for(let v of arr) {
+  console.log(v); // red green blue
+}
+
+const obj = {};
+obj[Symbol.iterator] = arr[Symbol.iterator].bind(arr);
+
+for(let v of obj) {
+  console.log(v); // red green blue
+}
+```
+
+上面代码中，空对象 `obj` 部署了数组 `arr` 的 `Symbol.iterator` 属性，结果 `obj` 的 `for...of` 循环，产生了与 `arr` 完全一样的结果。
+
+`for...of` 循环可以代替数组实例的 `forEach` 方法。
+
+```javascript
+const arr = ['red', 'green', 'blue'];
+
+arr.forEach(function (element, index) {
+  console.log(element); // red green blue
+  console.log(index);   // 0 1 2
+});
+```
+
+JavaScript 原有的 `for...in` 循环，只能获得对象的键名，不能直接获取键值。ES6 提供 `for...of` 循环，允许遍历获得键值。
+
+```javascript
+var arr = ['a', 'b', 'c', 'd'];
+
+for (let a in arr) {
+  console.log(a); // 0 1 2 3
+}
+
+for (let a of arr) {
+  console.log(a); // a b c d
+}
+```
+
+上面代码表明，`for...in` 循环读取键名，`for...of` 循环读取键值。如果要通过 `for...of` 循环，获取数组的索引，可以借助数组实例的 `entries` 方法和 `keys` 方法（参见《数组的扩展》一章）。
+
+`for...of` 循环调用遍历器接口，数组的遍历器接口只返回具有数字索引的属性。这一点跟 `for...in` 循环也不一样。
+
+```javascript
+let arr = [3, 5, 7];
+arr.foo = 'hello';
+
+for (let i in arr) {
+  console.log(i); // "0", "1", "2", "foo"
+}
+
+for (let i of arr) {
+  console.log(i); //  "3", "5", "7"
+}
+```
+
+上面代码中，`for...of` 循环不会返回数组 `arr` 的 `foo` 属性。
