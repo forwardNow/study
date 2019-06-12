@@ -717,3 +717,54 @@ for (let x of Array.from(arrayLike)) {
   console.log(x);
 }
 ```
+
+### 7.5. 对象
+
+对于普通的对象，`for...of` 结构不能直接使用，会报错，必须部署了 Iterator 接口后才能使用。但是，这样情况下，`for...in` 循环依然可以用来遍历键名。
+
+```javascript
+let es6 = {
+  edition: 6,
+  committee: "TC39",
+  standard: "ECMA-262"
+};
+
+for (let e in es6) {
+  console.log(e);
+}
+// edition
+// committee
+// standard
+
+for (let e of es6) {
+  console.log(e);
+}
+// TypeError: es6[Symbol.iterator] is not a function
+```
+
+上面代码表示，对于普通的对象，`for...in` 循环可以遍历键名，`for...of` 循环会报错。
+
+一种解决方法是，使用 `Object.keys` 方法将对象的键名生成一个数组，然后遍历这个数组。
+
+```javascript
+for (var key of Object.keys(someObject)) {
+  console.log(key + ': ' + someObject[key]);
+}
+```
+
+另一个方法是使用 Generator 函数将对象重新包装一下。
+
+```javascript
+function* entries(obj) {
+  for (let key of Object.keys(obj)) {
+    yield [key, obj[key]];
+  }
+}
+
+for (let [key, value] of entries(obj)) {
+  console.log(key, '->', value);
+}
+// a -> 1
+// b -> 2
+// c -> 3
+```
