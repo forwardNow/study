@@ -55,9 +55,9 @@ var myLayer = L.geoJSON().addTo(map);
 myLayer.addData(geojsonFeature);
 ```
 
-## 选项
+## 3. 选项
 
-### style
+### 3.1. style
 
 样式选项可用于以两种不同的方式设置样式。 首先，我们可以传递一个简单的对象，它以相同的方式设置所有路径（折线和多边形）的样式：
 
@@ -83,3 +83,50 @@ L.geoJSON(myLines, {
   style: myStyle
 }).addTo(map);
 ```
+
+或者，我们可以传递一个函数，根据函数的属性设置各个特征（feature）的样式。 在下面的示例中，我们检查“party”属性并相应地设置我们的多边形样式：
+
+```javascript
+var states = [
+  {
+    "type": "Feature",
+    "properties": {"party": "Republican"},
+    "geometry": {
+        "type": "Polygon",
+        "coordinates": [[
+            [-104.05, 48.99],
+            [-97.22,  48.98],
+            [-96.58,  45.94],
+            [-104.03, 45.94],
+            [-104.05, 48.99]
+        ]]
+    }
+  },
+  {
+    "type": "Feature",
+    "properties": {"party": "Democrat"},
+    "geometry": {
+        "type": "Polygon",
+        "coordinates": [[
+            [-109.05, 41.00],
+            [-102.06, 40.99],
+            [-102.03, 36.99],
+            [-109.04, 36.99],
+            [-109.05, 41.00]
+        ]]
+    }
+  }
+];
+
+L.geoJSON(states, {
+    style: function(feature) {
+        switch (feature.properties.party) {
+            case 'Republican': return {color: "#ff0000"};
+            case 'Democrat':   return {color: "#0000ff"};
+        }
+    }
+}).addTo(map);
+```
+
+### pointToLayer
+
