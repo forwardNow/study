@@ -64,3 +64,117 @@ function*foo(x, y) { ··· }
 ```
 
 由于 Generator 函数仍然是普通函数，所以一般的写法是上面的第三种，即星号紧跟在 `function` 关键字后面。本书也采用这种写法。
+
+### 1.2. yield 表达式
+
+由于 Generator 函数返回的遍历器对象，只有调用 `next` 方法才会遍历下一个内部状态，所以其实提供了一种可以暂停执行的函数。`yield` 表达式就是暂停标志。
+
+遍历器对象的 `next` 方法的运行逻辑如下。
+
+1. 遇到 `yield` 表达式，就暂停执行后面的操作，并将紧跟在 `yield` 后面的那个表达式的值，作为返回的对象的 `value` 属性值。
+2. 下一次调用 `next` 方法时，再继续往下执行，直到遇到下一个 `yield` 表达式。
+3. 如果没有再遇到新的 `yield` 表达式，就一直运行到函数结束，直到 `return` 语句为止，并将 `return` 语句后面的表达式的值，作为返回的对象的 `value` 属性值。
+4. 如果该函数没有 `return` 语句，则返回的对象的 `value` 属性值为 `undefined`。
+
+需要注意的是，`yield` 表达式后面的表达式，只有当调用 `next` 方法、内部指针指向该语句时才会执行，因此等于为 JavaScript 提供了手动的“惰性求值”（Lazy Evaluation）的语法功能。
+
+```javascript
+function* gen() {
+  yield  123 + 456;
+}
+```
+
+上面代码中，`yield` 后面的表达式 `123 + 456`，不会立即求值，只会在 `next` 方法将指针移到这一句时，才会求值。
+
+`yield` 表达式与 `return` 语句既有相似之处，也有区别。相似之处在于，都能返回紧跟在语句后面的那个表达式的值。区别在于每次遇到 `yield`，函数暂停执行，下一次再从该位置继续向后执行，而 `return` 语句不具备位置记忆的功能。一个函数里面，只能执行一次（或者说一个）`return` 语句，但是可以执行多次（或者说多个）`yield` 表达式。正常函数只能返回一个值，因为只能执行一次 `return`；Generator 函数可以返回一系列的值，因为可以有任意多个 `yield`。从另一个角度看，也可以说 Generator 生成了一系列的值，这也就是它的名称的来历（英语中，generator 这个词是“生成器”的意思）。
+
+Generator 函数可以不用 `yield` 表达式，这时就变成了一个单纯的暂缓执行函数。
+
+```javascript
+function* f() {
+  console.log('执行了！')
+}
+
+var generator = f();
+
+setTimeout(function () {
+  generator.next()
+}, 2000);
+```
+
+上面代码中，函数 `f` 如果是普通函数，在为变量 `generator` 赋值时就会执行。但是，函数 `f` 是一个 Generator 函数，就变成只有调用 `next` 方法时，函数 `f` 才会执行。
+
+另外需要注意，`yield` 表达式只能用在 Generator 函数里面，用在其他地方都会报错。
+
+```javascript
+(function (){
+  yield 1;
+})()
+// SyntaxError: Unexpected number
+```
+
+上面代码在一个普通函数中使用 `yield` 表达式，结果产生一个句法错误。
+
+下面是另外一个例子。
+
+```javascript
+var arr = [1, [[2, 3], 4], [5, 6]];
+
+var flat = function* (a) {
+  a.forEach(function (item) {
+    if (typeof item !== 'number') {
+      yield* flat(item);
+    } else {
+      yield item;
+    }
+  });
+};
+
+for (var f of flat(arr)){
+  console.log(f);
+}
+```
+
+上面代码也会产生句法错误，因为 `forEach` 方法的参数是一个普通函数，但是在里面使用了 `yield` 表达式（这个函数里面还使用了 `yield*` 表达式，详细介绍见后文）。一种修改方法是改用 `for` 循环。
+
+```javascript
+var arr = [1, [[2, 3], 4], [5, 6]];
+
+var flat = function* (a) {
+  var length = a.length;
+  for (var i = 0; i < length; i++) {
+    var item = a[i];
+    if (typeof item !== 'number') {
+      yield* flat(item);
+    } else {
+      yield item;
+    }
+  }
+};
+
+for (var f of flat(arr)) {
+  console.log(f);
+}
+// 1, 2, 3, 4, 5, 6
+```
+
+另外，`yield` 表达式如果用在另一个表达式之中，必须放在圆括号里面。
+
+```javascript
+function* demo() {
+  console.log('Hello' + yield); // SyntaxError
+  console.log('Hello' + yield 123); // SyntaxError
+
+  console.log('Hello' + (yield)); // OK
+  console.log('Hello' + (yield 123)); // OK
+}
+```
+
+`yield` 表达式用作函数参数或放在赋值表达式的右边，可以不加括号。
+
+```javascript
+function* demo() {
+  foo(yield 'a', yield 'b'); // OK
+  let input = yield; // OK
+}
+```
