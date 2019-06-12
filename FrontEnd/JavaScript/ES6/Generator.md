@@ -178,3 +178,37 @@ function* demo() {
   let input = yield; // OK
 }
 ```
+
+### 1.3. 与 Iterator 接口的关系
+
+上一章说过，任意一个对象的 `Symbol.iterator` 方法，等于该对象的遍历器生成函数，调用该函数会返回该对象的一个遍历器对象。
+
+由于 Generator 函数就是遍历器生成函数，因此可以把 Generator 赋值给对象的 `Symbol.iterator` 属性，从而使得该对象具有 Iterator 接口。
+
+```javascript
+var myIterable = {};
+myIterable[Symbol.iterator] = function* () {
+  yield 1;
+  yield 2;
+  yield 3;
+};
+
+[...myIterable] // [1, 2, 3]
+```
+
+上面代码中，Generator 函数赋值给 `Symbol.iterator` 属性，从而使得 `myIterable` 对象具有了 Iterator 接口，可以被 `...` 运算符遍历了。
+
+Generator 函数执行后，返回一个遍历器对象。该对象本身也具有 `Symbol.iterator` 属性，执行后返回自身
+
+```javascript
+function* gen(){
+  // some code
+}
+
+var g = gen();
+
+g[Symbol.iterator]() === g
+// true
+```
+
+上面代码中，`gen` 是一个 Generator 函数，调用它会生成一个遍历器对象 `g`。它的 `Symbol.iterator` 属性，也是一个遍历器对象生成函数，执行后返回它自己。
