@@ -526,3 +526,11 @@ for (let line of readLinesSync(fileName)) {
 注意，`return` 方法必须返回一个对象，这是 Generator 规格决定的。
 
 `throw` 方法主要是配合 Generator 函数使用，一般的遍历器对象用不到这个方法。请参阅《Generator 函数》一章。
+
+## 7. for...of 循环
+
+ES6 借鉴 C++、Java、C# 和 Python 语言，引入了 `for...of` 循环，作为遍历所有数据结构的统一的方法。
+
+一个数据结构只要部署了 `Symbol.iterator` 属性，就被视为具有 iterator 接口，就可以用 `for...of` 循环遍历它的成员。也就是说，`for...of` 循环内部调用的是数据结构的 `Symbol.iterator` 方法。
+
+`for...of` 循环可以使用的范围包括数组、`Set` 和 `Map` 结构、某些类似数组的对象（比如 `arguments` 对象、DOM NodeList 对象）、后文的 Generator 对象，以及字符串。
