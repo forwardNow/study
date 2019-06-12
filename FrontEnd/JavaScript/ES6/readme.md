@@ -20,3 +20,4 @@
 14. [Reflect](./reflect.md)
 15. [Promise](./promise.md)
 16. [Iterator 和 for...of 循环](./iterator.md)
+17. [Generator 函数的语法](./Generator.md)
