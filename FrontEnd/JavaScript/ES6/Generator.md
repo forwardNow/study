@@ -1016,3 +1016,27 @@ for (let node of inorder(tree)) {
 result
 // ['a', 'b', 'c', 'd', 'e', 'f', 'g']
 ```
+
+## 8. 作为对象属性的 Generator 函数
+
+如果一个对象的属性是 Generator 函数，可以简写成下面的形式。
+
+```javascript
+let obj = {
+  * myGeneratorMethod() {
+    // ···
+  }
+};
+```
+
+上面代码中，`myGeneratorMethod` 属性前面有一个星号，表示这个属性是一个 Generator 函数。
+
+它的完整形式如下，与上面的写法是等价的。
+
+```javascript
+let obj = {
+  myGeneratorMethod: function* () {
+    // ···
+  }
+};
+```
