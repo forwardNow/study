@@ -1040,3 +1040,74 @@ let obj = {
   }
 };
 ```
+
+## 9. Generator 函数的 `this`
+
+Generator 函数总是返回一个遍历器，ES6 规定这个遍历器是 Generator 函数的实例，也继承了 Generator 函数的 `prototype` 对象上的方法。
+
+```javascript
+function* g() {}
+
+g.prototype.hello = function () {
+  return 'hi!';
+};
+
+let obj = g();
+
+obj instanceof g // true
+obj.hello() // 'hi!'
+```
+
+上面代码表明，Generator 函数 `g` 返回的遍历器 `obj`，是 `g` 的实例，而且继承了 `g.prototype`。但是，如果把 `g` 当作普通的构造函数，并不会生效，因为 `g` 返回的总是遍历器对象，而不是 `this` 对象。
+
+```javascript
+function* g() {
+  this.a = 11;
+}
+
+let obj = g();
+obj.next();
+obj.a // undefined
+```
+
+上面代码中，Generator 函数 `g` 在 `this` 对象上面添加了一个属性 `a`，但是 `obj` 对象拿不到这个属性。
+
+Generator 函数也不能跟 `new` 命令一起用，会报错。
+
+```javascript
+function* F() {
+  yield this.x = 2;
+  yield this.y = 3;
+}
+
+new F()
+// TypeError: F is not a constructor
+```
+
+上面代码中，`new` 命令跟构造函数 `F` 一起使用，结果报错，因为 `F` 不是构造函数。
+
+那么，有没有办法让 Generator 函数返回一个正常的对象实例，既可以用 `next` 方法，又可以获得正常的 `this`？
+
+下面是一个变通方法。首先，生成一个空对象，使用 `call` 方法绑定 Generator 函数内部的 `this`。这样，构造函数调用以后，这个空对象就是 Generator 函数的实例对象了。
+
+```javascript
+function* F() {
+  this.a = 1;
+  yield this.b = 2;
+  yield this.c = 3;
+}
+var obj = {};
+var f = F.call(obj);
+
+f.next();  // Object {value: 2, done: false}
+f.next();  // Object {value: 3, done: false}
+f.next();  // Object {value: undefined, done: true}
+
+obj.a // 1
+obj.b // 2
+obj.c // 3
+```
+
+... 略
+
+
