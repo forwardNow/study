@@ -205,3 +205,7 @@ result.value.then(function(data){
 上面代码中，首先执行 Generator 函数，获取遍历器对象，然后使用 `next` 方法（第二行），执行异步任务的第一阶段。由于 `Fetch` 模块返回的是一个 Promise 对象，因此要用 `then` 方法调用下一个 `next` 方法。
 
 可以看到，虽然 Generator 函数将异步操作表示得很简洁，但是流程管理却不方便（即何时执行第一阶段、何时执行第二阶段）。
+
+## 4. Thunk 函数
+
+Thunk 函数是自动执行 Generator 函数的一种方法。
