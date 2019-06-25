@@ -283,3 +283,66 @@ function f(thunk) {
 上面代码中，函数 `f` 的参数 `x + 5` 被一个函数替换了。凡是用到原参数的地方，对 `thunk` 函数求值即可。
 
 这就是 Thunk 函数的定义，它是“传名调用”的一种实现策略，用来替换某个表达式。
+
+### 4.3. JavaScript 语言的 Thunk 函数
+
+JavaScript 语言是传值调用，它的 Thunk 函数含义有所不同。在 JavaScript 语言中，Thunk 函数替换的不是表达式，而是多参数函数，将其替换成一个只接受回调函数作为参数的单参数函数。
+
+```javascript
+// 正常版本的readFile（多参数版本）
+fs.readFile(fileName, callback);
+
+// Thunk版本的readFile（单参数版本）
+var Thunk = function (fileName) {
+  return function (callback) {
+    return fs.readFile(fileName, callback);
+  };
+};
+
+var readFileThunk = Thunk(fileName);
+readFileThunk(callback);
+```
+
+上面代码中，`fs` 模块的 `readFile` 方法是一个多参数函数，两个参数分别为文件名和回调函数。经过转换器处理，它变成了一个单参数函数，只接受回调函数作为参数。这个单参数版本，就叫做 Thunk 函数。
+
+任何函数，只要参数有回调函数，就能写成 Thunk 函数的形式。下面是一个简单的 Thunk 函数转换器。
+
+```javascript
+// ES5版本
+var Thunk = function(fn){
+  return function (){
+    var args = Array.prototype.slice.call(arguments);
+    return function (callback){
+      args.push(callback);
+      return fn.apply(this, args);
+    }
+  };
+};
+
+// ES6版本
+const Thunk = function(fn) {
+  return function (...args) {
+    return function (callback) {
+      return fn.call(this, ...args, callback);
+    }
+  };
+};
+```
+
+使用上面的转换器，生成 `fs.readFile` 的 Thunk 函数。
+
+```javascript
+var readFileThunk = Thunk(fs.readFile);
+readFileThunk(fileA)(callback);
+```
+
+下面是另一个完整的例子。
+
+```javascript
+function f(a, cb) {
+  cb(a);
+}
+const ft = Thunk(f);
+
+ft(1)(console.log) // 1
+```
