@@ -708,3 +708,44 @@ function next(ret) {
 第三行，使用 `then` 方法，为返回值加上回调函数，然后通过 `onFulfilled` 函数再次调用 `next` 函数。
 
 第四行，在参数不符合要求的情况下（参数非 Thunk 函数和 Promise 对象），将 Promise 对象的状态改为 `rejected`，从而终止执行。
+
+### 5.5. 处理并发的异步操作
+
+co 支持并发的异步操作，即允许某些操作同时进行，等到它们全部完成，才进行下一步。
+
+这时，要把并发的操作都放在数组或对象里面，跟在 `yield` 语句后面。
+
+```javascript
+// 数组的写法
+co(function* () {
+  var res = yield [
+    Promise.resolve(1),
+    Promise.resolve(2)
+  ];
+  console.log(res);
+}).catch(onerror);
+
+// 对象的写法
+co(function* () {
+  var res = yield {
+    1: Promise.resolve(1),
+    2: Promise.resolve(2),
+  };
+  console.log(res);
+}).catch(onerror);
+```
+
+下面是另一个例子。
+
+```javascript
+co(function* () {
+  yield [1, 2, 3].map(somethingAsync);
+});
+
+function* somethingAsync(x) {
+  // do something async
+  return y
+}
+```
+
+上面的代码允许并发三个 `somethingAsync` 异步操作，等到它们全部完成，才会进行下一步。
