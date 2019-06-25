@@ -571,6 +571,64 @@ co 模块其实就是将两种自动执行器（Thunk 函数和 Promise 对象�
 
 上一节已经介绍了基于 Thunk 函数的自动执行器。下面来看，基于 Promise 对象的自动执行器。这是理解 co 模块必须的。
 
+### 5.3. 基于 Promise 对象的自动执行
+
+还是沿用上面的例子。首先，把 `fs` 模块的readFile方法包装成一个 Promise 对象。
+
+```javascript
+var fs = require('fs');
+
+var readFile = function (fileName){
+  return new Promise(function (resolve, reject){
+    fs.readFile(fileName, function(error, data){
+      if (error) return reject(error);
+      resolve(data);
+    });
+  });
+};
+
+var gen = function* (){
+  var f1 = yield readFile('/etc/fstab');
+  var f2 = yield readFile('/etc/shells');
+  console.log(f1.toString());
+  console.log(f2.toString());
+};
+```
+
+然后，手动执行上面的 Generator 函数。
+
+```javascript
+var g = gen();
+
+g.next().value.then(function(data){
+  g.next(data).value.then(function(data){
+    g.next(data);
+  });
+});
+```
+
+手动执行其实就是用 `then` 方法，层层添加回调函数。理解了这一点，就可以写出一个自动执行器。
+
+```javascript
+function run(gen){
+  var g = gen();
+
+  function next(data){
+    var result = g.next(data);
+    if (result.done) return result.value;
+    result.value.then(function(data){
+      next(data);
+    });
+  }
+
+  next();
+}
+
+run(gen);
+```
+
+上面代码中，只要 Generator 函数还没执行到最后一步，`next` 函数就调用自身，以此实现自动执行。
+
 ### co 模块的源码
 
 co 就是上面那个自动执行器的扩展，它的源码只有几十行，非常简单。
