@@ -521,6 +521,42 @@ Thunk 函数并不是 Generator 函数自动执行的唯一方案。因为自动
 
 ## 5. co 模块
 
+### 5.1. 基本用法
+
+[co 模块](https://github.com/tj/co) 是著名程序员 TJ Holowaychuk 于 2013 年 6 月发布的一个小工具，用于 Generator 函数的自动执行。
+
+下面是一个 Generator 函数，用于依次读取两个文件。
+
+```javascript
+var gen = function* () {
+  var f1 = yield readFile('/etc/fstab');
+  var f2 = yield readFile('/etc/shells');
+  console.log(f1.toString());
+  console.log(f2.toString());
+};
+```
+
+co 模块可以让你不用编写 Generator 函数的执行器。
+
+```javascript
+var co = require('co');
+co(gen);
+```
+
+上面代码中，Generator 函数只要传入 `co` 函数，就会自动执行。
+
+`co` 函数返回一个 `Promise` 对象，因此可以用 `then` 方法添加回调函数。
+
+```javascript
+co(gen).then(function (){
+  console.log('Generator 函数执行完成');
+});
+```
+
+上面代码中，等到 Generator 函数执行结束，就会输出一行提示。
+
+### co 模块的源码
+
 co 就是上面那个自动执行器的扩展，它的源码只有几十行，非常简单。
 
 首先，co 函数接受 Generator 函数作为参数，返回一个 Promise 对象。
