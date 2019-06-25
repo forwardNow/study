@@ -749,3 +749,41 @@ function* somethingAsync(x) {
 ```
 
 上面的代码允许并发三个 `somethingAsync` 异步操作，等到它们全部完成，才会进行下一步。
+
+### 5.6. 实例：处理 Stream
+
+Node 提供 Stream 模式读写数据，特点是一次只处理数据的一部分，数据分成一块块依次处理，就好像“数据流”一样。这对于处理大规模数据非常有利。Stream 模式使用 EventEmitter API，会释放三个事件。
+
+* `data` 事件：下一块数据块已经准备好了。
+* `end` 事件：整个“数据流”处理完了。
+* `error` 事件：发生错误。
+
+使用 `Promise.race()` 函数，可以判断这三个事件之中哪一个最先发生，只有当 `data` 事件最先发生时，才进入下一个数据块的处理。从而，我们可以通过一个 `while` 循环，完成所有数据的读取。
+
+```javascript
+const co = require('co');
+const fs = require('fs');
+
+const stream = fs.createReadStream('./les_miserables.txt');
+let valjeanCount = 0;
+
+co(function*() {
+  while(true) {
+    const res = yield Promise.race([
+      new Promise(resolve => stream.once('data', resolve)),
+      new Promise(resolve => stream.once('end', resolve)),
+      new Promise((resolve, reject) => stream.once('error', reject))
+    ]);
+    if (!res) {
+      break;
+    }
+    stream.removeAllListeners('data');
+    stream.removeAllListeners('end');
+    stream.removeAllListeners('error');
+    valjeanCount += (res.toString().match(/valjean/ig) || []).length;
+  }
+  console.log('count:', valjeanCount); // count: 1120
+});
+```
+
+上面代码采用 Stream 模式读取《悲惨世界》的文本文件，对于每个数据块都使用 `stream.once` 方法，在 `data`、`end`、`error`三个事件上添加一次性回调函数。变量 `res` 只有在 `data` 事件发生时才有值，然后累加每个数据块之中 `valjean` 这个词出现的次数。
