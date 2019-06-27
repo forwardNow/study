@@ -308,3 +308,78 @@ f()
 // 出错了
 // hello world
 ```
+
+### 3.4. 错误处理
+
+如果 `await` 后面的异步操作出错，那么等同于 `async` 函数返回的 Promise 对象被 `reject`。
+
+```javascript
+async function f() {
+  await new Promise(function (resolve, reject) {
+    throw new Error('出错了');
+  });
+}
+
+f()
+.then(v => console.log(v))
+.catch(e => console.log(e))
+// Error：出错了
+```
+
+上面代码中，`async` 函数 `f` 执行后，`await` 后面的 Promise 对象会抛出一个错误对象，导致 `catch` 方法的回调函数被调用，它的参数就是抛出的错误对象。具体的执行机制，可以参考后文的“async 函数的实现原理”。
+
+防止出错的方法，也是将其放在 `try...catch` 代码块之中。
+
+```javascript
+async function f() {
+  try {
+    await new Promise(function (resolve, reject) {
+      throw new Error('出错了');
+    });
+  } catch(e) {
+  }
+  return await('hello world');
+}
+```
+
+如果有多个 `await` 命令，可以统一放在 `try...catch` 结构中。
+
+```javascript
+async function main() {
+  try {
+    const val1 = await firstStep();
+    const val2 = await secondStep(val1);
+    const val3 = await thirdStep(val1, val2);
+
+    console.log('Final: ', val3);
+  }
+  catch (err) {
+    console.error(err);
+  }
+}
+```
+
+下面的例子使用 `try...catch` 结构，实现多次重复尝试。
+
+```javascript
+const superagent = require('superagent');
+const NUM_RETRIES = 3;
+
+async function test() {
+  let i;
+  for (i = 0; i < NUM_RETRIES; ++i) {
+    try {
+      await superagent.get('http://google.com/this-throws-an-error');
+
+      console.log(`第 ${i + 1} 次：连接成功！`); // 3
+      break;
+    } catch(err) {
+      console.error(`第 ${i + 1} 次：连接失败！`);
+    }
+  }
+}
+
+test();
+```
+
+上面代码中，如果 `await` 操作成功，就会使用 `break` 语句退出循环；如果失败，会被 `catch` 语句捕捉，然后进入下一轮循环。
