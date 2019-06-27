@@ -207,3 +207,104 @@ getTitle('https://tc39.github.io/ecma262/').then(console.log)
 ```
 
 上面代码中，函数 `getTitle` 内部有三个操作：抓取网页、取出文本、匹配页面标题。只有这三个操作全部完成，才会执行 `then` 方法里面的 `console.log`。
+
+### 3.3. await 命令
+
+正常情况下，`await` 命令后面是一个 Promise 对象，返回该对象的结果。如果不是 Promise 对象，就直接返回对应的值。
+
+```javascript
+async function f() {
+  // 返回 Promise 执行完毕的结果（resolve 的参数）
+  const result = await new Promise((resolve, reject) => {
+    reject('哇哈哈');
+  });
+  
+  console.log(result);
+
+  return 'finish';
+}
+
+f().then(res => console.log(res));
+
+// 哇哈哈
+// finish
+```
+
+这个例子还演示了如何实现休眠效果。JavaScript 一直没有休眠的语法，但是借助 `await` 命令就可以让程序停顿指定的时间。下面给出了一个简化的 `sleep` 实现。
+
+```javascript
+function sleep(interval) {
+  return new Promise(resolve => {
+    setTimeout(resolve, interval);
+  })
+}
+
+// 用法
+async function one2FiveInAsync() {
+  for(let i = 1; i <= 5; i++) {
+    console.log(i);
+    await sleep(1000);
+  }
+}
+
+one2FiveInAsync();
+```
+
+`await` 命令后面的 Promise 对象如果变为 `reject` 状态，则 `reject` 的参数会被 `catch` 方法的回调函数接收到。
+
+```javascript
+async function f() {
+  await Promise.reject('出错了');
+}
+
+f()
+.then(v => console.log(v))
+.catch(e => console.log(e))
+// 出错了
+```
+
+注意，上面代码中，`await` 语句前面没有 `return` ，但是 `reject方法的参数依然传入了catch方法的回调函数。这里如果在await前面加上return，效果是一样的。
+
+任何一个 `await` 语句后面的 Promise 对象变为 `reject` 状态，那么整个 `async` 函数都会中断执行。
+
+```javascript
+async function f() {
+  await Promise.reject('出错了');
+  await Promise.resolve('hello world'); // 不会执行
+}
+```
+
+上面代码中，第二个 `await` 语句是不会执行的，因为第一个 `await` 语句状态变成了 `reject`。
+
+有时，我们希望即使前一个异步操作失败，也不要中断后面的异步操作。这时可以将第一个 `await` 放在 `try...catch` 结构里面，这样不管这个异步操作是否成功，第二个 `await` 都会执行。
+
+```javascript
+async function f() {
+  try {
+    await Promise.reject('出错了');
+  } catch(e) {
+    console.log(e);
+  }
+  return await Promise.resolve('hello world');
+}
+
+f()
+.then(v => console.log(v))
+// hello world
+```
+
+另一种方法是 `await` 后面的 Promise 对象再跟一个 `catch` 方法，处理前面可能出现的错误。
+
+```javascript
+async function f() {
+  await Promise.reject('出错了')
+    .catch(e => console.log(e));
+
+  return await Promise.resolve('hello world');
+}
+
+f()
+.then(v => console.log(v))
+// 出错了
+// hello world
+```
