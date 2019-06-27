@@ -383,3 +383,141 @@ test();
 ```
 
 上面代码中，如果 `await` 操作成功，就会使用 `break` 语句退出循环；如果失败，会被 `catch` 语句捕捉，然后进入下一轮循环。
+
+### 3.5. 使用注意点
+
+#### 3.5.1. await 放在 try...catch 中
+
+第一点，前面已经说过，`await` 命令后面的 `Promise` 对象，运行结果可能是 `rejected`，所以最好把 `await` 命令放在 `try...catch` 代码块中。
+
+```javascript
+async function myFunction() {
+  try {
+    await somethingThatReturnsAPromise();
+  } catch (err) {
+    console.log(err);
+  }
+}
+
+// 另一种写法
+
+async function myFunction() {
+  await somethingThatReturnsAPromise()
+  .catch(function (err) {
+    console.log(err);
+  });
+}
+```
+
+#### 3.5.2. 并发异步操作
+
+第二点，多个 `await` 命令后面的异步操作，如果不存在继发关系，最好让它们同时触发。
+
+```javascript
+let foo = await getFoo();
+let bar = await getBar();
+```
+
+上面代码中，`getFoo` 和 `getBar` 是两个独立的异步操作（即互不依赖），被写成继发关系。这样比较耗时，因为只有 `getFoo` 完成以后，才会执行 `getBar`，完全可以让它们同时触发。
+
+```javascript
+// 写法一
+let [foo, bar] = await Promise.all([getFoo(), getBar()]);
+
+// 写法二
+let fooPromise = getFoo();
+let barPromise = getBar();
+
+let foo = await fooPromise;
+let bar = await barPromise;
+```
+
+上面两种写法，`getFoo` 和 `getBar` 都是同时触发，这样就会缩短程序的执行时间。
+
+#### 3.5.3. await 命令只能用在 async 函数之中
+
+第三点，`await` 命令只能用在 `async` 函数之中，如果用在普通函数，就会报错。
+
+```javascript
+async function dbFuc(db) {
+  let docs = [{}, {}, {}];
+
+  // 报错
+  docs.forEach(function (doc) {
+    await db.post(doc);
+  });
+}
+```
+
+上面代码会报错，因为 `await` 用在普通函数之中了。但是，如果将 `forEach` 方法的参数改成 `async` 函数，也有问题。
+
+```javascript
+function dbFuc(db) { //这里不需要 async
+  let docs = [{}, {}, {}];
+
+  // 可能得到错误结果
+  docs.forEach(async function (doc) {
+    await db.post(doc);
+  });
+}
+```
+
+上面代码可能不会正常工作，原因是这时三个 `db.post` 操作将是并发执行，也就是同时执行，而不是继发执行。正确的写法是采用 `for` 循环。
+
+```javascript
+async function dbFuc(db) {
+  let docs = [{}, {}, {}];
+
+  for (let doc of docs) {
+    await db.post(doc);
+  }
+}
+```
+
+如果确实希望多个请求并发执行，可以使用 `Promise.all` 方法。当三个请求都会 `resolved` 时，下面两种写法效果相同。
+
+```javascript
+async function dbFuc(db) {
+  let docs = [{}, {}, {}];
+  let promises = docs.map((doc) => db.post(doc));
+
+  let results = await Promise.all(promises);
+  console.log(results);
+}
+
+// 或者使用下面的写法
+
+async function dbFuc(db) {
+  let docs = [{}, {}, {}];
+  let promises = docs.map((doc) => db.post(doc));
+
+  let results = [];
+  for (let promise of promises) {
+    results.push(await promise);
+  }
+  console.log(results);
+}
+```
+
+#### 3.5.4. async 函数可以保留运行堆栈
+
+第四点，`async` 函数可以保留运行堆栈。
+
+```javascript
+const a = () => {
+  b().then(() => c());
+};
+```
+
+上面代码中，函数 `a` 内部运行了一个异步任务 `b()`。当 `b()` 运行的时候，函数 `a()` 不会中断，而是继续执行。等到 `b()` 运行结束，可能 `a()` 早就运行结束了，`b()` 所在的上下文环境已经消失了。如果 `b()` 或 `c()` 报错，错误堆栈将不包括 `a()`。
+
+现在将这个例子改成 `async` 函数。
+
+```javascript
+const a = async () => {
+  await b();
+  c();
+};
+```
+
+上面代码中，`b()` 运行的时候，`a()` 是暂停执行，上下文环境都保存着。一旦 `b()` 或 `c()` 报错，错误堆栈将包括 `a()`。
