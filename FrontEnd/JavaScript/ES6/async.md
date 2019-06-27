@@ -154,3 +154,38 @@ storage.getAvatar('jake').then(…);
 // 箭头函数
 const foo = async () => {};
 ```
+
+## 3. 语法
+
+`async` 函数的语法规则总体上比较简单，难点是错误处理机制。
+
+### 3.1. 返回 Promise 对象
+
+`async` 函数返回一个 Promise 对象。
+
+`async` 函数内部 `return` 语句返回的值，会成为 `then` 方法回调函数的参数。
+
+```javascript
+async function f() {
+  return 'hello world';
+}
+
+f().then(v => console.log(v))
+// "hello world"
+```
+
+上面代码中，函数 `f` 内部 `return` 命令返回的值，会被 `then` 方法回调函数接收到。
+
+`async` 函数内部抛出错误，会导致返回的 Promise 对象变为 `reject` 状态。抛出的错误对象会被 `catch` 方法回调函数接收到。
+
+```javascript
+async function f() {
+  throw new Error('出错了');
+}
+
+f().then(
+  v => console.log(v),
+  e => console.log(e)
+)
+// Error: 出错了
+```
