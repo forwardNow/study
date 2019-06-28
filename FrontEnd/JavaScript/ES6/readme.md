@@ -23,3 +23,4 @@
 17. [Generator 函数的语法](./Generator.md)
 18. [Generator 函数的异步应用](./Generator-async.md)
 19. [async 函数](./async.md)
+20. [Class 的基本语法](./class.md)
