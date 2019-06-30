@@ -163,3 +163,5 @@ Object.getOwnPropertyNames(Point.prototype)
 ```
 
 上面代码采用 ES5 的写法，`toString` 方法就是可枚举的。
+
+### 1.2. constructor 方法
