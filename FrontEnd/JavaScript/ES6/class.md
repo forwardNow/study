@@ -283,3 +283,58 @@ p3.printName() // "Oops"
 ```
 
 上面代码在 `p1` 的原型上添加了一个 `printName` 方法，由于 `p1` 的原型就是 `p2` 的原型，因此 `p2` 也可以调用这个方法。而且，此后新建的实例 `p3` 也可以调用这个方法。这意味着，使用实例的 `__proto__` 属性改写原型，必须相当谨慎，不推荐使用，因为这会改变“类”的原始定义，影响到所有实例。
+
+### 1.4. 取值函数（getter）和存值函数（setter）
+
+与 ES5 一样，在“类”的内部可以使用 `get` 和 `set` 关键字，对某个属性设置存值函数和取值函数，拦截该属性的存取行为。
+
+```javascript
+class MyClass {
+  constructor() {
+    // ...
+  }
+  get prop() {
+    return 'getter';
+  }
+  set prop(value) {
+    console.log('setter: '+value);
+  }
+}
+
+let inst = new MyClass();
+
+inst.prop = 123;
+// setter: 123
+
+inst.prop
+// 'getter'
+```
+
+上面代码中，`prop` 属性有对应的存值函数和取值函数，因此赋值和读取行为都被自定义了。
+
+存值函数和取值函数是设置在属性的 Descriptor 对象上的。
+
+```javascript
+class CustomHTMLElement {
+  constructor(element) {
+    this.element = element;
+  }
+
+  get html() {
+    return this.element.innerHTML;
+  }
+
+  set html(value) {
+    this.element.innerHTML = value;
+  }
+}
+
+var descriptor = Object.getOwnPropertyDescriptor(
+  CustomHTMLElement.prototype, "html"
+);
+
+"get" in descriptor  // true
+"set" in descriptor  // true
+```
+
+上面代码中，存值函数和取值函数是定义在 `html` 属性的描述对象上面，这与 ES5 完全一致。
