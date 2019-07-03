@@ -358,3 +358,49 @@ class Square {
 ```
 
 上面代码中，`Square` 类的方法名 `getArea`，是从表达式得到的。
+
+### 1.6. Class 表达式
+
+与函数一样，类也可以使用表达式的形式定义。
+
+```javascript
+const MyClass = class Me {
+  getClassName() {
+    return Me.name;
+  }
+};
+```
+
+上面代码使用表达式定义了一个类。需要注意的是，这个类的名字是 `Me`，但是 `Me` 只在 Class 的内部可用，指代当前类。在 Class 外部，这个类只能用 `MyClass` 引用。
+
+```javascript
+let inst = new MyClass();
+inst.getClassName() // Me
+Me.name // ReferenceError: Me is not defined
+```
+
+上面代码表示，`Me` 只在 Class 内部有定义。
+
+如果类的内部没用到的话，可以省略 `Me`，也就是可以写成下面的形式。
+
+```javascript
+const MyClass = class { /* ... */ };
+```
+
+采用 Class 表达式，可以写出立即执行的 Class。
+
+```javascript
+let person = new class {
+  constructor(name) {
+    this.name = name;
+  }
+
+  sayName() {
+    console.log(this.name);
+  }
+}('张三');
+
+person.sayName(); // "张三"
+```
+
+上面代码中，`person` 是一个立即执行的类的实例。
