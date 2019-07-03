@@ -404,3 +404,140 @@ person.sayName(); // "张三"
 ```
 
 上面代码中，`person` 是一个立即执行的类的实例。
+
+### 1.7. 注意点
+
+#### 1.7.1. 严格模式
+
+类和模块的内部，默认就是严格模式，所以不需要使用 `use strict` 指定运行模式。只要你的代码写在类或模块之中，就只有严格模式可用。考虑到未来所有的代码，其实都是运行在模块之中，所以 ES6 实际上把整个语言升级到了严格模式。
+
+#### 1.7.2. 不存在提升
+
+类不存在变量提升（hoist），这一点与 ES5 完全不同。
+
+```javascript
+new Foo(); // ReferenceError
+
+class Foo {}
+```
+
+上面代码中，`Foo` 类使用在前，定义在后，这样会报错，因为 ES6 不会把类的声明提升到代码头部。这种规定的原因与下文要提到的继承有关，必须保证子类在父类之后定义
+
+```javascript
+{
+  let Foo = class {};
+  class Bar extends Foo {
+  }
+}
+```
+
+上面的代码不会报错，因为 `Bar` 继承 `Foo` 的时候，`Foo` 已经有定义了。但是，如果存在 `class` 的提升，上面代码就会报错，因为 `class` 会被提升到代码头部，而 `let` 命令是不提升的，所以导致 `Bar` 继承 `Foo` 的时候，`Foo` 还没有定义。
+
+#### 1.7.3. name 属性
+
+由于本质上，ES6 的类只是 ES5 的构造函数的一层包装，所以函数的许多特性都被 `Class` 继承，包括 `name` 属性。
+
+```javascript
+class Point {}
+Point.name // "Point"
+```
+
+`name` 属性总是返回紧跟在 `class` 关键字后面的类名。
+
+#### 1.7.4. Generator 方法
+
+如果某个方法之前加上星号（`*`），就表示该方法是一个 Generator 函数。
+
+```javascript
+class Foo {
+  constructor(...args) {
+    this.args = args;
+  }
+  * [Symbol.iterator]() {
+    for (let arg of this.args) {
+      yield arg;
+    }
+  }
+}
+
+for (let x of new Foo('hello', 'world')) {
+  console.log(x);
+}
+// hello
+// world
+```
+
+上面代码中，`Foo` 类的 `Symbol.iterator` 方法前有一个星号，表示该方法是一个 Generator 函数。`Symbol.iterator` 方法返回一个 `Foo` 类的默认遍历器，`for...of` 循环会自动调用这个遍历器。
+
+#### 1.7.5. this 的指向
+
+类的方法内部如果含有 `this`，它默认指向类的实例。但是，必须非常小心，一旦单独使用该方法，很可能报错。
+
+```javascript
+class Logger {
+  printName(name = 'there') {
+    this.print(`Hello ${name}`);
+  }
+
+  print(text) {
+    console.log(text);
+  }
+}
+
+const logger = new Logger();
+const { printName } = logger;
+printName(); // TypeError: Cannot read property 'print' of undefined
+```
+
+上面代码中，`printName` 方法中的 `this`，默认指向 `Logger` 类的实例。但是，如果将这个方法提取出来单独使用，`this` 会指向该方法运行时所在的环境（由于 class 内部是严格模式，所以 `this` 实际指向的是 `undefined`），从而导致找不到 `print` 方法而报错。
+
+一个比较简单的解决方法是，在构造方法中绑定 `this`，这样就不会找不到 `print` 方法了。
+
+```javascript
+class Logger {
+  constructor() {
+    this.printName = this.printName.bind(this);
+  }
+
+  // ...
+}
+```
+
+另一种解决方法是使用箭头函数。
+
+```javascript
+class Obj {
+  constructor() {
+    this.getThis = () => this;
+  }
+}
+
+const myObj = new Obj();
+myObj.getThis() === myObj // true
+```
+
+箭头函数内部的 `this` 总是指向定义时所在的对象。上面代码中，箭头函数位于构造函数内部，它的定义生效的时候，是在构造函数执行的时候。这时，箭头函数所在的运行环境，肯定是实例对象，所以 `this` 会总是指向实例对象。
+
+还有一种解决方法是使用 `Proxy`，获取方法的时候，自动绑定 `this`
+
+```javascript
+function selfish (target) {
+  const cache = new WeakMap();
+  const handler = {
+    get (target, key) {
+      const value = Reflect.get(target, key);
+      if (typeof value !== 'function') {
+        return value;
+      }
+      if (!cache.has(value)) {
+        cache.set(value, value.bind(target));
+      }
+      return cache.get(value);
+    }
+  };
+  const proxy = new Proxy(target, handler);
+  return proxy;
+}
+
+const logger = selfish(new Logger());
+```
