@@ -338,3 +338,23 @@ var descriptor = Object.getOwnPropertyDescriptor(
 ```
 
 上面代码中，存值函数和取值函数是定义在 `html` 属性的描述对象上面，这与 ES5 完全一致。
+
+### 1.5. 属性表达式
+
+类的属性名，可以采用表达式。
+
+```javascript
+let methodName = 'getArea';
+
+class Square {
+  constructor(length) {
+    // ...
+  }
+
+  [methodName]() {
+    // ...
+  }
+}
+```
+
+上面代码中，`Square` 类的方法名 `getArea`，是从表达式得到的。
