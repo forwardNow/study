@@ -914,3 +914,92 @@ FakeMath.#computeRandomNumber() // 报错
 ```
 
 上面代码中，`#totallyRandomNumber` 是私有属性，`#computeRandomNumber()` 是私有方法，只能在 `FakeMath` 这个类的内部调用，外部调用就会报错。
+
+## 6. new.target 属性
+
+`new` 是从构造函数生成实例对象的命令。ES6 为 `new` 命令引入了一个 `new.target` 属性，该属性一般用在构造函数之中，返回 `new` 命令作用于的那个构造函数。如果构造函数不是通过 `new` 命令或 `Reflect.construct()` 调用的，`new.target` 会返回 `undefined`，因此这个属性可以用来确定构造函数是怎么调用的。
+
+```javascript
+function Person(name) {
+  if (new.target !== undefined) {
+    this.name = name;
+  } else {
+    throw new Error('必须使用 new 命令生成实例');
+  }
+}
+
+// 另一种写法
+function Person(name) {
+  if (new.target === Person) {
+    this.name = name;
+  } else {
+    throw new Error('必须使用 new 命令生成实例');
+  }
+}
+
+var person = new Person('张三'); // 正确
+var notAPerson = Person.call(person, '张三');  // 报错
+```
+
+上面代码确保构造函数只能通过 `new` 命令调用。
+
+Class 内部调用 `new.target`，返回当前 Class。
+
+```javascript
+class Rectangle {
+  constructor(length, width) {
+    console.log(new.target === Rectangle);
+    this.length = length;
+    this.width = width;
+  }
+}
+
+var obj = new Rectangle(3, 4); // 输出 true
+```
+
+需要注意的是，子类继承父类时，`new.target` 会返回子类。
+
+```javascript
+class Rectangle {
+  constructor(length, width) {
+    console.log(new.target === Rectangle);
+    // ...
+  }
+}
+
+class Square extends Rectangle {
+  constructor(length) {
+    super(length, width);
+  }
+}
+
+var obj = new Square(3); // 输出 false
+```
+
+上面代码中，`new.target` 会返回子类。
+
+利用这个特点，可以写出不能独立使用、必须继承后才能使用的类。
+
+```javascript
+class Shape {
+  constructor() {
+    if (new.target === Shape) {
+      throw new Error('本类不能实例化');
+    }
+  }
+}
+
+class Rectangle extends Shape {
+  constructor(length, width) {
+    super();
+    // ...
+  }
+}
+
+var x = new Shape();  // 报错
+var y = new Rectangle(3, 4);  // 正确
+```
+
+上面代码中，`Shape` 类不能被实例化，只能用于继承。
+
+注意，在函数外部，使用 `new.target` 会报错。
