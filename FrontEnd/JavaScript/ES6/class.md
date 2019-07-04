@@ -710,3 +710,73 @@ class Foo {
 ```
 
 上面代码中，老写法的静态属性定义在类的外部。整个类生成以后，再生成静态属性。这样让人很容易忽略这个静态属性，也不符合相关代码应该放在一起的代码组织原则。另外，新写法是显式声明（declarative），而不是赋值处理，语义更好。
+
+## 5. 私有方法和私有属性
+
+### 5.1. 现有的解决方案
+
+私有方法和私有属性，是只能在类的内部访问的方法和属性，外部不能访问。这是常见需求，有利于代码的封装，但 ES6 不提供，只能通过变通方法模拟实现。
+
+一种做法是在命名上加以区别。
+
+```javascript
+class Widget {
+
+  // 公有方法
+  init () {
+    this._create();
+  }
+
+  // 私有方法
+  _create() {
+    this.elt = $('<div class="container"></div>');
+  }
+
+  // ...
+}
+```
+
+上面代码中，`_create` 方法前面的下划线，表示这是一个只限于内部使用的私有方法。但是，这种命名是不保险的，在类的外部，还是可以调用到这个方法。
+
+另一种方法就是索性将私有方法移出模块，因为模块内部的所有方法都是对外可见的。
+
+```javascript
+class Widget {
+  init() {
+    create.call(this, null);
+  }
+
+  // ...
+}
+
+function create() {
+  this.elt = $('<div class="container"></div>');
+}
+```
+
+上面代码中，`init` 是公开方法，内部调用了 `create.call(this, null);`。这使得 `create` 实际上成为了当前模块的私有方法。
+
+还有一种方法是利用 `Symbol` 值的唯一性，将私有方法的名字命名为一个 `Symbol` 值。
+
+```javascript
+const create = Symbol('create');
+
+class MyClass {
+  init() {
+    this[create]();
+  }
+
+  [create]() {
+    this.elt = $('<div class="container"></div>');
+  }
+}
+```
+
+上面代码中，`create` 是 `Symbol` 值，一般情况下无法获取到它们，因此达到了私有方法和私有属性的效果。但是也不是绝对不行，`Reflect.ownKeys()` 依然可以拿到它们。
+
+```javascript
+Reflect.ownKeys(MyClass.prototype)
+// ["constructor", "init", Symbol(create)]
+```
+
+上面代码中，Symbol 值的属性名依然可以从类的外部拿到。
