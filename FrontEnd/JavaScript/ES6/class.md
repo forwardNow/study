@@ -780,3 +780,137 @@ Reflect.ownKeys(MyClass.prototype)
 ```
 
 上面代码中，Symbol 值的属性名依然可以从类的外部拿到。
+
+### 5.2. 私有属性的提案
+
+目前，有一个提案，为 `class` 加了私有属性。方法是在属性名之前，使用 `#` 表示。
+
+```javascript
+class IncreasingCounter {
+  #count = 0;
+  get value() {
+    console.log('Getting the current value!');
+    return this.#count;
+  }
+  increment() {
+    this.#count++;
+  }
+}
+```
+
+上面代码中，`#count` 就是私有属性，只能在类的内部使用（`this.#count`）。如果在类的外部使用，就会报错。
+
+```javascript
+const counter = new IncreasingCounter();
+counter.#count // 报错
+counter.#count = 42 // 报错
+```
+
+上面代码在类的外部，读取私有属性，就会报错。
+
+下面是另一个例子。
+
+```javascript
+class Point {
+  #x;
+
+  constructor(x = 0) {
+    this.#x = +x;
+  }
+
+  get x() {
+    return this.#x;
+  }
+
+  set x(value) {
+    this.#x = +value;
+  }
+}
+```
+
+上面代码中，`#x` 就是私有属性，在 `Point` 类之外是读取不到这个属性的。由于井号 `#` 是属性名的一部分，使用时必须带有 `#` 一起使用，所以 `#x` 和 `x` 是两个不同的属性。
+
+之所以要引入一个新的前缀 `#` 表示私有属性，而没有采用 `private` 关键字，是因为 JavaScript 是一门动态语言，没有类型声明，使用独立的符号似乎是唯一的比较方便可靠的方法，能够准确地区分一种属性是否为私有属性。另外，Ruby 语言使用 `@` 表示私有属性，ES6 没有用这个符号而使用 `#`，是因为 `@` 已经被留给了 Decorator。
+
+这种写法不仅可以写私有属性，还可以用来写私有方法。
+
+```javascript
+class Foo {
+  #a;
+  #b;
+  constructor(a, b) {
+    this.#a = a;
+    this.#b = b;
+  }
+  #sum() {
+    return #a + #b;
+  }
+  printSum() {
+    console.log(this.#sum());
+  }
+}
+```
+
+上面代码中，`#sum()` 就是一个私有方法。
+
+另外，私有属性也可以设置 getter 和 setter 方法。
+
+```javascript
+class Counter {
+  #xValue = 0;
+
+  constructor() {
+    super();
+    // ...
+  }
+
+  get #x() { return #xValue; }
+  set #x(value) {
+    this.#xValue = value;
+  }
+}
+```
+
+上面代码中，`#x` 是一个私有属性，它的读写都通过 `get #x()` 和 `set #x()` 来完成。
+
+私有属性不限于从 `this` 引用，只要是在类的内部，实例也可以引用私有属性。
+
+```javascript
+class Foo {
+  #privateValue = 42;
+  static getPrivateValue(foo) {
+    return foo.#privateValue;
+  }
+}
+
+Foo.getPrivateValue(new Foo()); // 42
+```
+
+上面代码允许从实例 `foo` 上面引用私有属性。
+
+私有属性和私有方法前面，也可以加上 `static` 关键字，表示这是一个静态的私有属性或私有方法。
+
+```javascript
+class FakeMath {
+  static PI = 22 / 7;
+  static #totallyRandomNumber = 4;
+
+  static #computeRandomNumber() {
+    return FakeMath.#totallyRandomNumber;
+  }
+
+  static random() {
+    console.log('I heard you like random numbers…')
+    return FakeMath.#computeRandomNumber();
+  }
+}
+
+FakeMath.PI // 3.142857142857143
+FakeMath.random()
+// I heard you like random numbers…
+// 4
+FakeMath.#totallyRandomNumber // 报错
+FakeMath.#computeRandomNumber() // 报错
+```
+
+上面代码中，`#totallyRandomNumber` 是私有属性，`#computeRandomNumber()` 是私有方法，只能在 `FakeMath` 这个类的内部调用，外部调用就会报错。
