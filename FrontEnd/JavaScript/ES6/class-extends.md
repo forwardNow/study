@@ -108,3 +108,14 @@ B.hello()  // hello world
 ```
 
 上面代码中，`hello()` 是 `A` 类的静态方法，`B` 继承 `A`，也继承了 `A` 的静态方法。
+
+## 2. Object.getPrototypeOf()
+
+`Object.getPrototypeOf` 方法可以用来从子类上获取父类。
+
+```javascript
+Object.getPrototypeOf(ColorPoint) === Point
+// true
+```
+
+因此，可以使用这个方法判断，一个类是否继承了另一个类。
