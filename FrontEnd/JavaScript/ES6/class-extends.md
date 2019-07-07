@@ -448,4 +448,69 @@ Object.setPrototypeOf(B, A);
 B.__proto__ = A;
 ```
 
-这两条继承链，可以这样理解：作为一个对象，子类（`B`）的原型（`__proto__` 属性）是父类（A）；作为一个构造函数，子类（B）的原型对象（prototype属性）是父类的原型对象（prototype属性）的实例。
+这两条继承链，可以这样理解：作为一个对象，子类（`B`）的原型（`__proto__` 属性）是父类（`A`）；作为一个构造函数，子类（`B`）的原型对象（`prototype` 属性）是父类的原型对象（`prototype` 属性）的实例。
+
+```javscript
+B.prototype = Object.create(A.prototype);
+// 等同于
+B.prototype.__proto__ = A.prototype;
+```
+
+`extends` 关键字后面可以跟多种类型的值。
+
+```javascript
+class B extends A {
+}
+```
+
+上面代码的 `A`，只要是一个有 `prototype` 属性的函数，就能被 `B` 继承。由于函数都有 `prototype` 属性（除了 `Function.prototype` 函数），因此 `A` 可以是任意函数。
+
+下面，讨论两种情况。第一种，子类继承 `Object` 类。
+
+```javascript
+class A extends Object {
+}
+
+A.__proto__ === Object // true
+A.prototype.__proto__ === Object.prototype // true
+```
+
+这种情况下，`A` 其实就是构造函数 `Object` 的复制，`A` 的实例就是 `Object` 的实例。
+
+第二种情况，不存在任何继承。
+
+```javascript
+class A {
+}
+
+A.__proto__ === Function.prototype // true
+A.prototype.__proto__ === Object.prototype // true
+```
+
+这种情况下，`A` 作为一个基类（即不存在任何继承），就是一个普通函数，所以直接继承 `Function.prototype`。但是，`A` 调用后返回一个空对象（即 `Object` 实例），所以 `A.prototype.__proto__` 指向构造函数（`Object`）的 `prototype` 属性。
+
+### 4.1. 实例的 __proto__ 属性
+
+子类实例的 `__proto__` 属性的 `__proto__` 属性，指向父类实例的 `__proto__` 属性。也就是说，子类的原型的原型，是父类的原型。
+
+```javascript
+var p1 = new Point(2, 3);
+var p2 = new ColorPoint(2, 3, 'red');
+
+p2.__proto__ === p1.__proto__ // false
+p2.__proto__.__proto__ === p1.__proto__ // true
+```
+
+上面代码中，`ColorPoint` 继承了 `Point`，导致前者原型的原型是后者的原型。
+
+因此，通过子类实例的 `__proto__.__proto__` 属性，可以修改父类实例的行为。
+
+```javascript
+p2.__proto__.__proto__.printName = function () {
+  console.log('Ha');
+};
+
+p1.printName() // "Ha"
+```
+
+上面代码在 `ColorPoint` 的实例 `p2` 上向 `Point` 类添加方法，结果影响到了 `Point` 的实例 `p1`。
