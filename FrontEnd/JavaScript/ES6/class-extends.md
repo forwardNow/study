@@ -514,3 +514,45 @@ p1.printName() // "Ha"
 ```
 
 上面代码在 `ColorPoint` 的实例 `p2` 上向 `Point` 类添加方法，结果影响到了 `Point` 的实例 `p1`。
+
+## 5. 原生构造函数的继承
+
+原生构造函数是指语言内置的构造函数，通常用来生成数据结构。ECMAScript 的原生构造函数大致有下面这些。
+
+* Boolean()
+* Number()
+* String()
+* Array()
+* Date()
+* Function()
+* RegExp()
+* Error()
+* Object()
+
+以前，这些原生构造函数是无法继承的，比如，不能自己定义一个 `Array` 的子类。
+
+```javascript
+function MyArray() {
+  Array.apply(this, arguments);
+}
+
+MyArray.prototype = Object.create(Array.prototype, {
+  constructor: {
+    value: MyArray,
+    writable: true,
+    configurable: true,
+    enumerable: true
+  }
+});
+```
+
+上面代码定义了一个继承 `Array` 的 `MyArray` 类。但是，这个类的行为与 `Array` 完全不一致。
+
+```javascript
+var colors = new MyArray();
+colors[0] = "red";
+colors.length  // 0
+
+colors.length = 0;
+colors[0]  // "red"
+```
