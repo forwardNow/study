@@ -549,3 +549,43 @@ export * as someIdentifier from "someModule";
 export someIdentifier from "someModule";
 export someIdentifier, { namedIdentifier } from "someModule";
 ```
+
+## 8. 模块的继承
+
+块之间也可以继承。
+
+假设有一个 `circleplus` 模块，继承了 `circle` 模块。
+
+```javascript
+// circleplus.js
+
+export * from 'circle';
+export var e = 2.71828182846;
+export default function(x) {
+  return Math.exp(x);
+}
+```
+
+上面代码中的 `export *`，表示再输出 `circle` 模块的所有属性和方法。注意，`export *` 命令会忽略 `circle` 模块的 `default` 方法。然后，上面代码又输出了自定义的 `e` 变量和默认方法。
+
+这时，也可以将 `circle` 的属性或方法，改名后再输出。
+
+```javascript
+// circleplus.js
+
+export { area as circleArea } from 'circle';
+```
+
+上面代码表示，只输出 `circle` 模块的 `area` 方法，且将其改名为 `circleArea`。
+
+加载上面模块的写法如下。
+
+```javascript
+// main.js
+
+import * as math from 'circleplus';
+import exp from 'circleplus';
+console.log(exp(math.e));
+```
+
+上面代码中的 `import exp` 表示，将 `circleplus` 模块的默认方法加载为 `exp` 方法。
