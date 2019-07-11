@@ -487,3 +487,65 @@ export default class { ... }
 import MyClass from 'MyClass';
 let o = new MyClass();
 ```
+
+## 7. export 与 import 的复合写法
+
+如果在一个模块之中，先输入后输出同一个模块，`import` 语句可以与 `export` 语句写在一起。
+
+```javascript
+export { foo, bar } from 'my_module';
+
+// 可以简单理解为
+import { foo, bar } from 'my_module';
+export { foo, bar };
+```
+
+上面代码中，`export` 和 `import` 语句可以结合在一起，写成一行。但需要注意的是，写成一行以后，`foo` 和 `bar` 实际上并没有被导入当前模块，只是相当于对外转发了这两个接口，导致当前模块不能直接使用 `foo` 和 `bar`。
+
+模块的接口改名和整体输出，也可以采用这种写法。
+
+```javascript
+// 接口改名
+export { foo as myFoo } from 'my_module';
+
+// 整体输出
+export * from 'my_module';
+```
+
+默认接口的写法如下。
+
+```javascript
+export { default } from 'foo';
+```
+
+具名接口改为默认接口的写法如下。
+
+```javascript
+export { es6 as default } from './someModule';
+
+// 等同于
+import { es6 } from './someModule';
+export default es6;
+```
+
+同样地，默认接口也可以改名为具名接口。
+
+```javascript
+export { default as es6 } from './someModule';
+```
+
+下面三种 `import` 语句，没有对应的复合写法。
+
+```javascript
+import * as someIdentifier from "someModule";
+import someIdentifier from "someModule";
+import someIdentifier, { namedIdentifier } from "someModule";
+```
+
+为了做到形式的对称，现在有提案，提出补上这三种复合写法。
+
+```javascript
+export * as someIdentifier from "someModule";
+export someIdentifier from "someModule";
+export someIdentifier, { namedIdentifier } from "someModule";
+```
