@@ -733,3 +733,63 @@ import(f()).then(...);
 ```
 
 上面代码中，根据函数 `f` 的返回结果，加载不同的模块。
+
+### 10.3. 注意点
+
+`import()` 加载模块成功以后，这个模块会作为一个对象，当作 `then` 方法的参数。因此，可以使用对象解构赋值的语法，获取输出接口。
+
+```javascript
+import('./myModule.js')
+  .then(({export1, export2}) => {
+    // ...·
+  });
+```
+
+上面代码中，`export1` 和 `export2` 都是 `myModule.js` 的输出接口，可以解构获得。
+
+如果模块有 `default` 输出接口，可以用参数直接获得。
+
+```javascript
+import('./myModule.js')
+  .then(myModule => {
+    console.log(myModule.default);
+  });
+```
+
+上面的代码也可以使用具名输入的形式。
+
+```javascript
+import('./myModule.js')
+  .then(({default: theDefault}) => {
+    console.log(theDefault);
+  });
+```
+
+如果想同时加载多个模块，可以采用下面的写法。
+
+```javascript
+Promise.all([
+  import('./module1.js'),
+  import('./module2.js'),
+  import('./module3.js'),
+])
+.then(([module1, module2, module3]) => {
+   ···
+});
+```
+
+`import()` 也可以用在 async 函数之中。
+
+```javascript
+async function main() {
+  const myModule = await import('./myModule.js');
+  const {export1, export2} = await import('./myModule.js');
+  const [module1, module2, module3] =
+    await Promise.all([
+      import('./module1.js'),
+      import('./module2.js'),
+      import('./module3.js'),
+    ]);
+}
+main();
+```
