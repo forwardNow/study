@@ -639,3 +639,51 @@ export {users} from './users';
 // script.js
 import {db, users} from './constants/index';
 ```
+
+## 10. import()
+
+### 10.1. 简介
+
+前面介绍过，`import` 命令会被 JavaScript 引擎静态分析，先于模块内的其他语句执行（`import` 命令叫做“连接” `binding` 其实更合适）。所以，下面的代码会报错。
+
+```javascript
+// 报错
+if (x === 2) {
+  import MyModual from './myModual';
+}
+```
+
+上面代码中，引擎处理 `import` 语句是在编译时，这时不会去分析或执行 `if` 语句，所以 `import` 语句放在 `if` 代码块之中毫无意义，因此会报句法错误，而不是执行时错误。也就是说， `import` 和 `export` 命令只能在模块的顶层，不能在代码块之中（比如，在 `if` 代码块之中，或在函数之中）。
+
+这样的设计，固然有利于编译器提高效率，但也导致无法在运行时加载模块。在语法上，条件加载就不可能实现。如果 `import` 命令要取代 Node 的 `require` 方法，这就形成了一个障碍。因为 `require` 是运行时加载模块，`import` 命令无法取代 `require` 的动态加载功能。
+
+```javascript
+const path = './' + fileName;
+const myModual = require(path);
+```
+
+上面的语句就是动态加载，`require` 到底加载哪一个模块，只有运行时才知道。`import` 命令做不到这一点。
+
+因此，有一个提案，建议引入 `import()` 函数，完成动态加载。
+
+```javascript
+import(specifier)
+```
+
+上面代码中，`import` 函数的参数 `specifier`，指定所要加载的模块的位置。`import` 命令能够接受什么参数，`import()` 函数就能接受什么参数，两者区别主要是后者为动态加载。
+
+`import()` 返回一个 Promise 对象。下面是一个例子。
+
+```javascript
+const main = document.querySelector('main');
+
+import(`./section-modules/${someVariable}.js`)
+  .then(module => {
+    module.loadPageInto(main);
+  })
+  .catch(err => {
+    main.textContent = err.message;
+  });
+```
+
+`import()` 函数可以用在任何地方，不仅仅是模块，非模块的脚本也可以使用。它是运行时执行，也就是说，什么时候运行到这一句，就会加载指定的模块。另外，`import()` 函数与所加载的模块没有静态连接关系，这点也是与 `import` 语句不相同。`import()` 类似于 Node 的 `require` 方法，区别主要是前者是异步加载，后者是同步加载。
