@@ -26,3 +26,4 @@
 20. [Class 的基本语法](./class.md)
 21. [Class 的继承](./class-extends.md)
 22. [Module 的语法](./module.md)
+23. [Module 的加载实现](./module-loader.md)
