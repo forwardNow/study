@@ -1,0 +1,34 @@
+<!-- 文本绑定 -->
+<view>{{ message }}</view>
+
+<!-- 属性值绑定 -->
+<text data-name="{{ name }}"></text>
+
+<view hidden="{{ flag ? true : false }}">
+  表达式
+</view>
+
+<!-- 列表渲染 -->
+<block wx:for="{{ items }}" wx:for-item="item" wx:key="item.id">
+  <view>{{ index }} - {{ item.name }}</view>
+</block>
+  
+<!-- 条件渲染 -->
+<view wx:if="{{ condition === 1 }}">条件 1</view>
+<view wx:elif="{{ condition === 2 }}">条件 2</view>
+<view wx:else>条件 3</view>
+
+<!-- 模板引用 import 
+-->
+<import src="/templates/layout.wxml" />
+<template is="body" data="{{ message }}"/>
+
+<!-- 模板引用 include
+<include src="/templates/layout.wxml" />
+<template is="body" />
+-->
+
+<!-- 内联样式 -->
+<view style="color: #999; font-size: {{ fontSize }};">
+  鲜橙多
+</view>

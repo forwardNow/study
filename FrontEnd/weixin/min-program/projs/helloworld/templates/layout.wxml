@@ -1,0 +1,6 @@
+<view>页头</view>
+<template name="body">
+  {{ message }}
+</template>
+<view>页脚</view>
+  
