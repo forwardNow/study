@@ -32,3 +32,6 @@
 <view style="color: #999; font-size: {{ fontSize }};">
   鲜橙多
 </view>
+
+<!-- 事件 -->
+<view bindtap="clickMe">点我啊</view>

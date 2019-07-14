@@ -11,4 +11,7 @@ Page({
     condition: Math.floor(Math.random() * 3 + 1),
     fontSize: '20px',
   },
+  clickMe(e) {
+    console.log(e);
+  }
 });
