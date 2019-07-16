@@ -441,3 +441,44 @@ const app = express.default();
 import express from 'express';
 const app = express();
 ```
+
+### 3.4. CommonJS 模块加载 ES6 模块
+
+CommonJS 模块加载 ES6 模块，不能使用 `require` 命令，而要使用 `import()` 函数。ES6 模块的所有输出接口，会成为输入对象的属性。
+
+```javascript
+// es.mjs
+let foo = { bar: 'my-default' };
+export default foo;
+
+// cjs.js
+const es_namespace = await import('./es.mjs');
+// es_namespace = {
+//   get default() {
+//     ...
+//   }
+// }
+console.log(es_namespace.default);
+// { bar:'my-default' }
+```
+
+上面代码中，`default` 接口变成了 `es_namespace.default` 属性。
+
+下面是另一个例子。
+
+```javascript
+// es.js
+export let foo = { bar:'my-default' };
+export { foo as bar };
+export function f() {};
+export class c {};
+
+// cjs.js
+const es_namespace = await import('./es');
+// es_namespace = {
+//   get foo() {return foo;}
+//   get bar() {return foo;}
+//   get f() {return f;}
+//   get c() {return c;}
+// }
+```
