@@ -335,3 +335,109 @@ module.exports = {__dirname};
 import expose from './expose.js';
 const {__dirname} = expose;
 ```
+
+### 3.3. ES6 模块加载 CommonJS 模块
+
+CommonJS 模块的输出都定义在 `module.exports` 这个属性上面。Node 的 `import` 命令加载 CommonJS 模块，Node 会自动将 `module.exports` 属性，当作模块的默认输出，即等同于 `export default xxx`。
+
+下面是一个 CommonJS 模块。
+
+```javascript
+// a.js
+module.exports = {
+  foo: 'hello',
+  bar: 'world'
+};
+
+// 等同于
+export default {
+  foo: 'hello',
+  bar: 'world'
+};
+```
+
+`import` 命令加载上面的模块，`module.exports` 会被视为默认输出，即 `import` 命令实际上输入的是这样一个对象 `{ default: module.exports }`。
+
+所以，一共有三种写法，可以拿到 CommonJS 模块的 `module.exports`。
+
+```javascript
+// 写法一
+import baz from './a';
+// baz = {foo: 'hello', bar: 'world'};
+
+// 写法二
+import {default as baz} from './a';
+// baz = {foo: 'hello', bar: 'world'};
+
+// 写法三
+import * as baz from './a';
+// baz = {
+//   get default() {return module.exports;},
+//   get foo() {return this.default.foo}.bind(baz),
+//   get bar() {return this.default.bar}.bind(baz)
+// }
+```
+
+上面代码的第三种写法，可以通过 `baz.default` 拿到 `module.exports`。`foo` 属性和 `bar` 属性就是可以通过这种方法拿到了 `module.exports`。
+
+下面是一些例子。
+
+```javascript
+// b.js
+module.exports = null;
+
+// es.js
+import foo from './b';
+// foo = null;
+
+import * as bar from './b';
+// bar = { default:null };
+```
+
+上面代码中，`es.js` 采用第二种写法时，要通过 `bar.default` 这样的写法，才能拿到 `module.exports`。
+
+```javascript
+// c.js
+module.exports = function two() {
+  return 2;
+};
+
+// es.js
+import foo from './c';
+foo(); // 2
+
+import * as bar from './c';
+bar.default(); // 2
+bar(); // throws, bar is not a function
+```
+
+上面代码中，`bar` 本身是一个对象，不能当作函数调用，只能通过 `bar.default` 调用。
+
+CommonJS 模块的输出缓存机制，在 ES6 加载方式下依然有效。
+
+```javascript
+// foo.js
+module.exports = 123;
+setTimeout(_ => module.exports = null);
+```
+
+上面代码中，对于加载 `foo.js` 的脚本，`module.exports` 将一直是 `123`，而不会变成 `null`。
+
+由于 ES6 模块是编译时确定输出接口，CommonJS 模块是运行时确定输出接口，所以采用 `import` 命令加载 CommonJS 模块时，不允许采用下面的写法。
+
+```javascript
+// 不正确
+import { readFile } from 'fs';
+```
+
+上面的写法不正确，因为 `fs` 是 CommonJS 格式，只有在运行时才能确定 `readFile` 接口，而 `import` 命令要求编译时就确定这个接口。解决方法就是改为整体输入。
+
+```javascript
+// 正确的写法一
+import * as express from 'express';
+const app = express.default();
+
+// 正确的写法二
+import express from 'express';
+const app = express();
+```
