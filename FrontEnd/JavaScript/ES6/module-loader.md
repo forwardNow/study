@@ -606,3 +606,147 @@ exports.bad = function (arg) {
 ```
 
 上面代码中，如果发生循环加载，`require('a').foo` 的值很可能后面会被改写，改用 `require('a')` 会更保险一点。
+
+### 4.3. ES6 模块的循环加载
+
+ES6 处理“循环加载”与 CommonJS 有本质的不同。ES6 模块是动态引用，如果使用 `import` 从一个模块加载变量（即 `import foo from 'foo'`），那些变量不会被缓存，而是成为一个指向被加载模块的引用，需要开发者自己保证，真正取值的时候能够取到值。
+
+请看下面这个例子。
+
+```javascript
+// a.mjs
+import {bar} from './b';
+console.log('a.mjs');
+console.log(bar);
+export let foo = 'foo';
+
+// b.mjs
+import {foo} from './a';
+console.log('b.mjs');
+console.log(foo);
+export let bar = 'bar';
+```
+
+上面代码中，`a.mjs` 加载 `b.mjs`，`b.mjs` 又加载 `a.mjs`，构成循环加载。执行 `a.mjs`，结果如下。
+
+```shell
+$ node --experimental-modules a.mjs
+b.mjs
+ReferenceError: foo is not defined
+```
+
+上面代码中，执行 `a.mjs` 以后会报错，`foo` 变量未定义，这是为什么？
+
+让我们一行行来看，ES6 循环加载是怎么处理的。首先，执行 `a.mjs` 以后，引擎发现它加载了 `b.mjs`，因此会优先执行 `b.mjs`，然后再执行 `a.mjs`。接着，执行 `b.mjs` 的时候，已知它从 `a.mjs` 输入了 `foo` 接口，这时不会去执行 `a.mjs`，而是认为这个接口已经存在了，继续往下执行。执行到第三行 `console.log(foo)` 的时候，才发现这个接口根本没定义，因此报错。
+
+解决这个问题的方法，就是让 `b.mjs` 运行的时候，`foo` 已经有定义了。这可以通过将 `foo` 写成函数来解决。
+
+```javascript
+// a.mjs
+import {bar} from './b';
+
+console.log('a.mjs');
+console.log(bar());
+
+function foo() { return 'foo' }
+
+export {foo};
+
+// b.mjs
+import {foo} from './a';
+
+console.log('b.mjs');
+console.log(foo());
+
+function bar() { return 'bar' }
+
+export {bar};
+```
+
+这时再执行 `a.mjs` 就可以得到预期结果。
+
+```shell
+$ node --experimental-modules a.mjs
+b.mjs
+foo
+a.mjs
+bar
+```
+
+这是因为函数具有提升作用，在执行 `import {bar} from './b'` 时，函数 `foo` 就已经有定义了，所以 `b.mjs` 加载的时候不会报错。这也意味着，如果把函数 `foo` 改写成函数表达式，也会报错。
+
+```javascript
+// a.mjs
+import {bar} from './b';
+console.log('a.mjs');
+console.log(bar());
+const foo = () => 'foo';
+export {foo};
+```
+
+上面代码的第四行，改成了函数表达式，就不具有提升作用，执行就会报错。
+
+我们再来看 ES6 模块加载器 [SystemJS](https://github.com/ModuleLoader/es6-module-loader/blob/master/docs/circular-references-bindings.md) 给出的一个例子。
+
+```javascript
+// even.js
+import { odd } from './odd'
+export var counter = 0;
+export function even(n) {
+  counter++;
+  return n === 0 || odd(n - 1);
+}
+
+// odd.js
+import { even } from './even';
+export function odd(n) {
+  return n !== 0 && even(n - 1);
+}
+```
+
+上面代码中，`even.js` 里面的函数 `even` 有一个参数 `n`，只要不等于  0，就会减去 1，传入加载的 `odd()`。`odd.js` 也会做类似操作。
+
+运行上面这段代码，结果如下。
+
+```javascript
+$ babel-node
+> import * as m from './even.js';
+> m.even(10);
+true
+> m.counter
+6
+> m.even(20)
+true
+> m.counter
+17
+```
+
+上面代码中，参数 `n` 从 10 变为 0 的过程中，`even()` 一共会执行 6 次，所以变量 `counter` 等于 6。第二次调用 `even()` 时，参数 `n` 从 20 变为 0，`even()` 一共会执行 11 次，加上前面的 6 次，所以变量 `counter` 等于 17。
+
+这个例子要是改写成 CommonJS，就根本无法执行，会报错。
+
+```javascript
+// even.js
+var odd = require('./odd');
+var counter = 0;
+exports.counter = counter;
+exports.even = function (n) {
+  counter++;
+  return n == 0 || odd(n - 1);
+}
+
+// odd.js
+var even = require('./even').even;
+module.exports = function (n) {
+  return n != 0 && even(n - 1);
+}
+```
+
+上面代码中，`even.js` 加载 `odd.js`，而 `odd.js` 又去加载 `even.js`，形成“循环加载”。这时，执行引擎就会输出 `even.js` 已经执行的部分（不存在任何结果），所以在 `odd.js` 之中，变量 `even` 等于 `undefined`，等到后面调用 `even(n - 1)` 就会报错。
+
+```shell
+$ node
+> var m = require('./even');
+> m.even(10)
+TypeError: even is not a function
+```
