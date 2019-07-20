@@ -67,3 +67,20 @@ const [a, b, c] = [1, 2, 3];
 所有的函数都应该设置为常量。
 
 长远来看，JavaScript 可能会有多线程的实现（比如 Intel 公司的 River Trail 那一类的项目），这时 `let` 表示的变量，只应出现在单线程运行的代码中，不能是多线程共享的，这样有利于保证线程安全。
+
+## 2. 字符串
+
+静态字符串一律使用单引号或反引号，不使用双引号。动态字符串使用反引号。
+
+```javascript
+// bad
+const a = "foobar";
+const b = 'foo' + a + 'bar';
+
+// acceptable
+const c = `foobar`;
+
+// good
+const a = 'foobar';
+const b = `foo${a}bar`;
+```
