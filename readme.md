@@ -46,12 +46,17 @@
 * video
   * [网页视频播放](./blog/2018/07/04.视频播放（包括IE8）.md)
 
-### 1.4. 前端构建
+### 1.4. 微信
+
+* 微信小程序
+  * [程序开发指南 —— 官方教程](./FrontEnd/weixin/min-program/official.md)
+
+### 1.5. 前端构建
 
 * webpack
   * [《深入浅出 webpack 3.x》](./FrontEnd/Build/webpack3.x/readme.md)
 
-### 1.5. 框架及库
+### 1.6. 框架及库
 
 * Vue.js
   * [Vue2.x](./FrontEnd/框架/Vue2.x/readme.md)
@@ -67,26 +72,26 @@
 * Leaflet（地图）
   * [《官方文档》](./FrontEnd/库/Leaflet)
 
-### 1.6. 平台
+### 1.7. 平台
 
 * [APICloud](./FrontEnd/platform/apicloud/readme.md)
 
-### 1.7. 规范
+### 1.8. 规范
 
 * API
   * [Open API 3.0 【翻译】](./FrontEnd/其他/OpenAPI/readme.md)
 
-### 1.8. 包管理器
+### 1.9. 包管理器
 
 * [NPM](./BackEnd/npm/readme.md)
 * [yarn](./FrontEnd/Build/yarn.md)
 * [pnpm](./FrontEnd/Build/pnpm.md)
 
-### 1.9. 单元测试
+### 1.10. 单元测试
 
 * [Mocha.js 的使用](./blog/2018/10/09.mochajs的使用.md)
 
-### 1.10. 浏览器相关
+### 1.11. 浏览器相关
 
 * WebKit
   * [《WebKit 技术内幕》 —— 朱永盛](./FrontEnd/其他/WebKit技术内幕/readme.md)
@@ -98,7 +103,7 @@
   * [制作web浏览器【待完成】](./FrontEnd/其他/制作web浏览器/readme.md)
   * [浏览器的工作原理【待完成】](./blog/2018/08/11.浏览器的工作原理.md)
 
-### 1.11. 待分类
+### 1.12. 待分类
 
 * [前端发展趋势](./blog/2018/07/30.前端发展趋势.md)
 * [gitbook 的使用](./blog/2018/10/30.gitbook的使用.md)
