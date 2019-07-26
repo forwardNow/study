@@ -7,3 +7,4 @@
 1. [第 1 章：小程序介绍与开发环境](./official/1.intro.md)
 2. [第 2 章：小程序代码组成](./official/2.code.md)
 3. [第 3 章：理解小程序宿主环境](./official/3.env.md)
+4. [第 4 章：场景应用](./official/4.dev.md)
