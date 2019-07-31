@@ -8,3 +8,4 @@
 2. [第 2 章：小程序代码组成](./official/2.code.md)
 3. [第 3 章：理解小程序宿主环境](./official/3.env.md)
 4. [第 4 章：场景应用](./official/4.dev.md)
+5. [第 5 章：小程序的协同工作和发布](./official/5.publish.md)
