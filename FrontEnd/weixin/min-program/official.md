@@ -9,3 +9,4 @@
 3. [第 3 章：理解小程序宿主环境](./official/3.env.md)
 4. [第 4 章：场景应用](./official/4.dev.md)
 5. [第 5 章：小程序的协同工作和发布](./official/5.publish.md)
+6. [第 6 章：底层框架](./official/6.frame.md)
