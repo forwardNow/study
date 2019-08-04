@@ -11,3 +11,4 @@
 5. [第 5 章：小程序的协同工作和发布](./official/5.publish.md)
 6. [第 6 章：底层框架](./official/6.frame.md)
 7. [第 7 章：性能优化](./official/7.performance.md)
+8. [第 8 章：小程序基础库的更新迭代](./official/8.base-lib.md)
