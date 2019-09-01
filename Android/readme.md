@@ -40,7 +40,24 @@ $ rm 1.txt 2.txt
 
 位置：`app/build/generated/not_namespaced_r_class_sources/debug/r/fn/cn/phonedail/R.java`
 
-## 3. 电话拨号器
+
+## 3. 拨号
+
+### 3.1. 权限设置
+
+`AndroidManifest.xml`：
+
+```xml
+<?xml version="1.0" encoding="utf-8"?>
+<manifest ...>
+
+    <uses-permission android:name="android.permission.CALL_PHONE" />
+
+    <application> ... </application>
+</manifest>
+```
+
+### 3.2. 检查并请求权限
 
 ```java
 public class MainActivity extends AppCompatActivity {
@@ -73,7 +90,13 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+}
+```
 
+### 3.3. 意图
+
+```java
+public class MainActivity extends AppCompatActivity {
     private void callPhone( String num ) {
         // 创建一个意图对象
         Intent dialIntent = new Intent();
@@ -85,38 +108,80 @@ public class MainActivity extends AppCompatActivity {
         // 开启意图
         startActivity( dialIntent );
     }
+}
+```
+
+## 4. 按钮点击事件
+
+### 4.1. 匿名内部类
+
+```java
+public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate( Bundle savedInstanceState ) {
-        super.onCreate( savedInstanceState );
-        setContentView( R.layout.activity_main );
 
-
-        checkPermission();
-
-        final EditText phoneNumView = findViewById( R.id.editText );
         Button buttonView = findViewById( R.id.button );
 
         buttonView.setOnClickListener( new View.OnClickListener() {
             @Override
             public void onClick( View v ) {
-
-                String num = phoneNumView.getText().toString();
-
-                System.out.println( "按钮被点击了, " + num );
-
-                if ( "".equals( num ) ) {
-                    Toast toast = Toast.makeText( MainActivity.this, "电话号码不能为空", Toast.LENGTH_LONG );
-                    toast.show();
-                    return;
-                }
-
-
-                MainActivity.this.callPhone( num );
-
+                // ...
             }
         } );
     }
+}
+```
 
+### 4.2. 让当前类实现 `View.OnClickListener` 接口类型
+
+>用于多个按钮的点击事件处理
+
+```java
+public class MainActivity extends AppCompatActivity implements View.OnClickListener  {
+    @Override
+    protected void onCreate( Bundle savedInstanceState ) {
+
+        EditText phoneNumView = findViewById( R.id.editText );
+        Button buttonView = findViewById( R.id.button );
+
+        buttonView.setOnClickListener( this );
+        phoneNumView.setOnClickListener( this );
+    }
+
+    @Override
+    public void onClick( View v ) {
+        switch ( v.getId() ) {
+            case R.id.button: {
+                Toast.makeText( this, "点击了按钮", Toast.LENGTH_SHORT ).show();
+                break;
+            }
+            case R.id.editText: {
+                Toast.makeText( this, "点击了可编辑的文本框", Toast.LENGTH_SHORT ).show();
+                break;
+            }
+        }
+    }
+}
+```
+
+### 4.3. 使用控件的 `android:onClick` 属性
+
+>用于 demo
+
+```xml
+<Button
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="100dp"
+    android:onClick="clickMe"
+    android:text="拨号" />
+```
+
+```java
+public class MainActivity extends AppCompatActivity {
+  public void clickMe( View view ) {
+        Toast.makeText( this, "点击了我", Toast.LENGTH_SHORT ).show();
+    }
 }
 ```
