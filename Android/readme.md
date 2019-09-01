@@ -35,3 +35,88 @@ $ adb pull /mnt/sdcard/1.txt 2.txt
 
 $ rm 1.txt 2.txt
 ```
+
+## 2. R 文件
+
+位置：`app/build/generated/not_namespaced_r_class_sources/debug/r/fn/cn/phonedail/R.java`
+
+## 3. 电话拨号器
+
+```java
+public class MainActivity extends AppCompatActivity {
+
+    private static final int MY_PERMISSIONS_REQUEST_CALL_PHONE = 1;
+
+    @Override
+    public void onRequestPermissionsResult( int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults ) {
+        switch ( requestCode ) {
+            case MY_PERMISSIONS_REQUEST_CALL_PHONE: {
+
+                // 已授权
+                if ( grantResults[ 0 ] == PackageManager.PERMISSION_GRANTED ) {
+                    Toast.makeText( this, "已授予拨号的权限", Toast.LENGTH_SHORT ).show();
+                } else { // 未授权
+                    Toast.makeText( this, "未授予拨号的权限", Toast.LENGTH_SHORT ).show();
+                }
+
+                return;
+            }
+        }
+
+
+        super.onRequestPermissionsResult( requestCode, permissions, grantResults );
+    }
+
+    private void checkPermission() {
+        if ( ActivityCompat.checkSelfPermission( this, Manifest.permission.CALL_PHONE ) != PackageManager.PERMISSION_GRANTED ) {
+            ActivityCompat.requestPermissions( this, new String[] { Manifest.permission.CALL_PHONE }, MY_PERMISSIONS_REQUEST_CALL_PHONE );
+        }
+    }
+
+
+    private void callPhone( String num ) {
+        // 创建一个意图对象
+        Intent dialIntent = new Intent();
+
+        dialIntent.setAction( Intent.ACTION_CALL ); // 动作
+
+        dialIntent.setData( Uri.parse( "tel:" + num ) ); // 数据
+
+        // 开启意图
+        startActivity( dialIntent );
+    }
+
+    @Override
+    protected void onCreate( Bundle savedInstanceState ) {
+        super.onCreate( savedInstanceState );
+        setContentView( R.layout.activity_main );
+
+
+        checkPermission();
+
+        final EditText phoneNumView = findViewById( R.id.editText );
+        Button buttonView = findViewById( R.id.button );
+
+        buttonView.setOnClickListener( new View.OnClickListener() {
+            @Override
+            public void onClick( View v ) {
+
+                String num = phoneNumView.getText().toString();
+
+                System.out.println( "按钮被点击了, " + num );
+
+                if ( "".equals( num ) ) {
+                    Toast toast = Toast.makeText( MainActivity.this, "电话号码不能为空", Toast.LENGTH_LONG );
+                    toast.show();
+                    return;
+                }
+
+
+                MainActivity.this.callPhone( num );
+
+            }
+        } );
+    }
+
+}
+```
