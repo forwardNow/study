@@ -196,6 +196,8 @@ public class MainActivity extends AppCompatActivity {
 
 ### 5.1. 线性布局
 
+按照指定的（水平或垂直）顺序挨个排列。
+
 类比 CSS 中 flex 布局中：
 
 ```scss
@@ -205,6 +207,7 @@ public class MainActivity extends AppCompatActivity {
   flex-direction: column; // 项目将垂直显示，正如一个列一样。
 }
 ```
+
 
 #### 5.1.1. 创建布局文件
 
@@ -241,4 +244,43 @@ public class MainActivity extends AppCompatActivity {
         />
 
 </LinearLayout>
+```
+
+### 5.2. 相对布局
+
+默认都堆叠在左上角。类比 CSS 中的绝对布局，但相对的是相邻的元素。
+
+示例：
+
+```xml
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <Button
+        android:id="@+id/btn_1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="btn_1"
+        />
+
+    <Button
+        android:id="@+id/btn_2"
+        android:layout_width="100dp"
+        android:layout_height="200dp"
+        android:text="btn_2"
+        android:layout_below="@id/btn_1"
+        />
+
+    <Button
+        android:layout_width="200dp"
+        android:layout_height="100dp"
+        android:text="btn_3"
+        android:layout_below="@id/btn_1"
+        android:layout_toRightOf="@id/btn_2"
+        />
+
+</RelativeLayout>
 ```
