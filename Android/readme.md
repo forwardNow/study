@@ -207,7 +207,6 @@ public class MainActivity extends AppCompatActivity {
 }
 ```
 
-
 #### 5.1.1. 创建布局文件
 
 ![./images/1.1.layout.png](./images/1.1.layout.png)
@@ -455,3 +454,16 @@ public class MainActivity extends AppCompatActivity {
 ```
 
 可通过 tag 进行过滤。
+
+## 9. 上下文
+
+参考：[API：android.content.Context](https://developer.android.com/reference/android/content/Context.html)
+
+通过 `context` 打开 i/o 流：
+
+```java
+// "/data/data/fn.cn.login/files/user_info.txt"
+FileOutputStream fos = MainActivity.this.openFileOutput( "user_info.txt", 0 )
+fos.write( "abc".getBytes() );
+fos.close();
+```
