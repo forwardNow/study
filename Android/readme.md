@@ -40,7 +40,6 @@ $ rm 1.txt 2.txt
 
 位置：`app/build/generated/not_namespaced_r_class_sources/debug/r/fn/cn/phonedail/R.java`
 
-
 ## 3. 拨号
 
 ### 3.1. 权限设置
@@ -192,7 +191,7 @@ public class MainActivity extends AppCompatActivity {
 * 相对布局
 * 帧布局
 * 表格布局
-* 绝对布局
+* 绝对布局（被废弃，不好做适配）
 
 ### 5.1. 线性布局
 
@@ -366,3 +365,56 @@ public class MainActivity extends AppCompatActivity {
 
 </TableLayout>
 ```
+
+## 6. 单位
+
+参考：[如何一稿适配 iOS、Android](https://zhuanlan.zhihu.com/p/22084291)
+
+| 单位 | 说明 |
+| - | - |
+| dp | 布局尺寸，device independent pixel，设备无关像素 |
+| sp | 文字尺寸，scale-independent pixel |
+
+倍率：
+
+* iOS：
+  * 1倍（163 ppi、1～3gs）
+  * 2倍（326 ppi、4～6s）
+  * 3倍（401 ppi、plus系列）
+* Android：
+  * mdpi （160 dpi、1倍）
+  * hdpi （240 dpi、1.5倍）
+  * xhdpi （320 dpi、2倍 ）
+  * xxhdpi （480 dpi、3倍）
+  * xxxhdpi （640 dpi、4倍）
+
+px 与 dp 的关系：
+
+![./images/1.2.unit.png](./images/1.2.unit.png)
+
+## 7. 测试
+
+好的软件不是开放出来的，是不断测试出来的。
+
+根据是否知道源代码，分为：
+
+* 黑盒测试，也叫功能测试
+* 白盒测试
+
+根据测试的粒度，分为：
+
+* 方法测试
+* 单元测试
+* 集成测试
+* 系统测试
+
+根据测试的暴力程度，分为：
+
+* 压力测试，如 12306
+* 冒烟测试，测试到冒烟为止
+
+  ```shell
+  $ adb shell
+  # Google 提供的压力测试的指令
+  > monkey 2000
+  ```
