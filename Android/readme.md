@@ -185,3 +185,60 @@ public class MainActivity extends AppCompatActivity {
     }
 }
 ```
+
+## 5. 常用布局
+
+* 线性布局
+* 相对布局
+* 帧布局
+* 表格布局
+* 绝对布局
+
+### 5.1. 线性布局
+
+类比 CSS 中 flex 布局中：
+
+```scss
+.container {
+  display: flex;
+  flex-direction: row; // 项目将水平显示，正如一个行一样。
+  flex-direction: column; // 项目将垂直显示，正如一个列一样。
+}
+```
+
+#### 5.1.1. 创建布局文件
+
+![./images/1.1.layout.png](./images/1.1.layout.png)
+
+#### 5.1.2. 示例
+
+```xml
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    >
+
+    <TextView
+        android:id="@+id/tv_label"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:text="请输入电话号码" />
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="电话号码"
+        />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="拨打"
+        />
+
+</LinearLayout>
+```
