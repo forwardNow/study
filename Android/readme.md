@@ -289,7 +289,7 @@ public class MainActivity extends AppCompatActivity {
 
 堆叠。
 
-示例：
+示例：播放器，播放按钮堆叠在播放界面的中心。
 
 ```xml
 <?xml version="1.0" encoding="utf-8"?>
@@ -310,4 +310,59 @@ public class MainActivity extends AppCompatActivity {
         />
 
 </FrameLayout>
+```
+
+### 5.4. 表格布局
+
+示例：
+
+```xml
+<?xml version="1.0" encoding="utf-8"?>
+<TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TableRow
+        android:layout_weight="match_parent"
+        android:layout_height="wrap_content"
+        >
+
+        <TextView
+            android:layout_weight="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="行1列1"
+            android:textColor="#FF0000"
+            />
+
+        <TextView
+            android:layout_weight="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="行1列2"
+            android:textColor="#00FF00"
+            />
+
+    </TableRow>
+
+    <TableRow
+        android:layout_weight="match_parent"
+        android:layout_height="wrap_content"
+        >
+
+        <TextView
+            android:layout_weight="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="行2列1"
+            android:textColor="#0000FF"
+            />
+
+        <TextView
+            android:layout_weight="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="行2列2"
+            android:textColor="#333"
+            />
+
+    </TableRow>
+
+</TableLayout>
 ```
