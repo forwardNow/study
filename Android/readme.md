@@ -418,3 +418,40 @@ px 与 dp 的关系：
   # Google 提供的压力测试的指令
   > monkey 2000
   ```
+
+### 7.1. 单元测试
+
+在 `app/build.gradle` 中添加依赖
+
+```text
+dependencies {
+    // ...
+    androidTestImplementation 'androidx.test.ext:junit:1.1.0'
+}
+```
+
+## 8. 日志
+
+```java
+public class MainActivity extends AppCompatActivity {
+
+    @Override
+    protected void onCreate( Bundle savedInstanceState ) {
+        super.onCreate( savedInstanceState );
+        setContentView( R.layout.activity_main );
+
+        String tag = "MainActivity";
+
+
+        Log.v( tag, "我是 verbose 级别" );
+        Log.d( tag, "我是 debug 级别" );
+        Log.i( tag, "我是 info 级别" );
+        Log.w( tag, "我是 warn 级别" );
+        Log.e( tag, "我是 error 级别" );
+        System.out.println( "我是 System.out" );
+    }
+}
+
+```
+
+可通过 tag 进行过滤。
