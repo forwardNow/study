@@ -248,7 +248,7 @@ public class MainActivity extends AppCompatActivity {
 
 ### 5.2. 相对布局
 
-默认都堆叠在左上角。类比 CSS 中的绝对布局，但相对的是相邻的元素。
+默认都相对左上角。
 
 示例：
 
@@ -283,4 +283,31 @@ public class MainActivity extends AppCompatActivity {
         />
 
 </RelativeLayout>
+```
+
+### 5.3. 帧布局
+
+堆叠。
+
+示例：
+
+```xml
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:text="我是一个播放器" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:text="播放"
+        />
+
+</FrameLayout>
 ```
