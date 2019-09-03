@@ -369,10 +369,10 @@ public class MainActivity extends AppCompatActivity {
 
 参考：[如何一稿适配 iOS、Android](https://zhuanlan.zhihu.com/p/22084291)
 
-| 单位 | 说明 |
-| - | - |
-| dp | 布局尺寸，device independent pixel，设备无关像素 |
-| sp | 文字尺寸，scale-independent pixel |
+| 单位 | 说明                                             |
+| ---- | ------------------------------------------------ |
+| dp   | 布局尺寸，device independent pixel，设备无关像素 |
+| sp   | 文字尺寸，scale-independent pixel                |
 
 倍率：
 
@@ -455,7 +455,7 @@ public class MainActivity extends AppCompatActivity {
 
 可通过 tag 进行过滤。
 
-## 9. 上下文
+## 9. 上下文 Context
 
 参考：[API：android.content.Context](https://developer.android.com/reference/android/content/Context.html)
 
@@ -466,4 +466,37 @@ public class MainActivity extends AppCompatActivity {
 FileOutputStream fos = MainActivity.this.openFileOutput( "user_info.txt", 0 )
 fos.write( "abc".getBytes() );
 fos.close();
+```
+
+## 10. 环境 Environment
+
+参考：[API：android.os.Environment](https://developer.android.com/reference/android/os/Environment?hl=en)
+
+
+获取 sdcard 的路径：
+
+```java
+// "/mnt/sdcard"
+String sdcardPath = Environment.getExternalStorageDirectory().getPath();
+```
+
+判断 sdcard 是否已经挂载：
+
+```java
+if ( Environment.MEDIA_MOUNTED.equals( Environment.getExternalStorageState() ) ) {
+    Toast.makeText( context, "sdcard 已经挂载", Toast.LENGTH_LONG ).show();
+}
+```
+
+往 sdcard 写数据需要相应权限：
+
+```xml
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="fn.cn.login">
+
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+
+    <application> ... </application>
+</manifest>
 ```
