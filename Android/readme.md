@@ -472,7 +472,6 @@ fos.close();
 
 参考：[API：android.os.Environment](https://developer.android.com/reference/android/os/Environment?hl=en)
 
-
 获取 sdcard 的路径：
 
 ```java
@@ -499,4 +498,20 @@ if ( Environment.MEDIA_MOUNTED.equals( Environment.getExternalStorageState() ) )
 
     <application> ... </application>
 </manifest>
+```
+
+查看 sdcard 的控件：
+
+```java
+private void showSdCardInfo() {
+    File externalStorageDirectory = Environment.getExternalStorageDirectory();
+
+    long totalSpace = externalStorageDirectory.getTotalSpace();
+    long usableSpace = externalStorageDirectory.getUsableSpace();
+
+    // 813 MB
+    String formatTotalSpaceFileSize = Formatter.formatFileSize( this, totalSpace );
+    // 679 MB
+    String formatUsableSpaceFileSize = Formatter.formatFileSize( this, usableSpace );
+}
 ```
