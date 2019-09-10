@@ -515,3 +515,43 @@ private void showSdCardInfo() {
     String formatUsableSpaceFileSize = Formatter.formatFileSize( this, usableSpace );
 }
 ```
+
+## 11. 文件权限
+
+`MODE_PRIVATE`、`MODE_APPEND` 设置的权限针对是 “UGO” 中的 “O”
+
+```java
+public class MainActivity extends AppCompatActivity {
+    public void createPrivateFile() {
+        try {
+            /*
+             * File creation mode: the default mode,
+             * where the created file can only be accessed by the calling application
+             * (or all applications sharing the same user ID)
+             *
+             * -rw-rw----
+             */
+            FileOutputStream fos = openFileOutput( "private.txt", MODE_PRIVATE );
+            fos.write( "private".getBytes() );
+            fos.close();
+        } catch ( Exception e ) {
+            e.printStackTrace();
+        }
+    }
+    public void createAppendFile() {
+        try {
+            /*
+             * File creation mode: for use with openFileOutput(String, int),
+             * if the file already exists then write data to the end of the existing file instead of erasing it.
+             *
+             * -rw-rw----
+             */
+            FileOutputStream fos = openFileOutput( "append.txt", MODE_APPEND );
+            fos.write( "append".getBytes() );
+            fos.close();
+        } catch ( Exception e ) {
+            e.printStackTrace();
+        }
+    }
+}
+```
