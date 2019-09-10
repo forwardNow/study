@@ -555,3 +555,32 @@ public class MainActivity extends AppCompatActivity {
     }
 }
 ```
+
+在 Linux 中修改文件权限：
+
+```shell
+# root
+➜  ~ adb root
+
+# 进入 Linux 系统
+➜  ~ adb shell
+
+# 切换到 data 目录
+generic_x86:/ # cd /data/data/
+
+generic_x86:/data/data # ls | grep fn
+
+fn.cn.file_permission
+
+generic_x86:/data/data # cd fn.cn.file_permission/files
+generic_x86:/data/data/fn.cn.file_permission/files # ls -l
+total 8
+-rw-rw---- 1 u0_a79 u0_a79    6 2019-09-10 10:13 append.txt
+-rw-rw---- 1 u0_a79 u0_a79    7 2019-09-10 10:13 private.txt
+
+generic_x86:/data/data/fn.cn.file_permission/files # chmod 777 private.txt
+generic_x86:/data/data/fn.cn.file_permission/files # ls -l
+total 8
+-rw-rw---- 1 u0_a79 u0_a79 6 2019-09-10 10:13 append.txt
+-rwxrwxrwx 1 u0_a79 u0_a79 7 2019-09-10 10:13 private.txt
+```
