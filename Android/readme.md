@@ -457,7 +457,7 @@ public class MainActivity extends AppCompatActivity {
 
 ## 9. 上下文 Context
 
-参考：[API：android.content.Context](https://developer.android.com/reference/android/content/Context.html)
+参考：[API：android.content.Context](https://developer.android.google.cn/reference/android/content/Context?hl=en)
 
 通过 `context` 打开 i/o 流：
 
@@ -470,7 +470,7 @@ fos.close();
 
 ## 10. 环境 Environment
 
-参考：[API：android.os.Environment](https://developer.android.com/reference/android/os/Environment?hl=en)
+参考：[API：android.os.Environment](https://developer.android.google.cn/reference/android/os/Environment?hl=en)
 
 获取 sdcard 的路径：
 
@@ -583,4 +583,69 @@ generic_x86:/data/data/fn.cn.file_permission/files # ls -l
 total 8
 -rw-rw---- 1 u0_a79 u0_a79 6 2019-09-10 10:13 append.txt
 -rwxrwxrwx 1 u0_a79 u0_a79 7 2019-09-10 10:13 private.txt
+```
+
+## 12. SharedPreferences
+
+参考：
+
+* [API：android.content.SharedPreferences](https://developer.android.google.cn/reference/android/content/SharedPreferences?hl=en)
+* [Save key-value data](https://developer.android.google.cn/training/data-storage/shared-preferences.html?hl=en#java)
+
+示例：
+
+```java
+// 创建 /data/data/fn.cn.sp/shared_prefs/config.xml 文件
+SharedPreferences sharedPref = getSharedPreferences( "config", Context.MODE_PRIVATE);
+```
+
+```java
+public class MainActivity extends AppCompatActivity {
+    private EditText et_loginName;
+    private EditText et_loginPassword;
+    private CheckBox cb_rememberMe;
+
+    @Override
+    protected void onCreate( Bundle savedInstanceState ) {
+        super.onCreate( savedInstanceState );
+        setContentView( R.layout.activity_main );
+
+
+        et_loginName = findViewById( R.id.et_loginName );
+        et_loginPassword = findViewById( R.id.et_loginPassword );
+        cb_rememberMe = findViewById( R.id.cb_rememberMe );
+
+        SharedPreferences sharedPref = getSharedPreferences( "config", Context.MODE_PRIVATE);
+        String loginName = sharedPref.getString("loginName", "");
+        String loginPassword = sharedPref.getString("loginPassword", "");
+        boolean isRememberMe = sharedPref.getBoolean("isRememberMe", false);
+
+        et_loginName.setText( loginName );
+        et_loginPassword.setText( loginPassword );
+        cb_rememberMe.setChecked( isRememberMe );
+    }
+
+    public void handleClick( View v ) {
+        MainActivity ctx = MainActivity.this;
+
+
+        String loginName = et_loginName.getText().toString();
+        String loginPassword = et_loginPassword.getText().toString();
+        boolean isRememberMe = cb_rememberMe.isChecked();
+
+        SharedPreferences sharedPref = getSharedPreferences( "config", Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPref.edit();
+        editor.putBoolean( "isRememberMe", isRememberMe );
+
+        if ( isRememberMe ) {
+            editor.putString( "loginName", loginName );
+            editor.putString( "loginPassword", loginPassword );
+        } else {
+            editor.putString( "loginName", "" );
+            editor.putString( "loginPassword", "" );
+        }
+
+        editor.apply();
+    }
+}
 ```
