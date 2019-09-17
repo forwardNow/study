@@ -587,6 +587,10 @@ total 8
 
 ## 12. SharedPreferences
 
+作用：
+
+* 快捷的存取本地数据（基于 xml 文件）
+
 参考：
 
 * [API：android.content.SharedPreferences](https://developer.android.google.cn/reference/android/content/SharedPreferences?hl=en)
@@ -605,6 +609,7 @@ public class MainActivity extends AppCompatActivity {
     private EditText et_loginPassword;
     private CheckBox cb_rememberMe;
 
+    // 读
     @Override
     protected void onCreate( Bundle savedInstanceState ) {
         super.onCreate( savedInstanceState );
@@ -625,6 +630,7 @@ public class MainActivity extends AppCompatActivity {
         cb_rememberMe.setChecked( isRememberMe );
     }
 
+    // 存
     public void handleClick( View v ) {
         MainActivity ctx = MainActivity.this;
 
@@ -633,8 +639,13 @@ public class MainActivity extends AppCompatActivity {
         String loginPassword = et_loginPassword.getText().toString();
         boolean isRememberMe = cb_rememberMe.isChecked();
 
+        // 1. 获取 sp 的实例
         SharedPreferences sharedPref = getSharedPreferences( "config", Context.MODE_PRIVATE);
+
+        // 2. 获取编辑器
         SharedPreferences.Editor editor = sharedPref.edit();
+
+        // 3. 存数据
         editor.putBoolean( "isRememberMe", isRememberMe );
 
         if ( isRememberMe ) {
@@ -645,6 +656,7 @@ public class MainActivity extends AppCompatActivity {
             editor.putString( "loginPassword", "" );
         }
 
+        // 4. 提交
         editor.apply();
     }
 }
