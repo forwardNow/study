@@ -1,5 +1,7 @@
 # React Router 4.0
 
+参考官方教程：[https://reacttraining.com/react-router/web/example/basic](https://reacttraining.com/react-router/web/example/basic)
+
 ## 1. 安装
 
 插件：
@@ -60,6 +62,8 @@ const Header = () => (
 
 ```jsx
 <Link to={{ pathname: '/three/7' }}></Link>
+
+<Link to={{ pathname: '/three/7', search: '', hash: '', key: '', state: {} }}></Link>
 ```
 
 * 定义： `<Router path="/three/:number" />`
