@@ -25,7 +25,7 @@ yar add react-router-dom
 
 * HashRouter、BrowserRouter
 * Route：path、exact（精准匹配）、component、render
-* NavLink、Link
+* NavLink、Link（路由跳转）
 * Switch
 * Redirect
 
@@ -40,3 +40,27 @@ HashRouter：基于 HTML5 的 history 进行路由，如 `http://127.0.0.1/login
 ```jsx
 <Route path='/admin/ui/buttons' component={Buttons} />
 ```
+
+### 2.4. Link
+
+```jsx
+import { Link } from 'react-router-dom';
+const Header = () => (
+  <header>
+    <nav>
+      <ul>
+        <li><Link to='/'>Home</Link></li>
+        <li><Link to='/about'>About</Link></li>
+        <li><Link to='/three'>Three</Link></li>
+      </ul>
+    </nav>
+  </header>
+);
+```
+
+```jsx
+<Link to={{ pathname: '/three/7' }}></Link>
+```
+
+* 定义： `<Router path="/three/:number" />`
+* 取值： `this.props.match.params.number`
