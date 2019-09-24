@@ -24,7 +24,7 @@ yar add react-router-dom
 ### 2.1. 核心用法
 
 * HashRouter、BrowserRouter
-* Route：path、exact、component、render
+* Route：path、exact（精准匹配）、component、render
 * NavLink、Link
 * Switch
 * Redirect
@@ -34,3 +34,9 @@ yar add react-router-dom
 HashRouter：基于 URL hash 的变化进行路由，如 `http://127.0.0.1/#/login`
 
 HashRouter：基于 HTML5 的 history 进行路由，如 `http://127.0.0.1/login`
+
+### 2.3. Route 的用法
+
+```jsx
+<Route path='/admin/ui/buttons' component={Buttons} />
+```
