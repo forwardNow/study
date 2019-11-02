@@ -11,7 +11,7 @@
     "express-art-template": "^1.0.1",
     "express-session": "^1.15.6",
     "jquery": "^1.12.4",
-    "mongoose": "^5.2.10",
+    "mongoose": "^5.7.5",
     "mysql": "^2.16.0",
     "rxjs": "^6.2.2",
     "rxjs-compat": "^6.2.2",
