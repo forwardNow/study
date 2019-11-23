@@ -2,11 +2,11 @@
 
 [构建工具 Maven 视频教程全集（35P）| 5 小时从入门到精通](https://www.bilibili.com/video/av59640042/)
 
-## 目前掌握的技术
+## 1. 目前掌握的技术
 
 ![技术](./images/01_1.jpg)
 
-## 目前的技术在开发中存在的问题（why）
+## 2. 目前的技术在开发中存在的问题（why）
 
 * 一个项目就是一个工程
   * 如果项目非常庞大，就不适合继续使用 package 来划分模块
@@ -25,7 +25,7 @@
   * 如果所有 jar 包之间的依赖关系都需要程序员去管理，会增加额外的成本
   * Maven 会自动将依赖的 jar 包导入进来
 
-## Maven 是什么（what）
+## 3. Maven 是什么（what）
 
 * Maven 是一款服务于 Java 平台的自动化构建工具
   * 构建工具历史：Make -> Ant -> Maven -> Gradle
@@ -49,3 +49,38 @@
   * 部署：将动态 Web 工程生成的 war 包复制到 Web 容器的指定目录下，使其可以运行
 * 自动化构建
   * 操作路径：操作步骤
+
+## 4. 安装 Maven 核心程序
+
+* 配置 JAVA_HOEM 环境变量
+  * windows：需要配置
+  * OSX：无需配置
+* [下载](http://maven.apache.org/download.cgi)
+* 解压到非中文无空格的路径
+  * `/Users/forwardNow/develop/mvn/apache-maven-3.6.2`
+* 配置 Maven 环境变量
+  * M2_HOME 或 MAVEN_HOEM
+  * 添加到 PATH
+
+    ```shell
+    sudo open ~/.zshrc
+
+    # Maven
+    export M2_HOME="/Users/forwardNow/develop/mvn/apache-maven-3.6.2"
+    export PATH=$M2_HOME/bin:$PATH
+
+    source ~/.zshrc
+    ```
+
+* 验证 Maven 是否安装成功
+
+  ```shell
+  mvn -v
+  
+  Apache Maven 3.6.2 (40f52333136460af0dc0d7232c0dc0bcf0d9e117; 2019-08-27T23:06:16+08:00)
+  Maven home: /Users/forwardNow/develop/mvn/apache-maven-3.6.2
+  Java version: 1.8.0_172, vendor: Oracle Corporation, runtime: /Library/Java/JavaVirtualMachines/jdk1.8.0_172.jdk/Contents/Home/jre
+  
+  Default locale: en_CN, platform encoding: UTF-8
+  OS name: "mac os x", version: "10.13.6", arch: "x86_64", family: "mac"
+  ```
