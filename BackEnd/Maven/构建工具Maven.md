@@ -126,8 +126,15 @@
 
 * 注意：与构建过程相关的 Maven 命令，必须进入 pom.xml 所在目录
 * 常用命令
-  * mvn clean ：清理
-  * mvn compile ： 编译
-  * mvn test-compile ： 编译测试
-  * mvn test ： 执行测试
-  * mvn package ： 打包
+  * `mvn clean` ：清理
+  * `mvn compile` ： 编译
+  * `mvn test-compile` ： 编译测试
+  * `mvn test` ： 执行测试
+  * `mvn package` ： 打包
+
+## 8. 关于联网问题
+
+* Maven 的核心程序中仅仅定义了抽象的生命周期，具体的工作必须由特定的插件来完成。而插件本身并不包含在 Maven 的核心程序中。
+* 当我们执行 `mvn compile` 命令时需要用到一些插件，Maven 核心程序会首先到本地仓库中查找
+  * 默认本地仓库：`${user.home}/.m2/repository`
+  * 可在 `${M2_HOME}/conf/settings.xml` 的 `<localRepository>/path/to/local/repo</localRepository>` 中修改本地仓库路径

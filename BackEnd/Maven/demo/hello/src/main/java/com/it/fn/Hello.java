@@ -1,7 +1,7 @@
 package com.it.fn;
 
 public class Hello {
-    public String syaHello(String name) {
-        return "Hello " + name;
+    public String sayHello(String name) {
+        return "hello " + name;
     }
 }
