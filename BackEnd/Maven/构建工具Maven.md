@@ -171,3 +171,20 @@
     ```text
     ${user.home}/.m2/repository/ com/it/fn/hello/1.0-SNAPSHOT
     ```
+
+## 11. 仓库
+
+* 仓库的分类
+  * 本地仓库：`${user.home}/.m2/repository`
+  * 远程仓库
+    * 局域网（私服，Nexus）：搭建在局域网环境中的，为当前局域网范围内地所有 Maven 工程服务，替你去请求依赖
+      * ![./images/01-2.jpg](./images/01-2.jpg)
+    * 中央仓库：假设在 Internet 上，为全世界所有的 Maven 工程服务
+    * 中央仓库镜像：为了分担中央仓库的流量（负载），替身用户访问速度
+* 仓库中保存的内容：Maven 工程
+  * Maven 自身所需要的插件
+  * 第三方框架或工具的 jar 包（也是通过 Maven 来打包的）
+    * 第一方：JDK
+    * 第二方：自己
+    * 第三方：JDK 和 自己都难以解决的问题，就找第三方
+  * 我们自己开发的 Maven 工程
