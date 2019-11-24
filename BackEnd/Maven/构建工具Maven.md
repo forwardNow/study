@@ -143,3 +143,31 @@
 
 * 含义：Project Object Model，项目对象模型
 * `pom.xml` 对于 Maven 工程是核心配置文件，与构建过程相关的一切设置都在这个文件中进行配置
+
+## 10. 坐标
+
+* 在数学中的坐标
+  * 平面中，通过 `(x,y)` 可以唯一定位任意一个点
+* 在 Maven 中的坐标（`(g,a,v)`）
+  * 通过 `<groupId>` 、`<artifactId>`、`<version>` 唯一定位一个 Maven 工程
+  * `<groupId>` ：公司的域名的倒序 + 项目名
+  * `<artifactId>` ：模块名
+  * `<version>` ： 版本
+* 坐标与仓库中路径的对应关系
+  * 坐标
+  
+    ```xml
+    <?xml version="1.0" encoding="UTF-8"?>
+    <project ...>
+        <!-- 使用下面三个标签可以唯一定位一个 Maven 工程 -->
+        <groupId>com.it.fn</groupId>
+        <artifactId>hello</artifactId>
+        <version>1.0-SNAPSHOT</version>
+    </project>
+    ```
+  
+  * 仓库中路径
+
+    ```text
+    ${user.home}/.m2/repository/ com/it/fn/hello/1.0-SNAPSHOT
+    ```
