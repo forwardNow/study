@@ -138,3 +138,8 @@
 * 当我们执行 `mvn compile` 命令时需要用到一些插件，Maven 核心程序会首先到本地仓库中查找
   * 默认本地仓库：`${user.home}/.m2/repository`
   * 可在 `${M2_HOME}/conf/settings.xml` 的 `<localRepository>/path/to/local/repo</localRepository>` 中修改本地仓库路径
+
+## 9. POM
+
+* 含义：Project Object Model，项目对象模型
+* `pom.xml` 对于 Maven 工程是核心配置文件，与构建过程相关的一切设置都在这个文件中进行配置
