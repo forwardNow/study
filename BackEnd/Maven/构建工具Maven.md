@@ -121,3 +121,13 @@
   * 如果我们自己定义的东西想让框架或工具知道，有两种方法：
     * 以配置的方式明确告诉框架
     * 遵循框架内部已经存在的约定
+
+## 7. 常用 Maven 命令
+
+* 注意：与构建过程相关的 Maven 命令，必须进入 pom.xml 所在目录
+* 常用命令
+  * mvn clean ：清理
+  * mvn compile ： 编译
+  * mvn test-compile ： 编译测试
+  * mvn test ： 执行测试
+  * mvn package ： 打包
