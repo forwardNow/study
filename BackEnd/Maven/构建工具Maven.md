@@ -131,6 +131,7 @@
   * `mvn test-compile` ： 编译测试
   * `mvn test` ： 执行测试
   * `mvn package` ： 打包
+  * `mvn install` ： 安装到本地仓库，可被其他的项目作为依赖使用
 
 ## 8. 关于联网问题
 
@@ -165,7 +166,9 @@
         <version>1.0-SNAPSHOT</version>
     </project>
     ```
-  
+
+    * SNAPSHOT: 快照版，不稳定版
+    * RELEASE: 发布版，稳定版
   * 仓库中路径
 
     ```text
@@ -188,3 +191,8 @@
     * 第二方：自己
     * 第三方：JDK 和 自己都难以解决的问题，就找第三方
   * 我们自己开发的 Maven 工程
+
+## 12. 依赖
+
+* Maven 解析依赖信息时，会到本地仓库中查找被依赖的 jar 包。
+  * 对于我们自己开发的 Maven 工程，使用 install 命令后可安装到仓库。
