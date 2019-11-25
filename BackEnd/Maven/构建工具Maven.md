@@ -196,3 +196,7 @@
 
 * Maven 解析依赖信息时，会到本地仓库中查找被依赖的 jar 包。
   * 对于我们自己开发的 Maven 工程，使用 install 命令后可安装到仓库。
+* 依赖的范围
+  * `<scope>compile</scope>` 对 main、test 都有效，参与打包
+  * `<scope>test</scope>` 对 main 无效，对 test 有效，不参与打包，如 junit.jar
+  * `<scope>provided</scope>` 对 main、test 都有效，不参与打包，如 servlet-api.jar
