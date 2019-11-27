@@ -224,3 +224,10 @@
   * 生命周期的各个阶段仅仅定义了要执行的任务是什么
   * 各个阶段和插件的目标是对应的
   * 目标由特定的插件来完成
+
+## 14. 在 IDE 中使用 Maven
+
+* Maven 插件：一般都内置了
+* Maven 插件的设置（idea）
+  * Maven home directory：不建议 IDE 自带的 Maven，需单独指定 Maven 核心程序
+  * User setting file：指定 `${user.home}/conf/settings.xml` 的位置，进而获取本地仓库的位置
