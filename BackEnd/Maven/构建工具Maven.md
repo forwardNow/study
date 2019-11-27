@@ -132,6 +132,7 @@
   * `mvn test` ： 执行测试
   * `mvn package` ： 打包
   * `mvn install` ： 安装到本地仓库，可被其他的项目作为依赖使用
+  * `mvn site` ： 生成项目站点
 
 ## 8. 关于联网问题
 
@@ -200,3 +201,26 @@
   * `<scope>compile</scope>` 对 main、test 都有效，参与打包
   * `<scope>test</scope>` 对 main 无效，对 test 有效，不参与打包，如 junit.jar
   * `<scope>provided</scope>` 对 main、test 都有效，不参与打包，如 servlet-api.jar
+
+## 13. 生命周期
+
+* 各个构建环节执行的顺序：不能打乱顺序，必须按照既定的正确顺序来执行。
+* Maven 的核心程序中定义了抽象的生命周期，生命周期中各个阶段的具体任务是由插件来完成的
+* Maven 有三套相互独立的生命周期，都有特定的阶段
+  * clean：清理
+    * pre-clean 阶段：清理之前完成的工作
+    * clean 阶段：清理上次构建生成的文件
+    * post-clean 阶段：清理之后完成的工作
+  * default：核心部分，编译、测试、打包、安装、部署等
+    * 太多了，不列举
+  * site：生成项目报告、站点，发布站点
+    * pre-site
+    * site：生成项目的站点文档
+    * post-site
+    * site-deploy：部署到指定服务器
+* Maven 核心程序为了更好地实现自动化构建，不论指定执行生命周期中的哪个阶段，都是从该生命周期的第一个阶段开始执行。
+  * 也就是说，如果单独执行 default 生命周期中的 package 阶段，在 package 阶段之前的 compile 阶段会自动执行
+* 插件和插件的目标
+  * 生命周期的各个阶段仅仅定义了要执行的任务是什么
+  * 各个阶段和插件的目标是对应的
+  * 目标由特定的插件来完成
