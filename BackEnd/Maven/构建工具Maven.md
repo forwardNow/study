@@ -230,4 +230,30 @@
 * Maven 插件：一般都内置了
 * Maven 插件的设置（idea）
   * Maven home directory：不建议 IDE 自带的 Maven，需单独指定 Maven 核心程序
-  * User setting file：指定 `${user.home}/conf/settings.xml` 的位置，进而获取本地仓库的位置
+  * User setting file：指定 `${M2_HOME}/conf/settings.xml` 的位置，进而获取本地仓库的位置
+* 基本操作
+  * 创建 Maven 版的 Java 工程
+  * 创建 Maven 版的 Web 工程
+  * 执行 Maven 命令
+* 通过 Maven 配置文件（`${M2_HOME}/conf/settings.xml`） 设置 JDK 版本
+  * 避免在 IDE 中对每个项目设置 jdk 版本
+
+    ```xml
+    <profiles>
+        <profile>
+        <id>jdk-1.8</id>
+
+        <activation>
+          <activeByDefault>true</activeByDefault>
+          <jdk>1.8</jdk>
+        </activation>
+
+        <properties>
+          <maven.compiler.source>1.8</maven.compiler.source>
+          <maven.compiler.target>1.8</maven.compiler.target>
+          <maven.compiler.compilerVersion>1.8</maven.compiler.compilerVersion>
+        </properties>
+      </profile>
+
+    </profiles>
+    ```
