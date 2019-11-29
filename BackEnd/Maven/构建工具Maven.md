@@ -257,3 +257,21 @@
 
     </profiles>
     ```
+
+## 15. 在 idea 中创建基于 Maven 的 JavaWeb 项目
+
+参考：
+
+* [IDEA中创建maven web项目的详细部署](https://www.cnblogs.com/1314wamm/p/7475771.html)
+* [IntelliJ IDEA创建maven web项目（IDEA新手适用）](https://blog.csdn.net/czc9309/article/details/80304074)
+
+步骤：
+
+1. File -> New -> Project...
+2. New Project 弹框
+   1. 左侧菜单栏：选择 “Maven”
+   2. 勾选 “Create from archetype” （从原型中创建）
+   3. 选择 “org.apache.maven.archetypes:maven-archetype-webapp”
+3. 填写项目坐标
+4. 配置 Maven
+
