@@ -201,6 +201,7 @@
   * `<scope>compile</scope>` 对 main、test 都有效，参与打包
   * `<scope>test</scope>` 对 main 无效，对 test 有效，不参与打包，如 junit.jar
   * `<scope>provided</scope>` 对 main、test 都有效，不参与打包，如 servlet-api.jar
+* 如果指定了错误的范围，可能会出现莫名其妙的问题，比如 provided 范围的指定成了 compile 范围
 
 ## 13. 生命周期
 
@@ -262,8 +263,7 @@
 
 参考：
 
-* [IDEA中创建maven web项目的详细部署](https://www.cnblogs.com/1314wamm/p/7475771.html)
-* [IntelliJ IDEA创建maven web项目（IDEA新手适用）](https://blog.csdn.net/czc9309/article/details/80304074)
+* [使用idea创建一个Maven java Web项目](https://blog.csdn.net/qq_37856300/article/details/85776785)
 
 步骤：
 
@@ -273,5 +273,9 @@
    2. 勾选 “Create from archetype” （从原型中创建）
    3. 选择 “org.apache.maven.archetypes:maven-archetype-webapp”
 3. 填写项目坐标
-4. 配置 Maven
+4. 配置 Maven，点击完成
 
+待项目创建完成：
+
+* 创建 `src/main/java` 目录，并在右键菜单中将其标志为源码根目录
+* 创建 `src/main/resources` 目录，并在右键菜单中将其标志为资源根目录
