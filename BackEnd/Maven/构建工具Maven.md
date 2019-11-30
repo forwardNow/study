@@ -286,3 +286,20 @@
   * 直接的依赖，直接的依赖的依赖，直接的依赖的依赖的依赖，...
   * 好处：可以传递的依赖不必在每个模块工程中都重复声明，在“最下面”的工程中依赖一次即可
   * 注意：只有 compile 范围的依赖才可传递
+* 依赖的排除
+  * 依赖排除的设置
+
+  ```xml
+  <dependency>
+    <groupId>com.fn.mvn</groupId>
+    <artifactId>WebApp</artifactId>
+    <version>1.0-SNAPSHOT</version>
+    <scope>compile</scope>
+    <exclusions>
+      <exclusion>
+        <groupId>javax.servlet.jsp</groupId>
+        <artifactId>jsp-api</artifactId>
+      </exclusion>
+    </exclusions>
+  </dependency>
+  ```
