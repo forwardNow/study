@@ -425,3 +425,7 @@
     </modules>
   </project>
   ```
+
+## 20. Maven 中央仓库
+
+可以在 [https://mvnrepository.com/](https://mvnrepository.com/) 里搜索需要的依赖，并获取其坐标
