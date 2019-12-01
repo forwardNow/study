@@ -303,3 +303,24 @@
     </exclusions>
   </dependency>
   ```
+
+* 依赖的原则
+  * 作用：解决模块工程之间的 jar 包冲突的问题
+  * 依赖路径最短者优先：当有多个相同依赖时，依赖的路径最短的优先
+    * 比如，proj 选择 C(v1.1)
+
+      ```text
+      proj -> A -> B
+      A -> C(v1.1)     路径为 2
+      B -> C(v1.0)     路径为 3
+      ```
+
+  * 先声明者优先：当依赖路径相同时，在 pom.xml 中先声明的依赖优先
+    * 比如，proj 选择 A(v1.0)
+
+    ```xml
+    <dependencies>
+      <dependency>A(v1.0)</dependency>
+      <dependency>A(v2.0)</dependency>
+    </dependencies>
+    ```
