@@ -407,3 +407,21 @@
       <dependencies>
     </project>
     ```
+
+## 19. 聚合
+
+* 场景：依赖的各个 Maven 工程，需要依次安装
+* 作用：一键安装各个模块工程
+* 配置方式：在一个“总的聚合工程”（可以是父工程）中配置各个参与聚合的依赖工程
+
+  ```xml
+  <project>
+    <!-- 配置聚合 -->
+    <modules>
+      <!-- 指定各个子工程的相对路径 -->
+      <module>../proj_1</module>
+      <module>../proj_2</module>
+      <module>../proj_3</module>
+    </modules>
+  </project>
+  ```
