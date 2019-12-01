@@ -350,3 +350,60 @@
     </dependency>
   </dependencies>
 ```
+
+## 18. 继承
+
+* 现状：各个项目依赖的 junit 版本不一致
+* 需求：统一管理各个模块工程中对 junit 依赖的版本
+* 解决思路：将 junit 依赖统一提取到“父”工程中，在子工程中声明 junit 依赖时 不需要指定版本，以父工程中统一的为准，同时也便于修改
+* 操作步骤
+  * 创建父 Maven 工程，打包的方式为 pom，设置需要统一版本管理的依赖
+
+    ```xml
+    <project>
+      <groupId>com.fn.mvn</groupId>
+      <artifactId>Parent</artifactId>
+      <version>1.0-SNAPSHOT</version>
+      <packaging>pom</packaging>
+
+      <dependencyManagement>
+        <dependencies>
+          <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>4.0</version>
+            <scope>test</scope>
+          </dependency>
+        </dependencies>
+      </dependencyManagement>
+    </project>
+    ```
+  
+  * 在子过程中声明对父工程的应用，并删除与父工程重复的坐标，删除依赖中的版本号
+
+    ```xml
+    <project>
+      <!-- <groupId>com.fn.mvn</groupId> -->
+      <artifactId>Son</artifactId>
+      <!-- <version>1.0-SNAPSHOT</version> -->
+      <packaging>war</packaging>
+
+      <parent>
+        <groupId>com.fn.mvn</groupId>
+        <artifactId>Parent</artifactId>
+        <version>1.0-SNAPSHOT</version>
+
+        <!-- 以当前文件为基准的父工程 pom.xml 文件的相对路径 -->
+        <relativePath>../Parent/pom.xml</relativePath>
+      </parent>
+
+      <dependencies>
+        <dependency>
+          <groupId>junit</groupId>
+          <artifactId>junit</artifactId>
+          <!-- <version>4.1</version> -->
+          <scope>test</scope>
+        </dependency>
+      <dependencies>
+    </project>
+    ```
