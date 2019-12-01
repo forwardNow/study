@@ -324,3 +324,29 @@
       <dependency>A(v2.0)</dependency>
     </dependencies>
     ```
+
+## 17. 自定义属性
+
+```xml
+  <properties>
+    <!-- 预置的一些属性的设置 -->
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <maven.compiler.source>1.8</maven.compiler.source>
+    <maven.compiler.target>1.8</maven.compiler.target>
+
+    <!-- 自定义的属性，通过 ${标签名} 的方式使用 -->
+    <junit.version>4.12</junit.version>
+  </properties>
+
+  <dependencies>
+    <dependency>
+      <groupId>junit</groupId>
+      <artifactId>junit</artifactId>
+
+      <!-- 使用自定义属性 -->
+      <version>${junit.version}</version>
+
+      <scope>test</scope>
+    </dependency>
+  </dependencies>
+```
