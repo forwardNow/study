@@ -28,9 +28,8 @@
 * 代码风格
   * [css代码风格](./blog/2018/08/09.css代码风格.md)
 * 布局
-  * [FLEX 弹性盒模型](./FrontEnd/CSS/flex/readme.md)
   * [弹性布局-语法【翻译】](./blog/2018/06/01.弹性布局-语法.md)：非常好的flex相关属性教程
-  * [弹性布局-实例](./blog/2018/06/02.弹性布局-实例.md)
+  * [弹性布局-实例](FrontEnd/CSS/flex/readme.md)
 * 标准
   * [《CSS揭秘》](./FrontEnd/CSS/CSS揭秘)
 * 图标
