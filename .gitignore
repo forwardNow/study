@@ -10,9 +10,6 @@ dist/
 Mobile/cordova/demo/
 FrontEnd/其他/WebKit技术内幕/Thumbs.db
 
-BackEnd/Maven/demo/hello/target
-BackEnd/Maven/demo/hello/hello.iml
-BackEnd/Maven/demo/hello-friend/target
-BackEnd/Maven/demo/hello-friend/hello.iml
-BackEnd/Maven/demo/WebApp/target
-BackEnd/Maven/demo/WebApp/WebApp.iml
+target
+.mvn
+*.iml
