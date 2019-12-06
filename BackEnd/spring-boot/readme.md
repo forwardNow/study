@@ -39,3 +39,33 @@ SpringBoot2.0 环境约束
 
   -----版本号-----${spring-boot.version}
   ```
+
+## 5. 注解
+
+```java
+@Controller
+public class O1_HelloWorld {
+    @RequestMapping(value = "/hello", method = RequestMethod.GET)
+    @ResponseBody
+    public String hello() {
+        return "hello Spring Boot";
+    }
+}
+```
+
+简写：
+
+```java
+@RestController // 等同于 @Controller + @ResponseBody
+public class O2_Annotation {
+    @GetMapping("/hello2") // @RequestMapping 的 GET 方法
+    public String hello2(){
+        return "@RequestMapping 的 GET 方法";
+    }
+
+    @PostMapping("/hello3") // @RequestMapping 的 POST 方法
+    public String hello3(){
+        return "@RequestMapping 的 POST 方法";
+    }
+}
+```
