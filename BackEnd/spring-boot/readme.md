@@ -124,3 +124,45 @@ public class HelloApplication {
 * `@SpringBootApplication`
   * Spring Boot 应用标注在某个类上说明这个类是 SpringBoot 的主配置类，Spring Boot 会运行这个类的 main 方法来启动 SpringBoot 应用
   * 主配置类所在包及其子包下的所有类都扫描进 spring 容器
+
+## 集成 mybatis
+
+参考：
+* [http://mybatis.org/spring-boot-starter/mybatis-spring-boot-autoconfigure/](http://mybatis.org/spring-boot-starter/mybatis-spring-boot-autoconfigure/)
+* [mybatis 官网](https://mybatis.org/mybatis-3/zh/getting-started.html)
+* [SpringBoot：Mybatis + Druid 数据访问](https://www.cnblogs.com/hellokuangshen/p/11331338.html)
+
+### 建表
+
+```sql
+CREATE TABLE `user` (
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `name` varchar(200) DEFAULT NULL,
+  `pwd` varchar(200) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+```
+
+### 搭建项目
+
+```xml
+<dependency>
+    <groupId>org.projectlombok</groupId>
+    <artifactId>lombok</artifactId>
+    <version>1.16.10</version>
+</dependency>
+
+<dependency>
+    <groupId>mysql</groupId>
+    <artifactId>mysql-connector-java</artifactId>
+    <scope>runtime</scope>
+</dependency>
+
+<dependency>
+    <groupId>org.mybatis.spring.boot</groupId>
+    <artifactId>mybatis-spring-boot-starter</artifactId>
+    <version>2.1.1</version>
+</dependency>
+```
+
+### 

@@ -10,3 +10,15 @@ swagger:
   name: 吴钦飞
   url: http://www.baidu.com
   email: wuqinfei@qq.comSwaggerConfig
+
+spring:
+  datasource:
+    username: root
+    password: wuqinfei@qq.com
+    url: jdbc:mysql://localhost:3306/mybatis?serverTimezone=UTC&useUnicode=true&CharacterEncoding=utf-8
+    driver-class-name: com.mysql.cj.jdbc.Driver
+
+# 整合 mybatis
+mybatis:
+  type-aliases-package: com.fn.sb.hello.pojo
+  mapper-locations: classpath:mybatis/mapper/*.xml
