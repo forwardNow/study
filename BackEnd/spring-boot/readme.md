@@ -123,5 +123,4 @@ public class HelloApplication {
 
 * `@SpringBootApplication`
   * Spring Boot 应用标注在某个类上说明这个类是 SpringBoot 的主配置类，Spring Boot 会运行这个类的 main 方法来启动 SpringBoot 应用
-
-
+  * 主配置类所在包及其子包下的所有类都扫描进 spring 容器

@@ -1,0 +1,12 @@
+server:
+  port: 8000
+  servlet:
+    context-path: /fn
+
+swagger:
+  title: SpringBoot学习
+  description: SpringBoot快速入门
+  version: 1.0.0
+  name: 吴钦飞
+  url: http://www.baidu.com
+  email: wuqinfei@qq.comSwaggerConfig
