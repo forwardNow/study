@@ -7,20 +7,21 @@
     <select id="queryUserList" resultType="User">
         select * from user
     </select>
-
+<!--
     <select id="queryUserById" parameterType="User">
-        select * from user where id = #{id}
+        select * from user where user_id = #{userId}
     </select>
 
     <insert id="addUser" parameterType="User">
-        insert into user(id, name, pwd) values (#{id},#{name},#{pwd})
+        insert into user(user_id, user_name, login_name, login_pwd, is_enable)
+                    values (#{userId},#{userName},#{loginName},#{loginPwd},#{isEnable})
     </insert>
 
     <update id="updateUser" parameterType="User">
-        update user set name = #{name}, pwd = #{pwd} where id = #{id}
+        update user set user_name = #{userName} where user_id = #{userId}
     </update>
 
-    <delete id="deleteUser" parameterType="int">
-        delete  from user where id = #{id}
-    </delete>
+    <delete id="deleteUser" parameterType="string">
+        delete from user where user_id = #{userId}
+    </delete>-->
 </mapper>

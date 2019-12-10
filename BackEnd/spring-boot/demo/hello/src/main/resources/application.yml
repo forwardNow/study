@@ -22,3 +22,8 @@ spring:
 mybatis:
   type-aliases-package: com.fn.sb.hello.pojo
   mapper-locations: classpath:mybatis/mapper/*.xml
+  configuration:
+    # `user_id` <=> userId
+    map-underscore-to-camel-case: true
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+
