@@ -20,8 +20,8 @@ spring:
 
 # 整合 mybatis
 mybatis:
-  type-aliases-package: com.fn.sb.hello.pojo
-  mapper-locations: classpath:mybatis/mapper/*.xml
+  type-aliases-package: com.fn.sb.hello.*.pojo
+  mapper-locations: classpath:mybatis/mapper/**/*.xml
   configuration:
     # `user_id` <=> userId
     map-underscore-to-camel-case: true
