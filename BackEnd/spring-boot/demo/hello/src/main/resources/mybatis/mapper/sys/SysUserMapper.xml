@@ -7,7 +7,7 @@
     <select id="queryUserList" resultType="SysUser">
         select * from sys_user
     </select>
-<!--
+    <!--
     <select id="queryUserById" parameterType="User">
         select * from user where user_id = #{userId}
     </select>
