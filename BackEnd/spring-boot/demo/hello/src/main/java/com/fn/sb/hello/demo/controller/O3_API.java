@@ -1,4 +1,4 @@
-package com.fn.sb.hello.controller;
+package com.fn.sb.hello.demo.controller;
 
 import io.swagger.annotations.Api;
 import org.slf4j.Logger;
