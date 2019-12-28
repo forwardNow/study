@@ -17,8 +17,18 @@ spring:
     password: wuqinfei@qq.com
     url: jdbc:mysql://localhost:3306/mybatis?serverTimezone=UTC&useUnicode=true&CharacterEncoding=utf-8
     driver-class-name: com.mysql.cj.jdbc.Driver
+  resources:
+    static-locations: classpath:/frondend/dist/
+  thymeleaf:
+    prefix: classpath:/frondend/dist/
+    check-template-location: true
+    suffix: .html
+    encoding: UTF-8
+    mode: HTML5
+    cache: false
+    servlet:
+      content-type: text/html
 
-# 整合 mybatis
 mybatis:
   type-aliases-package: com.fn.sb.hello.*.pojo
   mapper-locations: classpath:mybatis/mapper/**/*.xml
@@ -26,4 +36,7 @@ mybatis:
     # `user_id` <=> userId
     map-underscore-to-camel-case: true
     log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+
+
+
 
