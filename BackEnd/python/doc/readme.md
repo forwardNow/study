@@ -193,3 +193,34 @@ elif score >= 60:
 else:
     print('D')
 ```
+
+### 3.8. 循环
+
+说明：
+
+* `range(start, end)` 可产生一个序列
+* `list(range_result)` 可将序列转为 list
+
+示例：
+
+```python
+for item in range(0, 5):
+    if item == 1:
+        continue
+    elif item == 3:
+        break
+    print(item)
+
+# 输出： 0 2
+
+item = 0
+while item < 5:
+    item = item + 1
+    if item == 1:
+        continue
+    elif item == 3:
+        break
+    print(item)
+
+# 输出：2
+```
