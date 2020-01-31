@@ -135,6 +135,10 @@
 
 * [spring boot 教程](BackEnd/spring-boot/readme.md)
 
+### 2.6. python
+
+* [Python 笔记](BackEnd/python/doc/readme.md)
+
 ## 3. 移动端
 
 * Weex
