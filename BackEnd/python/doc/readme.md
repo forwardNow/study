@@ -38,6 +38,8 @@ name = input("what's your name? ")
 print("hello", name)
 ```
 
+`input()` 函数获取的都是字符串，可使用 `int()` 函数将数值字符串转为数值。
+
 ### 3.2. 注释、代码块
 
 ```python
@@ -160,3 +162,34 @@ tuple：
 * 注意：
   * 单个元素时： `(1,)`
   * 一旦初始化就不能改变
+
+### 3.7. 条件判断
+
+格式：
+
+```text
+if <条件判断1>:
+    <执行1>
+elif <条件判断2>:
+    <执行2>
+elif <条件判断3>:
+    <执行3>
+else:
+    <执行4>
+```
+
+示例：
+
+```python
+score = input('your score: ')
+score = int(score)
+
+if score >= 90:
+    print('A')
+elif score >= 80:
+    print('B')
+elif score >= 60:
+    print('C')
+else:
+    print('D')
+```
