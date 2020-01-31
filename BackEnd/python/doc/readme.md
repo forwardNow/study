@@ -224,3 +224,59 @@ while item < 5:
 
 # 输出：2
 ```
+
+### 3.9. dict 和 set
+
+dict：
+
+* 说明
+  * key-value 的集合
+  * 判断 key 是否存在
+    * `key in my_dict`
+  * 根据 key 获取 value
+    * `my_dict[key]`，无指定 key 会报错
+    * `my_dict.get(key)`，无指定 key 返回 `None`
+  * 添加 key-value
+    * `my_dict[new_key] = 'new value'`
+  * 删除 key-value
+    * `my_dict.pop(key)`
+* 示例
+
+  ```python
+  person = {
+    'name': '张三',
+    'age': 18
+  }
+
+  print(person['name'])
+
+  print(person.get('id'))  # None
+
+  print('id' in person)  # False
+
+  # key 不存在，报错
+  # print(person['id'])
+
+  person['id'] = 1
+
+  person.pop('id')
+  ```
+
+set：
+
+* 说明
+  * key 的集合，不重复
+  * 可用 `set()` 函数将 list 转为 set
+  * `my_set.add(key)`，添加元素
+  * `my_set.remove(key)`，删除元素
+* 示例
+
+  ```python
+  nums = {1, 2, 3}
+
+  print(1 in nums)  # True
+
+  nums.add('a')
+
+  nums.remove(2)
+  ```
