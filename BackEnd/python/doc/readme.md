@@ -280,3 +280,128 @@ set：
 
   nums.remove(2)
   ```
+
+## 4. 函数
+
+内置函数：
+
+* 官网：[https://docs.python.org/3/library/functions.html](https://docs.python.org/3/library/functions.html)
+
+数据类型转换：
+
+* `int()`
+* `float()`
+* `str()`
+* `bool()`
+
+定义函数：
+
+* 说明
+  * return 语句默认返回 `None`
+* 示例
+
+  ```python
+  def my_abs(num):
+      if num < 0:
+          return -num
+      return num
+
+
+  print(my_abs(-1))
+  ```
+
+空函数：
+
+* 说明
+  * 使用 pass 语句，作为占位符
+* 示例
+
+  ```python
+  def do_nothing:
+      pass
+  ```
+
+参数检查：
+
+* 说明
+  * 通过 `isinstance(target, tuple)` 判断变量 target 是否为指定的类型
+* 示例
+
+  ```python
+  num = 1
+  print(isinstance(1, (int, float)))
+  print(isinstance('1', (int, float)))
+  ```
+
+返回多个值：
+
+* 说明
+  * `return (x, y)` 可简写为 `return x, y`
+  * 多个变量可以接收一个元组，如 `x,y = (1, 2)`
+* 示例
+
+  ```python
+  def move(x, y):
+    return x, y
+
+
+  x, y = move(1, 2)
+  print(x, y) # 1 2
+  ```
+
+参数：
+
+* 默认值
+
+  ```python
+  def fn_default_arg(x, y=2):
+    print(x, y)
+
+
+  fn_default_arg(1)  # 1 2
+  ```
+
+* 可变参数
+
+  ```python
+  # 接收多个参数，args 是 tuple
+  def fn_args(*args):
+      for arg in args:
+          print(arg)
+
+
+  fn_args(3, 4)
+  # 3
+  # 4
+
+
+  def fn_args_2(x, y):
+      print(x, y)
+
+  # 用 list 或 tuple 传多个参数
+  fn_args_2(*[5, 6])  # 5 6
+  fn_args_2(*(7, 8))  # 7 8
+  ```
+
+* 关键字参数
+
+  ```python
+  #  kw 是 dict 类型
+  def fn_kw(x, **kw):
+      print(x, kw)
+
+
+  fn_kw(9, name='吴钦飞', age=18)  # 9 {'name': '吴钦飞', 'age': 18}
+  fn_kw(11, **{'name': '张三', 'age': 19})
+  ```
+
+* 命名关键字参数
+
+  ```python
+  # * 号或可变参数（*args） 分隔位置参数和命名参数
+  def fn_named_kw(x, *, name, age):
+      print(x, name, age)
+
+
+  fn_named_kw(10, name='张三', age=20)
+  ```
