@@ -137,6 +137,12 @@ print(num1, num2, num3) # 3.3333333333333335 3 1
 list：
 
 * 格式： `[元素1, 元素2, ...]`
+* 功能
+  * `len(my_list)` 元素个数
+  * `my_list[index]` 获取指定索引的元素
+  * `my_list.append(item)` 末尾添加元素
+  * `my_list.insert(index, item)` 指定索引处插入元素
+  * `my_list.pop(index)` 弹出指定索引的元素
 * 示例
 
   ```python
@@ -283,18 +289,18 @@ set：
 
 ## 4. 函数
 
-内置函数：
+### 4.1. 内置函数
 
 * 官网：[https://docs.python.org/3/library/functions.html](https://docs.python.org/3/library/functions.html)
 
-数据类型转换：
+### 4.2. 数据类型转换
 
 * `int()`
 * `float()`
 * `str()`
 * `bool()`
 
-定义函数：
+### 4.3. 定义函数
 
 * 说明
   * return 语句默认返回 `None`
@@ -310,7 +316,7 @@ set：
   print(my_abs(-1))
   ```
 
-空函数：
+### 4.4. 空函数
 
 * 说明
   * 使用 pass 语句，作为占位符
@@ -321,7 +327,7 @@ set：
       pass
   ```
 
-参数检查：
+### 4.5. 参数检查
 
 * 说明
   * 通过 `isinstance(target, tuple)` 判断变量 target 是否为指定的类型
@@ -333,7 +339,7 @@ set：
   print(isinstance('1', (int, float)))
   ```
 
-返回多个值：
+### 4.6. 返回多个值
 
 * 说明
   * `return (x, y)` 可简写为 `return x, y`
@@ -349,7 +355,7 @@ set：
   print(x, y) # 1 2
   ```
 
-参数：
+### 4.7. 参数
 
 * 默认值
 
@@ -405,3 +411,17 @@ set：
 
   fn_named_kw(10, name='张三', age=20)
   ```
+
+## 5. 高级特性
+
+### 5.1. 切片
+
+* 针对 list 或 str
+* 格式
+  * `list[startIndex:endIndex]`
+  * 包头不包尾
+  * startIndex 缺省值为 0
+  * endIndex 缺省值为 list 长度
+
+### 5.2. 迭代
+
