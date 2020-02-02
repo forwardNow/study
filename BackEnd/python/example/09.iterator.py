@@ -4,6 +4,9 @@ my_list = [1, 2, 3]
 if isinstance(my_list, Iterable):
     for item in my_list:
         print(item)
+    for i, item in enumerate(my_list):
+        print('i, item =', i, item)
+
 
 my_tuple = (4, 5, 6)
 if isinstance(my_tuple, Iterable):

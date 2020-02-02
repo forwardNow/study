@@ -425,7 +425,13 @@ set：
 
 ### 5.2. 迭代
 
-`for item in list` 可以迭代 可迭代对象，如下
+说明：
+
+* `for item in list` 可以迭代 可迭代对象，如下
+* `isinstance(my_list, Iterable)` 判断是不是可迭代对象
+* `enumerate(my_list)` 将 list 转为 index-item 对
+
+示例：
 
 ```python
 from collections.abc import Iterable
@@ -434,6 +440,8 @@ my_list = [1, 2, 3]
 if isinstance(my_list, Iterable):
     for item in my_list:
         print(item)
+    for i, item in enumerate(my_list):
+        print('i, item =', i, item)
 
 my_tuple = (4, 5, 6)
 if isinstance(my_tuple, Iterable):
@@ -453,4 +461,28 @@ if isinstance(my_dict, Iterable):
         print('val =', val)
     for k, v in my_dict.items():
         print('key-val =', k, v)
+```
+
+### 5.3. 列表生成式
+
+格式：
+
+```text
+[expression for item in iterable_obj if condition]
+```
+
+示例：
+
+```python
+>>> [x for x in range(0, 3)]
+[0, 1, 2]
+
+>>> [x * 2 for x in range(0, 3)]
+[0, 2, 4]
+
+>>> [x * 2 for x in range(0, 3) if x > 0]
+[2, 4]
+
+>>> [x + y for x in range(1, 3) for y in range(5, 7)]
+[6, 7, 7, 8]
 ```
