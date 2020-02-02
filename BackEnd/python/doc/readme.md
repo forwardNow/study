@@ -480,9 +480,72 @@ if isinstance(my_dict, Iterable):
 >>> [x * 2 for x in range(0, 3)]
 [0, 2, 4]
 
+# 条件过滤
 >>> [x * 2 for x in range(0, 3) if x > 0]
 [2, 4]
 
+# 双重循环
 >>> [x + y for x in range(1, 3) for y in range(5, 7)]
 [6, 7, 7, 8]
+
+# 多个变量
+>>> person = {'name': '吴钦飞', 'age': 18}
+>>> [k + '=' + str(v) for k, v in person.items()]
+['name=吴钦飞', 'age=18']
+
+# 获取当前目录下所有文件的名称
+>>> import os
+>>> [d for d in os.listdir('.')]
+['package.json', 'Mobile', 'Android']
+```
+
+### 5.4. 生成器
+
+格式：
+
+* `g = (x * 2 for x in range(0, 2))`
+
+说明：
+
+* 节省内存
+* 通过 `next(g)` 获取下一个元素，没有元素则抛异常
+
+示例：
+
+```python
+>>> g = (x * 2 for x in range(0, 2))
+>>> next(g)
+0
+>>> next(g)
+2
+>>> next(g)
+Traceback (most recent call last):
+  File "<stdin>", line 1, in <module>
+StopIteration
+
+
+# 通过 for 遍历 generator
+>>> g = (x + 1 for x in range(0, 2))
+>>> for item in g:
+...     print(item)
+...
+1
+2
+
+
+# 生成器函数和 yield
+>>> def odd():
+...     yield 1
+...     yield 3
+...
+>>> odd_g = odd()
+
+>>> next(odd_g)
+1
+>>> next(odd_g)
+3
+>>> next(odd_g)
+Traceback (most recent call last):
+  File "<stdin>", line 1, in <module>
+StopIteration
 ```
