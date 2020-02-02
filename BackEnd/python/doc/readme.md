@@ -549,3 +549,18 @@ Traceback (most recent call last):
   File "<stdin>", line 1, in <module>
 StopIteration
 ```
+
+### 5.5. 迭代器
+
+`Iterable` 对象：
+
+* 可被 `for item in iterable_obj` 遍历
+* 可通过 `isinstance([], Iterable)` 判断
+* `list`、`tuple`、`dict`、`set`、`str`
+
+`Iterator` 对象：
+
+* 迭代器
+* 可被 `next()` 函数调用并不断返回下一个值
+* 可通过 `isinstance((x for x in range(10)), Iterator)` 判断
+* 可被 `for item in g` 遍历
