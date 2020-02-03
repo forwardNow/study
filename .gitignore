@@ -6,6 +6,8 @@ node_modules/
 .git
 *.psd
 
+__pycache__
+
 dist/
 Mobile/cordova/demo/
 FrontEnd/其他/WebKit技术内幕/Thumbs.db
