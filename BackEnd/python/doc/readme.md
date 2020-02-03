@@ -681,3 +681,38 @@ person = {'name': 'zhangsan', 'age': '10'}
 for k, v in person.items():
     print(f(k, v))
 ```
+
+### 6.4. 装饰器
+
+说明：
+
+* 在代码运行期间动态增加功能的方式，称之为“装饰器”（Decorator）。
+* 函数对象有一个 `__name__` 属性，可以拿到函数的名字
+
+示例：
+
+```python
+import functools
+
+def log(before_text, after_text):
+    def decorator(func):
+        @functools.wraps(func)
+        def wrapper(*args, **kw):
+            print('---- %s() %s ----' % (func.__name__, before_text))
+            ret = func(*args, **kw)
+            print('---- %s() %s ----' % (func.__name__, after_text))
+            return ret
+        return wrapper
+    return decorator
+
+
+@log('begin', 'end')
+def my_fn():
+    print('哇哈哈')
+
+
+my_fn()
+# ---- my_fn() begin ----
+# 哇哈哈
+# ---- my_fn() end ----
+```
