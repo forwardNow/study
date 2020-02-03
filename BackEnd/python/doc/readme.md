@@ -564,3 +564,81 @@ StopIteration
 * 可被 `next()` 函数调用并不断返回下一个值
 * 可通过 `isinstance((x for x in range(10)), Iterator)` 判断
 * 可被 `for item in g` 遍历
+
+## 6. 函数式编程
+
+### 6.1. 高阶函数
+
+把函数作为参数传入，这样的函数称为高阶函数，函数式编程就是指这种高度抽象的编程范式。
+
+高阶函数英文叫 Higher-order function
+
+特点：
+
+* 变量可以指向函数
+* 函数名也是变量
+* 函数调用时，将函数作为参数传入
+
+map：
+
+```python
+>>> def f(x):
+...     return 2 * x
+...
+
+>>> db_f_iterator = map(f, [1, 2, 3])
+
+>>> next(db_f_iterator)
+2
+
+>>> for item in db_f_iterator:
+...     print(item)
+...
+4
+6
+```
+
+reduce:
+
+```python
+>>> def sum(x, y):
+...     return x + y
+...
+
+>>> from functools import reduce
+>>> reduce(sum, [1, 2, 3, 4])
+10
+```
+
+filter:
+
+```python
+>>> def not_empty(s):
+...     return s and s.strip()
+...
+
+>>> list(filter(not_empty, ['a', '', None, 'b']))
+['a', 'b']
+```
+
+sorted：
+
+* 格式：`sorted(iterable, *, key=None, reverse=False)`
+* 示例
+
+  ```python
+  def comparePerson(person):
+      return person['name'][0:1]
+
+
+  person_list = [
+    {'name': 'zhangsan'},
+    {'name': 'lisi'},
+    {'name': 'wangwu'}
+  ]
+
+  person_list = sorted(person_list, key=comparePerson)
+
+  print(person_list)
+  # [{'name': 'lisi'}, {'name': 'wangwu'}, {'name': 'zhangsan'}]
+  ```
