@@ -735,3 +735,94 @@ int_binary_2 = functools.partial(int, base=2)
 
 print(int_binary_2('1000'))  # 8
 ```
+
+## 7. 模块
+
+### 7.1. 包
+
+* 在包下放置空文件 `__init__.py`
+* 示例
+
+  ```text
+  ${root}/
+      main.py
+      common/
+          __init__.py
+          utils/
+              location.py
+          config/
+              constant.py
+  ```
+
+* main.py
+
+  ```python
+  from common.config import constant
+  from common.utils import location
+
+  location.test()
+  ```
+
+### 7.2. 模块
+
+约定：
+
+* `__xyz__` 为内部属性
+* `_xyz`、`__xyz` 为私有属性
+
+标准模块：
+
+```python
+# -*- coding: utf-8 -*-
+
+# 文档注释
+'Documentation Comments'
+
+__author__ = '吴钦飞'
+
+def test():
+    print('location module')
+
+# 如果当前模块为入口模块，则会执行
+if __name__=='__main__':
+    test()
+```
+
+第三方模块：
+
+* 官网第三方包
+  * 地址：[pypi.python.org](https://pypi.python.org/)
+  * 安装：`$ pip install pacakge_name`
+* Anaconda
+  * 作用：安装常用包
+  * 地址
+    * [官网 Anaconda3-2019.10-MacOSX-x86_64.pkg](https://www.anaconda.com/distribution/#download-section)
+    * [repo.continuum.io](https://repo.continuum.io/archive/)
+
+模块搜索路径：
+
+* 说明
+  * 当我们试图加载一个模块时，Python 会在指定的路径下搜索对应的.py文件，如果找不到，就会报错
+  * 如 `import my_mod`
+* 查看搜索路径
+
+  ```python
+  >>> import sys
+  >>> sys.path
+  [
+    '',
+    '/usr/local/Cellar/python/3.7.2_1/Frameworks/Python.framework/Versions/3.7/lib/python37.zip',
+    '/usr/local/Cellar/python/3.7.2_1/Frameworks/Python.framework/Versions/3.7/lib/python3.7',
+    '/usr/local/Cellar/python/3.7.2_1/Frameworks/Python.framework/Versions/3.7/lib/python3.7/lib-dynload',
+    '/Users/forwardNow/Library/Python/3.7/lib/python/site-packages',
+    '/usr/local/lib/python3.7/site-packages'
+  ]
+  ```
+
+* 动态添加搜索路径
+
+```python
+sys.path.append('/x/y/z')
+```
+
+* 设置环境变量 `PYTHONPATH`
