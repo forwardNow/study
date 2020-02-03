@@ -664,3 +664,20 @@ def lazy_sum(*args):
 result = lazy_sum(1, 2, 3, 4)()
 print(result)  # 10
 ```
+
+### 6.3. 匿名函数
+
+格式：
+
+* `lambda parameters: expression`
+
+示例：
+
+```python
+f = lambda k, v: k + '=' + v
+
+person = {'name': 'zhangsan', 'age': '10'}
+
+for k, v in person.items():
+    print(f(k, v))
+```
