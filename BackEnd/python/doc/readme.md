@@ -716,3 +716,22 @@ my_fn()
 # 哇哈哈
 # ---- my_fn() end ----
 ```
+
+### 6.5. 偏函数
+
+当函数的参数个数太多，需要简化时，使用 `functools.partial` 可以创建一个新的函数，这个新函数可以固定住原函数的部分参数，从而在调用时更简单。
+
+示例：
+
+```python
+print(int('110', base=2))  # 6
+
+int_binary = lambda binary_num_str: int(binary_num_str, base=2)
+
+print(int_binary('111'))  # 7
+
+import functools
+int_binary_2 = functools.partial(int, base=2)
+
+print(int_binary_2('1000'))  # 8
+```
