@@ -642,3 +642,25 @@ sorted：
   print(person_list)
   # [{'name': 'lisi'}, {'name': 'wangwu'}, {'name': 'zhangsan'}]
   ```
+
+### 6.2. 返回函数
+
+函数的返回值为函数，这种结构形成“闭包”
+
+返回的函数可以使用外部函数的可使用的变量
+
+示例：
+
+```python
+def lazy_sum(*args):
+    def sum():
+        s = 0
+        for num in args:
+            s = s + num
+        return s
+    return sum
+
+
+result = lazy_sum(1, 2, 3, 4)()
+print(result)  # 10
+```
