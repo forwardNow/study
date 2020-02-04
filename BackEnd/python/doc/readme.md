@@ -1028,3 +1028,64 @@ p_2 = Person()
 p_2.name = '李四'
 print(p_2.get_name())  # 李四
 ```
+
+### 9.2. `@property`
+
+getter/setter 语法糖
+
+```python
+class Person(object):
+    def __init__(self, name):
+        self._name = name
+
+    @property
+    def name(self):
+        return self._name
+
+    @name.setter
+    def name(self, name):
+        if not isinstance(name, str):
+            raise ValueError('name must be a string!')
+        self._name = name
+
+
+p = Person('张三')
+print(p.name)
+
+p.name = '李四'
+print(p.name)
+
+p.name = 1
+```
+
+### 9.3. 多重继承
+
+通过混入，添加额外的属性
+
+```python
+class Animal(object):
+    def __init__(self, name):
+        self._name = name
+
+
+class RunnableMixIn(object):
+    def run(self):
+        print(self._name, 'running')
+
+
+class FlyableMixIn(object):
+    def fly(self):
+        print(self._name, 'flying')
+
+
+class Dog(Animal, RunnableMixIn):
+    pass
+
+
+class Bird(Animal, FlyableMixIn):
+    pass
+
+
+Dog('dog').run()
+Bird('bird').fly()
+```
