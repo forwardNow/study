@@ -829,13 +829,17 @@ sys.path.append('/x/y/z')
 
 ## 8. 面向对象编程
 
-```python
-class Student(object):
+### 8.1. 类和实例
 
+```python
+# 继承 object 类
+class Student(object):
+    # 构造函数
     def __init__(self, name, score):
         self.name = name
         self.score = score
 
+    # 方法：第一个参数为实例
     def print_score(self):
         print('%s: %s' % (self.name, self.score))
 
