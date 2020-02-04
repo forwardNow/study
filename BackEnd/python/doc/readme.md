@@ -836,8 +836,10 @@ sys.path.append('/x/y/z')
 class Student(object):
     # 构造函数
     def __init__(self, name, score):
+        # 公有属性
         self.name = name
         self.score = score
+
 
     # 方法：第一个参数为实例
     def print_score(self):
@@ -851,3 +853,25 @@ zhangSan.print_score()  # 张三: 88
 lisi.print_score()  # lisi: 99
 ```
 
+### 8.2. 访问限制
+
+双下划线（`__`）打头的属性是私有属性
+
+```python
+class Student(object):
+
+    def __init__(self, name, score):
+        self.__name = name
+        self.__score = score
+
+    def get_name(self):
+        return self.__name
+
+    def get_score(self):
+        return self.__score
+
+
+zhangSan = Student('张三', 88)
+
+print(zhangSan.get_name(), zhangSan.get_score())
+```
