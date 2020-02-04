@@ -875,3 +875,37 @@ zhangSan = Student('张三', 88)
 
 print(zhangSan.get_name(), zhangSan.get_score())
 ```
+
+### 8.3. 继承和多态
+
+继承：
+
+```python
+class Animal(object):
+    def run(self):
+        print('Animal is running...')
+
+
+class Dog(Animal):
+    pass
+
+
+class Cat(Animal):
+    def run(self):
+        print('Cat is running...')
+
+
+Dog().run()  # Animal is running...
+Cat().run()  # Cat is running...
+```
+
+多态：
+
+```python
+def run(animal):
+    animal.run()
+
+
+run(Dog())
+run(Cat())
+```
