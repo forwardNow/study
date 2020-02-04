@@ -909,3 +909,73 @@ def run(animal):
 run(Dog())
 run(Cat())
 ```
+
+### 8.4. 类型判断
+
+判断基本类型：
+
+```python
+print(type(111))  # <class 'int'>
+print(type(111) == int)  # True
+
+print(type('11'))  # <class 'str'>
+print(type(True))  # <class 'bool'>
+print(type(None))  # <class 'NoneType'>
+```
+
+判断引用类型：
+
+```python
+import types
+
+
+def fn():
+    pass
+
+
+print(type(fn))  # <class 'function'>
+print(isinstance(fn, types.FunctionType))  # True
+
+print(isinstance(abs, types.BuiltinFunctionType))  # True
+
+print(isinstance(lambda x: x, types.LambdaType))  # True
+
+g = (x for x in range(10))
+print(isinstance(g, types.GeneratorType))  # True
+```
+
+### 8.5. 对象信息
+
+获取对象信息：
+
+```python
+print(dir('a'))
+# ['__add__', '__class__','capitalize', ...]
+```
+
+操作对象的属性：
+
+```python
+class Person(object):
+    def __init__(self, id, name):
+        self.__id = id
+        self.name = name
+
+    def say_hello(self):
+        print('%s, hello' % self.name)
+
+
+person = Person('007', 'zhangsan')
+
+
+print(type(person))  # <class '__main__.Person'>
+
+print(hasattr(person, 'name'))  # True
+print(hasattr(person, '__id'))  # False
+print(hasattr(person, 'say_hello'))  # True
+
+print(getattr(person, 'name'))  # zhangsan
+
+setattr(person, 'name', 'lisi')
+print(getattr(person, 'name'))  # lisi
+```
