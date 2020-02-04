@@ -979,3 +979,18 @@ print(getattr(person, 'name'))  # zhangsan
 setattr(person, 'name', 'lisi')
 print(getattr(person, 'name'))  # lisi
 ```
+
+### 8.6. 类属性和类方法
+
+```python
+class Person(object):
+    desc = 'Person class'
+
+    @staticmethod
+    def get_desc():
+        return Person.desc
+
+
+print(Person.desc)
+print(Person.get_desc())
+```
