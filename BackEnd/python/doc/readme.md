@@ -994,3 +994,37 @@ class Person(object):
 print(Person.desc)
 print(Person.get_desc())
 ```
+
+## 9. 面向对象高级编程
+
+### 9.1. `__slots__`
+
+限制动态添加的属性
+
+```python
+from types import MethodType
+
+
+class Person(object):
+    # 限制动态添加的属性
+    __slots__ = ('name', 'get_name')
+
+
+def get_name(self):
+    return self.name
+
+
+# 给 实例 动态添加属性，只作用于该实例
+p = Person()
+
+p.name = '张三'
+p.get_name = MethodType(get_name, p)
+print(p.get_name())  # 张三
+
+
+# 给 类 动态添加属性，作用于所有实例
+Person.get_name = get_name
+p_2 = Person()
+p_2.name = '李四'
+print(p_2.get_name())  # 李四
+```
