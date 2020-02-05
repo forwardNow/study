@@ -1174,3 +1174,48 @@ print(Weekday.Fri.name, Weekday.Fri.value)  # Fri 5
 for name, item in Weekday.__members__.items():
     print(name, item, item.value)  # Mon Weekday.Mon 1
 ```
+
+## 10. 错误、调试、测试
+
+### 10.1. 错误处理
+
+参考：
+
+* [异常类的层级结构](https://docs.python.org/3/library/exceptions.html#exception-hierarchy)
+
+捕获异常：
+
+```python
+import logging
+
+
+try:
+    print('try - start')
+    v = 1 / 0
+    print('try - end')
+except ValueError as e:
+    print('handle ValueError')
+    logging.exception(e)
+except Exception as e:
+    print('handle Exception')
+    logging.exception(e)  # 打印调用堆栈信息
+finally:
+    print('finally')
+```
+
+抛出异常：
+
+```python
+class FooError(ValueError):
+    pass
+
+
+def foo(s):
+    n = int(s)
+    if n == 0:
+        raise FooError('invalid value: %s' % s)
+    return 10 / n
+
+
+foo('0')
+```
