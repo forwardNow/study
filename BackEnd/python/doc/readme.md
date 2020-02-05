@@ -1151,3 +1151,26 @@ class Man(object):
 print(callable(Person()))  # False
 print(callable(Man()))  # True
 ```
+
+### 9.5. 枚举类
+
+```python
+from enum import Enum, unique
+
+
+@unique
+class Weekday(Enum):
+    Mon = 1
+    Tue = 2
+    Wed = 3
+    Thu = 4
+    Fri = 5
+    Sat = 6
+    Sun = 7
+
+
+print(Weekday.Fri.name, Weekday.Fri.value)  # Fri 5
+
+for name, item in Weekday.__members__.items():
+    print(name, item, item.value)  # Mon Weekday.Mon 1
+```
