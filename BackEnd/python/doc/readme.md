@@ -1089,3 +1089,65 @@ class Bird(Animal, FlyableMixIn):
 Dog('dog').run()
 Bird('bird').fly()
 ```
+
+### 9.4. 定制类
+
+实现“toString”接口：
+
+```python
+class Person(object):
+    def __init__(self, name):
+        self.name = name
+
+    # 对象转字符串。类比 Java 中的 Object 的 toString() 方法
+    def __str__(self):
+        return 'Person { name: %s }' % self.name
+
+    __repr__ = __str__
+
+
+print(Person('吴钦飞'))  # Person { name: 吴钦飞 }
+```
+
+实现迭代器接口：
+
+```python
+class Range(object):
+    def __init__(self, start_num=0, stop_num=5):
+        self.start_num = start_num
+        self.stop_num = stop_num
+        self.cur_num = start_num
+
+    def __iter__(self):
+        return self
+
+    def __next__(self):
+        cur_num = self.cur_num
+
+        if cur_num >= self.stop_num:
+            raise StopIteration()
+
+        self.cur_num = cur_num + 1
+
+        return cur_num
+
+
+for x in Range(10, 13):
+    print(x)
+```
+
+实现 对象是否可调用 接口：
+
+```python
+class Person(object):
+    pass
+
+
+class Man(object):
+    def __call__(self, *args, **kwargs):
+        pass
+
+
+print(callable(Person()))  # False
+print(callable(Man()))  # True
+```
