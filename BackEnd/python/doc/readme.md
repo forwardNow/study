@@ -1219,3 +1219,35 @@ def foo(s):
 
 foo('0')
 ```
+
+### 10.2. 调试
+
+断言：
+
+```python
+def double(num):
+    assert isinstance(num, int), 'arg is not an integer'
+    return num * 2
+
+
+print(double(1))
+double('1')  # 断言失败，抛异常 AssertionError
+```
+
+logging：
+
+```python
+import logging
+
+# 设置日志级别
+logging.basicConfig(level=logging.INFO)
+
+logging.debug('debug level log')
+logging.info('info level log')
+logging.warning('warning level log')
+logging.error('error level log')
+```
+
+IDE 调试：
+
+* PyCharm
