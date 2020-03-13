@@ -18,7 +18,7 @@
     "utility": "^1.14.0"
   },
   "devDependencies": {
-    "acorn": "^6.0.5",
+    "acorn": "^6.4.1",
     "eslint": "^5.6.0",
     "eslint-config-airbnb": "^17.1.0",
     "eslint-config-airbnb-base": "^13.1.0",
