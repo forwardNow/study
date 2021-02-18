@@ -13,7 +13,12 @@
 #### 1.1.1. 创建项目
 
 使用 Visual Studio 编写 C++ 程序
+* 文件（菜单） -> 创建 “空项目” （01_helloworld）
 
-参考：
+环境相关的问题：
 * [关于Visual Studio 2019安装时VS installer无法下载文件，进度条为0，显示网络有问题的解决办法](https://blog.csdn.net/qq_43085848/article/details/109901050) 
 * [windows开发笔记——VS 2019遇到windows SDK找不到](https://blog.csdn.net/chengxu_kuangrexintu/article/details/102980348)
+
+#### 1.1.2. 创建文件
+
+![创建文件](./images/1.1.2.png)
