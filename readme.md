@@ -72,26 +72,17 @@
 * Leaflet（地图）
   * [《官方文档》](./FrontEnd/库/Leaflet)
 
-### 1.7. 平台
-
-* [APICloud](./FrontEnd/platform/apicloud/readme.md)
-
-### 1.8. 规范
-
-* API
-  * [Open API 3.0 【翻译】](./FrontEnd/其他/OpenAPI/readme.md)
-
-### 1.9. 包管理器
+### 1.7. 包管理器
 
 * [NPM](./BackEnd/npm/readme.md)
 * [yarn](./FrontEnd/Build/yarn.md)
 * [pnpm](./FrontEnd/Build/pnpm.md)
 
-### 1.10. 单元测试
+### 1.8. 单元测试
 
 * [Mocha.js 的使用](./blog/2018/10/09.mochajs的使用.md)
 
-### 1.11. 浏览器相关
+### 1.9. 浏览器相关
 
 * WebKit
   * [《WebKit 技术内幕》 —— 朱永盛](./FrontEnd/其他/WebKit技术内幕/readme.md)
@@ -103,7 +94,7 @@
   * [制作web浏览器【待完成】](./FrontEnd/其他/制作web浏览器/readme.md)
   * [浏览器的工作原理【待完成】](./blog/2018/08/11.浏览器的工作原理.md)
 
-### 1.12. 待分类
+### 1.10. 待分类
 
 * [前端发展趋势](./blog/2018/07/30.前端发展趋势.md)
 * [gitbook 的使用](./blog/2018/10/30.gitbook的使用.md)
@@ -126,20 +117,20 @@
 
 * [RAML](./BackEnd/API/raml/readme.md)
 * [Swagger](./BackEnd/API/swagger/readme.md)
+* [Open API 3.0 【翻译】](./FrontEnd/其他/OpenAPI/readme.md)
 
-### 2.4. Maven
+### 2.4. Java
 
-* [构建工具 Maven](./BackEnd/Maven/构建工具Maven.md)
+* Maven
+  * [构建工具 Maven](./BackEnd/Maven/构建工具Maven.md)
+* spring boot
+  * [spring boot 教程](BackEnd/spring-boot/readme.md)
 
-### 2.5. spring boot
-
-* [spring boot 教程](BackEnd/spring-boot/readme.md)
-
-### 2.6. python
+### 2.5. python
 
 * [Python 笔记](BackEnd/python/doc/readme.md)
 
-## 3. 移动端
+### 2.6. 移动端
 
 * Weex
   * [Weex 笔记](./Mobile/weex/readme.md)
@@ -147,39 +138,35 @@
   * [Cordova 笔记](./Mobile/cordova)
   * [官方文档 —— 翻译](./Mobile/cordova/doc)
 
-## 4. 测试
+## 3. 测试
 
 * [Web 自动化测试](./Test/Web自动化测试/readme.md)
 * [JSON Server](./blog/2018/08/29.JsonServer.md)
 * [Postman](./blog/2018/08/30.Postman.md)
 
-## 5. 运维
+## 4. 运维
 
-### 5.1. ECS (阿里云服务器)
+### 4.1. ECS (阿里云服务器)
 
 * [ECS](./Operation/ECS/readme.md)
 
-### 5.2. Linux
+### 4.2. Linux
 
 * [Linux 笔记](./Operation/Linux/readme.md)
 
-## 6. Android
 
-* 入门教程
-  * [Android 入门教程](./Android/readme.md)
+## 5. 计算机
 
-## 7. 计算机
-
-### 7.1. 网络
+### 5.1. 网络
 
 * [《网络是怎样连接的》](./网络/网络是怎样连接的)
 
-### 7.2. 音视频
+### 5.2. 音视频
 
 * [视频格式与编码](./blog/2018/08/03.视频格式与编码.md)
 
-## 8. 开发工具
+## 6. 开发工具
 
-### 8.1. vscode
+### 6.1. vscode
 
 * [同步vscode的配置](./blog/2018/09/11.同步vscode的配置.md)
