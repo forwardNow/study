@@ -22,3 +22,25 @@
 #### 1.1.2. 创建文件
 
 ![创建文件](./images/1.1.2.png)
+
+#### 1.1.3. 编写文件
+
+```c++
+#include <iostream>
+using namespace std;
+
+int main()
+{
+	cout << "hello world" << endl;
+	system("pause");
+
+	return 0;
+}
+```
+
+界面设置：
+* [VS2017如何更改字体大小](https://blog.csdn.net/fadbgfnbxb/article/details/89788194)
+
+#### 1.1.4. 运行程序
+
+![创建文件](./images/1.1.4.jpg)
