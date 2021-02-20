@@ -134,3 +134,7 @@ delete
 goto
 reinterpret_cast
 try
+
+### 1.6. 标识符命名规则
+
+给变量命名时：以 下划线、字母 打头的 字母、数字、下划线 组合。
