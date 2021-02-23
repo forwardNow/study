@@ -147,9 +147,23 @@ C++ 规定在创建一个变量或者常量时，必须要指定出相应的数�
 
 作用：整形变量表示的是整数类型的数据
 
-整数类型，区别在于所占内存空间不同：
+整数类型，区别在于所占内存空间不同，进而取值范围不同：
 
-* short 短整型
-* int 整型
-* long 长整型
-* long long 长长整型
+* `short` 短整型
+* `int` 整型
+* `long` 长整型
+* `long long` 长长整型
+
+
+### 2.2. sizeof 关键字
+
+作用： 利用 sizeof 关键字可以统计数据类型所占内存空间字节数
+
+语法： `sizeof(数据类型 | 变量)`
+
+示例；
+
+```c++
+cout << "int: " << sizeof(int) << endl; // => int: 4
+cout << "long long: " << sizeof(long long) << endl; // => long long: 8
+```
