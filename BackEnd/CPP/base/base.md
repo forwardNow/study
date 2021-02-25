@@ -245,5 +245,28 @@ cout << (int)'a' << endl; // 97
 
 * 占 1 个字节
 
+### 2.8. 数据的输入
 
+作用： 用于从键盘获取数据
 
+关键字： `cin`
+
+语法： `cin >> 变量;`
+
+注意：
+
+* bool 类型的值，除了 0 是假 其他都是真
+
+示例：
+
+```cpp
+int num = 0;
+
+cout << "请给 num 赋值： ";
+cin >> num;
+
+cout << "num = " << num << endl;
+
+system("pause");
+return 0;
+```
