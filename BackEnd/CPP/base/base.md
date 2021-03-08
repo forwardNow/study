@@ -391,3 +391,45 @@ C/C++ 支持最基本的三种程序运行结构： 顺序、选择、循环
 	```
 
 * 循环： 依据条件是否满足，循环多次执行某段代码
+
+	```cpp
+	int num = 0;
+
+	while (num < 10)
+	{
+		cout << num << endl;
+		num++;
+	}
+
+	do
+	{
+		cout << num << endl;
+		num--;
+	} while (num > 0);
+
+	// break; // 可以终止当前循环
+	// continue; // 跳过本次循环
+
+	for (int i = 0; i < 10; i++)
+	{
+		cout << i << endl;
+	}
+	```
+
+* 跳转
+
+	```cpp
+	// ...
+	// ...
+
+	goto FLAG;
+
+	// ...
+	// ...
+
+	FLAG:
+
+	// ...
+	// ...
+
+	```
