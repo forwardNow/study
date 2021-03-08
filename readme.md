@@ -130,7 +130,11 @@
 
 * [Python 笔记](BackEnd/python/doc/readme.md)
 
-### 2.6. 移动端
+### 2.6. C++
+
+* [C++教程从0到1入门编程](BackEnd\CPP\base\readme.md)
+
+### 2.7. 移动端
 
 * Weex
   * [Weex 笔记](./Mobile/weex/readme.md)
