@@ -346,5 +346,48 @@ cout << !!num << endl;//=> 0
 C/C++ 支持最基本的三种程序运行结构： 顺序、选择、循环
 
 * 顺序： 程序按顺序执行，不发生跳转
+
 * 选择： 依据条件是否满足，有选择的执行相应功能
+
+	```cpp
+	int score = 80;
+
+	if (score > 90)
+	{
+		cout << "A";
+	} 
+	else if (score > 60) 
+	{
+		cout << "B";
+	} 
+	else 
+	{
+		cout << "C";
+	}
+
+
+	// 三目运算符
+
+	int num1 = 10;
+	int num2 = 20;
+	
+	int max = num1 > num2 ? num1 : num2;
+
+
+	// switch
+	switch(score) // score 的数据类型只能是 整型或字符型
+	{
+		case 100:
+			cout << "A";
+			break;
+		case 90:
+		case 80:
+			cout << "B";
+			break;
+		default:
+			cout << "C";
+			break;
+	}
+	```
+
 * 循环： 依据条件是否满足，循环多次执行某段代码
