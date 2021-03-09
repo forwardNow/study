@@ -433,3 +433,48 @@ C/C++ 支持最基本的三种程序运行结构： 顺序、选择、循环
 	// ...
 
 	```
+
+## 5. 数组
+
+说明：
+
+* 集合，里面存放相同类型的数据元素
+* 连续的内存空间
+* 定义数组时，必须指定长度（或可推断出来）
+* 下标从 0 开始
+* 数组名是常量，不可以进行赋值操作
+
+一维数组：
+
+```cpp
+int nums[2];
+nums[0] = 1;
+nums[1] = 2;
+
+cout << nums[1] << endl; //=> 2
+
+
+// 初始化时，缺省的元素默认为 0
+string fruits[3] = { "apple", "banana" };
+
+cout << fruits[1] << endl; //=> banana
+
+
+
+bool flags[] = { true, false };
+
+cout << flags[1] << endl; //=> 0
+
+
+
+int arr[] = { 1, 2 };
+
+cout << "数组占用内存空间为：" << sizeof(arr) << endl; // 8
+cout << "单个元素占用内存空间为：" << sizeof(arr[0]) << endl; // 4
+cout << "数组首地址为：" << arr << endl; // 002BF68C
+cout << "数组第一个元素的地址为：" << &arr[0] << endl; // 002BF68C
+
+
+// arr = { 1 };  // 不能赋值
+
+```
