@@ -543,3 +543,43 @@ int arr5[2][3] = {
 cout << "查看占用内存空间大小: " << sizeof(arr5) << endl; // 24
 cout << "查看首地址: " << int(arr5) << endl; // 9697484
 ```
+
+## 6. 函数
+
+作用：将一段经常使用的代码封装起来，减少重复代码。
+
+函数的定义与调用：
+
+```text
+// 定义
+返回值类型 函数名(形参列表)
+{
+	函数体语句
+
+	return 表达式
+}
+
+// 调用
+函数名(实参列表)
+```
+
+```cpp
+int add(int num1, int num2)
+{
+	int sum = num1 + num2;
+	return sum;
+}
+
+int main()
+{
+	int a = 1;
+	int b = 2;
+	
+	int c = add(a, b);
+
+	cout << "a + b = " << c << endl; // 3
+	
+	system("pause");
+	return 0;
+}
+```
