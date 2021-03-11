@@ -570,6 +570,14 @@ int add(int num1, int num2)
 	return sum;
 }
 
+/*
+	无返回值则 返回值类型为 void
+	return 语句可以不要
+*/
+void test() {
+	return;
+}
+
 int main()
 {
 	int a = 1;
@@ -583,3 +591,74 @@ int main()
 	return 0;
 }
 ```
+
+值传递：
+
+* 形参改变不会影响到实参
+
+函数声明：
+
+* 告诉编译器有这个函数
+*	声明可以有多次
+
+```cpp
+// 声明
+int add(int num1, int num2);
+
+int main()
+{
+	int a = 1;
+	int b = 2;
+	
+	int c = add(a, b);
+
+	cout << "a + b = " << c << endl; // 3
+	
+	system("pause");
+	return 0;
+}
+
+// 定义
+int add(int num1, int num2)
+{
+	int sum = num1 + num2;
+	return sum;
+}
+```
+
+函数分文件编写：
+
+* 头文件 swap.h
+	```cpp
+	// 函数定义中使用的头文件也要在这里引入
+	#include <iostream>
+	using namespace std;
+
+	// 函数声明
+	void swap(int a, int b);
+	```
+
+* 源文件 swap.cpp
+	```cpp
+	#include "swap.h" // 关联头文件，注意是 双引号
+
+  // 函数定义
+	void swap(int a, int b)
+	{
+		cout << "a = " << a << endl;
+		cout << "b = " << b << endl;
+	}
+	```
+
+* 调用
+	```cpp
+	#include"swap.h"
+
+	int main()
+	{
+		swap(1, 2);
+		return 0;
+	}
+	```
+
+
