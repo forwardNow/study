@@ -714,3 +714,79 @@ cout << "*p = " << *p << endl; // 10
 	// 不是我们申请的空间，访问会报错
 	int* p = (int*)0x1100;
 	```
+
+const 修饰指针：
+
+* const 修饰指针 —— 常量指针： 常量（const）*（指针）
+	* `const int* p = &num;`
+	* const 修饰 *，则取 * 的操作不允许重新赋值， *p 的值不可以改
+* const 修饰常量 —— 指针常量 
+	* `int* const p = &num;` 
+	* const 修饰 p，则 p 的值不允许重新赋值，p 的值不可以改
+* const 既修饰指针 又修饰常量
+	* `const int* const p = &num;` 
+
+	```cpp
+		int num = 10;
+		int money = 20;
+
+		// 常量指针
+		const int* p1 = &num;
+		p1 = &money;
+		// *p1 = 100; // error
+
+		// 指针常量
+		int* const p2 = &num;
+		// p2 = &money; // error
+		*p2 = 200;
+	```
+
+指针和数组：
+
+```cpp
+// 利用指针访问数组中的元素
+
+int arr[3] = { 11, 22, 33 };
+
+int* p = arr; // arr 就是第一个元素的地址
+
+cout << "第1个元素的值：" << *p << endl;
+
+p++; // 往后移动4个字节（int类型的指针移动一次就是4个字节）
+
+cout << "第2个元素的值：" << *p << endl;
+
+cout << "第3个元素的值：" << *(++p) << endl;
+```
+
+指针和函数：
+
+```cpp
+#include <iostream>
+using namespace std;
+
+// 利用指针作为函数参数，可以修改实参的值
+// 地址传递
+void swap(int* num1, int* num2)
+{
+	int temp = *num1;
+	*num1 = *num2;
+	*num2 = temp;
+}
+
+int main()
+{
+	int a = 100;
+	int b = 200;
+
+	// 地址传递
+	swap(&a, &b);
+
+	cout << "a = " << a << endl; // 200
+	cout << "b = " << b << endl; // 100
+
+	system("pause");
+	return 0;
+}
+
+```
