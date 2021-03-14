@@ -790,3 +790,46 @@ int main()
 }
 
 ```
+
+## 8. 结构体
+
+结构体属于用户自定义的数据类型，允许用户存储不同的数据类型。
+
+语法： `struct 结构体名 { 结构体成员列表 };`
+
+```cpp
+struct Student
+{
+	string name;
+	int age;
+	int score;
+};
+
+
+int main()
+{
+	// 挨个属性赋值
+	struct Student stu;
+
+	stu.name = "张三";
+	stu.age = 18;
+	stu.score = 100;
+
+	// 通过 “.” 读写结构体中的成员
+
+	cout << "name = " << stu.name << endl;
+
+	// 一次性全部赋值
+	struct Student stu2 = { "李四", 16, 90 };
+
+	stu2 = { "王五", 17, 80 };
+
+	cout << "name = " << stu2.name << endl;
+
+	// 创建结构体变量时， struct 关键字可以省
+	Student stu3;
+
+	system("pause");
+	return 0;
+}
+```
