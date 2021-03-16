@@ -888,3 +888,35 @@ int main()
 	return 0;
 }
 ```
+
+结构体嵌套：
+
+```cpp
+struct Student
+{
+	string name;
+	int score;
+};
+
+struct Teacher
+{
+	string name;
+	struct Student stu;
+};
+
+int main()
+{
+	Teacher teacher = { 
+		"老王", 
+		{ "张三", 100}
+	};
+
+	Teacher* p = &teacher;
+
+	cout << teacher.name << endl;
+	cout << teacher.stu.name << endl;
+
+	system("pause");
+	return 0;
+}
+```
