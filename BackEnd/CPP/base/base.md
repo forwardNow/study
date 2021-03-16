@@ -833,3 +833,30 @@ int main()
 	return 0;
 }
 ```
+
+结构体数组；（ `struct 结构体类型 变量名[元素个数] = { {...}, {...}, ... }` ）
+
+```cpp
+struct Student
+{
+	string name;
+	int age;
+	int score;
+};
+
+
+int main()
+{
+	Student arr[2] = {
+		{ "李四", 18, 80 },
+		{ "王五", 19, 90 },
+	};
+
+	cout << arr[1].name << endl;
+	cout << arr[1].age << endl;
+	cout << arr[1].score << endl;
+
+	system("pause");
+	return 0;
+}
+```
