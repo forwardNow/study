@@ -860,3 +860,31 @@ int main()
 	return 0;
 }
 ```
+
+结构体指针：
+
+```cpp
+struct Student
+{
+	string name;
+	int age;
+	int score;
+};
+
+
+int main()
+{
+	// 通过指针访问结构体中的成员
+	// 利用操作符 “结构体指针->结构体属性名” 访问结构体属性， p->name
+	Student stu = { "张三", 18, 90 };
+
+	Student* p = &stu;
+
+	cout << p->name << endl;
+	cout << p->age << endl;
+	cout << p->score << endl;
+
+	system("pause");
+	return 0;
+}
+```
