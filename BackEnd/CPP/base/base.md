@@ -920,3 +920,46 @@ int main()
 	return 0;
 }
 ```
+
+结构体作为函数参数：
+
+```cpp
+struct Student
+{
+	string name;
+	int score;
+};
+
+// 值传递
+void changeScoreByValue(Student student)
+{
+	student.score = 100; // 不影响实参
+}
+// 地址传递
+void changeScoreByPointer(Student* p)
+{
+	p -> score = 100; // 改变实参的成员的值
+}
+
+int main()
+{
+	Student stu = { "张三", 60 };
+
+	Student* p = &stu;
+
+	cout << "改变前：" << stu.score << endl; // 60
+
+	changeScoreByValue(stu);
+
+	cout << "值传递：" << stu.score << endl; // 60，未改变
+
+	changeScoreByPointer(&stu);
+
+	cout << "值传递：" << stu.score << endl; // 100，已改变
+
+
+	system("pause");
+	return 0;
+}
+
+```
