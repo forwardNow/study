@@ -961,5 +961,15 @@ int main()
 	system("pause");
 	return 0;
 }
+```
 
+结构体中 const 使用场景：
+
+```cpp
+// 避免误操作
+void printStudent(const Student* p)
+{
+	// p -> score = 100; // 不可以写
+	cout << "name=" << p->name << "  score=" << p->score << endl;
+}
 ```
