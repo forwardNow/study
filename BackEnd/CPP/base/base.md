@@ -973,3 +973,91 @@ void printStudent(const Student* p)
 	cout << "name=" << p->name << "  score=" << p->score << endl;
 }
 ```
+
+案例（2个老师带5个学生）：
+
+```cpp
+#include <iostream>
+#include <string> 
+#include <ctime> 
+using namespace std;
+
+struct Student
+{
+	string name;
+	int score;
+};
+
+struct Teacher
+{
+	string name;
+	Student students[3];
+};
+
+void allocateSpace(Teacher teachers[], int teacherTotal)
+{
+	string nameSeed = "ABCDEF";
+
+	for (int i = 0; i < teacherTotal; i++)
+	{
+		string tname = "Teacher_" + to_string(i + 1);
+
+		teachers[i].name = tname;
+
+		for (int j = 0; j < 3; j++)
+		{
+			string sname = "Student_";
+			sname += nameSeed[3 * i + j];
+
+			teachers[i].students[j].name = sname;
+
+			int score = rand() % 41 + 60;
+			teachers[i].students[j].score = score;
+		}
+	}
+}
+
+void printInfo(Teacher teachers[], int teacherTotal)
+{
+	for (int i = 0; i < teacherTotal; i++)
+	{
+		cout << teachers[i].name << endl;;
+
+		int studentTotal = 3;
+
+		for (int j = 0; j < studentTotal; j++)
+		{
+			string sname = teachers[i].students[j].name;
+			int score = teachers[i].students[j].score;
+			cout << "\t" << sname << "\t" << score << endl;
+		}
+	}
+}
+
+int main()
+{
+	// 随机数种子
+	srand((unsigned int)time(NULL));
+
+	Teacher teachers[2];
+
+	int teacherTotal = sizeof(teachers) / sizeof(teachers[0]);
+
+	allocateSpace(teachers, teacherTotal);
+
+	printInfo(teachers, teacherTotal);
+	/*
+	Teacher_1
+					Student_A       86
+					Student_B       75
+					Student_C       98
+	Teacher_2
+					Student_D       84
+					Student_E       86
+					Student_F       92
+	*/
+
+	system("pause");
+	return 0;
+}
+```
