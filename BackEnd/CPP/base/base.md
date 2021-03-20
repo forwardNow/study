@@ -1061,3 +1061,65 @@ int main()
 	return 0;
 }
 ```
+
+案例（给结构体数组排序）：
+
+```cpp
+#include <iostream>
+#include <string> 
+#include <ctime> 
+using namespace std;
+
+struct Student
+{
+	string name;
+	int score;
+};
+
+
+void sort(Student students[], int num)
+{
+	for (int i = 0; i < num; i++)
+	{
+		for (int j = 0; j < num - i - 1; j++)
+		{
+			if (students[j].score > students[j + 1].score)
+			{
+				Student temp = students[j];
+				students[j] = students[j + 1];
+				students[j + 1] = temp;
+			}
+		}
+	}
+}
+
+void printStudents(Student students[], int num)
+{
+	for (int i = 0; i < num; i++)
+	{
+		Student stu = students[i];
+		cout << stu.name << "\t" << stu.score << endl;
+	}
+}
+
+
+int main()
+{
+	Student students[5] = {
+		{ "张三", 92},
+		{ "李四", 93},
+		{ "王五", 90},
+		{ "赵六", 91},
+		{ "钱七", 89}
+	};
+
+	int len = sizeof(students) / sizeof(students[0]);
+
+	sort(students, len);
+
+	printStudents(students, len);
+
+	system("pause");
+	return 0;
+}
+```
