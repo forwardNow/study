@@ -1153,7 +1153,7 @@ void showMenu()
 	cout << "***************************" << endl;
 	cout << "*****  1、添加联系人  *****" << endl;
 	cout << "*****  2、显示联系人  *****" << endl;
-	cout << "*****  3、上次联系人  *****" << endl;
+	cout << "*****  3、删除联系人  *****" << endl;
 	cout << "*****  4、查找联系人  *****" << endl;
 	cout << "*****  5、修改联系人  *****" << endl;
 	cout << "*****  6、清空联系人  *****" << endl;
@@ -1213,17 +1213,87 @@ void showPerson(AddressBooks* addressBooks)
 	if (m_Size == 0)
 	{
 		cout << "联系人为空！" << endl;
+		system("pause");
+		system("cls");
+		return;
 	}
 
 	for (int i = 0; i < m_Size; i++)
 	{
 		Person person = addressBooks->personArray[i];
-		cout << "姓名=" << person.m_Name
-			<< "\t性别=" << person.m_Sex
-			<< "\t年龄=" << person.m_Age
-			<< "\t电话=" << person.m_Phone
-			<< "\t地址=" << person.m_Addr << endl;
+		cout << "姓名=" << person.m_Name << "\t"
+			<< "性别=" << (person.m_Sex == 1 ? "男" : "女") << "\t"
+			<< "年龄=" << person.m_Age << "\t"
+			<< "电话=" << person.m_Phone << "\t"
+			<< "地址=" << person.m_Addr << endl;
 	}
+}
+
+int findPersonIndex(AddressBooks* addressBooks, string name)
+{
+	for (int i = 0; i < addressBooks->m_Size; i++)
+	{
+		if (addressBooks->personArray[i].m_Name == name)
+		{
+			return i;
+		}
+	}
+	return -1;
+}
+
+void findPerson(AddressBooks* addressBooks)
+{
+	string m_Name;
+	cout << "请输入要查找人的姓名：" << endl;
+	cin >> m_Name;
+
+	int index = findPersonIndex(addressBooks, m_Name);
+
+	if (index == -1)
+	{
+		cout << "不存在此人" << endl;
+		system("pause");
+		system("cls");
+		return;
+	}
+	Person person = addressBooks->personArray[index];
+
+	cout << "姓名=" << person.m_Name << "\t"
+		<< "性别=" << (person.m_Sex == 1 ? "男" : "女") << "\t"
+		<< "年龄=" << person.m_Age << "\t"
+		<< "电话=" << person.m_Phone << "\t"
+		<< "地址=" << person.m_Addr << endl;
+	system("pause");
+	system("cls");
+}
+
+void deletePerson(AddressBooks* addressBooks)
+{
+	string m_Name;
+	cout << "请输入要删除人的姓名：" << endl;
+	cin >> m_Name;
+
+	int index = findPersonIndex(addressBooks, m_Name);
+
+	if (index == -1)
+	{
+		cout << "不存在此人" << endl;
+		system("pause");
+		system("cls");
+		return;
+	}
+
+	for (int i = index; i < addressBooks->m_Size; i++)
+	{
+		addressBooks->personArray[i] = addressBooks->personArray[i + 1];
+	}
+
+	addressBooks->m_Size--;
+
+	cout << "删除成功" << endl;
+	
+	system("pause");
+	system("cls");
 }
 
 int main()
@@ -1248,9 +1318,11 @@ int main()
 		case 2: // 显示
 			showPerson(&addressBooks);
 			break;
-		case 3:
+		case 3: // 删除
+			deletePerson(&addressBooks);
 			break;
-		case 4:
+		case 4: // 查找
+			findPerson(&addressBooks);
 			break;
 		case 5:
 			break;
