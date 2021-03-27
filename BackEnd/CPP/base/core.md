@@ -55,3 +55,26 @@ int * func()
   return &a;
 }
 ```
+
+堆区：
+
+* 有程序员分配释放，若程序员不释放，程序结束时由操作系统回收
+* 在 C++ 中主要利用 new 在堆区开辟内存
+
+```cpp
+int* func()
+{
+	int* a = new int(10); // 初始值 10
+	return a;
+}
+
+int main()
+{
+	int* p = func();
+
+	cout << *p << endl; // 10
+
+	system("pause");
+	return 0;
+}
+```
