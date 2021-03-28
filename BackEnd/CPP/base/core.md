@@ -136,3 +136,32 @@ int main()
 	return 0;
 }
 ```
+
+## 2. 引用
+
+### 2.1. 引用的基本使用
+
+作用： 给变量起别名
+
+语法： `数据类型 &别名 = 原名`
+
+示例：
+
+```cpp
+int main()
+{
+	int num = 1;
+	int& numAlias = num;
+
+	cout << "num: " << num << endl; // 1
+	cout << "numAlias: " << numAlias << endl; // 1
+
+	numAlias = 100;
+
+	cout << "num: " << num << endl; // 100
+	cout << "numAlias: " << numAlias << endl; // 100
+
+	system("pause");
+	return 0;
+}
+```
