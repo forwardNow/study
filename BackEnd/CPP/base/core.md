@@ -78,3 +78,61 @@ int main()
 	return 0;
 }
 ```
+
+### 1.3. new 操作符
+
+C++ 中利用 new 操作符在堆区开辟数据
+
+堆区开辟的数据，由程序员手动开辟、手动释放，释放利用操作符 delete
+
+语法： `new 数据类型`
+
+利用 new 创建的数据，会返回该数据对应的类型的指针
+
+```cpp
+#include <iostream>
+using namespace std;
+
+int* allocateIntHeapMemory()
+{
+	int* pNum = new int(10); // 初始值 10
+	return pNum;
+}
+
+int* allocateIntArrHeapMemory() // 开辟数组
+{
+	int* pNumArr = new int[3]; // 3 个元素
+
+	pNumArr[0] = 11;
+	pNumArr[1] = 22;
+	pNumArr[2] = 33;
+
+	return pNumArr;
+}
+
+int main()
+{
+	int* pNum = allocateIntHeapMemory();
+
+	cout << *pNum << endl;
+
+	// 释放堆区的数据
+	delete pNum;
+  // cout << *pNum << endl; // 报错，释放的空间不可访问
+
+
+
+	int* pNumArr = allocateIntArrHeapMemory();
+
+	for (int i = 0; i < 3; i++)
+	{
+		cout << "pNumArr[" << i << "]: " << pNumArr[i] << endl;
+	}
+	
+	// 释放堆区数组
+	delete[] pNumArr;
+
+	system("pause");
+	return 0;
+}
+```
