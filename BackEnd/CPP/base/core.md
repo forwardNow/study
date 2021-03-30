@@ -202,3 +202,64 @@ int main()
 	return 0;
 }
 ```
+
+### 2.4. 引用做函数返回值
+
+作用： 引用是可以作为函数的返回值存在的
+
+注意： 不要返回局部变量的引用
+
+用于： 函数调用作为左值
+
+```cpp
+// 不要返回局部变量的引用
+int& getLocalVarRef()
+{
+	int a = 10; // 局部变量，存放在栈区，函数执行完毕后就释放了
+	return a;
+}
+
+int main()
+{
+	int& localVarRef = getLocalVarRef();
+
+	// 第一次结果正确，因为编译器做了保留
+	cout << "localVarRef = " << localVarRef << endl; // 10
+
+	// 第二次结果错误，因为 a 的内存已经释放了
+	cout << "localVarRef = " << localVarRef << endl; // 2027456904
+
+	system("pause");
+	return 0;
+}
+```
+
+```cpp
+// 如果函数的返回值是引用，这个函数调用可以作为左值
+int& getStaticVarRef()
+{
+	static int a = 10; // 静态变量，存放在全局区，程序结束后由系统释放
+	return a;
+}
+
+int main()
+{
+	int& staticVarRef = getStaticVarRef();
+
+	cout << "staticVarRef = " << staticVarRef << endl; // 10
+	cout << "staticVarRef = " << staticVarRef << endl; // 10
+
+	staticVarRef = 20;
+
+	cout << "staticVarRef = " << staticVarRef << endl; // 20
+
+	// 函数调用作为 左值
+	getStaticVarRef() = 30;
+
+	cout << "staticVarRef = " << staticVarRef << endl; // 30
+
+	system("pause");
+	return 0;
+}
+
+```
