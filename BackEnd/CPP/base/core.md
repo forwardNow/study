@@ -301,3 +301,48 @@ int main()
 }
 ```
 
+### 2.6. 常量引用
+
+作用： 常量引用主要用来修饰形参，防止误操作
+
+在函数形参列表中，可以加 const 修饰形参，防止形参改变实参
+
+```cpp
+int main()
+{
+	// 引用本身需要一个合法的内存空间，因此这行错误
+	// int& ref = 10; 
+
+	// 加上 const 就可以了，因为编译器优化代码，如下：
+	// int temp = 10;
+	// const int& ref = temp;
+	const int& ref = 10;
+
+	// 使用 const 修饰后，不可以修改变量
+	// ref = 100;
+
+	system("pause");
+	return 0;
+}
+```
+
+```cpp
+// 引用使用的场景，通常用来修饰形参
+void showValue(const int& val)
+{
+	// 不可以修改 val 的值
+	// val = 100;
+
+	cout << val << endl;
+}
+
+int main()
+{
+	int a = 10;
+
+	showValue(a);
+
+	system("pause");
+	return 0;
+}
+```
