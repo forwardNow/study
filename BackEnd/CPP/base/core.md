@@ -346,3 +346,32 @@ int main()
 	return 0;
 }
 ```
+
+## 3. 函数提高
+
+### 3.1. 函数默认参数
+
+在 C++ 中，函数的形参列表中的形参是可以有默认值的。
+
+语法： `返回值类型 函数名(参数 = 默认值) {}`
+
+注意：
+
+* 默认参数只能放在参数列表的末尾，从右往左挨个放置默认参数
+* 如何函数声明有默认参数，函数实现就不能有
+
+```cpp
+int sum(int num1, int num2, int num3 = 30);
+
+int sum(int num1, int num2, int num3)
+{
+	return num1 + num2 + num3;
+}
+
+int main()
+{
+	cout << sum(10, 20) << endl;
+	system("pause");
+	return 0;
+}
+```
