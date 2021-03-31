@@ -132,7 +132,7 @@
 
 ### 2.6. C++
 
-* [C++教程从0到1入门编程](BackEnd\CPP\base\readme.md)
+* [C++教程从0到1入门编程](BackEnd/CPP/base/readme.md)
 
 ### 2.7. 移动端
 
