@@ -430,3 +430,58 @@ int main()
 	return 0;
 }
 ```
+
+注意事项：
+
+* 引用作为重载条件
+* 函数重载碰到函数默认参数
+
+```cpp
+// 引用作为重载条件
+
+void func(int &a) // int &a = 10; 不合法
+{
+	cout << "func(int &a)" << endl;
+}
+
+void func(const int& a) // const int &a = 10; 合法
+{
+	cout << "func(const int &a)" << endl;
+}
+
+int main()
+{
+	int a = 10;
+	func(a); // 调 func(int &a)
+
+	func(10); // 调 func(const int& a)
+
+	system("pause");
+	return 0;
+}
+```
+
+```cpp
+// 函数重载碰到函数默认参数
+
+void func(int a, int b = 20)
+{
+	cout << "func(int a, int b = 20)" << endl;
+}
+
+void func(int a)
+{
+	cout << "func(int a)" << endl;
+}
+
+int main()
+{
+	// 碰到默认参数产生歧义，需要避免
+	// func(10); 
+
+	func(10, 20); // 这个没有二义性
+
+	system("pause");
+	return 0;
+}
+```
