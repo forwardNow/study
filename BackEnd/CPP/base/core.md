@@ -375,3 +375,25 @@ int main()
 	return 0;
 }
 ```
+
+### 3.2. 函数占位参数
+
+C++ 中函数的形参列表里可以有占位参数，用来做占位，调用函数时必须填补该位置
+
+语法： `返回值类型 函数名(数据类型) {}`
+
+```cpp
+// 函数占位参数，占位参数也可以有默认参数： int = 20
+void func(int a, int)
+{
+	cout << "this is a func" << endl;
+}
+
+int main()
+{
+	func(10, 20);
+
+	system("pause");
+	return 0;
+}
+```
