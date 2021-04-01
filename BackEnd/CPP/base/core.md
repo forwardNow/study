@@ -397,3 +397,36 @@ int main()
 	return 0;
 }
 ```
+
+### 3.3. 函数重载
+
+作用： 函数名可以相同，提高复用性
+
+函数重载满足条件：
+
+* 同一个作用域下
+* 函数名称相同
+* 参数列表不同： 函数参数类型不同 或者 个数不同 或者 顺序不同
+
+注意： 函数的返回值不能作为函数重载的条件
+
+```cpp
+void func()
+{
+	cout << "func()" << endl;
+}
+
+void func(int a)
+{
+	cout << "func(int a)" << endl;
+}
+
+int main()
+{
+	func();
+	func(1);
+
+	system("pause");
+	return 0;
+}
+```
