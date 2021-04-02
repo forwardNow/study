@@ -509,28 +509,35 @@ C++ 认为万事万物都皆为对象，对象上有其属性和行为
 
 语法：`class 类名{ 访问权限: 属性 / 行为 };`
 
-```cpp
-const double PI = 3.14;
+说明：
 
-class Circle
+* 类中的属性和行为，我们统一称为 成员
+* 属性： 成员属性、成员变量
+* 行为： 成员函数、成员方法
+
+```cpp
+class Student
 {
 public:
-	
-	int m_r;
+	string m_Name;
 
-	double calculateZC()
+	string getName()
 	{
-		return 2 * PI * m_r;
+		return m_Name;
+	}
+
+	void setName(string name)
+	{
+		m_Name = name;
 	}
 };
 
 int main()
 {
-	Circle c; // 声明，即创建一个实例
+	Student stu;
+	stu.setName("张三");
 
-	c.m_r = 10;
-
-	cout << c.calculateZC() << endl;
+	cout << stu.getName() << endl;
 
 	system("pause");
 	return 0;
