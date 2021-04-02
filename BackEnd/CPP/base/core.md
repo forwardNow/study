@@ -543,3 +543,42 @@ int main()
 	return 0;
 }
 ```
+
+访问权限有三种：
+
+* public 		公共权限 类内可以访问 	类外可以访问		子类可以访问
+* protected 保护权限 类内可以访问 	类外不可以访问	子类可以访问
+* private 	私有权限 类内不可以访问 类外不可以访问  子类不可以访问
+
+```cpp
+class Person
+{
+
+public:
+	string m_Name;
+
+protected:
+	string m_Car = "拖拉机";
+
+private:
+	string m_Password = "123456";
+
+public:
+	void show() {
+		cout << m_Name << endl;
+		cout << m_Car << endl;
+		cout << m_Password << endl;
+	}
+};
+
+int main()
+{
+	Person p;
+
+	p.m_Name = "张三";
+	p.show();
+
+	system("pause");
+	return 0;
+}
+```
