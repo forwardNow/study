@@ -582,3 +582,24 @@ int main()
 	return 0;
 }
 ```
+
+### 4.2. struct 和 class 的区别
+
+在 C++ 中 struct 和 class 的唯一区别就在于默认的访问权限不同
+
+区别：
+
+* struct 默认权限为 公共
+* class 默认权限为 私有
+
+```cpp
+class StuClass
+{
+	string m_Name; // 私有
+};
+
+struct StuStruct
+{
+	string m_Name; // 公有
+};
+```
