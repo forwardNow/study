@@ -502,7 +502,7 @@ C++ 认为万事万物都皆为对象，对象上有其属性和行为
 
 封装是 C++ 面向对象三大特性之一
 
-封装的意义：
+#### 4.1.1. 封装的意义
 
 * 将属性和行为作为一个整体，表现生活中的事物
 * 将属性和行为加以权限控制
@@ -583,7 +583,7 @@ int main()
 }
 ```
 
-### 4.2. struct 和 class 的区别
+#### 4.1.2. struct 和 class 的区别
 
 在 C++ 中 struct 和 class 的唯一区别就在于默认的访问权限不同
 
@@ -602,4 +602,39 @@ struct StuStruct
 {
 	string m_Name; // 公有
 };
+```
+
+#### 4.1.3. 成员属性设置为私有
+
+优点：
+
+* 将所有成员属性设置为私有，可以自己控制读写权限
+* 对于写权限，我们可以检测数据的有效性
+
+```cpp
+class Person
+{
+public:
+	string getName()
+	{
+		return m_Name;
+	}
+	void setName(string name)
+	{
+		m_Name = name;
+	}
+private:
+	string m_Name;
+};
+
+int main()
+{
+	Person p;
+	p.setName("张三");
+
+	cout << p.getName() << endl;
+
+	system("pause");
+	return 0;
+}
 ```
