@@ -621,10 +621,15 @@ public:
 	}
 	void setName(string name)
 	{
+		if (name == "张三")
+		{
+			cout << "“张三” 是保留字" << endl;
+			return;
+		}
 		m_Name = name;
 	}
 private:
-	string m_Name;
+	string m_Name = "unnamed";
 };
 
 int main()
