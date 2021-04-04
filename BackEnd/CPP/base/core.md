@@ -643,3 +643,122 @@ int main()
 	return 0;
 }
 ```
+
+#### 4.1.4. 拆分类
+
+说明：
+
+* 声明（.h）和实现（.cpp）
+
+代码：
+
+* teacher.h :
+
+	```cpp
+	#pragma once
+	#include <string>
+	using namespace std;
+
+	class Teacher
+	{
+	private:
+		string m_Name;
+
+	public:
+		string getName();
+		void setName(string name);
+	};
+	```
+
+* teacher.cpp :
+
+	```cpp
+	#include "teacher.h"
+
+	string Teacher::getName()
+	{
+		return m_Name;
+	}
+
+	void Teacher::setName(string name)
+	{
+		m_Name = name;
+	}
+	```
+
+* student.h :
+
+	```cpp
+	#pragma once
+	#include <string>
+	#include <iostream>
+	using namespace std;
+
+	#include "teacher.h"
+
+	class Student
+	{
+	private:
+		string m_Name;
+		Teacher m_Teacher;
+
+	public:
+		string getName();
+		void setName(string name);
+		Teacher getTeacher();
+		void setTeacher(Teacher teacher);
+	};
+	```
+
+* student.cpp :
+
+	```cpp
+	#include "student.h"
+	#include <iostream>
+	using namespace std;
+
+	string Student::getName()
+	{
+		return m_Name;
+	}
+
+	void Student::setName(string name)
+	{
+		m_Name = name;
+	}
+
+
+	void Student::setTeacher(Teacher teacher)
+	{
+		m_Teacher = teacher;
+	}
+
+	Teacher Student::getTeacher()
+	{
+		return m_Teacher;
+	}
+	```
+
+* main :
+
+	```cpp
+	#include <iostream>
+	using namespace std;
+	#include "student.h";
+	#include "teacher.h";
+
+	int main()
+	{
+		Teacher t;
+		t.setName("李四老师");
+
+		Student stu;
+		stu.setName("张三");
+		stu.setTeacher(t);
+
+		cout << stu.getName() << " 的老师是：" << stu.getTeacher().getName() << endl;
+
+		system("pause");
+		return 0;
+	}
+	```
