@@ -929,3 +929,55 @@ int main()
 	return 0;
 }
 ```
+
+#### 4.2.3. 拷贝构造函数调用时机
+
+C++ 中拷贝构造函数调用时机通常有三种情况：
+
+* 使用一个已经创建完毕的对象来初始化一个新对象
+
+	```cpp
+	// 调用无参构造函数
+	Person p;
+	// 调用 拷贝构造函数
+	Person p2(p1);
+	```
+
+* 值传递的方式给函数参数传值
+
+	```cpp
+	// 给新参赋值时，会调用拷贝构造函数 创建一个新的 Person 对象，
+	// 此时会调用拷贝构造函数
+	void func(Person p)
+	{
+		// do nothing
+	}
+
+	int main()
+	{
+		Person p(10);
+		func(p);
+
+		return 0;
+	}
+	```
+
+* 以值方式返回局部对象
+
+	```cpp
+	Person func()
+	{
+		Person p;
+		cout << "func()中 p 的地址： " << (int*) &p << endl;
+		
+		// 此时会调用 拷贝构造函数 创建一个新的对象返回
+		return p;
+	}
+
+	int main()
+	{
+		Person p = func();
+		cout << "main()中 p 的地址： " << (int*) &p << endl;
+		return 0;
+	}
+	```
