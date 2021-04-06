@@ -825,3 +825,107 @@ int main()
 	return 0;
 }
 ```
+
+#### 4.2.2. 构造函数的分类及调用
+
+两种分类方式：
+
+* 按参数分为： 有参构造 和 无参构造
+* 按类型分为： 普通构造 和 拷贝构造
+
+三种调用方式：
+
+* 括号法
+* 显式法
+* 隐式转换法
+
+注意：
+
+* 无参构造函数不要加 “()”，否则编译器会认为是函数声明
+* 不要使用拷贝构造函数 初始化匿名对象，编译器认为 `Person(p3) <==> Person p3` 重命名
+
+```cpp
+class Person
+{
+private:
+	int m_Age;
+
+public:
+	Person()
+	{
+		m_Age = 18;
+		cout << "执行 无参 普通 构造函数" << endl;
+	}
+
+	Person(int age)
+	{
+		m_Age = age;
+		cout << "执行 有参 普通 构造函数" << endl;
+	}
+
+	Person(const Person& p)
+	{
+		m_Age = p.m_Age;
+		cout << "执行 拷贝 构造函数" << endl;
+	}
+
+	~Person()
+	{
+		cout << "执行 析构函数" << endl;
+	}
+};
+
+void callParameterlessConstructor()
+{
+	// 调用无参构造函数（默认构造函数）
+	// 注意：不要加“()”
+	// Person p(); // 编译器会被认为是函数声明
+	Person p;
+}
+
+void callParameterizedConstructor()
+{
+	// 括号法 调用
+	Person p(10);
+}
+
+
+void callCopyConstructor()
+{
+	// 括号法 调用
+	Person p(10);
+
+	// 括号法 调用 拷贝构造函数
+	Person p2(p);
+}
+
+// 显式调用
+void explicitCall()
+{
+	// 匿名构造函数，当前行执行完毕后，系统会立刻回收匿名对象
+	Person();
+
+	Person p = Person();
+	Person p2 = Person(10);
+	Person p3 = Person(p);
+}
+
+// 隐式转换法
+void implicitTransformation()
+{
+	Person p = 10;
+	Person p2 = p;
+}
+
+int main()
+{
+	//callParameterlessConstructor();
+	//callParameterizedConstructor();
+	//callCopyConstructor();
+	//explicitCall();
+	implicitTransformation();
+
+	system("pause");
+	return 0;
+}
+```
