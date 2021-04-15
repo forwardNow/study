@@ -4,30 +4,32 @@
 
 参考：[./src/01_hello_world.html](./src/01_hello_world.html)
 
-    <style>
-        canvas {border : solid 1px #cccccc;}
-    </style>
-    <!--
-        1.准备画布
-            * 画布是白色的，默认 300*150
-            * 设置canvas元素的width和height属性来设置画布的大小
-    -->
-    <canvas width="400" height="300"></canvas>
-    <!--
-        1. 准备绘制工具，进行绘图
-    -->
-    <script>
-        // 获取画布
-        var myCanvas = document.querySelector( "canvas" );
-        // 获取上下文（绘制工具箱）
-        var ctx = myCanvas.getContext( "2d" );
-        // 移动画笔
-        ctx.moveTo( 100, 100 );
-        // 绘制直线的轨迹（路径）
-        ctx.lineTo( 200, 100 );
-        // 描边
-        ctx.stroke();
-    </script>
+```html
+<style>
+    canvas {border : solid 1px #cccccc;}
+</style>
+<!--
+    1.准备画布
+        * 画布是白色的，默认 300*150
+        * 设置canvas元素的width和height属性来设置画布的大小
+-->
+<canvas width="400" height="300"></canvas>
+<!--
+    1. 准备绘制工具，进行绘图
+-->
+<script>
+    // 获取画布
+    var myCanvas = document.querySelector( "canvas" );
+    // 获取上下文（绘制工具箱）
+    var ctx = myCanvas.getContext( "2d" );
+    // 移动画笔
+    ctx.moveTo( 100, 100 );
+    // 绘制直线的轨迹（路径）
+    ctx.lineTo( 200, 100 );
+    // 描边
+    ctx.stroke();
+</script>
+```
 
 说明：
 
@@ -66,13 +68,15 @@
 
 开启新的路径后，对新路径的操作不会受别的影响。
 
-    ctx.beginPath();
+```javascript
+ctx.beginPath();
 
-    // 移动画笔 ctx.moveTo()
-    // 绘制路径 ctx.lineTo()
-    // 设置样式 ctx.strokeStyle ctx.lineWidth
+// 移动画笔 ctx.moveTo()
+// 绘制路径 ctx.lineTo()
+// 设置样式 ctx.strokeStyle ctx.lineWidth
 
-    ctx.stroke();
+ctx.stroke();
+```
 
 #### 2.3.2. closePath()
 
@@ -84,20 +88,22 @@
 
 参考：[有缺陷的三角形](./src/02_三角形.html)
 
-        ctx.beginPath();
+```javascript
+ctx.beginPath();
 
-        ctx.moveTo( 100, 100 );
-        ctx.lineTo( 200, 100 );
-        ctx.lineTo( 200, 200 );
-        ctx.lineTo( 100, 100 );
+ctx.moveTo( 100, 100 );
+ctx.lineTo( 200, 100 );
+ctx.lineTo( 200, 200 );
+ctx.lineTo( 100, 100 );
 
-        // 不闭合路径，会造成闭合缺角
-        ctx.closePath();
+// 不闭合路径，会造成闭合缺角
+ctx.closePath();
 
-        ctx.lineWidth = 10;
+ctx.lineWidth = 10;
 
-        // 描边
-        ctx.stroke();
+// 描边
+ctx.stroke();
+```
 
 ### 2.4. 填充
 
