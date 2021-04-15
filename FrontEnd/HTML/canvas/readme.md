@@ -118,9 +118,11 @@ ctx.stroke();
 判断一块区域是否填充的方法：
 
 1. 辅助线：做一条直线，起于区域内，终于无限远
+
 2. 相交值：每个与辅助线相交（交叉）的轨迹
     * 如果是顺时针，则 +1
     * 如果是逆时针，则 -1
+
 3. 得结果
     * 相交值 为0，则不填充
     * 相交值 为1，则填充
@@ -128,10 +130,17 @@ ctx.stroke();
 ### 2.8. 画笔的状态
 
 * `lineWidth` 线宽，默认 1px
+
 * `lineCap` 线末端类型， butt（默认）、round、square
+
 * `lineJoin` 相交线的拐点， miter（默认）、round、bevel
+
 * `strokeStyle` 线的颜色
+
 * `fillStyle` 填充颜色
+
 * `setLineDash()` 设置虚线
+
 * `getLineDash()` 获取虚线宽度集合
+
 * `lineDashOffset` 设置虚线偏移量（负值向右偏移）
