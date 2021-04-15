@@ -64,7 +64,7 @@
 
 对路径进行描边 `ctx.stroke()`
 
-#### 2.3.1. beginPath()
+### 2.4. 开启新路径 ctx.beginPath()
 
 开启新的路径后，对新路径的操作不会受别的影响。
 
@@ -78,7 +78,7 @@ ctx.beginPath();
 ctx.stroke();
 ```
 
-#### 2.3.2. closePath()
+### 2.5. 闭合路径 ctx.closePath()
 
 手动闭合的路径，描边时会产生问题，如图：
 
@@ -105,17 +105,18 @@ ctx.lineWidth = 10;
 ctx.stroke();
 ```
 
-### 2.4. 填充
+### 2.6. 填充 ctx.fill()
 
 对路径进行填充 `ctx.fill()`
 
-#### 2.4.1. 非零环绕填充规则
+### 2.7. 非零环绕填充规则
 
 参考：[镂空的正方形](./src/03_镂空的正方形.html)
 
 ![非零环绕填充规则](./asset/images/zero.jpg)
 
 判断一块区域是否填充的方法：
+
 1. 辅助线：做一条直线，起于区域内，终于无限远
 2. 相交值：每个与辅助线相交（交叉）的轨迹
     * 如果是顺时针，则 +1
@@ -124,4 +125,13 @@ ctx.stroke();
     * 相交值 为0，则不填充
     * 相交值 为1，则填充
 
+### 2.8. 画笔的状态
 
+* `lineWidth` 线宽，默认 1px
+* `lineCap` 线末端类型， butt（默认）、round、square
+* `lineJoin` 相交线的拐点， miter（默认）、round、bevel
+* `strokeStyle` 线的颜色
+* `fillStyle` 填充颜色
+* `setLineDash()` 设置虚线
+* `getLineDash()` 获取虚线宽度集合
+* `lineDashOffset` 设置虚线偏移量（负值向右偏移）
