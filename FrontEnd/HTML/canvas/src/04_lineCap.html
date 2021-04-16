@@ -7,16 +7,33 @@
   <title>lineCap</title>
 </head>
 <body>
-  <canvas width="400" height="400"></canvas>
+  <canvas width="600" height="600"></canvas>
   <script>
     const ctx = document.querySelector('canvas').getContext("2d");
 
     ctx.beginPath();
     ctx.moveTo(100, 100);
-    ctx.lineTo(100, 300);
+    ctx.lineTo(400, 100);
     ctx.lineWidth = 30;
     ctx.strokeStyle = 'red';
     ctx.lineCap = 'butt'
+    ctx.stroke();
+
+    ctx.beginPath();
+    ctx.moveTo(100, 200);
+    ctx.lineTo(400, 200);
+    ctx.lineWidth = 30;
+    ctx.strokeStyle = 'green';
+    ctx.lineCap = 'round'
+    ctx.stroke();
+
+    ctx.beginPath();
+    ctx.moveTo(100, 300);
+    ctx.lineTo(400, 300);
+    ctx.lineWidth = 30;
+    ctx.strokeStyle = 'blue';
+    ctx.lineCap = 'square'
+    ctx.stroke();
 
   </script>
 </body>

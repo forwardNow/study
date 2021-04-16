@@ -131,9 +131,11 @@ ctx.stroke();
 
 * `lineWidth` 线宽，默认 1px
 
-* `lineCap` 线末端类型， butt（默认）、round、square
+* `lineCap` 线末端类型， butt （默认）、 round 、square
 
-* `lineJoin` 相交线的拐点， miter（默认）、round、bevel
+  * 参考： [./src/04_lineCap.html](./src/04_lineCap.html)
+
+* `lineJoin` 相交线的拐点， miter （默认） 、 round 、 bevel
 
 * `strokeStyle` 线的颜色
 
