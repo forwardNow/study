@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>lineJoin</title>
+</head>
+<body>
+  <canvas width="600" height="600" style="border: solid 1px gray;"></canvas>
+  <script>
+    const ctx = document.querySelector('canvas').getContext("2d");
+
+    ctx.beginPath();
+    ctx.moveTo(100, 200);
+    ctx.lineTo(250, 100);
+    ctx.lineTo(400, 200);
+    ctx.lineWidth = 30;
+    ctx.strokeStyle = 'red';
+    ctx.lineJoin = 'miter'
+    ctx.stroke();
+
+    ctx.beginPath();
+    ctx.moveTo(100, 300);
+    ctx.lineTo(250, 200);
+    ctx.lineTo(400, 300);
+    ctx.lineWidth = 30;
+    ctx.strokeStyle = 'green';
+    ctx.lineJoin = 'round'
+    ctx.stroke();
+
+    ctx.beginPath();
+    ctx.moveTo(100, 400);
+    ctx.lineTo(250, 300);
+    ctx.lineTo(400, 400);
+    ctx.lineWidth = 30;
+    ctx.strokeStyle = 'blue';
+    ctx.lineJoin = 'bevel'
+    ctx.stroke();
+
+  </script>
+</body>
+</html>

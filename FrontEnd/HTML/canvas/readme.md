@@ -135,7 +135,9 @@ ctx.stroke();
 
   * 参考： [./src/04_lineCap.html](./src/04_lineCap.html)
 
-* `lineJoin` 相交线的拐点， miter （默认） 、 round 、 bevel
+* `lineJoin` 相交线的拐点， miter （默认，直角） 、 round （圆角）、 bevel （斜角）
+
+  * 参考： [./src/05.lineJoin.html](./src/05.lineJoin.html)
 
 * `strokeStyle` 线的颜色
 
