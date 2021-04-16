@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>dash line</title>
+</head>
+<body>
+  <canvas width="600" height="600" style="border: solid 1px gray;"></canvas>
+  <script>
+    const ctx = document.querySelector('canvas').getContext("2d");
+
+    console.log(ctx.getLineDash()); // [10, 20, 30, 40, 50, 60]
+
+    let offset = 0;
+
+    setInterval(() => {
+      ctx.clearRect(0, 0, 600, 600);
+
+      // first
+      ctx.beginPath();
+      ctx.moveTo(100, 100);
+      ctx.lineTo(200, 100);
+      ctx.lineTo(200, 200);
+      ctx.lineTo(100, 200);
+      ctx.closePath();
+
+      ctx.lineWidth = 1;
+      ctx.strokeStyle = 'red';
+
+      ctx.setLineDash([5])
+      ctx.lineDashOffset = offset;
+
+      ctx.stroke();
+
+      // second
+      ctx.beginPath();
+      ctx.moveTo(300, 100);
+      ctx.lineTo(400, 100);
+      ctx.lineTo(400, 200);
+      ctx.lineTo(300, 200);
+      ctx.closePath();
+
+      ctx.lineDashOffset = -offset;
+
+      ctx.stroke();
+
+      offset += 1;
+    }, 1000);
+
+  </script>
+</body>
+</html>

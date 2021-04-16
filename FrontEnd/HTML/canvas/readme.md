@@ -131,20 +131,34 @@ ctx.stroke();
 
 * `lineWidth` 线宽，默认 1px
 
+   * `ctx.lineWidth = 30`
+
 * `lineCap` 线末端类型， butt （默认）、 round 、square
 
+  * `ctx.lineCap = 'round'`
   * 参考： [./src/04_lineCap.html](./src/04_lineCap.html)
 
 * `lineJoin` 相交线的拐点， miter （默认，直角） 、 round （圆角）、 bevel （斜角）
 
+  * `ctx.lineJoin = 'round'`
   * 参考： [./src/05.lineJoin.html](./src/05.lineJoin.html)
 
 * `strokeStyle` 线的颜色
 
+  * `ctx.strokeStyle = 'red'`
+
 * `fillStyle` 填充颜色
+  
+  * `ctx.fillStyle = 'red'`
 
 * `setLineDash()` 设置虚线
 
+  * `ctx.setLineDash([10, 20, 30, 40, 50, 60])` 
+  * 传排列方式 `[ 实线长, 虚线长, 实线长, 虚线长, ... ]`
+  * 参考： [./src/06.dash_line.html](./src/06.dash_line.html)
+
 * `getLineDash()` 获取虚线宽度集合
+
+  * `console.log(ctx.getLineDash()); // [10, 20, 30, 40, 50, 60]`
 
 * `lineDashOffset` 设置虚线偏移量（负值向右偏移）
