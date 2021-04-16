@@ -992,5 +992,65 @@ C++ 中拷贝构造函数调用时机通常有三种情况：
 
 构造函数调用规则如下：
 
-* 如果用户定义有参构造函数，C++ 不再提供默认无参构造， 但是会提供默认拷贝构造
-* 如果用户定义拷贝构造函数，C++ 不会再提供其他构造函数（有参或无参构造函数）
+* 如果用户定义有参构造函数
+	* C++ 不再提供默认无参构造， 但是会提供默认拷贝构造
+* 如果用户定义拷贝构造函数
+	* C++ 不会再提供其他构造函数（有参或无参构造函数）
+
+#### 4.2.5. 深拷贝和浅拷贝
+
+浅拷贝： 简单的赋值拷贝操作
+
+深拷贝： 在堆区重新申请空间，进行拷贝操作
+
+浅拷贝带来 重复释放堆区内存 的问题： 
+
+```cpp
+class Person
+{
+private:
+	int* m_Height;
+
+public:
+
+	Person(int age, int height)
+	{
+		cout << "执行 有参 普通 构造函数" << endl;
+		m_Height = new int(height);
+	}
+
+	// 通过深拷贝，解决这个问题：
+	Person(const Person &p)
+	{
+		m_Height = new int(*p.m_Height);
+	}
+
+	~Person()
+	{
+		cout << "执行 析构函数" << endl;
+		if (m_Height != NULL)
+		{
+			delete m_Height;
+			m_Height = NULL;
+		}
+	}
+};
+
+// 栈，后进先出，p2 先释放，p1 再释放
+void test()
+{
+	Person p1(160); // p1 后解构，再去释放 m_Height 就报错了
+
+	Person p2(p1); // p2 先解构，把 m_Height 释放掉了 
+}
+
+
+int main()
+{
+	test();
+	system("pause");
+	return 0;
+}
+```
+
+如果属性有在堆区开辟的，一定要自己提供拷贝构造函数，防止浅拷贝带来的问题。
