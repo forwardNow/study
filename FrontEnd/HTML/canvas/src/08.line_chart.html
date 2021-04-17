@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>折线图</title>
+</head>
+<body>
+  <canvas width="600" height="400" style="border: solid 1px gray;"></canvas>
+  <script>
+    const canvas = document.querySelector('canvas');
+    const ctx = canvas.getContext("2d");
+
+    // 画布的宽高
+    const canvasWidth = ctx.canvas.width;
+    const canvasHeight = ctx.canvas.height;
+
+    // 网格（单元格）的大小
+    const gridSize = 10;
+
+    const xLineTotal = Math.floor(canvasHeight / gridSize);
+
+    for (let i = 0; i <= xLineTotal; i++) {
+      ctx.beginPath();
+  
+      ctx.moveTo(0 - 0.5, gridSize * i);
+      ctx.lineTo(canvasWidth - 0.5, gridSize * i)
+  
+      ctx.strokeStyle = '#eee';
+      ctx.stroke();
+    }
+
+    const yLineTotal = Math.floor(canvasWidth / gridSize);
+
+    for (let i = 0; i <= yLineTotal; i++) {
+      ctx.beginPath();
+  
+      ctx.moveTo(gridSize * i - 0.5, 0);
+      ctx.lineTo(gridSize * i - 0.5, canvasHeight);
+
+      ctx.strokeStyle = '#eee';
+      ctx.stroke();
+    }
+  </script>
+</body>
+</html>

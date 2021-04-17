@@ -12,8 +12,6 @@
     const ctx = document.querySelector('canvas').getContext("2d");
 
     // 线由点构成
-
-    
     for (let i = 0; i < 256; i++) {
       ctx.beginPath();
       ctx.moveTo(100 + i, 100);
@@ -22,8 +20,6 @@
       ctx.strokeStyle = `rgb(${i},${i},${i})`;
       ctx.stroke();
     }
-
-
   </script>
 </body>
 </html>

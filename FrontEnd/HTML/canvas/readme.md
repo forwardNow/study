@@ -1,6 +1,6 @@
 # canvas 教程
 
-## 1. 体验
+## 1. 引入
 
 参考：[./src/01_hello_world.html](./src/01_hello_world.html)
 
@@ -183,3 +183,60 @@ for (let i = 0; i < 256; i++) {
 ```
 
 参考： [./src/07.gradient_rectangle.html](./src/07.gradient_rectangle.html)
+
+### 2.10. 折线图
+
+获取画布的宽高：
+
+```javascript
+// 通过 canvas 元素获取
+canvas.width
+canvas.height
+
+// 上下文可以获取到 canvas，进而获取宽高
+ctx.canvas.width
+ctx.canvas.height
+```
+
+绘制网格：
+
+```html
+<canvas width="600" height="400" style="border: solid 1px gray;"></canvas>
+<script>
+  const canvas = document.querySelector('canvas');
+  const ctx = canvas.getContext("2d");
+
+  // 画布的宽高
+  const canvasWidth = ctx.canvas.width;
+  const canvasHeight = ctx.canvas.height;
+
+  // 网格（单元格）的大小
+  const gridSize = 10;
+
+  // 画水平线（偏移 0.5px ，避免线虚）
+  const xLineTotal = Math.floor(canvasHeight / gridSize);
+
+  for (let i = 0; i <= xLineTotal; i++) {
+    ctx.beginPath();
+
+    ctx.moveTo(0 - 0.5, gridSize * i);
+    ctx.lineTo(canvasWidth - 0.5, gridSize * i)
+
+    ctx.strokeStyle = '#eee';
+    ctx.stroke();
+  }
+
+  // 画垂直线
+  const yLineTotal = Math.floor(canvasWidth / gridSize);
+
+  for (let i = 0; i <= yLineTotal; i++) {
+    ctx.beginPath();
+
+    ctx.moveTo(gridSize * i - 0.5, 0);
+    ctx.lineTo(gridSize * i - 0.5, canvasHeight);
+
+    ctx.strokeStyle = '#eee';
+    ctx.stroke();
+  }
+</script>
+```
