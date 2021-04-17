@@ -34,8 +34,9 @@
 说明：
 
 * 通过样式设置画布的宽高，只是对画布元素进行拉伸。
+* 画布的左上角为 原点，水平方向是 x 轴，垂直方向是 y 轴
 
-## 2. 线条
+## 2. 基础
 
 ### 2.1. 模糊的问题
 
@@ -162,3 +163,23 @@ ctx.stroke();
   * `console.log(ctx.getLineDash()); // [10, 20, 30, 40, 50, 60]`
 
 * `lineDashOffset` 设置虚线偏移量（负值向右偏移）
+
+### 2.9. 绘制渐变的矩形（线）
+
+从黑到白的线：
+
+```javascript
+const ctx = document.querySelector('canvas').getContext("2d");
+
+// 线由点构成
+for (let i = 0; i < 256; i++) {
+  ctx.beginPath();
+  ctx.moveTo(100 + i, 100);
+  ctx.lineTo(100 + i + 1, 100);
+  ctx.lineWidth = 30;
+  ctx.strokeStyle = `rgb(${i},${i},${i})`;
+  ctx.stroke();
+}
+```
+
+参考： [./src/07.gradient_rectangle.html](./src/07.gradient_rectangle.html)

@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>dash line</title>
+</head>
+<body>
+  <canvas width="600" height="600" style="border: solid 1px gray;"></canvas>
+  <script>
+    const ctx = document.querySelector('canvas').getContext("2d");
+
+    // 线由点构成
+
+    
+    for (let i = 0; i < 256; i++) {
+      ctx.beginPath();
+      ctx.moveTo(100 + i, 100);
+      ctx.lineTo(100 + i + 1, 100);
+      ctx.lineWidth = 30;
+      ctx.strokeStyle = `rgb(${i},${i},${i})`;
+      ctx.stroke();
+    }
+
+
+  </script>
+</body>
+</html>
