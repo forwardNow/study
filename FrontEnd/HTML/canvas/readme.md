@@ -164,7 +164,7 @@ ctx.stroke();
 
 * `lineDashOffset` 设置虚线偏移量（负值向右偏移）
 
-### 2.9. 绘制渐变的矩形（线）
+### 2.9. 绘制渐变的线
 
 从黑到白的线：
 
@@ -186,7 +186,7 @@ for (let i = 0; i < 256; i++) {
 
 ### 2.10. 折线图
 
-获取画布的宽高：
+#### 2.10.1. 获取画布的宽高
 
 ```javascript
 // 通过 canvas 元素获取
@@ -198,7 +198,9 @@ ctx.canvas.width
 ctx.canvas.height
 ```
 
-绘制网格：
+#### 2.10.2. 绘制网格
+
+参考： [./src/08.line_chart__grid.html](./src/08.line_chart__grid.html)
 
 ```html
 <canvas width="600" height="400" style="border: solid 1px gray;"></canvas>
@@ -238,5 +240,66 @@ ctx.canvas.height
     ctx.strokeStyle = '#eee';
     ctx.stroke();
   }
+</script>
+```
+
+#### 2.10.3. 绘制坐标轴
+
+参考： [./src/09.line_chart__coordinate.html](./src/09.line_chart__coordinate.html)
+
+示例：
+
+```html
+<canvas width="600" height="400" style="border: solid 1px gray;"></canvas>
+<script>
+  const canvas = document.querySelector('canvas');
+  const ctx = canvas.getContext("2d");
+
+  // 画布的宽高
+  const canvasWidth = ctx.canvas.width;
+  const canvasHeight = ctx.canvas.height;
+
+  // 网格（单元格）的大小
+  const gridSize = 10;
+
+  // 与画布边缘的距离
+  const space = 20;
+  // 箭头大小（底 10，高 10）
+  const arrowSize = 10;
+
+  // 原点
+  const x0 = space - 0.5;
+  const y0 = canvasHeight - space - 0.5;
+
+  ctx.strokeStyle = '#000';
+
+  // x 轴
+  ctx.beginPath();
+  ctx.moveTo(x0, y0);
+  ctx.lineTo(canvasWidth - space, y0);
+  ctx.stroke();
+
+  // x arrow
+  ctx.beginPath();
+  ctx.moveTo(canvasWidth - space, y0);
+  ctx.lineTo(canvasWidth - space - arrowSize, y0 - arrowSize / 2);
+  ctx.lineTo(canvasWidth - space - arrowSize, y0 + arrowSize / 2);
+  ctx.closePath();
+  ctx.fill();
+  
+
+  // y 轴
+  ctx.beginPath();
+  ctx.moveTo(x0, y0);
+  ctx.lineTo(x0, space);
+  ctx.stroke();
+
+  // y arrow
+  ctx.beginPath();
+  ctx.moveTo(x0, space);
+  ctx.lineTo(x0 - arrowSize / 2, space + arrowSize);
+  ctx.lineTo(x0 + arrowSize / 2, space + arrowSize);
+  ctx.closePath();
+  ctx.fill();
 </script>
 ```
