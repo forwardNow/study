@@ -1054,3 +1054,46 @@ int main()
 ```
 
 如果属性有在堆区开辟的，一定要自己提供拷贝构造函数，防止浅拷贝带来的问题。
+
+#### 4.2.6. 初始化列表
+
+作用： C++ 提供了初始化列表语法，用来初始化属性。
+
+语法：`构造函数(): 属性1(值1), 属性2(值2) ... {}`
+
+示例：
+
+```cpp
+class Person
+{
+public:
+	int m_A;
+	int m_B;
+	int m_C;
+
+	Person() : m_A(101), m_B(102), m_C(103)
+	{}
+
+	Person(int a, int b, int c) : m_A(a), m_B(b), m_C(c) 
+	{}
+
+	void print(string prefix = "person.")
+	{
+		cout << prefix << "m_A = " << m_A << endl;
+		cout << prefix << "m_B = " << m_B << endl;
+		cout << prefix << "m_C = " << m_C << endl;
+	}
+};
+
+int main()
+{
+	Person p1;
+	Person p2(201, 202, 203);
+
+	p1.print("p1.");
+	p2.print("p2.");
+
+	system("pause");
+	return 0;
+}
+```
