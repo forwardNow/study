@@ -1097,3 +1097,79 @@ int main()
 	return 0;
 }
 ```
+
+#### 4.2.7. 类对象作为类成员
+
+说明： C++ 类中的成员可以是另一个类的对象，称之为 对象成员。
+
+例如：
+
+```cpp
+class A {}
+
+class B
+{
+	A a;
+}
+```
+
+B 类中有对象 A 作为成员，A 为对象成员。
+
+那么当创建 B 对象时，A 与 B 的构造和析构的顺序是怎样的？
+
+```cpp
+
+class Phone
+{
+public:
+	string m_PName;
+	Phone(string pName)
+	{
+		m_PName = pName;
+		cout << "Phone 构造" << endl;
+	}
+	~Phone() 
+	{
+		cout << "Phone 析构" << endl;
+	}
+};
+
+class Person
+{
+public:
+	Phone m_Phone;
+	// 隐式转换： 
+	// string pName = "华为P40";
+	// Phone p = pName;
+	Person(string pName): m_Phone(pName)
+	{
+		cout << "Person 构造" << endl;
+	}
+	~Person()
+	{
+		cout << "Person 析构" << endl;
+	}
+};
+
+void test()
+{
+	Person p("华为P40");
+
+	cout << p.m_Phone.m_PName << endl;
+
+	// 隐式转换
+	//string phoneName = "华为P20";
+	//Phone phone = phoneName;
+	//cout << phone.m_PName << endl;
+}
+
+int main()
+{
+	test();
+	system("pause");
+	return 0;
+}
+```
+
+构造： 先构造其他类（依赖类），在构造自身
+析构： 先析构自身，再析构其他类
