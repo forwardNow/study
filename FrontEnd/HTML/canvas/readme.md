@@ -245,7 +245,7 @@ ctx.canvas.height
 
 #### 2.10.3. 绘制坐标轴
 
-参考： [./src/09.line_chart__coordinate.html](./src/09.line_chart__coordinate.html)
+参考： [./src/09.line_chart__axis.html](./src/09.line_chart__axis.html)
 
 示例：
 
@@ -299,6 +299,38 @@ ctx.canvas.height
   ctx.moveTo(x0, space);
   ctx.lineTo(x0 - arrowSize / 2, space + arrowSize);
   ctx.lineTo(x0 + arrowSize / 2, space + arrowSize);
+  ctx.closePath();
+  ctx.fill();
+</script>
+```
+
+#### 2.10.4. 绘制点
+
+参考： [./src/10.line_chart__dot.html](./src/10.line_chart__dot.html)
+
+示例：
+
+```html
+<canvas width="600" height="400" style="border: solid 1px gray;"></canvas>
+<script>
+  const canvas = document.querySelector('canvas');
+  const ctx = canvas.getContext("2d");
+
+  const cooridate = {
+    x: 100,
+    y: 100
+  };
+
+  const dotSize = 200 - 2;
+
+  // 以坐标点为 左上角 绘制，然后偏移一半的大小
+  const offset = dotSize / 2;
+
+  ctx.beginPath();
+  ctx.moveTo(cooridate.x - offset, cooridate.y - offset);
+  ctx.lineTo(cooridate.x + dotSize - offset, cooridate.y - offset);
+  ctx.lineTo(cooridate.x + dotSize - offset, cooridate.y + dotSize - offset);
+  ctx.lineTo(cooridate.x - offset, cooridate.y + dotSize - offset);
   ctx.closePath();
   ctx.fill();
 </script>

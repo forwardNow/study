@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>点</title>
+</head>
+<body>
+<canvas width="600" height="400" style="border: solid 1px gray;"></canvas>
+<script>
+  const canvas = document.querySelector('canvas');
+  const ctx = canvas.getContext("2d");
+
+  const cooridate = {
+    x: 100,
+    y: 100
+  };
+
+  const dotSize = 200 - 2;
+
+  // 以坐标点为 左上角 绘制，然后偏移一半的大小
+  const offset = dotSize / 2;
+
+  ctx.beginPath();
+  ctx.moveTo(cooridate.x - offset, cooridate.y - offset);
+  ctx.lineTo(cooridate.x + dotSize - offset, cooridate.y - offset);
+  ctx.lineTo(cooridate.x + dotSize - offset, cooridate.y + dotSize - offset);
+  ctx.lineTo(cooridate.x - offset, cooridate.y + dotSize - offset);
+  ctx.closePath();
+  ctx.fill();
+
+</script>
+</body>
+</html>
