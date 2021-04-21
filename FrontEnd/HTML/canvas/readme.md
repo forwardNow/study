@@ -335,3 +335,143 @@ ctx.canvas.height
   ctx.fill();
 </script>
 ```
+
+#### 2.10.5. 折线图
+
+参考： [./src/11.line_chart__class.html](./src/11.line_chart__class.html)
+
+示例：
+
+```html
+<canvas width="600" height="400" style="border: solid 1px gray;"></canvas>
+<script>
+  class LineChart {
+    constructor(canvasSelector) {
+      const canvas = document.querySelector('canvas');
+      const ctx = canvas.getContext("2d");
+
+      this.canvas = canvas;
+      this.ctx = ctx;
+
+      this.gridSize = 10;
+
+      this.axisMargin = 20;
+      this.axisArrowSize = 10;
+
+      this.dotSize = 6;
+    }
+
+    init(data) {
+      this.draw(data);
+    }
+
+    draw(data) {
+      this.drawGrid();
+      this.drawAxis();
+      this.drawDots(data);
+    }
+
+    drawGrid() {
+      const { ctx, canvas, gridSize } = this;
+      const horizontalLineTotal = Math.floor(canvas.height / gridSize);
+      const vertialLineTotal = Math.floor(canvas.width / gridSize);
+
+      ctx.strokeStyle = '#eee';
+
+      for (let index = 1; index <= horizontalLineTotal; index++) {
+        ctx.beginPath();
+        ctx.moveTo(0, gridSize * index - 0.5);
+        ctx.lineTo(canvas.width, gridSize * index - 0.5);
+        ctx.stroke();
+      }
+
+      for (let index = 1; index <= vertialLineTotal; index++) {
+        ctx.beginPath();
+        ctx.moveTo(gridSize * index - 0.5, 0);
+        ctx.lineTo(gridSize * index - 0.5, canvas.height);
+        ctx.stroke();
+      }
+    }
+
+    drawAxis() {
+      const { ctx, canvas, axisMargin, axisArrowSize } = this;
+      const x0 = axisMargin;
+      const y0 = canvas.height - axisMargin;
+      
+      ctx.strokeStyle = '#000';
+      ctx.fillStyle = '#000';
+
+      // x axis
+      ctx.beginPath();
+      ctx.moveTo(x0, y0 - 0.5);
+      ctx.lineTo(canvas.width - axisMargin, y0 - 0.5);
+      ctx.stroke();
+
+      // x arrow
+      ctx.beginPath();
+      ctx.moveTo(canvas.width - axisMargin, y0 - 0.5);
+      ctx.lineTo(canvas.width - axisMargin - axisArrowSize, y0 - 0.5 - axisArrowSize / 2);
+      ctx.lineTo(canvas.width - axisMargin - axisArrowSize, y0 - 0.5 + axisArrowSize / 2);
+      ctx.fill();
+
+      // y axis
+      ctx.beginPath();
+      ctx.moveTo(x0 - 0.5, y0);
+      ctx.lineTo(x0 - 0.5, axisMargin);
+      ctx.stroke();
+
+      // y arrow
+      ctx.beginPath();
+      ctx.moveTo(x0 - 0.5, axisMargin);
+      ctx.lineTo(x0 - 0.5 - axisArrowSize / 2, axisMargin + axisArrowSize);
+      ctx.lineTo(x0 - 0.5 + axisArrowSize / 2, axisMargin + axisArrowSize);
+      ctx.fill();
+    }
+
+    drawDots(dots) {
+      const { ctx, canvas, axisMargin, dotSize } = this;
+      const dotOffset = dotSize / 2;
+
+      ctx.fillStyle = '#000';
+
+      let prevDot = null;
+
+      dots.forEach((dot) => {
+        const { x, y } = dot;
+        const left = x + axisMargin;
+        const top = canvas.height - (y + axisMargin);
+
+        // dot
+        ctx.beginPath();
+        ctx.moveTo(left - dotOffset, top - dotOffset);
+        ctx.lineTo(left + dotSize - dotOffset, top - dotOffset);
+        ctx.lineTo(left + dotSize - dotOffset, top + dotSize - dotOffset);
+        ctx.lineTo(left - dotOffset, top + dotSize - dotOffset);
+        ctx.fill();
+
+        // connect prev dot
+        if (prevDot) {
+          ctx.beginPath();
+          ctx.moveTo(prevDot.left, prevDot.top);
+          ctx.lineTo(left, top);
+          ctx.stroke();
+        }
+
+        prevDot = { left, top };
+      });
+
+
+    }
+  }
+
+  const lineChart = new LineChart('canvas');
+
+  lineChart.init([
+    { x: 100, y: 100 },
+    { x: 200, y: 140 },
+    { x: 300, y: 280 },
+    { x: 400, y: 80 },
+    { x: 500, y: 40 },
+  ]);
+</script>
+```
