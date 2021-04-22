@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>矩形</title>
+</head>
+<body>
+
+<canvas width="600" height="800" style="border: solid 1px gray;"></canvas>
+<script>
+  const canvas = document.querySelector('canvas');
+  const ctx = canvas.getContext("2d");
+  
+  // 创建一个线性渐变的方案
+
+  // 画布上点，起点
+  const x0 = 100;
+  const y0 = 100;
+
+  // 画布上点，终点
+  const x1 = 500;
+  const y1 = 100;
+
+  const linearGradient = ctx.createLinearGradient(x0, y0, x1, y1);
+
+  // 0%, red
+  linearGradient.addColorStop(0, 'red');
+  // 50%, white
+  linearGradient.addColorStop(0.5, 'white');
+  // 100%, red
+  linearGradient.addColorStop(1, 'red');
+
+  ctx.fillStyle = linearGradient;
+
+  ctx.fillRect(100, 100, 400, 100);
+
+
+</script>
+</body>
+</html>

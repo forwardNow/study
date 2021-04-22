@@ -487,6 +487,8 @@ ctx.canvas.height
 
 ### 3.11. 绘制矩形
 
+查看：[./src/12.rect.html](./src/12.rect.html) 
+
 相关方法：
 
 * `rect(x, y, w, h)` 没有独立路径（没有 beginPath）
@@ -533,3 +535,32 @@ ctx.canvas.height
   ctx.clearRect(0, 0, canvas.width, canvas.height);
   ```
   
+### 3.12. 绘制渐变的矩形
+
+查看：[./src/13.gradient_rect.html](./src/13.gradient_rect.html) 
+
+```javascript
+// 创建一个线性渐变的方案，跟 PS 拉渐变的线是一样的
+
+// 画布上点，起点
+const x0 = 100;
+const y0 = 100;
+
+// 画布上点，终点
+const x1 = 500;
+const y1 = 100;
+
+const linearGradient = ctx.createLinearGradient(x0, y0, x1, y1);
+
+// 0%, red
+linearGradient.addColorStop(0, 'red');
+// 50%, white
+linearGradient.addColorStop(0.5, 'white');
+// 100%, red
+linearGradient.addColorStop(1, 'red');
+
+ctx.fillStyle = linearGradient;
+
+ctx.fillRect(100, 100, 400, 100);
+```
+
