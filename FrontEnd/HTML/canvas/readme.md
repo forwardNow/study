@@ -359,6 +359,9 @@ ctx.canvas.height
       this.axisArrowSize = 10;
 
       this.dotSize = 6;
+
+      this.x0 = this.axisMargin;
+      this.y0 = canvas.height - this.axisMargin;
     }
 
     init(data) {
@@ -394,9 +397,7 @@ ctx.canvas.height
     }
 
     drawAxis() {
-      const { ctx, canvas, axisMargin, axisArrowSize } = this;
-      const x0 = axisMargin;
-      const y0 = canvas.height - axisMargin;
+      const { ctx, canvas, axisMargin, axisArrowSize, x0, y0 } = this;
       
       ctx.strokeStyle = '#000';
       ctx.fillStyle = '#000';
@@ -429,38 +430,42 @@ ctx.canvas.height
     }
 
     drawDots(dots) {
-      const { ctx, canvas, axisMargin, dotSize } = this;
+      const { ctx, canvas, axisMargin, dotSize, x0, y0 } = this;
       const dotOffset = dotSize / 2;
 
       ctx.fillStyle = '#000';
 
-      let prevDot = null;
+      let prevDot = { canvasX: x0, canvasY: y0 };
 
       dots.forEach((dot) => {
         const { x, y } = dot;
-        const left = x + axisMargin;
-        const top = canvas.height - (y + axisMargin);
+        const { x: canvasX, y: canvasY } = this.convertToCanvasCooridate(x, y);
 
         // dot
         ctx.beginPath();
-        ctx.moveTo(left - dotOffset, top - dotOffset);
-        ctx.lineTo(left + dotSize - dotOffset, top - dotOffset);
-        ctx.lineTo(left + dotSize - dotOffset, top + dotSize - dotOffset);
-        ctx.lineTo(left - dotOffset, top + dotSize - dotOffset);
+        ctx.moveTo(canvasX - dotOffset, canvasY - dotOffset);
+        ctx.lineTo(canvasX + dotSize - dotOffset, canvasY - dotOffset);
+        ctx.lineTo(canvasX + dotSize - dotOffset, canvasY + dotSize - dotOffset);
+        ctx.lineTo(canvasX - dotOffset, canvasY + dotSize - dotOffset);
         ctx.fill();
 
         // connect prev dot
-        if (prevDot) {
-          ctx.beginPath();
-          ctx.moveTo(prevDot.left, prevDot.top);
-          ctx.lineTo(left, top);
-          ctx.stroke();
-        }
+        ctx.beginPath();
+        ctx.moveTo(prevDot.canvasX, prevDot.canvasY);
+        ctx.lineTo(canvasX, canvasY);
+        ctx.stroke();
 
-        prevDot = { left, top };
+        prevDot = { canvasX, canvasY };
       });
+    }
 
+    convertToCanvasCooridate(x, y) {
+      const { x0, y0 } = this;
 
+      return {
+        x: x0 + x,
+        y: y0 - y,  
+      }
     }
   }
 
