@@ -1,6 +1,10 @@
 # canvas 教程
 
-## 1. 引入
+## 1. 参考
+
+* [canvas - MDN](https://developer.mozilla.org/zh-CN/docs/Web/API/Canvas_API)
+
+## 2. 引入
 
 参考：[./src/01_hello_world.html](./src/01_hello_world.html)
 
@@ -36,9 +40,9 @@
 * 通过样式设置画布的宽高，只是对画布元素进行拉伸。
 * 画布的左上角为 原点，水平方向是 x 轴，垂直方向是 y 轴
 
-## 2. 基础
+## 3. 基础
 
-### 2.1. 模糊的问题
+### 3.1. 模糊的问题
 
 **问题：**
 
@@ -53,7 +57,7 @@
 
 偏移 0.5px 即可。
 
-### 2.2. 路径
+### 3.2. 路径
 
 绘图的轨迹。
 
@@ -61,11 +65,11 @@
 
 绘制直线轨迹：`ctx.lineTo(x, y)`
 
-### 2.3. 描边
+### 3.3. 描边
 
 对路径进行描边 `ctx.stroke()`
 
-### 2.4. 开启新路径 ctx.beginPath()
+### 3.4. 开启新路径 ctx.beginPath()
 
 开启新的路径后，对新路径的操作不会受别的影响。
 
@@ -79,7 +83,7 @@ ctx.beginPath();
 ctx.stroke();
 ```
 
-### 2.5. 闭合路径 ctx.closePath()
+### 3.5. 闭合路径 ctx.closePath()
 
 手动闭合的路径，描边时会产生问题，如图：
 
@@ -106,11 +110,11 @@ ctx.lineWidth = 10;
 ctx.stroke();
 ```
 
-### 2.6. 填充 ctx.fill()
+### 3.6. 填充 ctx.fill()
 
 对路径进行填充 `ctx.fill()`
 
-### 2.7. 非零环绕填充规则
+### 3.7. 非零环绕填充规则
 
 参考：[镂空的正方形](./src/03_镂空的正方形.html)
 
@@ -128,7 +132,7 @@ ctx.stroke();
     * 相交值 为0，则不填充
     * 相交值 为1，则填充
 
-### 2.8. 画笔的状态
+### 3.8. 画笔的状态
 
 * `lineWidth` 线宽，默认 1px
 
@@ -164,7 +168,7 @@ ctx.stroke();
 
 * `lineDashOffset` 设置虚线偏移量（负值向右偏移）
 
-### 2.9. 绘制渐变的线
+### 3.9. 绘制渐变的线
 
 从黑到白的线：
 
@@ -184,9 +188,9 @@ for (let i = 0; i < 256; i++) {
 
 参考： [./src/07.gradient_rectangle.html](./src/07.gradient_rectangle.html)
 
-### 2.10. 折线图
+### 3.10. 折线图
 
-#### 2.10.1. 获取画布的宽高
+#### 3.10.1. 获取画布的宽高
 
 ```javascript
 // 通过 canvas 元素获取
@@ -198,7 +202,7 @@ ctx.canvas.width
 ctx.canvas.height
 ```
 
-#### 2.10.2. 绘制网格
+#### 3.10.2. 绘制网格
 
 参考： [./src/08.line_chart__grid.html](./src/08.line_chart__grid.html)
 
@@ -243,7 +247,7 @@ ctx.canvas.height
 </script>
 ```
 
-#### 2.10.3. 绘制坐标轴
+#### 3.10.3. 绘制坐标轴
 
 参考： [./src/09.line_chart__axis.html](./src/09.line_chart__axis.html)
 
@@ -304,7 +308,7 @@ ctx.canvas.height
 </script>
 ```
 
-#### 2.10.4. 绘制点
+#### 3.10.4. 绘制点
 
 参考： [./src/10.line_chart__dot.html](./src/10.line_chart__dot.html)
 
@@ -336,7 +340,7 @@ ctx.canvas.height
 </script>
 ```
 
-#### 2.10.5. 折线图
+#### 3.10.5. 折线图
 
 参考： [./src/11.line_chart__class.html](./src/11.line_chart__class.html)
 
@@ -480,3 +484,52 @@ ctx.canvas.height
   ]);
 </script>
 ```
+
+### 3.11. 绘制矩形
+
+相关方法：
+
+* `rect(x, y, w, h)` 没有独立路径（没有 beginPath）
+
+  ```javascript
+  // 绘制路径
+  ctx.rect(100, 50, 100, 100);
+  ctx.fillStyle = 'red'; // 被覆盖
+  ctx.fill(); // 被覆盖
+
+  ctx.rect(220, 50, 100, 100);
+  ctx.fillStyle = 'green';
+  ctx.fill();
+  ```
+
+* `strokeRect(x, y, w, h)` 有独立路径，不影响别的绘制
+
+  ```javascript
+  ctx.strokeStyle = 'red';
+  ctx.strokeRect(100, 200, 100, 100);
+
+  ctx.strokeStyle = 'green';
+  ctx.strokeRect(220, 200, 100, 100);
+  ```
+
+* `fillRect(x, y, w, h)` 有独立路径，不影响别的绘制
+
+  ```javascript
+  ctx.fillStyle = 'red';
+  ctx.fillRect(100, 350, 100, 100);
+
+  ctx.fillStyle = 'green';
+  ctx.fillRect(220, 350, 100, 100);
+  ```
+  
+* `clearRect(x, y, w, h)` 擦除矩形区域
+
+
+  ```javascript
+  // 擦除指定区域
+  ctx.clearRect(220, 350, 50, 50);
+
+  // 擦除整个画布
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+  ```
+  

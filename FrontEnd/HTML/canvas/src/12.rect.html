@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>矩形</title>
+</head>
+<body>
+
+<canvas width="600" height="800" style="border: solid 1px gray;"></canvas>
+<script>
+  const canvas = document.querySelector('canvas');
+  const ctx = canvas.getContext("2d");
+  
+  // 绘制路径
+  ctx.rect(100, 50, 100, 100);
+  ctx.fillStyle = 'red'; // 被覆盖
+  ctx.fill(); // 被覆盖
+
+  ctx.rect(220, 50, 100, 100);
+  ctx.fillStyle = 'green';
+  ctx.fill();
+
+
+  ctx.strokeStyle = 'red';
+  ctx.strokeRect(100, 200, 100, 100);
+
+  ctx.strokeStyle = 'green';
+  ctx.strokeRect(220, 200, 100, 100);
+
+
+  ctx.fillStyle = 'red';
+  ctx.fillRect(100, 350, 100, 100);
+
+  ctx.fillStyle = 'green';
+  ctx.fillRect(220, 350, 100, 100);
+
+
+  ctx.clearRect(220, 350, 50, 50);
+
+</script>
+</body>
+</html>
