@@ -1173,3 +1173,75 @@ int main()
 
 构造： 先构造其他类（依赖类），在构造自身
 析构： 先析构自身，再析构其他类
+
+#### 4.2.8. 静态成员
+
+在 成员变量或成员函数 前加上 static 关键字，就是静态成员。
+
+静态成员分为：
+
+* 静态成员变量
+
+	* 所有对象共享用一份数据
+	* 在编译阶段分配内存
+	* 类内声明，类外初始化
+
+* 静态成员函数
+
+	* 所有对象共享同一个函数
+	* 静态成员函数只能访问静态成员变量
+
+访问静态成员的方式：
+
+* 通过对象
+
+	```cpp
+	Person p;
+
+	p.staticVar = 1;
+	p.staticFunc();
+	```
+
+* 通过类名
+
+	```cpp
+	Person::staticFunc();
+	Person::staticVar = 1;
+	```
+
+示例：
+
+```cpp
+class Person
+{
+public:
+	// 在类内声明
+	static int m_Desc;
+	
+	static int getDesc()
+	{
+		return m_Desc;
+	}
+};
+
+// 在类外初始化
+int Person::m_Desc = 1;
+
+void test()
+{
+	Person p;
+
+	cout << p.m_Desc << endl;
+	cout << Person::m_Desc << endl;
+
+	cout << p.getDesc() << endl;
+	cout << Person::getDesc() << endl;
+}
+
+int main()
+{
+	test();
+	system("pause");
+	return 0;
+}
+```
