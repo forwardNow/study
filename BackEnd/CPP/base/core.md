@@ -1245,3 +1245,115 @@ int main()
 	return 0;
 }
 ```
+
+### 4.3. C++ 对象模型和 this 指针
+
+#### 4.3.1. 成员变量和成员函数分开存储
+
+在 C++ 中，类内的成员变量和成员函数分开存储
+
+只有非静态成员变量才属于类的对象上
+
+空对象：
+
+```cpp
+class Person
+{
+};
+
+void test()
+{
+	Person p;
+	
+	// 空对象占用 1 字节空间
+	// 每个对象所占用的内存位置都不同，
+	// 每个空对象都会分配 1 字节内存空间，用于占位
+	cout << "size of p = " << sizeof(p) << endl; // 1
+}
+
+int main()
+{
+	test();
+	system("pause");
+	return 0;
+}
+```
+
+非静态成员变量：
+
+```cpp
+class Person
+{
+	// 非静态成员变量，属于类的对象
+	int m_A;
+};
+
+void test()
+{
+	Person p;
+	
+	cout << "size of p = " << sizeof(p) << endl; // 4
+}
+```
+
+静态成员变量：
+
+```cpp
+class Person
+{
+	// 非静态成员变量，属于类的对象
+	int m_A;
+
+	// 静态成员变量，不属于类对象
+	static int m_B;
+};
+
+int Person::m_B = 1;
+
+void test()
+{
+	Person p;
+	
+	cout << "size of p = " << sizeof(p) << endl; // 4
+}
+```
+
+非静态成员函数：
+
+```cpp
+class Person
+{
+	// 非静态成员变量，属于类的对象
+	int m_A;
+
+	// 非静态成员函数，不属于类对象
+	void func() {}
+};
+
+void test()
+{
+	Person p;
+	
+	cout << "size of p = " << sizeof(p) << endl; // 4
+}
+```
+
+静态成员函数：
+
+```cpp
+class Person
+{
+	// 非静态成员变量，属于类的对象
+	int m_A;
+
+	// 静态成员函数，不属于类对象
+	static void func() {}
+};
+
+void test()
+{
+	Person p;
+	
+	cout << "size of p = " << sizeof(p) << endl; // 4
+}
+```
