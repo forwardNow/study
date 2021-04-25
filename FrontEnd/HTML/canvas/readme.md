@@ -564,3 +564,19 @@ ctx.fillStyle = linearGradient;
 ctx.fillRect(100, 100, 400, 100);
 ```
 
+### 3.13. 圆弧绘制
+
+整圆：
+
+* 角度 360 deg
+* 周长 2 * π * r
+* 弧度 2 * π
+
+弧度
+
+* 长度的描述单位
+* 一弧度 == r 的长度
+* 1deg == 2*π / 360
+
+`arc(x, y, r, startAngle, endAngle, anticlockwise)`
+
