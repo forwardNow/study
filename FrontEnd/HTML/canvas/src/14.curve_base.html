@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>曲线</title>
+</head>
+<body>
+
+<canvas width="600" height="600" style="border: solid 1px gray;"></canvas>
+<script>
+  const canvas = document.querySelector('canvas');
+  const ctx = canvas.getContext("2d");
+
+  // 公式： y = (x + 2) ^ 2
+  // 抛物线
+  ctx.beginPath()
+  ctx.moveTo(0, 0);
+
+  for (let x = 1; x <= 600; x++) {
+    const y = Math.pow(x / 10 - 30, 2) + 400;
+    ctx.lineTo(x, y)
+  }
+
+  ctx.stroke();
+
+
+  // 公式： y = sin(x)
+  // 波形
+  ctx.beginPath()
+  ctx.moveTo(0, 0);
+
+  for (let x = 1; x <= 600; x++) {
+    const y = 100 * Math.sin(x / 20) + 200;
+    ctx.lineTo(x, y)
+  }
+
+  ctx.stroke();
+
+</script>
+</body>
+</html>

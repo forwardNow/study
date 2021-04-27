@@ -572,11 +572,44 @@ ctx.fillRect(100, 100, 400, 100);
 * 周长 2 * π * r
 * 弧度 2 * π
 
-弧度
+弧度：
 
 * 长度的描述单位
 * 一弧度 == r 的长度
 * 1deg == 2*π / 360
 
 `arc(x, y, r, startAngle, endAngle, anticlockwise)`
+
+根据公式绘制线：
+
+* 源码： [./src/14.curve_base.html](./src/14.curve_base.html)
+
+* 示例：
+
+  ```javascript
+  // 公式： y = (x + 2) ^ 2
+  // 抛物线
+  ctx.beginPath()
+  ctx.moveTo(0, 0);
+
+  for (let x = 1; x <= 600; x++) {
+    const y = Math.pow(x / 10 - 30, 2) + 400;
+    ctx.lineTo(x, y)
+  }
+
+  ctx.stroke();
+
+
+  // 公式： y = sin(x)
+  // 波形
+  ctx.beginPath()
+  ctx.moveTo(0, 0);
+
+  for (let x = 1; x <= 600; x++) {
+    const y = 100 * Math.sin(x / 20) + 200;
+    ctx.lineTo(x, y)
+  }
+
+  ctx.stroke();
+  ```
 
