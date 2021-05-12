@@ -578,8 +578,6 @@ ctx.fillRect(100, 100, 400, 100);
 * 一弧度 == r 的长度
 * 1deg == 2*π / 360
 
-`arc(x, y, r, startAngle, endAngle, anticlockwise)`
-
 根据公式绘制线：
 
 * 源码： [./src/14.curve_base.html](./src/14.curve_base.html)
@@ -613,3 +611,21 @@ ctx.fillRect(100, 100, 400, 100);
   ctx.stroke();
   ```
 
+圆弧API：
+
+* `arc(x, y, r, startAngle, endAngle, anticlockwise)`
+* startAngle ：0 弧度 从水平方向的右边开始（x轴正半轴）
+* anticlockwise 是否逆时针，默认 false
+* 示例
+
+  ```javascript
+  const x = canvas.width / 2;
+  const y = canvas.height / 2;
+  const radius = 100;
+  const startAngle = 0;
+  const endAngle = Math.PI / 2;
+
+  ctx.arc(x, y, radius, startAngle, endAngle);
+
+  ctx.stroke();
+  ```
