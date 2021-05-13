@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>扇形</title>
+</head>
+<body>
+
+<canvas width="600" height="600" style="border: solid 1px gray;"></canvas>
+<script>
+  const canvas = document.querySelector('canvas');
+  const ctx = canvas.getContext("2d");
+
+  const x = canvas.width / 2;
+  const y = canvas.height / 2;
+  const radius = 100;
+  const startAngle = 0;
+  const endAngle = -Math.PI / 2;
+
+  ctx.moveTo(x, y);
+
+  ctx.arc(x, y, radius, startAngle, endAngle, true);
+
+  ctx.closePath();
+
+  ctx.stroke();
+
+</script>
+</body>
+</html>

@@ -566,6 +566,10 @@ ctx.fillRect(100, 100, 400, 100);
 
 ### 3.13. 圆弧绘制
 
+参考：
+
+* [Canvas学习：绘制圆和圆弧](https://www.w3cplus.com/canvas/drawing-arc-and-circle.html)
+
 整圆：
 
 * 角度 360 deg
@@ -614,7 +618,7 @@ ctx.fillRect(100, 100, 400, 100);
 圆弧API：
 
 * `arc(x, y, r, startAngle, endAngle, anticlockwise)`
-* startAngle ：0 弧度 从水平方向的右边开始（x轴正半轴）
+* 0, x 正半轴; π/2, y 负半轴
 * anticlockwise 是否逆时针，默认 false
 * 示例
 
@@ -629,3 +633,22 @@ ctx.fillRect(100, 100, 400, 100);
 
   ctx.stroke();
   ```
+
+绘制扇形：
+
+```javascript
+const x = canvas.width / 2;
+const y = canvas.height / 2;
+const radius = 100;
+const startAngle = 0;
+const endAngle = -Math.PI / 2;
+
+ctx.moveTo(x, y);
+
+ctx.arc(x, y, radius, startAngle, endAngle, true);
+
+ctx.closePath();
+
+ctx.stroke();
+```
+
