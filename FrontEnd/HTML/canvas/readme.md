@@ -615,7 +615,7 @@ ctx.fillRect(100, 100, 400, 100);
   ctx.stroke();
   ```
 
-圆弧API：
+圆弧API：（ [./src/15.arc.html](./src/15.arc.html) ）
 
 * `arc(x, y, r, startAngle, endAngle, anticlockwise)`
 * 0, x 正半轴; π/2, y 负半轴
@@ -634,7 +634,7 @@ ctx.fillRect(100, 100, 400, 100);
   ctx.stroke();
   ```
 
-绘制扇形：
+绘制扇形：（ [./src/16.sector.html](./src/16.sector.html) ）
 
 ```javascript
 const x = canvas.width / 2;
@@ -650,5 +650,41 @@ ctx.arc(x, y, radius, startAngle, endAngle, true);
 ctx.closePath();
 
 ctx.stroke();
+```
+
+n等分随机颜色的圆：（ [./src/17.n_equal_circle.html](./src/17.n_equal_circle.html) ）
+
+```javascript
+const canvas = document.querySelector('canvas');
+const ctx = canvas.getContext("2d");
+
+const x0 = canvas.width / 2;
+const y0 = canvas.height / 2;
+const radius = 100;
+
+const PI = Math.PI;
+const n = 6;
+const angle = 2 * PI / n;
+
+const getRandomColor = () => {
+  const r = Math.floor(Math.random() * 256);
+  const g = Math.floor(Math.random() * 256);
+  const b = Math.floor(Math.random() * 256);
+
+  return `rgb(${r}, ${g}, ${b})`;
+};
+
+for (let i = 0; i < n; i++) {
+  const startAngle = angle * i;
+  const endAngle = angle * (i + 1);
+  
+  ctx.beginPath();
+  ctx.moveTo(x0, y0);
+  ctx.arc(x0, y0, radius, startAngle, endAngle, false);
+  ctx.closePath();
+
+  ctx.fillStyle = getRandomColor();
+  ctx.fill();
+}
 ```
 
