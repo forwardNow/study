@@ -1357,3 +1357,5 @@ void test()
 	cout << "size of p = " << sizeof(p) << endl; // 4
 }
 ```
+
+#### 4.3.2. this 指针概念
