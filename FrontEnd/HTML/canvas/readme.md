@@ -730,3 +730,87 @@ for (let i = 0; i < angleList.length; i++) {
 }
 ```
 
+绘制文本：
+
+* API:
+
+  * ctx.font = '20px 微软雅黑'
+  * strokeText(text, x, y, maxWidth) ：描边，maxWidth 偏小时 文本会压缩变形
+  * fillText(text, x, y, maxWidth) ：填充
+  * ctx.textAlign = 'left' | 'center' | 'right' | 'start' | 'end' ， 基于起点坐标来的
+  * ctx.direction = 'rlt' | 'ltr'
+  * ctx.textBaseline = 'top' | 'middle' | 'bottom' ：基线，按起始坐标来算
+  * measureText() ：TextMetrics { width, ...}
+
+* 注意
+
+  * 起点位置在文字的左下角
+
+* 示例： （ [./src/19.text.html](./src/19.text.html) ）
+
+  ```javascript
+  <canvas width="600" height="600" style="border: solid 1px gray;"></canvas>
+<script>
+  const canvas = document.querySelector('canvas');
+  const ctx = canvas.getContext("2d");
+
+  const canvasWidth = ctx.canvas.width;
+  const canvasHeight = ctx.canvas.height;
+
+  const x0 = canvasWidth / 2;
+  const y0 = canvasHeight / 2;
+
+  ctx.strokeStyle = '#ddd';
+
+  // x line
+  ctx.beginPath();
+  ctx.moveTo(0, y0 - 0.5);
+  ctx.lineTo(canvasWidth, y0 - 0.5);
+  ctx.stroke();
+
+  // y line
+  ctx.beginPath();
+  ctx.moveTo(x0 - 0.5, 0);
+  ctx.lineTo(x0 - 0.5, canvasHeight);
+  ctx.stroke();
+
+  ctx.beginPath();
+
+  const text = '您好哇';
+  const fontSize = 40;
+
+  ctx.strokeStyle = '#000';
+
+  // 字体：大小 字体
+  ctx.font = `${fontSize}px Microsoft YaHei`;
+
+  // 对齐方式： 基于起点坐标来的
+  ctx.textAlign = 'center';
+
+  ctx.textBaseline = 'middle'
+
+  // 描边
+  // ctx.strokeText(text, x0, y0);
+
+  // 填充
+  ctx.fillText(text, x0, y0)
+
+  // 获取文本宽度
+  const { 
+    width: fontWidth, 
+    actualBoundingBoxAscent, 
+    actualBoundingBoxDescent,
+    fontBoundingBoxAscent,
+    fontBoundingBoxDescent,
+  } = ctx.measureText(text);
+
+  const space = 4;
+
+  ctx.beginPath();
+  ctx.moveTo(x0 - (fontWidth / 2 + space), y0 + (actualBoundingBoxDescent + space));
+  ctx.lineTo(x0 + (fontWidth / 2 + space), y0 + (actualBoundingBoxDescent + space));
+  ctx.lineTo(x0 + (fontWidth / 2 + space), y0 - (actualBoundingBoxAscent + space));
+  ctx.lineTo(x0 - (fontWidth / 2 + space), y0 - (actualBoundingBoxAscent + space));
+  ctx.closePath();
+  ctx.stroke();
+  ```
