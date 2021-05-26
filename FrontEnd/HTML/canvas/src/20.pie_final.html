@@ -91,18 +91,39 @@
       const edge = radius + outLine;
 
       data.forEach((item) => {
-        const { startAngle, angle, color } = item;
+        const { startAngle, angle, color, title } = item;
         const edgeX = edge * Math.cos(startAngle + angle / 2);
         const edgeY = edge * Math.sin(startAngle + angle / 2);
         const outX = x0 + edgeX;
         const outY = y0 + edgeY;
 
+        this.outX = outX;
+        this.outY = outY;
+
         ctx.beginPath();
         
+        // 从圆心过来的直线
         ctx.moveTo(x0, y0);
         ctx.lineTo(outX, outY);
+        
+        ctx.font = '14px Microsoft Yahei';
+        ctx.textBaseline = 'bottom';
+
+        const textWidth = ctx.measureText(title).width;
+
+        // 文字底部的线        
+        if (outX > x0) {
+          ctx.textAlign = 'left';
+          ctx.lineTo(outX + textWidth, outY);
+        } else {
+          ctx.textAlign = 'right';
+          ctx.lineTo(outX - textWidth, outY);
+        }
 
         ctx.strokeStyle = color;
+        ctx.fillStyle = color;
+
+        ctx.fillText(title, outX, outY);
         ctx.stroke();
       });
     }
