@@ -1425,3 +1425,34 @@ C++ 中空指针也是可以调用成员函数的，但是也要注意有没有�
 如果用到 this 指针，需要加以判断保证代码的健壮性
 
 示例：
+
+```cpp
+class Person
+{
+public:
+	int age;
+	
+	void printClassName()
+	{
+		cout << "Person" << endl;
+	}
+
+	void printPersonAge()
+	{
+		if (this == NULL)
+		{
+			return;
+		}
+		// this 为 NULL 时会报 nullptr 错误
+		cout << this->age << endl;
+	}
+};
+
+void test()
+{
+	Person* p = NULL;
+
+	p->printClassName(); // Person
+	p->printPersonAge(); // 返回
+}
+```
