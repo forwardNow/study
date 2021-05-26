@@ -25,6 +25,8 @@
       this.radius = 150;
       this.x0 = this.w / 2 + 60;
       this.y0 = this.h / 2;
+
+      this.outLine = 20;
     }
 
     init(data) {
@@ -35,6 +37,7 @@
       this.transformAngle(data);
       this.setColor(data);
       this.drawSectors(data);
+      this.drawTitle(data)
     }
 
     transformAngle(data) {
@@ -69,6 +72,8 @@
       data.forEach((item) => {
         const endAngle = startAngle + item.angle;
 
+        item.startAngle = startAngle;
+
         this.ctx.beginPath();
         this.ctx.moveTo(this.x0, this.y0);
         this.ctx.arc(this.x0, this.y0, this.radius, startAngle, endAngle);
@@ -80,8 +85,26 @@
       });
     }
 
-    drawTitle() {
+    drawTitle(data) {
+      const { ctx, x0, y0, radius, outLine } = this;
 
+      const edge = radius + outLine;
+
+      data.forEach((item) => {
+        const { startAngle, angle, color } = item;
+        const edgeX = edge * Math.cos(startAngle + angle / 2);
+        const edgeY = edge * Math.sin(startAngle + angle / 2);
+        const outX = x0 + edgeX;
+        const outY = y0 + edgeY;
+
+        ctx.beginPath();
+        
+        ctx.moveTo(x0, y0);
+        ctx.lineTo(outX, outY);
+
+        ctx.strokeStyle = color;
+        ctx.stroke();
+      });
     }
 
     drawDesc() {
