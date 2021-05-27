@@ -615,7 +615,9 @@ ctx.fillRect(100, 100, 400, 100);
   ctx.stroke();
   ```
 
-圆弧API：（ [./src/15.arc.html](./src/15.arc.html) ）
+#### 3.13.1. 圆弧API
+
+参考： （ [./src/15.arc.html](./src/15.arc.html) ）
 
 * `arc(x, y, r, startAngle, endAngle, anticlockwise)`
 * 0, x 正半轴; π/2, y 负半轴
@@ -634,7 +636,9 @@ ctx.fillRect(100, 100, 400, 100);
   ctx.stroke();
   ```
 
-绘制扇形：（ [./src/16.sector.html](./src/16.sector.html) ）
+#### 3.13.2. 绘制扇形
+
+参考：（ [./src/16.sector.html](./src/16.sector.html) ）
 
 ```javascript
 const x = canvas.width / 2;
@@ -730,7 +734,7 @@ for (let i = 0; i < angleList.length; i++) {
 }
 ```
 
-绘制文本：
+#### 3.13.3. 绘制文本
 
 * API:
 
@@ -816,7 +820,10 @@ for (let i = 0; i < angleList.length; i++) {
   </script>
   ```
 
-绘制完整的饼状图：（ [./src/20.pie_final.html](./src/20.pie_final.html) ）
+#### 3.13.4. 绘制完整的饼状图
+
+参考：（ [./src/20.pie_final.html](./src/20.pie_final.html) ）
 
 * ![./asset/images/pie-chart.png](./asset/images/pie-chart.png)
 
+### 3.14. 绘制图片
