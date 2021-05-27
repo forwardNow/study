@@ -4,179 +4,36 @@
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>饼图</title>
+  <title>绘制图片</title>
 </head>
 <body>
 
 <canvas width="600" height="400" style="border: solid 1px gray;"></canvas>
 <script>
-  /*
-    1. 饼图
-    2. 扇形标题
-    3. 颜色说明
-  */
-
-  class PieChart {
-    constructor() {
-      this.ctx = document.querySelector('canvas').getContext("2d");
-
-      this.w = this.ctx.canvas.width;
-      this.h = this.ctx.canvas.height;
-      this.radius = 150;
-      this.x0 = this.w / 2 + 60;
-      this.y0 = this.h / 2;
-
-      this.outLine = 20;
-
-      this.rect = {
-        width: 20,
-        height: 12,
-        space: 10,
-      };
-    }
-
-    init(data) {
-      this.drawPie(data);
-    }
-
-    drawPie(data) {
-      this.transformAngle(data);
-      this.setColor(data);
-      this.drawSectors(data);
-      this.drawTitle(data)
-      this.drawDesc(data);
-    }
-
-    transformAngle(data) {
-      let total = 0;
-
-      data.forEach((item) => {
-        total += item.num;  
-      });
-
-      data.forEach((item) => {
-        item.angle = item.num / total * Math.PI * 2;
-      });
-    }
-
-    setColor(data) {
-      const colorPalette = [
-        '#2ec7c9','#b6a2de','#5ab1ef','#ffb980','#d87a80',
-        '#8d98b3','#e5cf0d','#97b552','#95706d','#dc69aa',
-        '#07a2a4','#9a7fd1','#588dd5','#f5994e','#c05050',
-        '#59678c','#c9ab00','#7eb00a','#6f5553','#c14089'
-      ];
-
-      data.forEach((item, i) => {
-        item.color = colorPalette[i];
-      });
-    }
-
-    drawSectors(data) {
-      let startAngle = 0;
-
-      data.forEach((item) => {
-        const endAngle = startAngle + item.angle;
-
-        item.startAngle = startAngle;
-
-        this.ctx.beginPath();
-        this.ctx.moveTo(this.x0, this.y0);
-        this.ctx.arc(this.x0, this.y0, this.radius, startAngle, endAngle);
-        this.ctx.closePath();
-        this.ctx.fillStyle = item.color;
-        this.ctx.fill();
-
-        startAngle = endAngle;
-      });
-    }
-
-    drawTitle(data) {
-      const { ctx, x0, y0, radius, outLine } = this;
-
-      const edge = radius + outLine;
-
-      data.forEach((item) => {
-        const { startAngle, angle, color, title } = item;
-        const edgeX = edge * Math.cos(startAngle + angle / 2);
-        const edgeY = edge * Math.sin(startAngle + angle / 2);
-        const outX = x0 + edgeX;
-        const outY = y0 + edgeY;
-
-        this.outX = outX;
-        this.outY = outY;
-
-        ctx.beginPath();
-        
-        // 从圆心过来的直线
-        ctx.moveTo(x0, y0);
-        ctx.lineTo(outX, outY);
-        
-        ctx.font = '14px Microsoft Yahei';
-        ctx.textBaseline = 'bottom';
-
-        const textWidth = ctx.measureText(title).width;
-
-        // 文字底部的线        
-        if (outX > x0) {
-          ctx.textAlign = 'left';
-          ctx.lineTo(outX + textWidth, outY);
-        } else {
-          ctx.textAlign = 'right';
-          ctx.lineTo(outX - textWidth, outY);
-        }
-
-        ctx.strokeStyle = color;
-        ctx.fillStyle = color;
-
-        ctx.fillText(title, outX, outY);
-        ctx.stroke();
-      });
-    }
-
-    drawDesc(data) {
-      const { 
-        rect: {
-          width, height, space,
-        },
-        ctx,
-      } = this;
-
-      data.forEach((item, i) => {
-        const { color, title } = item;
-
-        const x = space;
-        const y = space * (i + 1) + height * i;
-
-        ctx.beginPath();
-        ctx.rect(x, y, width, height);
-        ctx.fillStyle = color;
-        ctx.fill();
-
-        const textX = x + width + space / 2;
-        const textY = y + 1;
-
-        ctx.font = '12px Microsoft Yahei';
-        ctx.textAlign = 'left';
-        ctx.textBaseline = 'top';
-
-        ctx.fillText(title, textX, textY);
-      });
-    }
-  }
-
   const ctx = document.querySelector('canvas').getContext("2d");
-  
-  const pieChart = new PieChart(ctx);
 
-  const data = [
-    { title: '16-20岁', num: 10 },
-    { title: '21-25岁', num: 30 },
-    { title: '26-30岁', num: 20 },
-    { title: '30岁以上', num: 8 },
-  ];
+  const canvasWidth = ctx.canvas.width;
+  const canvasHeight = ctx.canvas.height;
 
-  pieChart.init(data);
+  // 加载图片1，加载到内存
+  const img = document.createElement('img');
+
+  img.onload = () => {
+
+  };
+
+  img.src = './images/1.jpg';
+
+
+  // 加载图片2
+  const img2 = new Image();
+
+  img2.onload = () => {
+
+  };
+
+  img2.src = './images/1.jpg';
+
 </script>
 </body>
 </html>

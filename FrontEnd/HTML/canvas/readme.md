@@ -827,3 +827,48 @@ for (let i = 0; i < angleList.length; i++) {
 * ![./asset/images/pie-chart.png](./asset/images/pie-chart.png)
 
 ### 3.14. 绘制图片
+
+#### 3.14.1. API
+
+* drawImage(img, x, y)
+
+  * img: img图片对象、canvas对象、video对象
+  * x、y: 图片绘制的左上角
+
+
+* drawImage(img, x, y, w, h)
+
+  * img: img图片对象、canvas对象、video对象
+  * x、y: 图片绘制的左上角
+  * w、h: 图片绘制尺寸设置（图片缩放、不是截取）
+
+
+* drawImage(img, x, y, w, h, x1, y1, w1, h1)
+
+  * img: img图片对象、canvas对象、video对象
+  * x、y、w、h: 图片中的一个矩形区域
+  * x1、y1、w1、h1: 画布中的一个矩形区域
+
+
+#### 3.14.2. 加载图片
+
+```javascript
+// 加载图片1，加载到内存
+const img = document.createElement('img');
+
+img.onload = () => {
+
+};
+
+img.src = './images/1.jpg';
+
+
+// 加载图片2
+const img2 = new Image();
+
+img2.onload = () => {
+
+};
+
+img2.src = './images/1.jpg';
+```
