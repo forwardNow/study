@@ -816,4 +816,7 @@ for (let i = 0; i < angleList.length; i++) {
   </script>
   ```
 
-绘制完整的饼状图：
+绘制完整的饼状图：（ [./src/20.pie_final.html](./src/20.pie_final.html) ）
+
+* ![./asset/images/pie-chart.png](./asset/images/pie-chart.png)
+

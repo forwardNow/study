@@ -8,7 +8,7 @@
 </head>
 <body>
 
-<canvas width="600" height="600" style="border: solid 1px gray;"></canvas>
+<canvas width="600" height="400" style="border: solid 1px gray;"></canvas>
 <script>
   /*
     1. 饼图
@@ -27,6 +27,12 @@
       this.y0 = this.h / 2;
 
       this.outLine = 20;
+
+      this.rect = {
+        width: 20,
+        height: 12,
+        space: 10,
+      };
     }
 
     init(data) {
@@ -38,6 +44,7 @@
       this.setColor(data);
       this.drawSectors(data);
       this.drawTitle(data)
+      this.drawDesc(data);
     }
 
     transformAngle(data) {
@@ -53,16 +60,15 @@
     }
 
     setColor(data) {
-      const getRandomColor = () => {
-        const r = Math.floor(Math.random() * 256);
-        const g = Math.floor(Math.random() * 256);
-        const b = Math.floor(Math.random() * 256);
+      const colorPalette = [
+        '#2ec7c9','#b6a2de','#5ab1ef','#ffb980','#d87a80',
+        '#8d98b3','#e5cf0d','#97b552','#95706d','#dc69aa',
+        '#07a2a4','#9a7fd1','#588dd5','#f5994e','#c05050',
+        '#59678c','#c9ab00','#7eb00a','#6f5553','#c14089'
+      ];
 
-        return `rgb(${r}, ${g}, ${b})`;
-      };
-
-      data.forEach((item) => {
-        item.color = getRandomColor();
+      data.forEach((item, i) => {
+        item.color = colorPalette[i];
       });
     }
 
@@ -128,8 +134,34 @@
       });
     }
 
-    drawDesc() {
+    drawDesc(data) {
+      const { 
+        rect: {
+          width, height, space,
+        },
+        ctx,
+      } = this;
 
+      data.forEach((item, i) => {
+        const { color, title } = item;
+
+        const x = space;
+        const y = space * (i + 1) + height * i;
+
+        ctx.beginPath();
+        ctx.rect(x, y, width, height);
+        ctx.fillStyle = color;
+        ctx.fill();
+
+        const textX = x + width + space / 2;
+        const textY = y + 1;
+
+        ctx.font = '12px Microsoft Yahei';
+        ctx.textAlign = 'left';
+        ctx.textBaseline = 'top';
+
+        ctx.fillText(title, textX, textY);
+      });
     }
   }
 
