@@ -875,3 +875,44 @@ img2.onload = () => {
 
 img2.src = './images/1.jpg';
 ```
+
+#### 3.14.3. API 的用法
+
+示例： （ [./src/21.image.html](./src/21.image.html) ）
+
+```javascript
+// 加载图片
+const loadImg = (src) => {
+  return new Promise((resolve) => {
+    const img = new Image();
+
+    img.onload = () => {
+      resolve(img);
+    };
+
+    img.src = src;
+  });
+};
+
+loadImg('./images/1.jpg').then((img) => {
+  ctx.drawImage(
+    img,
+    10, 10, // 将图片放置在画布上，图片的左上角的坐标为 (10,10)
+  );
+  
+  ctx.drawImage(
+    img, 
+    300, 10, 100, 100 // 将图片铺满画布的指定区域
+  );
+
+  ctx.drawImage(
+    img, 
+    0, 0, 100, 100,  // 在图片上截取矩形区域
+    420, 10, 200, 50 // 铺满画布的指定区域
+  );
+});
+```
+
+图片：
+
+![./asset/images/drawImageDemo.png](./asset/images/drawImageDemo.png)

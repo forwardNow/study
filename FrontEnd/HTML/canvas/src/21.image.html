@@ -8,7 +8,7 @@
 </head>
 <body>
 
-<canvas width="600" height="400" style="border: solid 1px gray;"></canvas>
+<canvas width="1000" height="1000" style="border: solid 1px gray;"></canvas>
 <script>
   const ctx = document.querySelector('canvas').getContext("2d");
 
@@ -16,14 +16,35 @@
   const canvasHeight = ctx.canvas.height;
 
   // 加载图片
-  const img2 = new Image();
+  const loadImg = (src) => {
+    return new Promise((resolve) => {
+      const img = new Image();
 
-  img2.onload = () => {
+      img.onload = () => {
+        resolve(img);
+      };
 
+      img.src = src;
+    });
   };
 
-  img2.src = './images/1.jpg';
+  loadImg('./images/1.jpg').then((img) => {
+    ctx.drawImage(
+      img,
+      10, 10, // 将图片放置在画布上，图片的左上角的坐标为 (10,10)
+    );
+    
+    ctx.drawImage(
+      img, 
+      300, 10, 100, 100 // 将图片铺满画布的指定区域
+    );
 
+    ctx.drawImage(
+      img, 
+      0, 0, 100, 100,  // 在图片上截取矩形区域
+      420, 10, 200, 50 // 铺满画布的指定区域
+    );
+  });
 </script>
 </body>
 </html>
