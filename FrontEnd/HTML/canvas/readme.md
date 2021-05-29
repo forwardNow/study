@@ -830,24 +830,27 @@ for (let i = 0; i < angleList.length; i++) {
 
 #### 3.14.1. API
 
-* drawImage(img, x, y)
+* `drawImage(img, x, y)`
 
+  * 说明：将图片放到画布的 x、y 位置
   * img: img图片对象、canvas对象、video对象
-  * x、y: 图片绘制的左上角
+  * x、y: 绘制在画布上的坐标，即图片的左上角位于画布的坐标
 
 
-* drawImage(img, x, y, w, h)
+* `drawImage(img, x, y, w, h)`
 
+  * 说明：将图片放到画布的 x、y 位置，并设置图片的宽高（即缩放）
   * img: img图片对象、canvas对象、video对象
   * x、y: 图片绘制的左上角
   * w、h: 图片绘制尺寸设置（图片缩放、不是截取）
 
 
-* drawImage(img, x, y, w, h, x1, y1, w1, h1)
+* `drawImage(img, x, y, w, h, x1, y1, w1, h1)`
 
+  * 说明：截取图片放到指定的区域
   * img: img图片对象、canvas对象、video对象
-  * x、y、w、h: 图片中的一个矩形区域
-  * x1、y1、w1、h1: 画布中的一个矩形区域
+  * x、y、w、h: 图片中的一个矩形区域， w、h 是截取
+  * x1、y1、w1、h1: 画布中的一个矩形区域， w1、h1 是缩放
 
 
 #### 3.14.2. 加载图片
