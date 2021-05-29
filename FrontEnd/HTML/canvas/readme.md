@@ -916,3 +916,5 @@ loadImg('./images/1.jpg').then((img) => {
 图片：
 
 ![./asset/images/drawImageDemo.png](./asset/images/drawImageDemo.png)
+
+#### 帧动画
