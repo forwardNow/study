@@ -917,4 +917,5 @@ loadImg('./images/1.jpg').then((img) => {
 
 ![./asset/images/drawImageDemo.png](./asset/images/drawImageDemo.png)
 
-#### 帧动画
+#### 3.14.4. 帧动画
+
