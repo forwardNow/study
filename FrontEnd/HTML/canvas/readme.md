@@ -1041,3 +1041,40 @@ const person = new Person();
 person.init();
 </script>
 ```
+
+### 3.15. 坐标变换
+
+`translate(x, y)`
+
+* 移动，画布的原点
+
+`scale(x, y)`
+
+* 缩放，画布（坐标系）。x、y 表示倍率
+
+`rotate(angle)`
+
+* 旋转，画布（坐标）。旋转中心在原点
+* 如果想让目标自传，则需先挪动原点
+
+参考： [./src/23.transform.html](./src/23.transform.html)
+
+代码：
+
+```javascript
+const ctx = document.querySelector('canvas').getContext("2d");
+
+const w = 200;
+const h = 200;
+
+const canvasWidth = ctx.canvas.width;
+const canvasHeight = ctx.canvas.height;
+
+ctx.translate(canvasWidth / 2, canvasHeight / 2);
+
+setInterval(() => {
+  ctx.clearRect(-canvasWidth, -canvasHeight, canvasWidth * 2, canvasHeight * 2);
+  ctx.strokeRect(-w / 2, -h / 2, w, h);
+  ctx.rotate(Math.PI / 180)
+}, 16);
+```
