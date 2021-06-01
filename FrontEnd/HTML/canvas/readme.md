@@ -917,5 +917,127 @@ loadImg('./images/1.jpg').then((img) => {
 
 ![./asset/images/drawImageDemo.png](./asset/images/drawImageDemo.png)
 
-#### 3.14.4. 帧动画
+#### 3.14.4. 帧动画 - 行走的人
 
+参考： [./src/23.person_walk.html](./src/23.person_walk.html)
+
+代码：
+
+```html
+<canvas width="800" height="400" style="border: solid 1px gray;"></canvas>
+<script>
+  class Person {
+    constructor() {
+      const ctx = document.querySelector('canvas').getContext("2d");
+
+      const canvasWidth = ctx.canvas.width;
+      const canvasHeight = ctx.canvas.height;
+
+      this.src = './images/person.png';
+
+      this.ctx = ctx;
+      this.canvasWidth = canvasWidth;
+      this.canvasHeight = canvasHeight;
+
+      this.index = 0;
+      this.direction = 0;
+
+      this.stepSize = 20;
+      this.offsetX = 0;
+      this.offsetY = 0;
+    }
+
+    async init() {
+      this.img = await this.loadImage();
+
+      this.initAfterLoadImage();
+
+      this.handleUserAction();
+
+      this.animate();
+    }
+
+    loadImage() {
+      return new Promise((resolve, reject) => {
+        const img = new Image();
+
+        img.onload = () => {
+          resolve(img);
+        };
+
+        img.src = this.src;
+      });
+    }
+
+    initAfterLoadImage() {
+      this.imageWidth = this.img.width;
+      this.imageHeight = this.img.height;
+
+      this.personWidth = this.imageWidth / 4;
+      this.personHeight = this.imageHeight / 4;
+
+      this.x0 = this.canvasWidth / 2 - this.personWidth / 2;
+      this.y0 = this.canvasHeight / 2 - this.personHeight / 2;
+    }
+
+    handleUserAction() {
+      const { stepSize } = this;
+
+      document.addEventListener('keydown', (e) => {
+        const { code } = e;
+
+        if (code === "ArrowDown") {
+          this.direction = 0;
+          this.offsetY += stepSize;
+        }
+        
+        if (code === "ArrowRight") {
+          this.direction = 1;
+          this.offsetX += stepSize;
+        }
+        
+        if (code === "ArrowUp") {
+          this.direction = 2;
+          this.offsetY -= stepSize;
+        }
+
+        if (code === "ArrowLeft") {
+          this.direction = 3;
+          this.offsetX -= stepSize;
+        }
+
+        this.index = (this.index + 1) % 4;
+      });
+    }
+
+    animate() {
+      setInterval(() => {
+        this.draw();
+      }, 16);
+    }
+
+    draw() {
+      const {
+        ctx, img,
+        canvasWidth, canvasHeight, 
+        x0, y0,
+        personWidth, personHeight,
+        index, direction,
+        offsetX, offsetY
+      } = this;
+
+      ctx.clearRect(0, 0, canvasWidth, canvasHeight);
+
+      ctx.drawImage(
+        this.img,
+        index * personWidth, direction * personHeight, personWidth, personHeight,
+        x0 + offsetX, y0 + offsetY, personWidth, personHeight
+      );
+    }
+  }
+
+const person = new Person();
+
+person.init();
+</script>
+```

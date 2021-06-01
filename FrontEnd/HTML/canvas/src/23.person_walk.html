@@ -10,8 +10,6 @@
 
 <canvas width="800" height="400" style="border: solid 1px gray;"></canvas>
 <script>
-  
-
   class Person {
     constructor() {
       const ctx = document.querySelector('canvas').getContext("2d");
@@ -24,6 +22,13 @@
       this.ctx = ctx;
       this.canvasWidth = canvasWidth;
       this.canvasHeight = canvasHeight;
+
+      this.index = 0;
+      this.direction = 0;
+
+      this.stepSize = 20;
+      this.offsetX = 0;
+      this.offsetY = 0;
     }
 
     async init() {
@@ -31,7 +36,9 @@
 
       this.initAfterLoadImage();
 
-      this.draw();
+      this.handleUserAction();
+
+      this.animate();
     }
 
     loadImage() {
@@ -43,7 +50,6 @@
         };
 
         img.src = this.src;
-
       });
     }
 
@@ -58,17 +64,58 @@
       this.y0 = this.canvasHeight / 2 - this.personHeight / 2;
     }
 
+    handleUserAction() {
+      const { stepSize } = this;
+
+      document.addEventListener('keydown', (e) => {
+        const { code } = e;
+
+        if (code === "ArrowDown") {
+          this.direction = 0;
+          this.offsetY += stepSize;
+        }
+        
+        if (code === "ArrowRight") {
+          this.direction = 1;
+          this.offsetX += stepSize;
+        }
+        
+        if (code === "ArrowUp") {
+          this.direction = 2;
+          this.offsetY -= stepSize;
+        }
+
+        if (code === "ArrowLeft") {
+          this.direction = 3;
+          this.offsetX -= stepSize;
+        }
+
+        this.index = (this.index + 1) % 4;
+      });
+    }
+
+    animate() {
+      setInterval(() => {
+        this.draw();
+      }, 16);
+    }
+
     draw() {
       const {
-        ctx, img, 
+        ctx, img,
+        canvasWidth, canvasHeight, 
         x0, y0,
-        personWidth, personHeight
+        personWidth, personHeight,
+        index, direction,
+        offsetX, offsetY
       } = this;
+
+      ctx.clearRect(0, 0, canvasWidth, canvasHeight);
 
       ctx.drawImage(
         this.img,
-        0, 0, personWidth, personHeight,
-        x0, y0, personWidth, personHeight
+        index * personWidth, direction * personHeight, personWidth, personHeight,
+        x0 + offsetX, y0 + offsetY, personWidth, personHeight
       );
     }
   }
