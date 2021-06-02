@@ -1456,3 +1456,66 @@ void test()
 	p->printPersonAge(); // 返回
 }
 ```
+
+#### 4.3.4. const 修饰成员函数
+
+常函数：
+
+* 成员函数后加 const 后，我们称这个函数为 常函数
+* 常函数 内不可以修改成员属性
+* 成员属性声明时加关键字 mutable 后，在常函数中依然可以修改
+
+常对象：
+
+* 声明对象前加 const 称该对象为 常对象
+* 常对象只能调用常函数
+
+示例：
+
+```cpp
+class Person
+{
+public:
+	int m_A;
+
+	// 特殊变量，在常函数中，也可以修改这个值
+	mutable int m_B;
+	
+	// this 指针的本质是指针常量：
+	//	   Person * const this; // 指针的指向是不可以修改的
+	// 在成员函数后加 const，让指针的指向的值也不可能修改：
+	// 	   const Person * const this;
+	//
+	void changeA() const
+	{
+		// this->m_A = 100; // 不可以修改
+	}
+
+	void changeB() const
+	{
+		 this->m_B = 100;
+	}
+
+	void showPerson()
+	{}
+};
+
+void test()
+{
+	// 常对象
+	const Person p;
+
+	//p.m_A = 100; // 不可以修改普通成员变量
+	//p.showPerson(); // 不可以调用普通成员函数
+
+	p.m_B = 200;
+	p.changeA();
+}
+
+int main()
+{
+	test();
+	system("pause");
+	return 0;
+}
+```
