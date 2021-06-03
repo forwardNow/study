@@ -173,3 +173,10 @@
 如图：
 
 ![./images/1.8.png](./images/1.8.png)
+
+#### 1.2.7. 填充、描边、变换
+
+* fill : 填充
+* stroke : 描边
+* stroke-width : 描边的宽度
+* transform : 变换
