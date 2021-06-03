@@ -62,7 +62,7 @@
 
 1. `<rect>`
 2. `<circle>`
-3. `<ellipse>`
+3. `<ellipse>` : 椭圆
 4. `<line>`
 5. `<polyline>`
 6. `<polygon>`
@@ -107,3 +107,17 @@
 如图：
 
 ![./images/1.4.png](./images/1.4.png)
+
+#### 1.2.4. `<ellipse>`
+
+属性：
+
+* cx : 圆心的坐标 x
+* cy : 圆心的坐标 y
+* rx : 圆的x轴半径
+* ry : 圆的y轴半径
+
+
+如图：
+
+![./images/1.5.png](./images/1.5.png)
