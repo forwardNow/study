@@ -60,10 +60,10 @@
 
 1. `<rect>`
 2. `<circle>`
-3. `<ellipse>` : 椭圆
+3. `<ellipse>`  : 椭圆
 4. `<line>`
 5. `<polyline>` : 折线
-6. `<polygon>`
+6. `<polygon>`  : 多边形
 
 基本属性
 
@@ -148,6 +148,28 @@
   * xn : 第n个点的坐标 x
   * yn : 第n个点的坐标 y
 
+注意：
+
+* 首尾两个点会自动连接，形成一个闭合的多边形
+
 如图：
 
 ![./images/1.7.png](./images/1.7.png)
+
+
+#### 1.2.6. `<polygon>`
+
+属性：
+
+* points : points="x1 y1 x2 y2 ... xn yn"
+  * x1 : 第1个点的坐标 x
+  * y1 : 第1个点的坐标 y
+  * x2 : 第2个点的坐标 x
+  * y2 : 第2个点的坐标 y
+  * ...
+  * xn : 第n个点的坐标 x
+  * yn : 第n个点的坐标 y
+
+如图：
+
+![./images/1.8.png](./images/1.8.png)
