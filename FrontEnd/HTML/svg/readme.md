@@ -35,3 +35,21 @@
         stroke="white" stroke-width="3" fill="none" />
 </svg>
 ```
+
+#### 1.1.3. 使用方式
+
+在浏览器中直接打开：
+
+* http://localhost:3000/static/simle.svg
+
+在 HTML 中使用 `<img>` 引入
+
+* `<img src="./images/simle.svg">`
+
+在 HTML 中直接使用 `<svg>`
+
+* `<svg ...> ... </svg>`
+
+在 CSS 中当做图片背景使用
+
+* `background-image: url(./images/simle.svg)`
