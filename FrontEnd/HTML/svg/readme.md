@@ -56,15 +56,13 @@
 
 ### 1.2. SVG 的图像和属性
 
-#### 1.2.1. 基本图像和属性
-
 基本图形：
 
 1. `<rect>`
 2. `<circle>`
 3. `<ellipse>` : 椭圆
 4. `<line>`
-5. `<polyline>`
+5. `<polyline>` : 折线
 6. `<polygon>`
 
 基本属性
@@ -74,7 +72,7 @@
 * stroke-width
 * transform
 
-#### 1.2.2. `<rect>`
+#### 1.2.1. `<rect>`
 
 属性：
 
@@ -96,7 +94,7 @@
 示例：
 
 
-#### 1.2.3. `<circle>`
+#### 1.2.2. `<circle>`
 
 属性：
 
@@ -108,7 +106,7 @@
 
 ![./images/1.4.png](./images/1.4.png)
 
-#### 1.2.4. `<ellipse>`
+#### 1.2.3. `<ellipse>`
 
 属性：
 
@@ -121,3 +119,35 @@
 如图：
 
 ![./images/1.5.png](./images/1.5.png)
+
+#### 1.2.4. `<line>`
+
+属性：
+
+* x1 : 起点坐标 x
+* y1 : 起点坐标 y
+* x2 : 终点坐标 x
+* y2 : 终点坐标 y
+
+
+如图：
+
+![./images/1.6.png](./images/1.6.png)
+
+
+#### 1.2.5. `<polyline>`
+
+属性：
+
+* points : points="x1 y1 x2 y2 ... xn yn"
+  * x1 : 第1个点的坐标 x
+  * y1 : 第1个点的坐标 y
+  * x2 : 第2个点的坐标 x
+  * y2 : 第2个点的坐标 y
+  * ...
+  * xn : 第n个点的坐标 x
+  * yn : 第n个点的坐标 y
+
+如图：
+
+![./images/1.7.png](./images/1.7.png)
