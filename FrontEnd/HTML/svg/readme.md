@@ -78,19 +78,32 @@
 
 属性：
 
-* x
-* y
-* width
-* height
-* rx
-* ry
+* x : 矩形左上角坐标的 x
+* y : 矩形左上角坐标的 y
+* width  : 矩形的宽度
+* height : 矩形的高度
+* rx : 矩形的x轴圆角半径
+* ry : 矩形的y轴圆角半径
 
 注意：
 
-* 如果 rx、ry 只有一个，则 r = rx = ry
+* 如果 rx、ry 只有一个，则 r = rx = ry，即是一个圆
 
 如图：
 
 ![./images/1.3.png](./images/1.3.png)
 
 示例：
+
+
+#### 1.2.3. `<circle>`
+
+属性：
+
+* cx : 圆心的坐标 x
+* cy : 圆心的坐标 y
+* r  : 圆的半径
+
+如图：
+
+![./images/1.4.png](./images/1.4.png)
