@@ -53,3 +53,23 @@
 在 CSS 中当做图片背景使用
 
 * `background-image: url(./images/simle.svg)`
+
+### 1.2. SVG 的图像和属性
+
+#### 1.2.1. 基本图像和属性
+
+基本图形：
+
+1. `<rect>`
+2. `<circle>`
+3. `<ellipse>`
+4. `<line>`
+5. `<polyline>`
+6. `<polygon>`
+
+基本属性
+
+* fill
+* stroke
+* stroke-width
+* transform
