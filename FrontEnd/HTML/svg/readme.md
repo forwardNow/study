@@ -73,3 +73,24 @@
 * stroke
 * stroke-width
 * transform
+
+#### 1.2.2. `<rect>`
+
+属性：
+
+* x
+* y
+* width
+* height
+* rx
+* ry
+
+注意：
+
+* 如果 rx、ry 只有一个，则 r = rx = ry
+
+如图：
+
+![./images/1.3.png](./images/1.3.png)
+
+示例：
