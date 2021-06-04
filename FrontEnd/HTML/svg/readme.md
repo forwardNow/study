@@ -91,8 +91,6 @@
 
 ![./images/1.3.png](./images/1.3.png)
 
-示例：
-
 
 #### 1.2.2. `<circle>`
 
@@ -180,3 +178,67 @@
 * stroke : 描边
 * stroke-width : 描边的宽度
 * transform : 变换
+
+#### 1.2.8. 示例
+
+[./code/1/basic.svg](./code/1/basic.svg)
+
+```xml
+<svg xmlns="http://www.w3.org/2000/svg">
+    <rect 
+        x="10" 
+        y="10" 
+        rx="5" 
+        ry="5" 
+        width="150" 
+        height="100" 
+        stroke="red" 
+        fill="none">
+    </rect>
+
+    <circle 
+        cx="250" 
+        cy="60" 
+        r="50" 
+        stroke="red" 
+        fill="none">
+    </circle>
+
+    <ellipse 
+        cx="400" 
+        cy="60" 
+        rx="70" 
+        ry="50" 
+        stroke="red" 
+        fill="none">
+    </ellipse>
+
+    <line 
+        x1="10" 
+        y1="120" 
+        x2="160" 
+        y2="220" 
+        stroke="red">
+    </line>
+
+    <polyline 
+        points="250 120 
+                300 220
+                200 220"
+        stroke="red"
+        fill="none">
+    </polyline>
+
+    <polygon 
+        points="250 120 
+                300 220
+                200 220"
+        stroke="red"
+        stroke-width="5"
+        fill="yellow"
+        transform="translate(150 0)">
+    </polygon>
+</svg>
+```
+
+![./images/1.9.png](./images/1.9.png)
