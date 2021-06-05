@@ -242,3 +242,20 @@
 ```
 
 ![./images/1.9.png](./images/1.9.png)
+
+### 1.3. 基本操作 API
+
+创建图形
+
+* `document.createElementNS(ns, tagName);`
+
+添加图形
+
+* `element.appendChild(childElement)`
+
+设置/获取 属性
+
+* `element.setAttribute(name, value)`
+* `element.getAttribute(name)`
+
+### 1.4. 综合例子：简单SVG编辑器
