@@ -259,3 +259,5 @@
 * `element.getAttribute(name)`
 
 ### 1.4. 综合例子：简单SVG编辑器
+
+[./code/1/svg-editor.html](./code/1/svg-editor.html)

@@ -3,20 +3,7 @@
   "version": "1.0.0",
   "description": "## 1. 简介",
   "main": "index.js",
-  "dependencies": {
-    "art-template": "^4.13.0",
-    "body-parser": "^1.18.3",
-    "bootstrap": "^3.3.7",
-    "express": "^4.16.3",
-    "express-art-template": "^1.0.1",
-    "express-session": "^1.15.6",
-    "jquery": "^1.12.4",
-    "mongoose": "^5.2.10",
-    "mysql": "^2.16.0",
-    "rxjs": "^6.2.2",
-    "rxjs-compat": "^6.2.2",
-    "utility": "^1.14.0"
-  },
+  "dependencies": {},
   "devDependencies": {
     "acorn": "^6.0.5",
     "eslint": "^5.6.0",
@@ -28,11 +15,7 @@
     "eslint-plugin-node": "^5.2.1",
     "eslint-plugin-promise": "^3.6.0",
     "eslint-plugin-react": "^7.12.4",
-    "eslint-plugin-standard": "^3.0.1",
-    "stylelint": "^9.4.0",
-    "stylelint-config-recess-order": "^2.0.0",
-    "stylelint-config-standard": "^18.2.0",
-    "stylelint-order": "^0.8.1"
+    "eslint-plugin-standard": "^3.0.1"
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
