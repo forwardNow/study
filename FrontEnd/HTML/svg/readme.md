@@ -261,3 +261,5 @@
 ### 1.4. 综合例子：简单SVG编辑器
 
 [./code/1/svg-editor.html](./code/1/svg-editor.html)
+
+## 2. SVG中的坐标系统
