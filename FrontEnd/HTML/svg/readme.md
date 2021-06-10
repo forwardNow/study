@@ -272,3 +272,18 @@
 * 视野是观察世界的一个矩形区域
 
 ![./images/2.1.png](./images/2.1.png)
+
+#### 2.1.2. 概念
+
+```xml
+<svg
+    width="800" height="600"
+    viewBox="0 0 400 300"
+    preserveAspectRadio="xMidYMid meet"
+></svg>
+```
+
+* width、height : 控制视窗 (svg 元素在网页中所占的区域)
+* SVG 代码 : 定义世界
+* viewBox、preserveAspectRadio : 控制视野 (世界中一个矩形区域)
+  * preserveAspectRadio: 视野和视窗 宽高比不一样时的处理机制
