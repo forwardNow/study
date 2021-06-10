@@ -263,3 +263,12 @@
 [./code/1/svg-editor.html](./code/1/svg-editor.html)
 
 ## 2. SVG中的坐标系统
+
+### 2.1. SVG的世界、视野、视窗的概念
+
+#### 2.1.1. 视野与世界
+
+* 世界是无穷大的
+* 视野是观察世界的一个矩形区域
+
+![./images/2.1.png](./images/2.1.png)
