@@ -287,3 +287,23 @@
 * SVG 代码 : 定义世界
 * viewBox、preserveAspectRadio : 控制视野 (世界中一个矩形区域)
   * preserveAspectRadio: 视野和视窗 宽高比不一样时的处理机制
+  
+### 2.2. SVG 中的图形分组
+
+> 多个元素在逻辑上是一个整体，在代码里面如何体现？
+
+* `<g>` 标签来创建分组
+* 属性继承
+* transform 属性定义坐标变换
+* 可以嵌套使用
+
+示例：
+
+```xml
+<svg xmlns="http://www.w3.org/2000/svg">
+  <g stroke="red" fill="none" >
+    <rect x="100" y="50" width="100" height="50"/>
+    <rect x="140" y="100" width="20" height="120"/>
+  </g>
+</svg>
+```
