@@ -1519,3 +1519,54 @@ int main()
 	return 0;
 }
 ```
+
+### 4.4. 友元
+
+生活中你的家有客厅（public），卧室（private）。
+
+客厅，所有客人都可以进去；卧室，只有你才可以进去，但是你可以允许你的好朋友进去。
+
+在程序里，有些私有属性也想让类外特殊的一些函数或者类进行访问，就需要用到友元的技术。
+
+友元的目的是让一个函数或者类 访问另一个类中私有成员。
+
+友元的关键字是 `friend`
+
+友元的三种实现：
+
+* 全局函数做友元
+* 类做友元
+* 成员函数做友元
+
+#### 4.4.1. 全局函数做友元
+
+```cpp
+class House
+{
+	// 全局函数 做友元： 把方法声明放这里就可以了
+	friend void test();
+
+public:
+	House() 
+	{
+		this->m_Bedroom = "私密空间";
+	}
+
+private:
+	string m_Bedroom;
+};
+
+void test()
+{
+	House house;
+
+	cout << house.m_Bedroom << endl;
+}
+
+int main()
+{
+	test();
+	system("pause");
+	return 0;
+}
+```
