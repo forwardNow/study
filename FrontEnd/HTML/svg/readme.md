@@ -316,3 +316,18 @@
 * 角度定义： 正方向，从 x 正半轴 到 y 正半轴的方向
 
 ![./images/2.2.png](./images/2.2.png)
+
+### 2.4. 四个坐标系
+
+* 用户坐标系（User Coordinate）
+  * 世界坐标系
+
+* 自身坐标系（Current Coordinate）
+  * 每个 图形元素或分组 独立与生俱来
+
+* 前驱坐标系（Previous Coordinate）
+  * 父容器的坐标系
+  * 变换时，改变的是 自身的坐标系 在 父容器坐标系中 的位置
+
+* 参考坐标系（Reference Coordinate）
+  * 使用其他坐标系来考究自身的情况时使用
