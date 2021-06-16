@@ -442,3 +442,11 @@ M = Mn * Mn-1 * ... * M2 * M1 * M0
 配色网站：
 
 * http://paletton.com
+
+#### 3.1.3. 透明度
+
+* 带透明度的颜色： rgba(r, g, b, a) 和 hsla(h, s%, l%, a)
+
+* opacity 属性： 表示元素的透明度
+
+* a（alpha通道） 和 opacity 的赋值范围： [0, 1]
