@@ -450,3 +450,11 @@ M = Mn * Mn-1 * ... * M2 * M1 * M0
 * opacity 属性： 表示元素的透明度
 
 * a（alpha通道） 和 opacity 的赋值范围： [0, 1]
+
+#### 3.1.4. 在 SVG 中应用颜色
+
+```xml
+<rect fill="rgb(255, 0, 0)" opacity="0.5">
+
+<rect stroke="hsla(0, 50%, 60%, 0.5)">
+```
