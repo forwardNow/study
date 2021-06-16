@@ -386,3 +386,18 @@ M = Mn * Mn-1 * ... * M2 * M1 * M0
 ```
 
 后边的变换先乘
+
+#### 2.5.4. transform 属性
+
+定义前驱坐标系到自身坐标系的线性变换
+
+语法：
+
+* rotate(deg)
+* translate(x, y)
+* scale(sx, sy)
+* matrix(a, b, c, d, e, f)
+
+注意：
+
+* 多个变换，变换的顺序对结果有影响
