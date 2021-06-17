@@ -468,9 +468,9 @@ M = Mn * Mn-1 * ... * M2 * M1 * M0
 
 ![./images/3.0.png](./images/3.0.png)
 
-* `<linearGradient>` 和 `<stop>`
+* 标签： `<linearGradient>` 和 `<stop>`
 
-* 定义方向
+* 起始位置
 
   ```text
   // 起点
@@ -484,7 +484,13 @@ M = Mn * Mn-1 * ... * M2 * M1 * M0
 
 * 关键点位置及颜色
 
-* gradientUnits
+  ```html
+  <stop offset="0" stop-color="#1497fc"/>
+  <stop offset="0.5" stop-color="#a469be"/>
+  <stop offset="1" stop-color="#ff8c00"/>
+  ```
+
+* 单位： gradientUnits
   * objectBoundingBox: 起点、终点的值为盒子的宽高的百分比
   * userSpaceOnUse: 起点、终点的值为用户坐标系（世界坐标）的值， (0,0) is at the top/left of the object bounding box and (1,1) is at the bottom/right of the object bounding box
 
@@ -508,6 +514,49 @@ M = Mn * Mn-1 * ... * M2 * M1 * M0
       <stop offset="0.5" stop-color="#a469be"/>
       <stop offset="1" stop-color="#ff8c00"/>
     </linearGradient>
+  </defs>
+
+  <rect
+      x="100"
+      y="100"
+      fill="url(#grad1)"
+      width="200"
+      height="150"
+  />
+</svg>
+```
+
+#### 3.2.2. 径向渐变
+
+![./images/3.1.png](./images/3.1.png)
+
+* 标签： `<radialGradient>` 和 `<stop>`
+
+* 中心点和半径： cx cy r
+
+* 焦点位置：fx fy
+
+* 单位： gradientUnits
+  
+示例：（ [./code/3/radial-gradient.svg](./code/3/radial-gradient.svg) ）
+
+```xml
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+  <defs>
+    <radialGradient
+        id="grad1"
+
+        cx="0.5"
+        cy="0.5"
+        r="0.5"
+
+        fx="0.8"
+        fy="0.2"
+    >
+      <stop offset="0" stop-color="#1497fc"/>
+      <stop offset="0.5" stop-color="#a469be"/>
+      <stop offset="1" stop-color="#ff8c00"/>
+    </radialGradient>
   </defs>
 
   <rect
