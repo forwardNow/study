@@ -463,3 +463,59 @@ M = Mn * Mn-1 * ... * M2 * M1 * M0
 
 * 让图形更丰满
 * 线性渐变和径向渐变
+
+#### 3.2.1. 线性渐变
+
+![./images/3.0.png](./images/3.0.png)
+
+* `<linearGradient>` 和 `<stop>`
+
+* 定义方向
+
+  ```text
+  // 起点
+  x1="0" // top
+  y1="0" // left
+
+  // 终点
+  x2="1" // right
+  y2="1" // botttom
+  ```
+
+* 关键点位置及颜色
+
+* gradientUnits
+  * objectBoundingBox: 起点、终点的值为盒子的宽高的百分比
+  * userSpaceOnUse: 起点、终点的值为用户坐标系（世界坐标）的值， (0,0) is at the top/left of the object bounding box and (1,1) is at the bottom/right of the object bounding box
+
+示例： （ [./code/3/linear-gradient.svg](./code/3/linear-gradient.svg) ）
+
+```xml
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+  <defs>
+    <linearGradient
+        id="grad1"
+
+        gradientUnits="objectBoundingBox"
+
+        x1="0"
+        y1="0"
+
+        x2="1"
+        y2="1"
+    >
+      <stop offset="0" stop-color="#1497fc"/>
+      <stop offset="0.5" stop-color="#a469be"/>
+      <stop offset="1" stop-color="#ff8c00"/>
+    </linearGradient>
+  </defs>
+
+  <rect
+      x="100"
+      y="100"
+      fill="url(#grad1)"
+      width="200"
+      height="150"
+  />
+</svg>
+```
