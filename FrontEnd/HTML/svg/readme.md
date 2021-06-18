@@ -568,3 +568,11 @@ M = Mn * Mn-1 * ... * M2 * M1 * M0
   />
 </svg>
 ```
+
+### 3.3. 笔刷
+
+* 绘制纹理： 重复填充
+
+* `<pattern>`
+
+* patternUnits 和 patternContentUnits
