@@ -453,10 +453,10 @@ M = Mn * Mn-1 * ... * M2 * M1 * M0
 
 #### 3.1.4. 在 SVG 中应用颜色
 
-```xml
-<rect fill="rgb(255, 0, 0)" opacity="0.5">
+```html
+<rect fill="rgb(255, 0, 0)" opacity="0.5" />
 
-<rect stroke="hsla(0, 50%, 60%, 0.5)">
+<rect stroke="hsla(0, 50%, 60%, 0.5)" />
 ```
 
 ### 3.2. 渐变
@@ -575,4 +575,38 @@ M = Mn * Mn-1 * ... * M2 * M1 * M0
 
 * `<pattern>`
 
-* patternUnits 和 patternContentUnits
+* patternUnits: 笔刷的尺寸的单位
+  * objectBoundingBox
+  * userSpaceOnUse
+
+* patternContentUnits: 笔刷里面内容的尺度单位
+  * objectBoundingBox
+  * userSpaceOnUse
+
+示例：（ [./code/3/pattern.svg](./code/3/pattern.svg)  ）
+
+```xml
+<svg xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <pattern
+      id="p1"
+      x="0"
+      y="0"
+      width="0.2"
+      height="0.2"
+    >
+      <circle cx="10" cy="10" r="5" fill="red"/>
+      <polygon points="30 10 60 50 0 50" fill="green"/>
+    </pattern>
+  </defs>
+
+  <rect
+    x="100"
+    y="100"
+    width="800"
+    height="300"
+    fill="url(#p1)"
+    stroke="blue"
+  />
+</svg>
+```
