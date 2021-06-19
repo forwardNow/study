@@ -612,3 +612,36 @@ M = Mn * Mn-1 * ... * M2 * M1 * M0
 ```
 
 ## 4. Path
+
+* path 概述
+
+* 移动和直线命令
+
+* 弧线命令
+
+* 贝塞尔曲线命令
+
+### 4.1. path 概述
+
+* 强大的绘图工具
+
+  * 可以绘制任意的图形
+
+* 规范
+  
+  * http://www.w3.org/TR/SVG11/paths.html
+
+* 由 命令及其参数 组成的字符串，如下
+
+示例：（  [./code/4/path-line.svg](./code/4/path-line.svg)  ）
+
+```xml
+<svg xmlns="http://www.w3.org/2000/svg">
+  <path
+    d="M0,0L10,20C30-10,40,20,100,100"
+    stroke="red"
+    fill="transparent"
+  />
+</svg>
+```
+
