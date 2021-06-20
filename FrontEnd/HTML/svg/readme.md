@@ -739,3 +739,32 @@ M = Mn * Mn-1 * ... * M2 * M1 * M0
 大写： 绝对位置，画到哪个位置
 
 小写： 长度，绘制的长度
+
+### 4.3. 弧线命令
+
+* A (rx, ry, xr, laf, sf, x, y) ： 绘制弧线
+
+* 最复杂的命令
+
+  * rx ， radius x ， 弧线所在椭圆的 x 半轴长
+  * ry ， radius y ， 弧线所在椭圆的 y 半轴长
+  * xr ， xAxis rotation ， 弧线所在椭圆的长轴角度
+  * laf ， large arc flag ， 是否选择弧长较长的那一段弧
+  * sf ， sweep flag ， 是否选择顺时针方向的那一段弧
+  * x,y ， 弧的终点位置
+
+图解：
+
+![./images/4.2.png](./images/4.2.png)
+
+示例：（  [./code/4/arc.svg](./code/4/arc.svg)  ）
+
+```xml
+<svg xmlns="http://www.w3.org/2000/svg">
+  <path
+    d="M 200 100, h -100, v 100, M 200 100, A 100 100 0 0 1 100 200"
+    stroke="red"
+    fill="transparent"
+  />
+</svg>
+```

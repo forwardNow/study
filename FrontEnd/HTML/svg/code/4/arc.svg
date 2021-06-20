@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg">
+  <path
+    d="M 200 100, h -100, v 100, M 200 100, A 100 100 0 0 1 100 200"
+    stroke="red"
+    fill="transparent"
+  />
+</svg>
