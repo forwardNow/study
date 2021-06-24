@@ -785,3 +785,72 @@ M = Mn * Mn-1 * ... * M2 * M1 * M0
 两个控制点
 
 ![./images/4.4.png](./images/4.4.png)
+
+## 5. SVG 文本
+
+### 5.1. `<text>` 和 `<tspan>`
+
+x, y:
+
+* 定位标准
+
+dx, dy:
+
+* 字形偏移
+
+style:
+
+* 设置样式
+
+
+示例：
+
+```xml
+<svg xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <pattern id="grid" 
+      x="0" y="0" width="20" height="20"
+      patternUnits="userSpaceOnUse"
+    >
+      <path d="M 0 0, H 20, V 20" fill="none" stroke="#F0F0F0" />
+    </pattern>
+  </defs>
+
+  <!-- 网格线 -->
+  <rect width="100%" height="100%" fill="url(#grid)"/>
+
+  <text 
+    x="100" y="100"
+    style="font-family: arial; font-size: 40px;"
+  >
+    X每天进步一点点。x
+  </text>
+
+  <!-- 辅助线 -->
+  <path d="M 100 0, V 1000, M 0 100, H 1000" stroke="rgba(255, 0, 0, 0.2)" />
+
+  <!-- 对第一个字母设置偏移量 -->
+  <text 
+    x="100" y="200"
+    dx="20" dy="20"
+    style="font-family: arial; font-size: 40px;"
+  >
+    ABCDE
+  </text>
+  <path d="M 100 0, V 1000, M 0 200, H 1000" stroke="rgba(255, 0, 0, 0.2)" />
+
+
+  <!-- 挨个字母设置偏移量（相对前一个字母的位置） -->
+  <text 
+    x="100" y="300"
+    dx="20 40 60 80 100" dy="20 40 60 80 100"
+    style="font-family: arial; font-size: 40px;"
+  >
+    ABCDE
+  </text>
+  <path d="M 100 0, V 1000, M 0 300, H 1000" stroke="rgba(255, 0, 0, 0.2)" />
+
+</svg>
+```
+
+![./images/5.1.png](./images/5.1.png)
