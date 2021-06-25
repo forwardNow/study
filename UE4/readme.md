@@ -45,6 +45,8 @@
    * 蓝图项目： 使用蓝图脚本实现功能，不用写代码，但底层还是 C++
    * C++ 项目： 使用 C++ 实现功能，要先安装 VS2019
 
+创建 “第一人称游戏”
+
 ### 3.2. 工程目录结构
 
 ```text
@@ -64,6 +66,19 @@ N01_helloworld/   # 项目名称
 ```
 
 ### 3.3. 运行游戏
+
+![./images/01_run_your_project.png](./images/01_run_your_project.png)
+
+1. 打开 Maps 文件夹
+  
+  * 内容浏览器（底部） -> 内容 -> FirstPersonBP -> Maps
+
+2. 打开关卡
+
+  * FirstPersonExampleMap（双击）
+
+3. 点击运行
+
 
 ### 3.4. 初学者内容包
 
