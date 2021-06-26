@@ -857,3 +857,14 @@ style:
 ```
 
 ![./images/5.1.png](./images/5.1.png)
+
+### 5.2. 垂直居中问题
+
+* text-anchor , 水平方向对齐方式属性
+
+* dominant-baseline 属性
+
+* SVGGraphicsElement.getBBox()
+
+  * 获取元素的 rect
+  * 通过 dx、dy 设置偏移量的方式调整对齐方式
