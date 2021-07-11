@@ -1,4 +1,4 @@
-# 《JavaScript 面向对象精要》 - 介绍
+# 介绍
 
 >《JavaScript 面向对象精要》—— Nicholas C. Zakas
 
